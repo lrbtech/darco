@@ -1,0 +1,20 @@
+#singleOverviewofProf{font-size: 14px;}
+#singleOverviewofProf .company-name{font-size: 20px;}
+#singleOverviewofProf a{color: #212529; font-weight: 500;}
+    #singleOverviewofProf a:hover, #singleOverviewofProf a:focus{text-decoration: none; color: #007bff;}
+.starRating .checked{color: #ff2300;}
+
+#projtab .item{padding: 15px 10px;}
+#projtab h4{font-size: 16px; font-weight: 700;}
+#singleOverviewofProf .tab-content{padding: 10px;}
+
+.nav-tabs .nav-link{padding: 8px; font-size: 16px; font-weight: bold;}
+.box_result h4{font-size: 16px;}
+.child_replay{margin-top: 1.5rem;}
+
+#Prof_lists table em{font-size: 14px; overflow: hidden;
+text-overflow: ellipsis;
+-webkit-line-clamp: 2;
+display: -webkit-box;
+-webkit-box-orient: vertical;}
+.contactDetail td{font-weight: 500; font-family: 'Roboto'; font-size: 14px;}

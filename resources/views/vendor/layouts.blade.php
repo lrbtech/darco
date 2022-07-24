@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html class="loading" lang="en" data-textdirection="ltr">
 <head>
@@ -6,6 +5,15 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
   <title>Darco Vendor</title>
+
+  @if(session()->get('theme') == 'light')
+  
+  @elseif(session()->get('theme') == 'dark')
+ 
+  @else 
+
+  @endif
+
   <link rel="icon" type="image/x-icon" href="/website_assets/images/ico.ico">
 
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Quicksand:300,400,500,700"
@@ -62,6 +70,9 @@
   .header-navbar .navbar-header .navbar-brand .brand-logo {
     width: 88px;
 }
+.navbar-dark.navbar-horizontal {
+    background: #801580;
+}
 </style>
 </head>
 <body id="spinner_body" class="horizontal-layout horizontal-menu 2-columns   menu-expanded" data-open="hover"
@@ -74,7 +85,7 @@ data-menu="horizontal-menu" data-col="2-columns">
           <li class="nav-item mobile-menu d-md-none mr-auto"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ft-menu font-large-1"></i></a></li>
           <li class="nav-item">
             <a class="navbar-brand" href="/vendor/dashboard/">
-              <img class="brand-logo" alt="modern admin logo" src="/website_assets/images/logobig.png">
+              <img class="brand-logo" alt="modern admin logo" src="/website_assets/images/logo-light.png">
               <!-- <h3 class="brand-text">Darco</h3> -->
             </a>
           </li>
@@ -158,6 +169,17 @@ data-menu="horizontal-menu" data-col="2-columns">
   var spinner_body = new jQuerySpinner({
     parentId: 'spinner_body'
   });
+
+  function updatetheme(theme) {
+    $.ajax({
+      url : '/update-theme/'+theme,
+      type: "GET",
+      success: function(data)
+      {
+        location.reload();
+      }
+    });
+  }
 
   </script>
   @yield('extra-js')

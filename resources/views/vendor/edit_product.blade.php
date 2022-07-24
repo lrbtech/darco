@@ -59,11 +59,11 @@
   }
   .imgRemove{
     position: relative;
-    bottom: 154px;
+    bottom: 166px;
     left: 80%;
     background-color: transparent;
     border: none;
-    font-size: 50px;
+    font-size: 30px;
     outline: none;
   }
   .imgRemove::after{
@@ -74,6 +74,19 @@
     border-radius: 8px;
     cursor: pointer;
   }
+  i.la.la-plus-circle {
+    font-size: 63px;
+    /* text-align: center; */
+    padding: 36px;
+    color: #fff;
+}
+.primary-img{
+  color: #801580;
+    font-size: 16px;
+    text-align: center;
+    font-weight: 600;
+    font-family: sans-serif;
+}
 </style>
 @endsection
 @section('content')
@@ -132,7 +145,7 @@
                               <div class="col-md-4">
                                 <div class="form-group">
                                   <label class="category">Category</label>
-                                  <select onchange="changecategory()" id="category" name="category" class="form-control">
+                                  <select required onchange="changecategory()" id="category" name="category" class="form-control">
                                     <option value="">SELECT</option>
                                     @foreach($category as $category1)
                                     @if($category1->id == $product->category)
@@ -154,7 +167,7 @@
                               </div>
                               <div class="col-md-4">
                                 <div class="form-group">
-                                  <label class="subsubcategory">Sub Sub Category</label>
+                                  <label class="subsubcategory">Child Category</label>
                                   <select id="subsubcategory" name="subsubcategory" class="form-control">
                                     <option value="">SELECT</option>
                                   </select>
@@ -283,6 +296,7 @@
                                   <!-- <button type="button" class="imgRemove" onclick="myImgRemove(1)"></button> -->
                                   </label>
                                   <input type="file" name="profile_image" id="file-ip-1" accept=".png,.jpg,.jpeg" onchange="showPreview(event, 1);">
+                                  <p class="primary-img">Primary Image</p>
                                 </div>
                                 @foreach($product_images as $key => $row)
                                 <div value="{{$key+2}}" class="center form-input panel_image">
@@ -297,8 +311,8 @@
                                 <div class="work center form-input">
                                   <div class="img" style="height:150px !important;background-color:#091a3a !important;">
                                       <a onclick="AddImages()" class="create-story" href="javascript:void(0)">
-                                        <div class="fas fa-plus"></div>
-                                        <h4 class="story-line">Add More Images</h4>
+                                        <i class="la la-plus-circle"></i>
+                                        <!-- <h4 class="story-line">Add More Images</h4> -->
                                       </a>
                                   </div>
                                 </div>

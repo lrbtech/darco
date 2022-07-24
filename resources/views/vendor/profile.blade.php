@@ -101,14 +101,25 @@
                         <div class="row">
                           <div class="col-md-6">
                             <div class="form-group">
-                              <label for="city">City</label>
-                              <input value="{{$profile->city}}" type="text" id="city" class="form-control" name="city">
+                              <label>City</label>
+                              <select onchange="changecity()" id="city" name="city" class="form-control">
+                                <option value="">SELECT</option>
+                                @foreach($city as $city1)
+                                @if($city1->id == $profile->city)
+                                <option selected value="{{$city1->id}}" >{{$city1->city}}</option>
+                                @else
+                                <option value="{{$city1->id}}" >{{$city1->city}}</option>
+                                @endif
+                                @endforeach
+                              </select>
                             </div>
                           </div>
                           <div class="col-md-6">
                             <div class="form-group">
-                              <label for="area">Area</label>
-                              <input value="{{$profile->area}}" type="text" id="area" class="form-control" placeholder="area" name="area">
+                              <label>Area</label>
+                              <select id="area" name="area" class="form-control">
+                                <option value="">SELECT</option>
+                              </select>
                             </div>
                           </div>
                         </div>
@@ -150,6 +161,32 @@
 
 <script>
 $('.profile').addClass('active');
+
+getarea();
+function getarea(){
+  $.ajax({
+      url : '/get-area/'+<?php echo $profile->city; ?>,
+      type: "GET",
+      success: function(data)
+      {
+        $('#area').html(data);
+        $('select[name=area]').val(<?php echo $profile->area; ?>);
+      }
+  });
+}
+
+function changecity(){
+  var id = $('#city').val();
+  // alert(id);
+  $.ajax({
+    url : '/get-area/'+id,
+    type: "GET",
+    success: function(data)
+    {
+      $('#area').html(data);
+    }
+  });
+}
 
 function Save(){
   spinner_body.show();

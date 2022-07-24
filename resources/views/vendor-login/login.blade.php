@@ -43,7 +43,7 @@ data-open="click" data-menu="vertical-menu-modern" data-col="1-column">
                 <div class="card-header border-0">
                   <div class="card-title text-center">
                     <div class="p-1">
-                      <img src="/website_assets/images/logobig.png" alt="logo">
+                      <img src="/website_assets/images/logo-light.png" alt="logo">
                     </div>
                   </div>
                   <h6 class="card-subtitle line-on-side text-muted text-center font-small-3 pt-2">

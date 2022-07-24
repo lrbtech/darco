@@ -17,7 +17,10 @@ class CreateIdeaBooksTable extends Migration
             $table->id();
             $table->string('vendor_id')->nullable();
             $table->string('title')->nullable();
+            $table->string('category')->nullable();
+            $table->string('subcategory')->nullable();
             $table->text('description')->nullable();
+            $table->string('image')->nullable();
             $table->string('status')->default('0');
             $table->timestamps();
         });

@@ -223,7 +223,7 @@ class CheckoutController extends Controller
 
         Cart::clear();
 
-        return response()->json('Successfully Save'); 
+        //return response()->json('Successfully Save'); 
 
     }
 
@@ -238,7 +238,8 @@ class CheckoutController extends Controller
         $fields = array(
         'merchant_id'=>'1201',
         'username' => 'test',
-        'password'=>stripslashes('test'), 'api_key'=>'jtest123', // in sandbox request
+        'password'=>stripslashes('test'), 
+        'api_key'=>'jtest123', // in sandbox request
         //'api_key' =>password_hash('API_KEY',PASSWORD_BCRYPT), 
         'order_id'=>time(), 
         'total_price'=>'10',

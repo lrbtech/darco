@@ -18,7 +18,7 @@
         </li>
 
         <li class=" navigation-header">
-          <span data-i18n="nav.category.layouts">Services</span><i class="la la-ellipsis-h ft-minus" data-toggle="tooltip"
+          <span data-i18n="nav.category.layouts">Category</span><i class="la la-ellipsis-h ft-minus" data-toggle="tooltip"
           data-placement="right" data-original-title="Layouts"></i>
         </li>
 
@@ -26,8 +26,16 @@
           <a href="/admin/category"><i class="la la-navicon"></i><span class="menu-title" data-i18n="nav.dash.main">Product Category</span></a>
         </li>
 
-        <li class="category nav-item">
+        <li class="professional-category nav-item">
           <a href="/admin/professional-category"><i class="la la-navicon"></i><span class="menu-title" data-i18n="nav.dash.main">Professional Category</span></a>
+        </li>
+
+        <li class="idea-category nav-item">
+          <a href="/admin/idea-category"><i class="la la-navicon"></i><span class="menu-title" data-i18n="nav.dash.main">Idea Category</span></a>
+        </li>
+
+        <li class="city nav-item">
+          <a href="/admin/city"><i class="la la-navicon"></i><span class="menu-title" data-i18n="nav.dash.main">City</span></a>
         </li>
 
         <li class=" navigation-header">

@@ -425,7 +425,7 @@
         <ul>
             <li class="hr"><span></span></li>
         </ul>
-        <p>Become a Vendor? <a href="#"> Register now</a></p>
+        <p>Become a Vendor? <a href="/professional-register?email="> Register now</a></p>
     </div>
     <div class="sidebar-widget widget-category-2 mb-30">
         <h5 class="section-title style-1 mb-30">Category</h5>

@@ -38,7 +38,7 @@
             <div id="invoice-company-details" class="row">
               <div class="col-md-6 col-sm-12 text-center text-md-left">
                 <div class="media">
-                  <img src="/app-assets/images/logo/logo-80x80.png" class=""
+                  <img src="/website_assets/images/logo-light.png" class=""
                   />
                   <div class="media-body">
                     <ul class="ml-2 px-0 list-unstyled">

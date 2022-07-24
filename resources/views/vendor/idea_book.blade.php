@@ -1,7 +1,380 @@
 @extends('vendor.layouts')
 @section('extra-css')
 <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/tables/datatable/datatables.min.css">
+<link rel="stylesheet" href="/assets/css/font-awesome/css/font-awesome.min.css">
+<style>
+@import url('https://fonts.googleapis.com/css?family=Montserrat:300,400,700');
 
+#wrapper {
+  padding-top: 30px;
+  padding-right: 100px;
+  padding-left: 100px;
+}
+
+h1,
+h2,
+h3 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 300;
+}
+
+.main {
+  width: 60%;
+  float: left;
+  margin-left: 100px;
+  margin-top: 50px;
+}
+
+.left {
+  position: relative;
+  margin-top: 30px;
+}
+
+.right {
+  width: 25%;
+  float: right;
+  background: #fff;
+  padding: 30px;
+  height: 70vh;
+  min-height: 500px;
+  position: relative;
+  border-radius: 8px;
+  margin-top: 50px;
+  margin-bottom: 10vh;
+}
+
+.right:after,
+.left:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+h1 {
+  font-size: 50px;
+  font-weight: 300;
+  margin-bottom: 30px;
+}
+
+.input-wrap {
+  position: relative;
+}
+
+.input-wrap i {
+  position: absolute;
+  right: 40px;
+  background: #fff;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #333;
+}
+
+#searchbar {
+  display: block;
+  background: #fff;
+  border-radius: 8px;
+  width: 100%;
+  padding: 20px 40px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 18px;
+  color: #333;
+}
+
+#searchbar::-webkit-input-placeholder {
+  color: #b9b9b9;
+}
+
+#searchbar::-moz-placeholder {
+  color: #b9b9b9;
+}
+
+#searchbar:-ms-input-placeholder {
+  color: #b9b9b9;
+}
+
+#searchbar:-moz-placeholder {
+  color: #b9b9b9;
+}
+
+.item {
+  cursor: -webkit-grab;
+  margin-right: 10px;
+  margin-bottom: 20px;
+  padding: 0 0 20px 20px;
+  display: block;
+  border-bottom: 1px solid #ccc;
+  background: rgba(255, 255, 255, 0.3);
+  position: relative;
+  transition: 0.3s width ease-out, 0.3s height ease-out;
+}
+
+.item i {
+  margin-right: 10px;
+}
+
+.item i,
+.item p {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.item p {
+  line-height: 1.2;
+  word-break: break-all;
+  width: calc(100% - 50px);
+}
+
+.is-dropped {
+  transform: scale(0);
+  transition: 0.2s all ease-out;
+}
+
+.folder {
+  float: left;
+  width: 150px;
+  height: 150px;
+  background: rgba(0, 0, 0, 0.0);
+  margin-right: 10px;
+  position: relative;
+  transition: 0.2s background-color ease-out;
+  text-align: center;
+}
+
+.folder i.fa-folder {
+  height: 90px;
+  width: 100%;
+  line-height: 100px;
+  margin: 10px auto;
+  font-size: 90px;
+  transition: 0.2s all ease-out;
+}
+
+.folder i.fa-check {
+  color: #fff;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  text-align: center;
+  line-height: 60px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 34px;
+  margin: auto;
+  pointer-events: none;
+  transform: scale(0);
+  opacity: 0;
+  font-size: 24px;
+}
+
+.folder.item-dropped i.fa-check {
+  animation: animateValidation 1s linear;
+}
+
+@keyframes animateValidation {
+  0% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+  40%,
+  80% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+
+.folder p {
+  font-weight: 300;
+  cursor: default;
+  opacity: 0.5;
+  transition: 0.2s all ease-out;
+}
+
+.folder:hover .fa-folder {
+  transform: scale(1.1) !important;
+}
+.folder:hover p {
+  transform: translateY(6px);
+  opacity: 1;
+}
+
+i.fa-folder,
+ .fa-folder {
+  color: #eeca4e;
+}
+
+
+.tooltiper {
+  position: relative;
+  z-index: 3;
+}
+
+.tooltiper .tooltip {
+  min-width: 110px;
+  position: absolute;
+  font-size: 0.7rem;
+  text-align: left;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  display: block;
+  top: 50%;
+  left: 120px;
+  transform: translateY(-50%) scale(0);
+  line-height: 1.4em;
+  opacity: 0;
+  transform-origin: left;
+  transition: transform 0.2s ease-out, opacity 0.1s ease-out 0.1s;
+}
+
+.tooltiper-up .tooltip {
+  min-width: 0;
+  position: absolute;
+  font-size: 0.7rem;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  display: inline-block;
+  top: -20px;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  line-height: 1.4em;
+  opacity: 0;
+  transform-origin: bottom;
+}
+
+.tooltiper:hover .tooltip {
+  opacity: 1;
+  transform: translateY(-50%) scale(1);
+  transition: transform 0.2s ease-out, opacity 0.1s ease-out;
+}
+
+.tooltiper-up:hover .tooltip {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+  transition: transform 0.2s ease-out, opacity 0.1s ease-out;
+}
+
+.tooltiper .tooltip:after {
+  right: 100%;
+  top: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+.tooltiper .tooltip:after {
+  border-color: transparent;
+  border-right-color: rgba(0, 0, 0, 0.7);
+  border-width: 4px;
+  margin-top: -4px;
+}
+
+.tooltiper-up .tooltip:after {
+  border-width: 7px 7px 0 7px;
+  border-color: rgba(0, 0, 0, 0.7) transparent transparent transparent;
+  right: 0;
+  left: 0;
+  margin: 0 auto;
+  top: 100%;
+}
+
+.folder-content {
+  display: none;
+  position: absolute;
+  height: 420px;
+  width: 1012px;
+  background: rgba(255, 255, 255, 0.9);
+  z-index: 10;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  left: 150px;
+  top: 315px;
+  border-radius: 8px;
+  padding: 30px;
+}
+
+.folder-content h2 {
+  font-size: 21px;
+  padding-bottom: 10px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid #ccc;
+  cursor: default;
+}
+
+.folder-content h2 i {
+  margin-right: 10px;
+}
+
+.easeout2 {
+  transition: 0.2s all ease-out;
+}
+
+.folder-content.closed {
+  transform: scale(0.8);
+  opacity: 0;
+}
+
+.close-folder-content {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  background: #f3f3f3;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.close-folder-content,
+.close-folder-content i {
+  transition: 0.16s all ease-out;
+}
+
+.close-folder-content:hover {
+  background: #f95536;
+}
+
+.close-folder-content:hover i {
+  color: #fff;
+}
+
+.folder-content .file {
+  float: left;
+  margin-right: 20px;
+  bottom: 20px;
+  text-align: center;
+  padding: 20px;
+}
+
+.folder-content p {
+  font-size: 14px;
+}
+
+.folder-content .file i {
+  font-size: 36px;
+  margin-bottom: 15px;
+}
+
+#myForm #result {
+  background-color: #999;
+  padding: 10px;
+  border-radius: 10px;
+  color: #222;
+  margin-right: 30px;
+  margin-left: 30px;
+  border: 2px solid #000;
+  display: none
+}
+</style>
 @endsection
 @section('content')
   <div class="app-content content">
@@ -21,114 +394,38 @@
           </div>
         </div>
         <div class="content-header-right col-md-6 col-12">
-            <button id="add_new" class="float-md-right btn btn-danger round btn-glow px-2" type="button">Add New Idea Book</button>
+            <a href="/vendor/add-idea-book" class="float-md-right btn btn-danger round btn-glow px-2" type="button">Add New Idea Book</a>
       
         </div>
       </div>
       <div class="content-body">
         <!-- Zero configuration table -->
-        <section id="configuration">
-          <div class="row">
-            <div class="col-12">
-              <div class="card">
-                <div class="card-header">
-                  <h4 class="card-title">All Idea Book</h4>
-                  <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
-                  <div class="heading-elements">
-                    <ul class="list-inline mb-0">
-                      <!-- <li><a data-action="collapse"><i class="ft-minus"></i></a></li> -->
-                      <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
-                      <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
-                      <!-- <li><a data-action="close"><i class="ft-x"></i></a></li> -->
-                    </ul>
-                  </div>
-                </div>
-                <div class="card-content collapse show">
-                  <div class="card-body card-dashboard">
-                    <table id="datatable" class="table table-striped table-bordered zero-configuration">
-                      <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Title</th>
-                            <th>Description</th>
-                            <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                      @foreach($idea_book as $key => $row)
-                        <tr>
-                            <td>{{$key + 1}}</td>
-                            <td>
-                            <a href="/vendor/idea-book-images/{{$row->id}}">{{$row->title}}</a>
-                            </td>
-                            <td>{{$row->description}}</td>
-                            <td>
-                                <div class="btn-group mr-1 mb-1">
-                                  <button type="button" class="btn btn-danger btn-block dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Action</button>
-                                  <div class="dropdown-menu open-left arrow" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 40px, 0px); top: 0px; left: 0px; will-change: transform;">
-                                      <button onclick="Edit({{$row->id}})"class="dropdown-item" type="button">Edit</button>
-                                      <div class="dropdown-divider"></div>
-                                      <button onclick="Delete({{$row->id}})"class="dropdown-item" type="button">Delete</button>
-                                  </div>
-                                </div>
-                            </td>
-                        </tr>
-                        @endforeach
-                      </tbody>
-                      <tfoot>
-                        <tr>
-                          <th>#</th>
-                          <th>Title</th>
-                          <th>Description</th>
-                          <th>Action</th>
-                        </tr>
-                      </tfoot>
-                    </table>
-                  </div>
-                </div>
-              </div>
+        <section id="wrapper">
+  
+
+          <h1>My Ideas Book</h1>
+    
+          @foreach($idea_book as $key => $row)
+            <a href="/vendor/edit-idea-book/{{$row->id}}">
+            <div class="top-droppable folder tooltiper tooltiper-up" data-tooltip="0 file">
+              <i class="fa fa-folder" aria-hidden="true"></i>
+              <i class="fa fa-check" aria-hidden="true"></i>
+              <p>{{$row->title}}</p>
             </div>
-          </div>
+            </a>
+          @endforeach
+    
+
+ 
         </section>
+   
         <!--/ Zero configuration table -->
         
       </div>
     </div>
   </div>
 
-<div class="modal fade" id="popup_modal"  tabindex="-1" role="dialog" aria-labelledby="popup_modal" aria-hidden="true">
-    <div class="modal-dialog modal-sm" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Add New</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-            </div>
-            <div class="modal-body">
-                <form id="form" method="POST" enctype="multipart/form-data">
-                {{ csrf_field() }}
-                <input type="hidden" name="id" id="id">
 
-                <div class="row">
-                    <div class="form-group col-md-12">
-                        <label class="col-form-label">Title</label>
-                        <input autocomplete="off" type="text" id="title" name="title" class="form-control">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-md-12">
-                        <label class="col-form-label">Description</label>
-                        <textarea id="description" name="description" class="form-control"></textarea>
-                    </div>
-                </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
-                <button onclick="Save()" class="btn btn-primary" type="button">Save</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 @endsection
 @section('extra-js')
@@ -139,116 +436,14 @@
 <script>
 $('.idea-book').addClass('active');
 
-var action_type;
-$('#add_new').click(function(){
-  $('#popup_modal').modal({
-    backdrop: 'static',
-    keyboard: false,
+toolTiper();
+function toolTiper() {
+  $(".tooltiper").each(function() {
+    var eLcontent = $(this).attr("data-tooltip"),
+      eLtop = $(this).position().top,
+      eLleft = $(this).position().left;
+    $(this).append('<span class="tooltip">' + eLcontent + "</span>");
   });
-  $("#form")[0].reset();
-  action_type = 1;
-  $('#saveButton').text('Save');
-  $('#modal-title').text('Add idea-book');
-  $(".text-danger").remove();
-  $('.form-group').removeClass('has-error').removeClass('has-success');
-});
-
-function Save(){
-  spinner_body.show();
-  $(".text-danger").remove();
-  $('.form-group').removeClass('has-error').removeClass('has-success');
-  var formData = new FormData($('#form')[0]);
-  if(action_type == 1){
-    $.ajax({
-      url : '/vendor/save-idea-book',
-      type: "POST",
-      data: formData,
-      contentType: false,
-      processData: false,
-      dataType: "JSON",
-      success: function(data)
-      {   
-        spinner_body.hide();             
-        $("#form")[0].reset();
-        $('#popup_modal').modal('hide');
-        location.reload();
-        toastr.success(data, 'Successfully Save');
-      },error: function (data) {
-        var errorData = data.responseJSON.errors;
-        spinner_body.hide();   
-        $.each(errorData, function(i, obj) {
-          $('#'+i).after('<p class="text-danger">'+obj[0]+'</p>');
-          $('#'+i).closest('.form-group').addClass('has-error');
-          toastr.error(obj[0]);
-        });
-      }
-    });
-  }else{
-    $.ajax({
-      url : '/vendor/update-idea-book',
-      type: "POST",
-      data: formData,
-      contentType: false,
-      processData: false,
-      dataType: "JSON",
-      success: function(data)
-      {
-        spinner_body.hide();   
-        console.log(data);
-        $("#form")[0].reset();
-        $('#popup_modal').modal('hide');
-        location.reload();
-        toastr.success(data, 'Successfully Update');
-      },error: function (data) {
-        var errorData = data.responseJSON.errors;
-        spinner_body.hide();   
-        $.each(errorData, function(i, obj) {
-          $('#'+i).after('<p class="text-danger">'+obj[0]+'</p>');
-          $('#'+i).closest('.form-group').addClass('has-error');
-          toastr.error(obj[0]);
-        });
-      }
-    });
-  }
-}
-function Edit(id){
-  spinner_body.show();   
-  $.ajax({
-    url : '/vendor/edit-idea-book/'+id,
-    type: "GET",
-    dataType: "JSON",
-    success: function(data)
-    {
-      spinner_body.hide();        
-      $('#modal-title').text('Update Idea Book');
-      $('#save').text('Save Change');
-      $('input[name=title]').val(data.title);
-      $('textarea[name=description]').val(data.description);
-      $('input[name=id]').val(id);
-      $('#popup_modal').modal({
-        backdrop: 'static',
-        keyboard: false,
-      });
-      action_type = 2;
-    }
-  });
-}
-function Delete(id){
-    var r = confirm("Are you sure");
-    if (r == true) {
-      spinner_body.show();   
-      $.ajax({
-        url : '/vendor/delete-idea-book/'+id,
-        type: "GET",
-        dataType: "JSON",
-        success: function(data)
-        {
-          spinner_body.hide();   
-          toastr.success(data, 'Successfully Delete');
-          location.reload();
-        }
-      });
-    } 
 }
 
 </script>

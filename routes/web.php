@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -17,8 +19,17 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
+
+session(['theme' => 'light']);
+
+Route::get('/update-theme/{theme}', [App\Http\Controllers\HomeController::class, 'updatetheme']);
+
+
 Route::get('/', [App\Http\Controllers\PageController::class, 'home']);
 Route::get('/home', [App\Http\Controllers\PageController::class, 'home']);
+Route::get('/get-home-sub-category/{id}', [App\Http\Controllers\HomeController::class, 'gethomesubcategory']);
+
+
 Route::get('/about-us', [App\Http\Controllers\PageController::class, 'about']);
 Route::get('/contact-us', [App\Http\Controllers\PageController::class, 'contact']);
 Route::get('/individual-register', [App\Http\Controllers\PageController::class, 'individualregister']);
@@ -55,17 +66,27 @@ Route::get('/print-invoice/{id}', [App\Http\Controllers\PageController::class, '
 
 
 
-
+Route::get('/get-area/{id}', [App\Http\Controllers\PageController::class, 'getarea']);
 Route::get('/get-sub-category/{id}', [App\Http\Controllers\PageController::class, 'getsubcategory']);
 Route::get('/get-professional-sub-category/{id}', [App\Http\Controllers\PageController::class, 'getprofessionalsubcategory']);
+Route::get('/get-idea-book-sub-category/{id}', [App\Http\Controllers\PageController::class, 'getideabooksubcategory']);
 
 Route::get('/get-menu', [App\Http\Controllers\PageController::class, 'getMenu']);
 Route::get('/track-order', [App\Http\Controllers\PageController::class, 'orderTrack']);
 Route::get('/category/{id}', [App\Http\Controllers\PageController::class, 'shopCategory']);
 
-Route::get('/get-ideas', [App\Http\Controllers\PageController::class, 'getIdeas']);
-Route::get('/professional-list', [App\Http\Controllers\PageController::class, 'professionalList']);
-Route::get('/product-list', [App\Http\Controllers\PageController::class, 'productlList']);
+
+Route::get('/professional-details/{id}', [App\Http\Controllers\PageController::class, 'professionalDetails']);
+
+Route::get('/product-list/{category}/{subcategory}/{subsubcategory}', [App\Http\Controllers\ProductListController::class, 'productlist']);
+Route::get('/get-sub-sub-category/{id}', [App\Http\Controllers\ProductListController::class, 'getsubsubcategory']);
+
+Route::get('/professional-list/{category}/{subcategory}', [App\Http\Controllers\ProfessionalListController::class, 'professionallist']);
+Route::get('/get-professional-sub-category/{id}', [App\Http\Controllers\ProfessionalListController::class, 'getprofessionalsubcategory']);
+
+Route::get('/get-ideas/{category}/{subcategory}', [App\Http\Controllers\IdeasListController::class, 'getideas']);
+Route::get('/get-idea-sub-category/{id}', [App\Http\Controllers\IdeasListController::class, 'getideasubcategory']);
+
 
 Auth::routes();
 
@@ -141,7 +162,34 @@ Route::group(['prefix' => 'admin'],function(){
 	Route::POST('/update-professional-subcategory', [App\Http\Controllers\Admin\CategoryController::class, 'updateprofessionalsubcategory']);
 	Route::get('/edit-professional-subcategory/{id}', [App\Http\Controllers\Admin\CategoryController::class, 'editprofessionalsubcategory']);
 	Route::get('/delete-professional-subcategory/{id}/{status}', [App\Http\Controllers\Admin\CategoryController::class, 'deleteprofessionalsubcategory']);
+
+
+	Route::get('/idea-category', [App\Http\Controllers\Admin\CategoryController::class, 'ideacategory']);
+	Route::POST('/save-idea-category', [App\Http\Controllers\Admin\CategoryController::class, 'saveideacategory']);
+	Route::POST('/update-idea-category', [App\Http\Controllers\Admin\CategoryController::class, 'updateideacategory']);
+	Route::get('/edit-idea-category/{id}', [App\Http\Controllers\Admin\CategoryController::class, 'editideacategory']);
+	Route::get('/delete-idea-category/{id}/{status}', [App\Http\Controllers\Admin\CategoryController::class, 'deleteideacategory']);
+
+	Route::get('/idea-subcategory/{id}', [App\Http\Controllers\Admin\CategoryController::class, 'ideasubcategory']);
+	Route::POST('/save-idea-subcategory', [App\Http\Controllers\Admin\CategoryController::class, 'saveideasubcategory']);
+	Route::POST('/update-idea-subcategory', [App\Http\Controllers\Admin\CategoryController::class, 'updateideasubcategory']);
+	Route::get('/edit-idea-subcategory/{id}', [App\Http\Controllers\Admin\CategoryController::class, 'editideasubcategory']);
+	Route::get('/delete-idea-subcategory/{id}/{status}', [App\Http\Controllers\Admin\CategoryController::class, 'deleteideasubcategory']);
+
 	
+
+	Route::get('/city', [App\Http\Controllers\Admin\SettingsController::class, 'city']);
+	Route::POST('/save-city', [App\Http\Controllers\Admin\SettingsController::class, 'savecity']);
+	Route::POST('/update-city', [App\Http\Controllers\Admin\SettingsController::class, 'updatecity']);
+	Route::get('/edit-city/{id}', [App\Http\Controllers\Admin\SettingsController::class, 'editcity']);
+	Route::get('/delete-city/{id}/{status}', [App\Http\Controllers\Admin\SettingsController::class, 'deletecity']);
+
+	Route::get('/area/{id}', [App\Http\Controllers\Admin\SettingsController::class, 'area']);
+	Route::POST('/save-area', [App\Http\Controllers\Admin\SettingsController::class, 'savearea']);
+	Route::POST('/update-area', [App\Http\Controllers\Admin\SettingsController::class, 'updatearea']);
+	Route::get('/edit-area/{id}', [App\Http\Controllers\Admin\SettingsController::class, 'editarea']);
+	Route::get('/delete-area/{id}/{status}', [App\Http\Controllers\Admin\SettingsController::class, 'deletearea']);
+
 
 
     Route::get('/change-password', [App\Http\Controllers\Admin\SettingsController::class, 'changepassword']);
@@ -222,15 +270,24 @@ Route::group(['prefix' => 'vendor'],function(){
 	Route::get('/delete-project-image/{id}', [App\Http\Controllers\Vendor\SettingsController::class, 'deleteprojectimage']);
 
 
-	Route::get('/idea-book', [App\Http\Controllers\Vendor\SettingsController::class, 'ideabook']);
-	Route::POST('/save-idea-book', [App\Http\Controllers\Vendor\SettingsController::class, 'saveideabook']);
-	Route::POST('/update-idea-book', [App\Http\Controllers\Vendor\SettingsController::class, 'updateideabook']);
-	Route::get('/edit-idea-book/{id}', [App\Http\Controllers\Vendor\SettingsController::class, 'editideabook']);
-	Route::get('/delete-idea-book/{id}', [App\Http\Controllers\Vendor\SettingsController::class, 'deleteideabook']);
+	Route::get('/add-idea-book', [App\Http\Controllers\Vendor\IdeaBookController::class, 'addideabook']);
+	Route::get('/idea-book', [App\Http\Controllers\Vendor\IdeaBookController::class, 'ideabook']);
+	Route::POST('/save-idea-book', [App\Http\Controllers\Vendor\IdeaBookController::class, 'saveideabook']);
+	Route::POST('/update-idea-book', [App\Http\Controllers\Vendor\IdeaBookController::class, 'updateideabook']);
+	Route::get('/edit-idea-book/{id}', [App\Http\Controllers\Vendor\IdeaBookController::class, 'editideabook']);
+	Route::get('/delete-idea-book/{id}', [App\Http\Controllers\Vendor\IdeaBookController::class, 'deleteideabook']);
+	Route::get('/delete-idea-book-image/{id}', [App\Http\Controllers\Vendor\IdeaBookController::class, 'deleteideabookimage']);
 
-	Route::get('/idea-book-images/{id}', [App\Http\Controllers\Vendor\SettingsController::class, 'ideabookimages']);
-	Route::POST('/save-idea-book-images', [App\Http\Controllers\Vendor\SettingsController::class, 'saveideabookimages']);
-	Route::get('/delete-idea-book-images/{id}', [App\Http\Controllers\Vendor\SettingsController::class, 'deleteideabookimages']);
+
+	// Route::get('/idea-book', [App\Http\Controllers\Vendor\SettingsController::class, 'ideabook']);
+	// Route::POST('/save-idea-book', [App\Http\Controllers\Vendor\SettingsController::class, 'saveideabook']);
+	// Route::POST('/update-idea-book', [App\Http\Controllers\Vendor\SettingsController::class, 'updateideabook']);
+	// Route::get('/edit-idea-book/{id}', [App\Http\Controllers\Vendor\SettingsController::class, 'editideabook']);
+	// Route::get('/delete-idea-book/{id}', [App\Http\Controllers\Vendor\SettingsController::class, 'deleteideabook']);
+
+	// Route::get('/idea-book-images/{id}', [App\Http\Controllers\Vendor\SettingsController::class, 'ideabookimages']);
+	// Route::POST('/save-idea-book-images', [App\Http\Controllers\Vendor\SettingsController::class, 'saveideabookimages']);
+	// Route::get('/delete-idea-book-images/{id}', [App\Http\Controllers\Vendor\SettingsController::class, 'deleteideabookimages']);
 
 
 	Route::get('/about-us', [App\Http\Controllers\Vendor\SettingsController::class, 'aboutus']);
@@ -262,6 +319,8 @@ Route::group(['prefix' => 'vendor'],function(){
 	
 	// product attr
 	Route::get('/product-attr/{id}', [App\Http\Controllers\Vendor\ProductController::class, 'productAttr']);
+	//chat
+	Route::get('/chat/{id}', [App\Http\Controllers\Vendor\ChatController::class, 'getChat']);
 
 });
 
@@ -275,7 +334,10 @@ Route::group(['prefix' => 'customer'],function(){
 
 
 	Route::get('/manage-address', [App\Http\Controllers\Customer\ProfileController::class, 'manageaddress']);
-    Route::get('/save-address', [App\Http\Controllers\Customer\ProfileController::class, 'saveaddress']);
+    Route::post('/save-address', [App\Http\Controllers\Customer\ProfileController::class, 'saveaddress']);
+	Route::post('/update-address', [App\Http\Controllers\Customer\ProfileController::class, 'updateaddress']);
+	Route::get('/edit-address/{id}', [App\Http\Controllers\Customer\ProfileController::class, 'editaddress']);
+
 
 
 	Route::get('/favourites', [App\Http\Controllers\Customer\FavouriteController::class, 'favourites']);

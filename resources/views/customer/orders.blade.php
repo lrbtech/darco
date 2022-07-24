@@ -60,7 +60,7 @@
                                                         </td>
                                                         <td>{{$row->total}}</td>
                                                         <td>
-                                                          @if($row->shipping_status == 3)
+                                                          @if($row->shipping_status != 3)
                                                           <a href="/customer/track-order/{{$row->id}}" class="btn-small d-block">Track Order</a>
                                                           @endif
                                                           <br>

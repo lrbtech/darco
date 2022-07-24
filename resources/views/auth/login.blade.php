@@ -1,115 +1,87 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="description" content="" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+@extends('website.layouts1')
+@section('extra-css')
+<link rel="stylesheet" href="/website_assets/css/style.css">
 
-        <title>Login your account</title>
-
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/website_assets/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v5.15.4/css/all.css" crossorigin="anonymous" />
-        <link rel="stylesheet" href="/website_assets/css/all.css" />
-        <link rel="stylesheet" href="/website_assets/css/style.css" />
-        <link rel="stylesheet" href="/website_assets/css/responsive.css" />
-    </head>
-    <body id="login">
-        <div class="d-lg-flex half">
-            <div class="bg order-1 order-md-1" style="background-image: url(website_assets/images/login-bg-01.jpg);"></div>
-            <div class="contents order-2 order-md-2">
-                <div class="container" id="loginForm">
-                    <div class="row align-items-center justify-content-center">
-                      <div class="col-md-3">
-                        <div class="social-login">
-                            <a href="/home" class="btn facebook"> <i class="fab fa-home"></i> Back to Home Page</a><br>
-                            <a href="#" class="btn facebook"> <i class="fab fa-facebook-f"></i> Login by Facebook </a><br>
-                            <a href="#" class="btn twitter"> <i class="fab fa-twitter"></i>  Login by Twitter</a><br>
-                            <a href="#" class="btn googleplus"> <i class="fab fa-google-plus-g"></i> Login by Google+</a>
-                             <a href="/vendor/login" class="btn facebook"> <i class="fab fa-home"></i> Vendor Login</a><br>
+@endsection
+@section('content')
+<main class="main pages">
+    <div class="page-header breadcrumb-wrap">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="/" rel="nofollow"><i class="fi-rs-home mr-5"></i>Home</a>
+                <span></span> Login
+            </div>
+        </div>
+    </div>
+    <div class="page-content pt-150 pb-150">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-8 col-lg-10 col-md-12 m-auto">
+                    <div class="row">
+                        <div class="col-lg-6 pr-30 d-none d-lg-block">
+                            <img class="border-radius-15" src="/frontend/assets/imgs/page/login-1.png" alt="" />
                         </div>
-                      </div>
-                      <div class="col-md-1"><div class="vl"></div></div>
-                        <div class="col-md-6">
-                          
-                            <div class="mb-4">
-                                <h3>Sign In</h3>
-                                <p class="mb-4">Please sign in your details to know your expectation...</p>
+                        <div class="col-lg-6 col-md-8">
+                            <div class="login_wrap widget-taber-content background-white">
+                                <div class="padding_eight_all bg-white">
+                                    <div class="heading_s1">
+                                        <h1 class="mb-5">Login</h1>
+                                        <p class="mb-30">Don't have an account? <a href="javascript:;" onclick="Signup()">Create here</a></p>
+                                    </div>
+                                    <form method="POST" action="{{ route('login') }}">
+                                    @csrf
+                                        <div class="form-group">
+                                            <input id="email" type="email" class="@error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="off" autofocus placeholder="Email ID">
+                                            @error('email')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group">
+                                            <input id="password" type="password" class="@error('password') is-invalid @enderror" name="password" required autocomplete="off" placeholder="Password">
+                                            @error('password')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                            @enderror
+                                        </div>
+                                        <div class="login_footer form-group mb-50">
+                                            <div class="chek-form">
+                                                <div class="custome-checkbox">
+                                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}  />
+                                                    <label class="form-check-label" for="remember"><span>Remember me</span></label>
+                                                </div>
+                                            </div>
+                                            <a class="text-muted" href="#">Forgot password?</a>
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-heading btn-block hover-up" name="login">Log in</button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
-                            <form method="POST" action="{{ route('login') }}">
-                            @csrf
-                                <div class="form-group first">
-                                    <label for="email">Email ID</label>
-                                    <input style="color:#000;" id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="off" autofocus>
-                                    @error('email')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                                <div class="form-group last mb-3">
-                                    <label for="password">Password</label>
-                                    <input style="color:#000;" id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="off">
-                                    @error('password')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                                <div class="d-flex mb-5 align-items-center">
-                                    <label>
-                                        <input name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}  type="checkbox">Remember me
-                                    </label>
-                                    <span class="ml-auto">
-                                        <a href="#" class="forgot-pass" id="forgot-pass">Forgot Password ?</a>
-                                    </span>
-                                </div>
-                                <button type="submit" class="btn btn-block btn-primary">Submit</button>
-                            </form>
-                            <div class="text-center mt-5"><h5>Don't have an account yet? <a href="javascript:;" data-toggle="modal" data-target="#enteringViewpoint">Join Now</a></h5></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="container" id="forget" style="display:none">
-                    <div class="row align-items-center justify-content-center">
-                      <div class="col-md-1"><div class="vl"></div></div>
-                        <div class="col-md-7">
-                          <a href="javascript:;" id="backtoLogin">Remember your password? Back to Login</a><br><br>
-                            <div class="mb-4">
-                                <h3>Forget Your Password?</h3>
-                                <p class="mb-4">Enter your email address and we'll send you a link to reset your password.</p>
-                            </div>
-                            <form action="#" method="post">
-                                <div class="form-group first">
-                                    <label for="username">Email address</label>
-                                    <input type="text" class="form-control" id="emailId" required />
-                                </div>
-                                <button type="submit" class="btn btn-block btn-primary">Submit</button>
-                            </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+</main>
 
-
-<!-- Modal enteringViewpoint -->
-<div class="modal fade" id="enteringViewpoint" tabindex="-1" role="dialog" aria-labelledby="enteringViewpointLabel" aria-hidden="true">
+<div class="modal fade" id="signup_modal" tabindex="-1" role="dialog" aria-labelledby="signup_modalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg  modal-dialog-centered modal-dialog-scrollable" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title" id="exampleModalLabel">Choose who you are?</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
-        </button>
+        </button> -->
       </div>
       <div class="modal-body">
         <div class="row">
           <div class="col-sm-6">
-            <a href="/individual-register" class="style3" id="view1">
+            <a href="/individual-register?email=" class="style3" id="view1">
               <div class="card">
                 <div class="card-title"><h4>Individual</h4></div>
                 <div class="card-desc text-center">
@@ -123,7 +95,7 @@
           </a>
           </div>
           <div class="col-sm-6">
-            <a href="/professional-register" class="style3" id="view2">
+            <a href="/professional-register?email=" class="style3" id="view2">
             <div class="card">
               <div class="card-title"><h4>Professional</h4></div>
               <div class="card-desc text-center">
@@ -145,19 +117,11 @@
     </div>
   </div>
 </div>        
-<script src="/website_assets/js/jquery.slim.min.js"></script>
-<script src="/website_assets/js/bootstrap.bundle.min.js"></script>
-<script type="text/javascript">
-$(document).ready(function () {
-    $("#forgot-pass").click(function () {
-        $('#loginForm').hide();
-        $('#forget').show();
-    })
-    $("#backtoLogin").click(function () {
-        $('#loginForm').show();
-        $('#forget').hide();
-    })
-})
+@endsection
+@section('extra-js')
+<script>
+  function Signup(){
+    $('#signup_modal').modal('show');
+  }
 </script>
-</body>
-</html>
+@endsection

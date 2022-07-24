@@ -44,7 +44,7 @@ class ProductController extends Controller
             $html.='<div id="view_attributes'.$row->attribute_id.'" class="col-md-6">
                 <div class="form-group">
                     <label class="attributes'.$row->attribute_id.'">Select '.$attributes->attribute_name.'   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a style="float:right;" href="#" onclick="AttrDelete('.$row->id.','.$row->attribute_id.')">Remove</a></label>
-                    <select id="attributes_data'.$row->attribute_id.'" name="attributes_data'.$row->attribute_id.'" class="form-control">
+                    <select required id="attributes_data'.$row->attribute_id.'" name="attributes_data'.$row->attribute_id.'" class="form-control">
                         <option value=" ">SELECT</option>';
                         foreach($field as $field1){
                             if($field1->id == $row->attribute_field_id){
@@ -67,7 +67,7 @@ class ProductController extends Controller
         $html='<div id="view_attributes'.$id.'" class="col-md-6">
             <div class="form-group">
                 <label class="attributes'.$id.'">Select '.$attributes->attribute_name.'   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a style="float:right;" href="#" onclick="removeAttr('.$id.')">Remove</a></label>
-                <select id="attributes_data'.$id.'" name="attributes_data'.$id.'" class="form-control">
+                <select required id="attributes_data'.$id.'" name="attributes_data'.$id.'" class="form-control">
                     <option value="">SELECT</option>';
                     foreach($field as $row){
                     $html.='<option value="'.$row->id.'">'.$row->attributes_value.'</option>';
@@ -84,7 +84,7 @@ class ProductController extends Controller
             'category'=>'required',
             'sales_price'=>'required',
             'stock'=>'required',
-            'image' => 'required|mimes:jpeg,jpg,png|max:1000', // max 1000kb
+            'image' => 'required|mimes:jpeg,jpg,png|max:3000', // max 1000kb
           ],[
             'image.mimes' => 'Only jpeg, png and jpg images are allowed',
             'image.max' => 'Sorry! Maximum allowed size for an image is 1MB',
@@ -199,7 +199,7 @@ class ProductController extends Controller
             'sales_price'=>'required',
             'category'=>'required',
             'stock'=>'required',
-            'image' => 'mimes:jpeg,jpg,png|max:1000', // max 1000kb
+            'image' => 'mimes:jpeg,jpg,png|max:3000', // max 1000kb
           ],[
             'image.mimes' => 'Only jpeg, png and jpg images are allowed',
             'image.max' => 'Sorry! Maximum allowed size for an image is 1MB',

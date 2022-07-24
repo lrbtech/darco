@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\category;
 use App\Models\professional_category;
+use App\Models\idea_category;
+use App\Models\city;
 use App\Models\product;
 use App\Models\product_attributes;
 use App\Models\product_images;
@@ -41,6 +43,19 @@ class PageController extends Controller
         return $category->category;
     }
 
+    public function getarea($id) {
+        $city = city::where('parent_id',$id)->where('status',0)->orderBy('id','ASC')->get();
+
+        $output='<option value="">SELECT</option>';
+        if(!empty($city)){
+            foreach($city as $row){
+                $output.='<option value="'.$row->id.'">'.$row->city.'</option>';
+            }
+        }
+
+        echo $output;
+    }
+
     public function getsubcategory($id) {
         $category = category::where('parent_id',$id)->where('status',0)->orderBy('id','ASC')->get();
 
@@ -67,63 +82,66 @@ class PageController extends Controller
         echo $output;
     }
 
+    public function getideabooksubcategory($id) {
+        $category = idea_category::where('parent_id',$id)->where('status',0)->orderBy('id','ASC')->get();
+
+        $output='<option value="">SELECT</option>';
+        if(!empty($category)){
+            foreach($category as $row){
+                $output.='<option value="'.$row->id.'">'.$row->category.'</option>';
+            }
+        }
+
+        echo $output;
+    }
+
     public function home()
     {
-        $home = category::where('status',0)->where('parent_id',0)->get();
-        $professional = professional_category::where('status',0)->where('parent_id',0)->get();
+        $category = category::where('status',0)->where('parent_id',0)->get();
+        $professional_category = professional_category::where('status',0)->where('parent_id',0)->orderBy('id','DESC')->get()->take('4');
+        $idea_category = idea_category::where('status',0)->where('parent_id',0)->orderBy('id','DESC')->get()->take('6');
+        $professional_category_footer = professional_category::where('status',0)->where('parent_id',0)->orderBy('id','DESC')->get()->take('6');
        
-        return view('website.home',compact('home','professional'));
+        return view('website.home',compact('category','professional_category','idea_category','professional_category_footer'));
     }
 
     public function getMenu(){
        $home = category::where('status',0)->where('parent_id',0)->get();
        $professional = professional_category::where('status',0)->where('parent_id',0)->get(); 
-       $html='
-       <li class="nav-item dropdown position-static2">
-        <a class="nav-link dropdown-toggle smallDropdown main_link" href="#" data-toggle="dropdown" aria-expanded="false"><i class="fas fa-lightbulb"></i> GET IDEAS</a>
-        <div class="dropdown-menu" >
-          <a class="dropdown-item" href="#">Kitchen & Dining</a>
-          <a class="dropdown-item" href="#">Living room</a>
-          <a class="dropdown-item" href="#">Bed & Bath</a>
-          <a class="dropdown-item" href="#">Utility</a>
-          <a class="dropdown-item" href="#">Outdoor</a>
-          <a class="dropdown-item" href="#">Bar & Wine</a>
-          <a class="dropdown-item" href="#">Popular Design Ideas</a>
-        </div>
-      </li>
-      ';
-        $html.=' <li class="nav-item dropdown position-static"><a href="#" class="nav-link dropdown-toggle main_link" data-toggle="dropdown" data-target="#"><i class="fas fa-user-tie"></i> Find Professionals</a>
-          <div class="dropdown-menu w-75 top-auto">
-            <div class="container">
-              <div class="row w-100">';
-         foreach($professional as $row){
-          $html .='<div class="col-sm-6 col-lg-4">
-              <h4>'.$row->category.'</h4>
-                <ul>';
-                 $subcategory = professional_category::where('status',0)->where('parent_id',$row->id)->get(); 
-                  foreach($subcategory as $row2){
-                    
-                      $html .='<li><a href="/professionals/lists">'.$row2->category.'</a></li>';
-                    
-                    
-                  }
-               $html .=' </ul>
-            </div>';
-         }
-            
-          $html .='</div>
-        </div></div>
-        </li>';
-        $html .=' <li class="nav-item dropdown position-static2">
-        <a class="nav-link dropdown-toggle smallDropdown main_link" href="#" data-toggle="dropdown" aria-expanded="false"><i class="fas fa-shopping-bag"></i> Shop by Department</a>
-        <div class="dropdown-menu" >';
-        foreach($home as $row){
-            $html .='<a class="dropdown-item" href="/category/'.$row->id.'">'.$row->category.'</a>';
+       $ideas = idea_category::where('status',0)->where('parent_id',0)->get(); 
+
+       $html='<li style="width:375px"></li>';
+        $html.=' <li class="position-static"><a href="#">GET IDEAS <i class="fi-rs-angle-down"></i></a><ul class="mega-menu">';
+        foreach($ideas as $row){
+            $html .='<li class="sub-mega-menu sub-mega-menu-width-22"><a class="menu-title" href="#">'.$row->category.'</a><ul>';
+            $child = idea_category::where('status',0)->where('parent_id',$row->id)->get();
+            foreach($child as $row1){
+                 $html.='<li><a href="shop-product-right.html">'.$row1->category.'</a></li>';
+            }
+            $html .='</ul></li>';
+            }
+             $html .='</ul> </li>';
+        $html.=' <li class="position-static"><a href="#">FIND PROFESSIONALS <i class="fi-rs-angle-down"></i></a><ul class="mega-menu">';
+        foreach($professional as $row){
+            $html .='<li class="sub-mega-menu sub-mega-menu-width-22"><a class="menu-title" href="#">'.$row->category.'</a><ul>';
+            $child = professional_category::where('status',0)->where('parent_id',$row->id)->get();
+            foreach($child as $row1){
+                 $html.='<li><a href="shop-product-right.html">'.$row1->category.'</a></li>';
+            }
+            $html .='</ul></li>';
         }
-          
-         
-        $html .='</div>
-      </li>';
+        $html .='</ul> </li>';
+        $html.=' <li class="position-static"><a href="#">SHOP BY DEPARTMENT <i class="fi-rs-angle-down"></i></a><ul class="mega-menu">';
+        foreach($home as $row){
+            $html .='<li class="sub-mega-menu sub-mega-menu-width-22"><a class="menu-title" href="/product-list/'.$row->id.'/0/0">'.$row->category.'</a><ul>';
+            $child = category::where('status',0)->where('parent_id',$row->id)->get();
+            foreach($child as $row1){
+                 $html.='<li><a href="/product-list/'.$row->id.'/'.$row1->id.'/0">'.$row1->category.'</a></li>';
+            }
+            $html .='</ul></li>';
+            }
+             $html .='</ul> </li>';
+    
        return response()->json($html); 
     }
 
@@ -139,18 +157,14 @@ class PageController extends Controller
 
     public function individualregister()
     {
-        return view('website.individual_register');
+        $city = city::where('parent_id',0)->where('status',0)->orderBy('id','ASC')->get();
+        return view('website.individual_register',compact('city'));
     }
 
     public function professionalregister()
     {
-        return view('website.professional_register');
-    }
-
-    public function productlist()
-    {
-        $product = product::orderBy('id','DESC')->get();
-        return view('website.product_list',compact('product'));
+        $city = city::where('parent_id',0)->where('status',0)->orderBy('id','ASC')->get();
+        return view('website.professional_register',compact('city'));
     }
 
 
@@ -224,6 +238,7 @@ class PageController extends Controller
         $user->country = $request->country;
         $user->city = $request->city;
         $user->area = $request->area;
+        $user->status = 1;
         $user->save();
 
         
@@ -257,6 +272,7 @@ class PageController extends Controller
         $vendor->country = $request->country;
         $vendor->city = $request->city;
         $vendor->area = $request->area;
+        $vendor->status = 1;
         $vendor->save();
 
         
@@ -306,5 +322,8 @@ class PageController extends Controller
       }
       public function productlList(){
         return view('website.process.product_list');
+      }
+      public function professionalDetails($id){
+        return view('website.process.professional_details');
       }
 }

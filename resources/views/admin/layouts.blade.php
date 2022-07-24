@@ -70,7 +70,7 @@ data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
           <li class="nav-item mobile-menu d-md-none mr-auto"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ft-menu font-large-1"></i></a></li>
           <li class="nav-item mr-auto">
             <a class="navbar-brand" href="/admin/dashboard">
-              <img class="brand-logo" alt="logo" src="/website_assets/images/logobig.png">
+              <img class="brand-logo" alt="logo" src="/website_assets/images/logo-light.png">
               <h3 class="brand-text">DAR</h3>
             </a>
           </li>

@@ -59,11 +59,11 @@
   }
   .imgRemove{
     position: relative;
-    bottom: 154px;
+    bottom: 166px;
     left: 80%;
     background-color: transparent;
     border: none;
-    font-size: 50px;
+    font-size: 30px;
     outline: none;
   }
   .imgRemove::after{
@@ -74,6 +74,19 @@
     border-radius: 8px;
     cursor: pointer;
   }
+  i.la.la-plus-circle {
+    font-size: 63px;
+    /* text-align: center; */
+    padding: 36px;
+    color: #fff;
+}
+.primary-img{
+  color: #801580;
+    font-size: 16px;
+    text-align: center;
+    font-weight: 600;
+    font-family: sans-serif;
+}
 </style>
 @endsection
 @section('content')
@@ -170,6 +183,7 @@
                                   <!-- <button type="button" class="imgRemove" onclick="myImgRemove(1)"></button> -->
                                   </label>
                                   <input type="file" name="profile_image" id="file-ip-1" accept=".png,.jpg,.jpeg" onchange="showPreview(event, 1);">
+                                  <p class="primary-img">Primary Image</p>
                                 </div>
                                 @foreach($project_images as $key => $row)
                                 <div value="{{$key+2}}" class="center form-input panel_image">
@@ -184,8 +198,8 @@
                                 <div class="work center form-input">
                                   <div class="img" style="height:150px !important;background-color:#091a3a !important;">
                                       <a onclick="AddImages()" class="create-story" href="javascript:void(0)">
-                                        <div class="fas fa-plus"></div>
-                                        <h4 class="story-line">Add More Images</h4>
+                                        <i class="la la-plus-circle"></i>
+                                        <!-- <h4 class="story-line">Add More Images</h4> -->
                                       </a>
                                   </div>
                                 </div>
@@ -238,6 +252,7 @@ function getsubcategory(){
       success: function(data)
       {
         $('#subcategory').html(data);
+        $('select[name=subcategory]').val(<?php echo $project->subcategory; ?>);
       }
   });
 }

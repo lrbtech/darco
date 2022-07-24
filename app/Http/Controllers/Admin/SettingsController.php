@@ -9,6 +9,7 @@ use App\Models\customer;
 use App\Models\User;
 use App\Models\admin;
 use App\Models\settings;
+use App\Models\city;
 use Hash;
 use DB;
 use Mail;
@@ -102,6 +103,93 @@ class SettingsController extends Controller
 
         return back();
         //return response()->json('successfully update'); 
+    }
+
+    public function savecity(Request $request){
+        $this->validate($request, [
+            'city'=>'required',
+        ]);
+
+        $city = new city;
+        $city->city = $request->city;
+        $city->parent_id = 0;
+
+        $city->save();
+
+        return response()->json('successfully save'); 
+    }
+
+    public function updatecity(Request $request){
+        $this->validate($request, [
+            'city'=>'required',
+        ]);
+        
+        $city = city::find($request->id);
+        $city->city = $request->city;
+        $city->parent_id = 0;
+        $city->save();
+
+        return response()->json('successfully update'); 
+    }
+
+    public function city(){
+        $city = city::where('parent_id',0)->get();
+        return view('admin.city',compact('city'));
+    }
+
+    public function editcity($id){
+        $city = city::find($id);
+        return response()->json($city); 
+    }
+    
+    public function deletecity($id,$status){
+        $city = city::find($id);
+        $city->status = $status;
+        $city->save();
+        return response()->json(['message'=>'Successfully Delete'],200); 
+    }
+
+
+    public function savearea(Request $request){
+        $this->validate($request, [
+            'city'=>'required',
+        ]);
+
+        $city = new city;
+        $city->city = $request->city;
+        $city->parent_id = $request->parent_id;
+        $city->save();
+        return response()->json('successfully save'); 
+    }
+
+    public function updatearea(Request $request){
+        $this->validate($request, [
+            'city'=>'required',
+        ]);
+        
+        $city = city::find($request->id);
+        $city->city = $request->city;
+        $city->parent_id = $request->parent_id;
+        $city->save();
+        return response()->json('successfully update'); 
+    }
+
+    public function area($id){
+        $area = city::where('parent_id',$id)->get();
+        $parent_id = $id;
+        return view('admin.area',compact('area','parent_id'));
+    }
+
+    public function editarea($id){
+        $city = city::find($id);
+        return response()->json($city); 
+    }
+    
+    public function deletearea($id,$status){
+        $city = city::find($id);
+        $city->status = $status;
+        $city->save();
+        return response()->json(['message'=>'Successfully Delete'],200); 
     }
 
 }

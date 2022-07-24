@@ -11,6 +11,7 @@ use App\Models\professional_category;
 use App\Models\project_images;
 use App\Models\idea_book;
 use App\Models\idea_book_images;
+use App\Models\city;
 use Yajra\DataTables\Facades\DataTables;
 use Auth;
 use DB;
@@ -32,7 +33,7 @@ class SettingsController extends Controller
         $this->validate($request, [
             'project_name'=>'required|unique:vendor_projects,project_name,NULL,id,vendor_id,'.Auth::guard('vendor')->user()->id,
             'category'=>'required',
-            'image' => 'required|mimes:jpeg,jpg,png|max:1000', // max 1000kb
+            'image' => 'required|mimes:jpeg,jpg,png|max:3000', // max 1000kb
           ],[
             'image.mimes' => 'Only jpeg, png and jpg images are allowed',
             'image.max' => 'Sorry! Maximum allowed size for an image is 1MB',
@@ -112,7 +113,7 @@ class SettingsController extends Controller
         $this->validate($request, [
             'project_name'=>'required|unique:vendor_projects,project_name,'.$request->id.',id,vendor_id,'.Auth::guard('vendor')->user()->id,
             'category'=>'required',
-            'image' => 'mimes:jpeg,jpg,png|max:1000', // max 1000kb
+            'image' => 'mimes:jpeg,jpg,png|max:3000', // max 1000kb
           ],[
             'image.mimes' => 'Only jpeg, png and jpg images are allowed',
             'image.max' => 'Sorry! Maximum allowed size for an image is 1MB',
@@ -165,7 +166,7 @@ class SettingsController extends Controller
                 if($_POST['image_id'][$x]!=""){
                     $project_images = project_images::find($_POST['image_id'][$x]);
                     if($name_array[$x] != ""){
-                        $old_image = "project_image/".$post_ad_image->image;
+                        $old_image = "project_image/".$project_images->image;
                         if (file_exists($old_image)) {
                             @unlink($old_image);
                         }
@@ -231,7 +232,7 @@ class SettingsController extends Controller
     }
 
     public function addproject(){
-        $category = professional_category::where('status',0)->orderBy('id','DESC')->get();
+        $category = professional_category::where('status',0)->where('parent_id',0)->orderBy('id','DESC')->get();
         return view('vendor.add_project',compact('category'));
     }
 
@@ -279,7 +280,8 @@ class SettingsController extends Controller
 
     public function profile(){
         $profile = vendor::find(Auth::guard('vendor')->user()->id);
-        return view('vendor.profile',compact('profile'));
+        $city = city::where('parent_id',0)->where('status',0)->orderBy('id','ASC')->get();
+        return view('vendor.profile',compact('profile','city'));
     }
 
     public function updateprofile(Request $request){
@@ -289,7 +291,7 @@ class SettingsController extends Controller
             'last_name'=>'required',
             'mobile'=>'required',
             'address'=>'required',
-            'image' => 'mimes:jpeg,jpg,png,pdf|max:1000', // max 1000kb
+            'image' => 'mimes:jpeg,jpg,png,pdf|max:3000', // max 1000kb
           ],[
             'image.mimes' => 'Only jpeg, png and jpg images are allowed',
             'image.max' => 'Sorry! Maximum allowed size for an image is 1MB',
@@ -379,7 +381,7 @@ class SettingsController extends Controller
 
     public function saveideabookimages(Request $request){
         $this->validate($request, [
-            'image' => 'required|mimes:jpeg,jpg,png|max:1000', // max 1000kb
+            'image' => 'required|mimes:jpeg,jpg,png|max:3000', // max 1000kb
           ],[
             'image.mimes' => 'Only jpeg, png and jpg images are allowed',
             'image.max' => 'Sorry! Maximum allowed size for an image is 1MB',

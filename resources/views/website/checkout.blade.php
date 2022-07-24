@@ -267,16 +267,16 @@
 
                         <div id="create_address">
                         <div class="row">
-                          <div class="form-group col-lg-6">
-                            <!-- <label>Address Type <span class="asterisk">*</span></label> -->
-                            <div class="font_roboto f24">
-                              <label>
-                                <input checked type="radio" name="address_type" value="0"> Home (7am-9pm, all days)
-                              </label> &nbsp; &nbsp;
-                              <label>
-                                <input type="radio" name="address_type" value="1"> Office (9am-6pm, Weekdays)
-                              </label>
-                            </div>
+                            <div class="form-group col-lg-6">
+                              <label>Address Type <span class="asterisk">*</span></label>
+                              <div class="custome-radio">
+                                  <input value="0" class="form-check-input" type="radio" name="address_type" id="address_type1"/>
+                                  <label class="form-check-label" for="address_type1" >Home (7am-9pm, all days)</label>
+                              </div>
+                              <div class="custome-radio">
+                                  <input value="1"  class="form-check-input" type="radio" name="address_type" id="address_type2" />
+                                  <label class="form-check-label" for="address_type2">Office (9am-6pm, Weekdays)</label>
+                              </div>
                           </div>
                           <div class="form-group col-lg-6">
                             <label>Contact Person <span class="asterisk">*</span></label>
@@ -339,15 +339,15 @@
 
                               <div class="row">
                                 <div class="form-group col-lg-6">
-                                  <!-- <label>Address Type <span class="asterisk">*</span></label> -->
-                                  <div class="font_roboto f24">
-                                    <label>
-                                      <input checked type="radio" name="new_address_type" value="0"> Home (7am-9pm, all days)
-                                    </label> &nbsp; &nbsp;
-                                    <label>
-                                      <input type="radio" name="new_address_type" value="1"> Office (9am-6pm, Weekdays)
-                                    </label>
-                                  </div>
+                                    <label>Address Type <span class="asterisk">*</span></label>
+                                    <div class="custome-radio">
+                                        <input value="0" class="form-check-input" type="radio" name="new_address_type" id="new_address_type1"/>
+                                        <label class="form-check-label" for="new_address_type1" >Home (7am-9pm, all days)</label>
+                                    </div>
+                                    <div class="custome-radio">
+                                        <input value="1"  class="form-check-input" type="radio" name="new_address_type" id="new_address_type2" />
+                                        <label class="form-check-label" for="new_address_type2">Office (9am-6pm, Weekdays)</label>
+                                    </div>
                                 </div>
                                 <div class="form-group col-lg-6">
                                   <label>Contact Person <span class="asterisk">*</span></label>
@@ -515,25 +515,25 @@
                 <div class="payment ml-30">
                     <h4 class="mb-30">Payment</h4>
                     <div class="payment_option">
+                        <!-- <div class="custome-radio">
+                            <input class="form-check-input" type="radio" name="payment_option" id="payment_option1" checked="">
+                            <label class="form-check-label" for="payment_option1" data-bs-toggle="collapse" data-target="#bankTranfer" aria-controls="bankTranfer">Direct Bank Transfer</label>
+                        </div> -->
+                        <!-- <div class="custome-radio">
+                            <input class="form-check-input" type="radio" name="payment_option" id="payment_option2" checked="">
+                            <label class="form-check-label" for="payment_option2" data-bs-toggle="collapse" data-target="#checkPayment" aria-controls="checkPayment">Cash on delivery</label>
+                        </div> -->
                         <div class="custome-radio">
-                            <input class="form-check-input" type="radio" name="payment_option" id="exampleRadios3" checked="">
-                            <label class="form-check-label" for="exampleRadios3" data-bs-toggle="collapse" data-target="#bankTranfer" aria-controls="bankTranfer">Direct Bank Transfer</label>
-                        </div>
-                        <div class="custome-radio">
-                            <input class="form-check-input" type="radio" name="payment_option" id="exampleRadios4" checked="">
-                            <label class="form-check-label" for="exampleRadios4" data-bs-toggle="collapse" data-target="#checkPayment" aria-controls="checkPayment">Cash on delivery</label>
-                        </div>
-                        <div class="custome-radio">
-                            <input class="form-check-input" type="radio" name="payment_option" id="exampleRadios5" checked="">
-                            <label class="form-check-label" for="exampleRadios5" data-bs-toggle="collapse" data-target="#paypal" aria-controls="paypal">Online Getway</label>
+                            <input class="form-check-input" type="radio" name="payment_option" id="payment_option3" checked="">
+                            <label class="form-check-label" for="payment_option3" data-bs-toggle="collapse" data-target="#paypal" aria-controls="paypal">Online Getway</label>
                         </div>
                     </div>
-                    <div class="payment-logo d-flex">
-                        <img class="mr-15" src="assets/imgs/theme/icons/payment-paypal.svg" alt="">
-                        <img class="mr-15" src="assets/imgs/theme/icons/payment-visa.svg" alt="">
-                        <img class="mr-15" src="assets/imgs/theme/icons/payment-master.svg" alt="">
-                        <img src="assets/imgs/theme/icons/payment-zapper.svg" alt="">
-                    </div>
+                    <!-- <div class="payment-logo d-flex">
+                        <img class="mr-15" src="/frontend/assets/imgs/theme/icons/payment-paypal.svg" alt="">
+                        <img class="mr-15" src="/frontend/assets/imgs/theme/icons/payment-visa.svg" alt="">
+                        <img class="mr-15" src="/frontend/assets/imgs/theme/icons/payment-master.svg" alt="">
+                        <img src="/frontend/assets/imgs/theme/icons/payment-zapper.svg" alt="">
+                    </div> -->
                     <a onclick="SaveOrder()" href="#" class="btn btn-fill-out btn-block mt-30">Place an Order<i class="fi-rs-sign-out ml-15"></i></a>
                 </div>
             </div>

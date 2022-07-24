@@ -144,10 +144,10 @@
                     <input autocomplete="off" type="file" id="image" name="image" class="form-control">
                 </div>
 
-                <!-- <div class="form-group">
-                    <label class="col-form-label">Banner Image</label>
-                    <input autocomplete="off" type="file" id="banner_image" name="banner_image" class="form-control">
-                </div> -->
+                <div class="form-group">
+                    <label class="col-form-label">Icon</label>
+                    <input autocomplete="off" type="file" id="icon" name="icon" class="form-control">
+                </div>
 
                 </form>
             </div>

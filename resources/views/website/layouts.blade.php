@@ -68,7 +68,7 @@
 <div class="row">
   <div class="col-md-12 col-lg-2 col-xl-2 text-center" style="padding-right:0">
     <a class="navbar-brand" href="/">
-      <img src="/website_assets/images/logobig.png" width="100">
+      <img src="/website_assets/images/logo-light.png" width="100">
     </a>
   </div>
   <div class="col-md-12 col-lg-10 col-xl-10" style="padding-left: 0;">
@@ -457,19 +457,6 @@ function DeleteFavourite(id){
             });
         }
     });
-}
-getMenu();
-function getMenu(){
-    
-  $.ajax({
-    url : '/get-menu',
-    type: "GET",
-    dataType: "JSON",
-    success: function(data)
-    {
-      $("#topMenu").html(data);
-    }
-  });
 }
 
 </script>

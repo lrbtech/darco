@@ -33,6 +33,10 @@ class ProfileController extends Controller
         return view('customer.manage_address', compact('manage_address'));
     }
 
+    public function editaddress($id){
+        $manage_address = manage_address::find($id);
+        return response()->json($manage_address); 
+    }
 
     public function saveaddress(Request $request){
         $this->validate($request, [
@@ -62,4 +66,35 @@ class ProfileController extends Controller
 
         return response()->json($shipping_address->id); 
     }
+
+    public function updateaddress(Request $request){
+        $this->validate($request, [
+            //'country'=> 'required',
+            'contact_person'=>'required',
+            'contact_mobile'=>'required',
+            'address_line1'=>'required',
+            'city'=>'required',
+            'pincode'=>'required',
+          ],[
+            // 'profile_image.required' => 'Profile Image Field is Required',
+        ]);
+
+        $shipping_address = shipping_address::find($request->id);
+        $shipping_address->customer_id = Auth::user()->id;
+        $shipping_address->address_type = $request->address_type;
+        $shipping_address->landmark = $request->landmark;
+        $shipping_address->contact_person= $request->contact_person;
+        $shipping_address->contact_mobile= $request->contact_mobile;
+        $shipping_address->address_line1= $request->address_line1;
+        $shipping_address->address_line2= $request->address_line2;
+        $shipping_address->city= $request->city;
+        $shipping_address->area= $request->area;
+        $shipping_address->pincode= $request->pincode;
+        //$shipping_address->is_active= 1;
+        $shipping_address->save();
+
+        return response()->json($shipping_address->id); 
+    }
+
+
 }

@@ -79,24 +79,26 @@
                     </tr>
                   </thead>
                   <tbody id="lineItem">
+                    @foreach($order_items as $row)
                     <tr>
                         <td style="border-bottom:1px solid #EDEDED; padding: 7px 5px 7px 40px; font-size: 12px;">
-                            <span style="word-wrap: break-word;">{{$orders->product_name}}</span>
+                            <span style="word-wrap: break-word;">{{$row->product_name}}</span>
                             <br>
-                            <span style="word-wrap: break-word;"><?php echo $orders->product_attributes; ?>
+                            <span style="word-wrap: break-word;"><?php echo $row->product_attributes; ?>
                         </td>
                         <td style="border-bottom:1px solid #EDEDED; padding: 7px 5px 7px 40px; font-size: 12px;">
-                            <span style="word-wrap: break-word;">{{$orders->qty}}</span><br>
+                            <span style="word-wrap: break-word;">{{$row->qty}}</span><br>
                         </td>
-                        <td valign="top" style="border-bottom:1px solid #2d87ba; padding: 7px 40px 7px 0; font-size: 12px; text-align: right;">KWD {{$orders->price}}</td>
+                        <td valign="top" style="border-bottom:1px solid #2d87ba; padding: 7px 40px 7px 0; font-size: 12px; text-align: right;">KWD {{$row->price}}</td>
                     </tr>
+                    @endforeach
                   </tbody>
                   <tbody>
                     <tr>
                         <td colspan="2" style="padding: 7px 40px 7px 5px; text-align: right;" id="tmp_total">Sub Total</td>
                         <td style="padding: 7px 40px 7px 5px; text-align: right;" id="tmp_total"><b>KWD {{$orders->sub_total}}</b></td>
                     </tr>
-                    @if($orders->discount_value != '')
+                    @if($orders->discount_value > 0)
                     <tr>
                         <td colspan="2" style="padding: 7px 40px 7px 5px; text-align: right;" id="tmp_total">Discount({{$orders->coupon_code}})</td>
                         <td style="padding: 7px 40px 5px 5px; text-align: right; color: green">KWD {{$orders->discount_value}}</td>

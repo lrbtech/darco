@@ -11,6 +11,7 @@ use App\Models\attributes;
 use App\Models\attribute_fields;
 use App\Models\product_group;
 use App\Models\product_images;
+use App\Models\brand;
 use Yajra\DataTables\Facades\DataTables;
 use Auth;
 use DB;
@@ -30,9 +31,10 @@ class ProductController extends Controller
 
     public function addproduct(){
         $category = category::where('status',0)->where('parent_id',0)->get();
-        $attributes = attributes::where('vendor_id',Auth::guard('vendor')->user()->id)->orderBy('id','DESC')->get();
+        $brand = brand::where('status',0)->orderBy('brand','ASC')->get();
+        $attributes = attributes::where('status',0)->orderBy('id','DESC')->get();
         $product_group = product_group::where('vendor_id',Auth::guard('vendor')->user()->id)->orderBy('id','DESC')->get();
-        return view('vendor.add_product',compact('category','attributes','product_group'));
+        return view('vendor.add_product',compact('category','attributes','product_group','brand'));
     }
 
     public static function viewproductAttr($id){
@@ -106,6 +108,26 @@ class ProductController extends Controller
             }
         }
 
+        foreach(explode(',', $request->attrdata) as $attr) {
+            $variable = 'attributes_data'.$attr;
+            $attr_id = $request->$variable;
+            $field = attribute_fields::find($attr_id);
+
+            $q =DB::table('product_attributes');
+            $q->where('product_group',$request->product_group);
+            $q->where('attribute_id',$attr);
+            $q->where('attribute_field_id',$attr_id);
+            // $q->groupBy('product_group','attribute_id','attribute_field_id');
+            // $q->select('product_group','attribute_id','attribute_field_id');
+            $old_attribute = $q->count();
+            
+            if($old_attribute > 0){
+                $message = 'Attribute : '.$field->attributes_value.' Already used this Product Group';
+                return response()->json(['message' => $message,'status'=>2], 200);
+            }
+
+        }
+
         $product = new product;
         $product->vendor_id = Auth::guard('vendor')->user()->id;
         $product->product_group = $request->product_group;
@@ -113,6 +135,7 @@ class ProductController extends Controller
         $product->category = $request->category;
         $product->subcategory = $request->subcategory;
         $product->subsubcategory = $request->subsubcategory;
+        $product->brand = $request->brand;
         $product->mrp_price = $request->mrp_price;
         $product->sales_price = $request->sales_price;
         $product->stock = $request->stock;
@@ -226,6 +249,7 @@ class ProductController extends Controller
         $product->category = $request->category;
         $product->subcategory = $request->subcategory;
         $product->subsubcategory = $request->subsubcategory;
+        $product->brand = $request->brand;
         $product->mrp_price = $request->mrp_price;
         $product->sales_price = $request->sales_price;
         $product->stock = $request->stock;
@@ -378,13 +402,14 @@ class ProductController extends Controller
 
     public function editproduct($id){
         $product = product::find($id);
-        $attributes = attributes::where('vendor_id',Auth::guard('vendor')->user()->id)->orderBy('id','DESC')->get();
+        $attributes = attributes::where('status',0)->orderBy('id','DESC')->get();
+        $brand = brand::where('status',0)->orderBy('brand','ASC')->get();
         $product_group = product_group::where('vendor_id',Auth::guard('vendor')->user()->id)->orderBy('id','DESC')->get();
         $category = category::where('status',0)->where('parent_id',0)->get();
         $product_images = product_images::where('product_id',$id)->get();
         $product_attributes = product_attributes::where('product_id',$id)->get();
-        return view('vendor.edit_product',compact('product','category','product_images','attributes','product_group','product_attributes'));
-        // return response()->json($product); 
+
+        return view('vendor.edit_product',compact('product','category','product_images','attributes','product_group','product_attributes','brand'));
     }
     
     public function deleteproduct($id,$status){

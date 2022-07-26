@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\admin;
 use App\Models\settings;
 use App\Models\city;
+use App\Models\roles;
 use Hash;
 use DB;
 use Mail;
@@ -24,58 +25,7 @@ class SettingsController extends Controller
         date_default_timezone_get();
     }
 
-    // public function users(){
-    //     $users = admin::all();
-    //     return view('admin.users',compact('users'));
-    // }
-
-    public function users(){
-        $users = admin::all();
-        return view('admin.users',compact('users'));
-    }
-
-    public function saveuser(Request $request){
-        $request->validate([
-            'email' => 'required|unique:admins',
-            'username' => 'required|unique:admins',
-            'password' => 'required',
-        ]);
-        $user = new admin;
-        $user->email = $request->email;
-        $user->username = $request->username;
-        $user->mobile = $request->mobile;
-        $user->password = Hash::make($request->password);
-        $user->save();
-        return response()->json('Successfully Save'); 
-    }
-
-    public function updateuser(Request $request){
-        $request->validate([
-            'email' => 'required|unique:admins,email,'.$request->id,
-            'username' => 'required|unique:admins,username,'.$request->id,
-        ]);
-        $user = admin::find($request->id);
-        $user->username = $request->username;
-        $user->email = $request->email;
-        $user->mobile = $request->mobile;
-        if($request->password != ''){
-        $user->password = Hash::make($request->password);
-        }
-        $user->save();
-        return response()->json('Successfully Update'); 
-    }
-    
-    public function edituser($id){
-        $user = admin::find($id);
-        return response()->json($user); 
-    }
-
-    public function deleteuser($id,$status){
-        $user = admin::find($id);
-        $user->status = $status;
-        $user->save();
-        return response()->json(['message'=>'Successfully Delete'],200); 
-    }
+   
 
     public function termsandconditions(){
         $settings = settings::find(1);
@@ -99,6 +49,62 @@ class SettingsController extends Controller
     public function updateprivacypolicy(Request $request){
         $settings = settings::find($request->id);
         $settings->privacy_policy = $request->privacy_policy;
+        $settings->save();
+
+        return back();
+        //return response()->json('successfully update'); 
+    }
+
+    public function aboutus(){
+        $settings = settings::find(1);
+        return view('admin.about_us',compact('settings'));
+    }
+
+    public function updateaboutus(Request $request){
+        $settings = settings::find($request->id);
+        $settings->about_us = $request->about_us;
+        $settings->save();
+
+        return back();
+        //return response()->json('successfully update'); 
+    }
+
+    public function deliveryinformation(){
+        $settings = settings::find(1);
+        return view('admin.delivery_information',compact('settings'));
+    }
+
+    public function updatedeliveryinformation(Request $request){
+        $settings = settings::find($request->id);
+        $settings->delivery_information = $request->delivery_information;
+        $settings->save();
+
+        return back();
+        //return response()->json('successfully update'); 
+    }
+
+    public function vendorguide(){
+        $settings = settings::find(1);
+        return view('admin.vendor_guide',compact('settings'));
+    }
+
+    public function updatevendorguide(Request $request){
+        $settings = settings::find($request->id);
+        $settings->vendor_guide = $request->vendor_guide;
+        $settings->save();
+
+        return back();
+        //return response()->json('successfully update'); 
+    }
+
+    public function purchaseguide(){
+        $settings = settings::find(1);
+        return view('admin.purchase_guide',compact('settings'));
+    }
+
+    public function updatepurchaseguide(Request $request){
+        $settings = settings::find($request->id);
+        $settings->purchase_guide = $request->purchase_guide;
         $settings->save();
 
         return back();
@@ -134,7 +140,8 @@ class SettingsController extends Controller
 
     public function city(){
         $city = city::where('parent_id',0)->get();
-        return view('admin.city',compact('city'));
+        $role_get = roles::find(Auth::guard('admin')->user()->role_id);
+        return view('admin.city',compact('city','role_get'));
     }
 
     public function editcity($id){
@@ -177,7 +184,8 @@ class SettingsController extends Controller
     public function area($id){
         $area = city::where('parent_id',$id)->get();
         $parent_id = $id;
-        return view('admin.area',compact('area','parent_id'));
+        $role_get = roles::find(Auth::guard('admin')->user()->role_id);
+        return view('admin.area',compact('area','parent_id','role_get'));
     }
 
     public function editarea($id){

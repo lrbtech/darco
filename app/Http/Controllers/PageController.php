@@ -17,8 +17,10 @@ use App\Models\vendor;
 use App\Models\vendor_project;
 use App\Models\User;
 use App\Models\orders;
+use App\Models\order_items;
 use App\Models\vendor_enquiry;
 use App\Models\shipping_address;
+use App\Models\settings;
 use Hash;
 use DB;
 use Mail;
@@ -27,20 +29,66 @@ use PDF;
 
 class PageController extends Controller
 {
-      public function printinvoice($id){
+    public function printinvoice($id){
         $orders = orders::find($id);
+        $order_items = order_items::where('order_id',$id)->get();
         $billing_address = shipping_address::find($orders->billing_address_id);
         $vendor = vendor::find($orders->vendor_id);
         $customer = User::find($orders->customer_id);
 
-        $pdf = PDF::loadView('print.print_invoice',compact('orders','billing_address','vendor','customer'));
+        $pdf = PDF::loadView('print.print_invoice',compact('orders','billing_address','vendor','customer','order_items'));
         $pdf->setPaper('A4');
         return $pdf->stream('invoice.pdf');
     }
 
     public static function viewcategoryname($id) {
         $category = category::find($id);
-        return $category->category;
+        if(!empty($category)){
+            return $category->category;
+        }
+        else{
+            return '';
+        }
+    }
+
+    public static function viewprofessionalcategoryname($id) {
+        $category = professional_category::find($id);
+        if(!empty($category)){
+            return $category->category;
+        }
+        else{
+            return '';
+        }
+    }
+
+    public static function viewideacategoryname($id) {
+        $category = idea_category::find($id);
+        if(!empty($category)){
+            return $category->category;
+        }
+        else{
+            return '';
+        }
+    }
+
+    public static function viewvendorname($id) {
+        $vendor = vendor::find($id);
+        if(!empty($vendor)){
+            return $vendor->business_name;
+        }
+        else{
+            return '';
+        }
+    }
+
+    public static function viewcustomername($id) {
+        $user = User::find($id);
+        if(!empty($user)){
+            echo '<p>'.$user->first_name.' '.$user->last_name.'</p><p>'.$user->mobile.'</p>';
+        }
+        else{
+            return '';
+        }
     }
 
     public function getarea($id) {
@@ -113,34 +161,34 @@ class PageController extends Controller
        $html='<li style="width:375px"></li>';
         $html.=' <li class="position-static"><a href="#">GET IDEAS <i class="fi-rs-angle-down"></i></a><ul class="mega-menu">';
         foreach($ideas as $row){
-            $html .='<li class="sub-mega-menu sub-mega-menu-width-22"><a class="menu-title" href="#">'.$row->category.'</a><ul>';
+            $html .='<li class="sub-mega-menu sub-mega-menu-width-22"><a class="menu-title" href="/get-ideas/'.$row->id.'/0/0">'.$row->category.'</a><ul>';
             $child = idea_category::where('status',0)->where('parent_id',$row->id)->get();
             foreach($child as $row1){
-                 $html.='<li><a href="shop-product-right.html">'.$row1->category.'</a></li>';
+                $html.='<li><a href="/get-ideas/'.$row->id.'/'.$row1->id.'/0">'.$row1->category.'</a></li>';
             }
             $html .='</ul></li>';
-            }
-             $html .='</ul> </li>';
+        }
+        $html .='</ul> </li>';
         $html.=' <li class="position-static"><a href="#">FIND PROFESSIONALS <i class="fi-rs-angle-down"></i></a><ul class="mega-menu">';
         foreach($professional as $row){
-            $html .='<li class="sub-mega-menu sub-mega-menu-width-22"><a class="menu-title" href="#">'.$row->category.'</a><ul>';
+            $html .='<li class="sub-mega-menu sub-mega-menu-width-22"><a class="menu-title" href="/professional-list/'.$row->id.'/0/0">'.$row->category.'</a><ul>';
             $child = professional_category::where('status',0)->where('parent_id',$row->id)->get();
             foreach($child as $row1){
-                 $html.='<li><a href="shop-product-right.html">'.$row1->category.'</a></li>';
+                 $html.='<li><a href="/professional-list/'.$row->id.'/'.$row1->id.'/0">'.$row1->category.'</a></li>';
             }
             $html .='</ul></li>';
         }
         $html .='</ul> </li>';
         $html.=' <li class="position-static"><a href="#">SHOP BY DEPARTMENT <i class="fi-rs-angle-down"></i></a><ul class="mega-menu">';
         foreach($home as $row){
-            $html .='<li class="sub-mega-menu sub-mega-menu-width-22"><a class="menu-title" href="/product-list/'.$row->id.'/0/0">'.$row->category.'</a><ul>';
+            $html .='<li class="sub-mega-menu sub-mega-menu-width-22"><a class="menu-title" href="/product-list/'.$row->id.'/0/0/0">'.$row->category.'</a><ul>';
             $child = category::where('status',0)->where('parent_id',$row->id)->get();
             foreach($child as $row1){
-                 $html.='<li><a href="/product-list/'.$row->id.'/'.$row1->id.'/0">'.$row1->category.'</a></li>';
+                 $html.='<li><a href="/product-list/'.$row->id.'/'.$row1->id.'/0/0">'.$row1->category.'</a></li>';
             }
             $html .='</ul></li>';
-            }
-             $html .='</ul> </li>';
+        }
+        $html .='</ul> </li>';
     
        return response()->json($html); 
     }
@@ -192,14 +240,6 @@ class PageController extends Controller
         }
 
         echo $output;
-    }
-
-    public function productdetails($id)
-    {
-        $product = product::find($id);
-        $product_images = product_images::where('product_id',$id)->get();
-        $vendor = vendor::find($product->vendor_id);
-        return view('website.product_details',compact('product','product_images','vendor'));
     }
 
     public function professionalslist()
@@ -290,6 +330,8 @@ class PageController extends Controller
         $vendor_enquiry = new vendor_enquiry;
         $vendor_enquiry->date = date('Y-m-d');
         $vendor_enquiry->vendor_id = $request->vendor_id;
+        $vendor_enquiry->type = $request->type;
+        $vendor_enquiry->project_idea_book_id = $request->project_idea_book_id;
         $vendor_enquiry->customer_id = Auth::user()->id;
         $vendor_enquiry->name = $request->name;
         $vendor_enquiry->comments = $request->comments;
@@ -297,12 +339,12 @@ class PageController extends Controller
         $vendor_enquiry->email = $request->email;
         $vendor_enquiry->save();
 
-        $all = $request->all();
-        $vendor = vendor::find($request->vendor_id);
-        Mail::send('mail.vendor_enquiry',compact('all'),function($message) use($all,$vendor){
-             $message->to($vendor->email)->subject('Enquiry from Darco');
-             $message->from('info@lrbtech.com',$all['name']);
-        });
+        // $all = $request->all();
+        // $vendor = vendor::find($request->vendor_id);
+        // Mail::send('mail.vendor_enquiry',compact('all'),function($message) use($all,$vendor){
+        //      $message->to($vendor->email)->subject('Enquiry from Darco');
+        //      $message->from('info@lrbtech.com',$all['name']);
+        // });
         return response()->json(['message'=>'Successfully Send'],200); 
       }
        
@@ -314,16 +356,29 @@ class PageController extends Controller
         $category = category::where("parent_id",$id)->get();
         return view('website.shop_category',compact('category','name'));
       }
-      public function getIdeas(){
-        return view('website.process.ideas_list');
+      public function infoPages($id){
+        $page = settings::find(1);
+        //return view('website.shop_category',compact('category','name'));
+        $title='';
+        $content;    
+        if($id=="privacy-policy"){
+            $title='Privacy Policy';
+            $content=$page->privacy_policy;
+        }elseif($id=="terms-condition"){
+            $title='Terms and Condition';
+            $content=$page->terms_and_conditions;
+        }elseif($id=="vendor-guide"){
+            $title='Vendor Guide';
+            $content=$page->vendor_guide;
+        }elseif($id=="purchase-guide"){
+            $title='Purchase Guide';
+            $content=$page->purchase_guide;
+        }else{
+            $title='Delivery Information';
+            $content=$page->delivery_information;
+        }
+        return view('website.pages',compact('title','content'));
+            
       }
-      public function professionalList(){
-        return view('website.process.professional_list');
-      }
-      public function productlList(){
-        return view('website.process.product_list');
-      }
-      public function professionalDetails($id){
-        return view('website.process.professional_details');
-      }
+      
 }

@@ -15,6 +15,9 @@ use App\Models\attribute_fields;
 use App\Models\product_group;
 use App\Models\vendor;
 use App\Models\vendor_project;
+use App\Models\project_images;
+use App\Models\idea_book;
+use App\Models\idea_book_images;
 use App\Models\User;
 use App\Models\orders;
 use App\Models\vendor_enquiry;
@@ -36,12 +39,12 @@ class IdeasListController extends Controller
                 $output.='
                 <div class="card-1">
                     <figure class="img-hover-scale overflow-hidden">
-                        <a href="/get-ideas/'.$id.'/'.$row->id.'">
+                        <a href="/get-ideas/'.$id.'/'.$row->id.'/0">
                             <img src="/upload_files/'.$row->icon.'" alt="" />
                         </a>
                     </figure>
                     <h6>
-                        <a href="/get-ideas/'.$id.'/'.$row->id.'">'.$row->category.'</a>
+                        <a href="/get-ideas/'.$id.'/'.$row->id.'/0">'.$row->category.'</a>
                     </h6>
                 </div>
                 ';
@@ -53,12 +56,16 @@ class IdeasListController extends Controller
         echo $output;
     }
 
-    public function getideas($category,$subcategory)
+    public function getideas($category,$subcategory,$search)
     {
         $category_all = idea_category::where('status',0)->where('parent_id',0)->get();
         $subcategory_all = idea_category::where('status',0)->where('parent_id',$category)->get();
 
         $i =DB::table('idea_books as p');
+        if ( $search != '0' )
+        {
+            $i->where('p.title', 'like', '%' . $search . '%');
+        }
         if ( $category != '0' )
         {
             $i->where('p.category', $category);
@@ -78,5 +85,16 @@ class IdeasListController extends Controller
         $subcategory_id = $subcategory;
 
         return view('website.process.get_ideas',compact('category_all','subcategory_all','category_data','subcategory_data','get_ideas','category_id','subcategory_id'));
+    }
+
+    public function getideadetails($id){
+        $idea_book = idea_book::find($id);
+        $vendor = vendor::find($idea_book->vendor_id);
+        $idea_book_images = idea_book_images::where('idea_book_id',$id)->get();
+
+        $related_idea_book = idea_book::where('vendor_id',$idea_book->vendor_id)->where('id','!=',$id)->get();
+
+        return view('website.process.get_idea_details',compact('idea_book','idea_book_images','vendor','related_idea_book'));
+        
     }
 }

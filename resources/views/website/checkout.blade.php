@@ -1,5 +1,6 @@
 @extends('website.layouts1')
 @section('extra-css')
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <style>
 .plans {
   display: -webkit-box;
@@ -400,7 +401,7 @@
                 </div>
             </div>
             <div class="col-lg-5">
-                <div class="border p-40 cart-totals ml-30 mb-50">
+                <div class="border p-40 cart-totals ml-30 mb-20">
                     <div class="d-flex align-items-end justify-content-between mb-30">
                         <h4>Your Order</h4>
                         <h6 class="text-muted">Subtotal</h6>
@@ -472,11 +473,11 @@
                                         <h4 class="text-brand text-end">KD {{$sub_total}}</h4>
                                     </td>
                                 </tr>
-                                <tr>
+                                <!-- <tr>
                                     <td scope="col" colspan="2">
                                         <div class="divider-2 mt-10 mb-10"></div>
                                     </td>
-                                </tr>
+                                </tr> -->
                                 <tr>
                                     <td class="cart_total_label">
                                         <h6 class="text-muted">Shipping</h6>
@@ -490,7 +491,8 @@
                                     </td> 
                                     
                                 </tr>
-                                <tr>
+                                <tr id="discount_place"></tr>
+                                <!-- <tr>
                                     <td class="cart_total_label">
                                         <h6 class="text-muted">Tax (5%)</h6>
                                     </td>
@@ -499,19 +501,35 @@
                                     <td scope="col" colspan="2">
                                         <div class="divider-2 mt-10 mb-10"></div>
                                     </td>
-                                </tr>
+                                </tr> -->
                                 <tr>
                                     <td class="cart_total_label">
                                         <h6 class="text-muted">Total</h6>
                                     </td>
                                     <td class="cart_total_amount">
-                                        <h4 class="text-brand text-end">KD {{$total}}</h4>
+                                        <h4 class="text-brand text-end" id="total_value">KD {{$total}}</h4>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
+
+                 <div class="col-lg-12">
+                            <div class="p-20">
+                                <h4 class="mb-10">Apply Coupon</h4>
+                                <p class="mb-30"><span class="font-lg text-muted">Using A Promo Code?</span></p>
+                                <!-- <form id="coupon_form" method="POST" enctype="multipart/form-data"> -->
+                                  
+                                    <div class="d-flex justify-content-between">
+                                        <input class="font-medium mr-15 coupon" name="coupon_code_value" id="coupon_code_value" placeholder="Enter Your Coupon">
+                                        <input type="hidden" name="coupon_code_field" id="coupon_code_field">
+                                        <button class="btn" type="button" onclick="couponSubmit()"><i class="fi-rs-label mr-10"></i>Apply</button>
+                                    </div>
+                                <!-- </form> -->
+                            </div>
+                  </div>
+               
                 <div class="payment ml-30">
                     <h4 class="mb-30">Payment</h4>
                     <div class="payment_option">
@@ -545,6 +563,10 @@
 @section('extra-js')
 <script type="text/javascript">
 $('#create_address').hide();
+var vendor_id;
+var coupon=new Boolean(false);
+var coupon_amount;
+var coupon_code_text;
 function HideAddress(){
   $('#create_address').hide();
 }
@@ -553,7 +575,7 @@ $.ajax({
   type: "GET",
   success: function(data)
   {
-      $('#view_address').html(data);
+    $('#view_address').html(data);
   }
 });
 
@@ -600,9 +622,14 @@ function SaveAddress(){
             var errorData = data.responseJSON.errors;
             spinner_body.hide();
             $.each(errorData, function(i, obj) {
-                toastr.error(obj[0]);
-                $('#'+i).after('<p class="text-danger">'+obj[0]+'</p>');
-                $('#'+i).closest('.form-group').addClass('has-error');
+                if(i == 'billing_address_id'){
+                  warningMsg('Enter Billing Address');
+                }
+                else{
+                  toastr.error(obj[0]);
+                  $('#'+i).after('<p class="text-danger">'+obj[0]+'</p>');
+                  $('#'+i).closest('.form-group').addClass('has-error');
+                }
             });
         }
     });
@@ -615,6 +642,10 @@ function SaveOrder(){
     $(".text-danger").remove();
     $('.form-group').removeClass('has-error').removeClass('has-success');
     var formData = new FormData($('#form')[0]);
+    formData.append("coupon",coupon);
+    formData.append("coupon_vendor_id",vendor_id);
+    formData.append("coupon_amount",coupon_amount);
+    formData.append("coupon_code",coupon_code_text);
     $.ajax({
         url : '/save-order',
         type: "POST",
@@ -624,28 +655,111 @@ function SaveOrder(){
         dataType: "JSON",
         success: function(data)
         {
-            spinner_body.hide();
-            console.log(data);                
-            $("#form")[0].reset();
-            Swal.fire({
-              // title: "Verify Your Email",
-              text: "Order Successfully!",
-              icon: "success",
-              confirmButtonClass: 'btn btn-primary',
-              buttonsStyling: false,
-            }).then(function() {
-              location.href="/customer/orders";
-            });
+            console.log(data);  
+            if(data.status == 0){
+              spinner_body.hide();              
+              $("#form")[0].reset();
+              Swal.fire({
+                // title: "Verify Your Email",
+                text: "Order Successfully!",
+                icon: "success",
+                confirmButtonClass: 'btn btn-primary',
+                buttonsStyling: false,
+              }).then(function() {
+                location.href="/customer/orders";
+              });
+            }
+            else if(data.status == 2){
+              Swal.fire({
+                title: data.message,
+                icon: "warning",
+                type: "warning",
+              });
+              spinner_body.hide();
+            }  
         },error: function (data, errorThrown) {
             var errorData = data.responseJSON.errors;
             spinner_body.hide();
             $.each(errorData, function(i, obj) {
-                toastr.error(obj[0]);
-                $('#'+i).after('<p class="text-danger">'+obj[0]+'</p>');
-                $('#'+i).closest('.form-group').addClass('has-error');
+                if(i == 'billing_address_id'){
+                  warningMsg('Enter Billing Address');
+                }
+                else{
+                  toastr.error(obj[0]);
+                  $('#'+i).after('<p class="text-danger">'+obj[0]+'</p>');
+                  $('#'+i).closest('.form-group').addClass('has-error');
+                }
             });
         }
     });
+}
+
+function couponSubmit(){
+   var coupon_code_value = $("#coupon_code_value").val();
+  if(coupon_code_value !=''){
+    var formData = new FormData($('#form')[0]);
+    // formData.append('product_id', description);
+    spinner_body.show();
+    $.ajax({
+          url : '/apply-coupon',
+          type: "POST",
+          data: formData,
+          contentType: false,
+          processData: false,
+          dataType: "JSON",
+          success: function(data)
+          {
+            spinner_body.hide();
+            if(data["data"]["status"]==1){
+              warningMsg(data["data"]["msg"]);
+            }else{
+              Swal.fire({
+                title: data["data"]["status"],
+                icon: "success",
+               
+                timer: 2000
+              }).then(function() {
+              $("#discount_place").html('<td class="cart_total_label"><h6 class="text-muted" >Discount</h6></td><td class="cart_total_amount">'+
+                '<h4 class="text-brand text-end">KD '+data["data"]["discount"]+'<br /><span style="color:green;font-size:12px">Coupon '+coupon_code_value+' Applied</span></h4></td>');
+              
+                  $("#total_value").html(data["data"]["total"]);
+                  coupon =new Boolean(true);;
+                  vendor_id=data["data"]["vendor_id"];
+                  coupon_amount=data["data"]["discount"];
+                  coupon_code_text = coupon_code_value;
+                });
+            }
+              
+          },error: function (data, errorThrown) {
+              // var errorData = data.responseJSON.errors;
+              // spinner_body.hide();
+            
+          }
+      });
+
+  }else{
+      Swal.fire({
+        title: "Coupon Code Required!",
+        text: "Please Enter Your Coupon Code",
+        icon: "warning",
+        type: "warning",
+        timer: 2000
+      }).then(function() {
+        spinner_body.hide();
+        // location.href="/customer/orders";
+      });
+  }
+}
+
+function warningMsg(msg){
+  Swal.fire({
+    title: msg,
+    icon: "warning",
+    type: "warning",
+    timer: 2000
+  }).then(function() {
+    
+  });
 }
 
 </script>

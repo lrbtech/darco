@@ -1,0 +1,63 @@
+.app-content .wizard.wizard-notification>.steps>ul>li.current .step {
+    border: 2px solid #40e7f8;
+    color: #40e7f8;
+    line-height: 36px;
+}
+
+.app-content .wizard.wizard-notification>.steps>ul>li.current .step:after {
+    border-top-color: #40e7f8;
+}
+
+.app-content .wizard>.steps>ul>li.done .step {
+    background-color: #40e7f8;
+    border-color: #40e7f8;
+    color: #fff;
+}
+
+.app-content .wizard.wizard-notification>.steps>ul>li:before,
+.app-content .wizard.wizard-notification>.steps>ul>li:after {
+    top: 39px;
+    width: 50%;
+    height: 2px;
+    background-color: #40e7f8;
+}
+
+.app-content .wizard.wizard-notification>.steps>ul>li.done .step:after {
+    border-top-color: #40e7f8;
+}
+
+html body {
+    height: 100%;
+    background-color: #0e0e10;
+    direction: ltr;
+}
+
+.card {
+    background-color: #2c303b;
+}
+form label {
+    color: #40e7f8 !important;
+}
+.app-content .wizard > .steps > ul > li.current > a {
+    color: #fff;
+    cursor: default;
+}
+form .form-control {
+    border: 1px solid #cacfe7;
+    color: #40e7f8;
+}
+.card-header {
+    background-color: #2c303b !important;
+}
+.navbar-light {
+    background: #0e0e0f !important;
+}
+.form-control {
+    background-color: #37474f;
+}
+.mce-panel {
+    background-color: #0e0e0f !important;
+}
+.mce-menubar .mce-menubtn button span {
+    color: #ddd !important;
+}

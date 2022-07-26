@@ -18,7 +18,9 @@
           </div>
         </div>
         <div class="content-header-right col-md-6 col-12">
+        @if($role_get->professional_category_create == 'on')
             <button id="add_new" class="float-md-right btn btn-danger round btn-glow px-2" type="button">Add New</button>
+            @endif
           <!-- <div class="dropdown float-md-right">
             <button class="btn btn-danger dropdown-toggle round btn-glow px-2" id="dropdownBreadcrumbButton"
             type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</button>
@@ -84,13 +86,17 @@
                                 <div class="btn-group mr-1 mb-1">
                                     <button type="button" class="btn btn-danger btn-block dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Action</button>
                                     <div class="dropdown-menu open-left arrow" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 40px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                    @if($role_get->professional_category_edit == 'on')
                                         <button onclick="Edit({{$row->id}})"class="dropdown-item" type="button">Edit</button>
+                                    @endif 
+                                    @if($role_get->professional_category_delete == 'on')
                                         <div class="dropdown-divider"></div>
                                         @if($row->status == 0)
                                         <button onclick="Delete({{$row->id}},1)"class="dropdown-item" type="button">DeActive</button>
                                         @else 
                                         <button onclick="Delete({{$row->id}},0)"class="dropdown-item" type="button">Active</button>
                                         @endif
+                                    @endif
                                     </div>
                                 </div>
                             </td>

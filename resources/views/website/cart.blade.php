@@ -49,7 +49,7 @@
                             $shipping_charge=0;
                             @endphp
                             @foreach($cart_items as $key => $row)
-                            <tr class="pt-30">
+                            <tr class="p-30">
                                 <!-- <td class="custome-checkbox pl-30">
                                     <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox1" value="">
                                     <label class="form-check-label" for="exampleCheckbox1"></label>
@@ -184,7 +184,11 @@
                             </tbody>
                         </table>
                     </div>
+                    @if($total > 0)
                     <a href="/checkout" class="btn mb-20 w-100">Proceed To CheckOut<i class="fi-rs-sign-out ml-15"></i></a>
+                    @else 
+                    <button disabled="true" type="button" class="btn mb-20 w-100">Proceed To CheckOut<i class="fi-rs-sign-out ml-15"></i></button>
+                    @endif
                 </div>
             </div>
         </div>
@@ -223,11 +227,20 @@ function UpdateCartPlus(row){
         type: "GET",
         dataType: "JSON",
         success: function(data)
-        {   
-            spinner_body.hide();             
-            // location.href="/cart";
-            location.reload();
-            toastr.success('Update Successfully');
+        {               
+            if(data.status == 0){
+              spinner_body.hide();              
+              location.reload();
+                toastr.success('Update Successfully');
+            }
+            else if(data.status == 2){
+              Swal.fire({
+                title: data.message,
+                icon: "warning",
+                type: "warning",
+              });
+              spinner_body.hide();
+            }
         },error: function (data) {
             spinner_body.hide(); 
             var errorData = data.responseJSON.errors;

@@ -235,7 +235,7 @@ class IdeaBookController extends Controller
 
     public function editideabook($id){
         $idea_book = idea_book::find($id);
-        $category = idea_category::where('status',0)->orderBy('id','DESC')->get();
+        $category = idea_category::where('status',0)->where('parent_id',0)->orderBy('id','DESC')->get();
         $idea_book_images = idea_book_images::where('idea_book_id',$id)->get();
         //return response()->json($idea_book); 
         return view('vendor.edit_idea_book',compact('category','idea_book','idea_book_images'));

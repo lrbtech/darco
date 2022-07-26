@@ -7,5 +7,14 @@ use Illuminate\Http\Request;
 
 class ReviewsController extends Controller
 {
-    //
+    public function __construct()
+    {
+        $this->middleware('auth:vendor');
+        date_default_timezone_set("Asia/Kuwait");
+        date_default_timezone_get();
+    }
+
+    public function reviews(){
+        return view('vendor.reviews');
+    }
 }

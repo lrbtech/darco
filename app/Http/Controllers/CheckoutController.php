@@ -10,12 +10,14 @@ use App\Models\vendor_project;
 use App\Models\User;
 use App\Models\shipping_address;
 use App\Models\orders;
+use App\Models\order_items;
 use App\Models\order_attributes;
 use App\Models\product_attributes;
 use App\Models\product_images;
 use App\Models\attributes;
 use App\Models\attribute_fields;
 use App\Models\product_group;
+use App\Models\coupon;
 use Hash;
 use DB;
 use Mail;
@@ -118,7 +120,11 @@ class CheckoutController extends Controller
 
 
     public function saveorder(Request $request){
-
+        $this->validate($request, [
+            'billing_address_id'=>'required',
+        ],[
+            // 'profile_image.required' => 'Profile Image Field is Required',
+        ]);
         if($request->shipping_address == 'on'){
             $this->validate($request, [
                 //'country'=> 'required',
@@ -130,6 +136,18 @@ class CheckoutController extends Controller
             ],[
                 // 'profile_image.required' => 'Profile Image Field is Required',
             ]);
+        }
+
+        foreach(Cart::getContent() as $pro_item){
+            $pro_id = $pro_item->id;
+            $qty = $pro_item->quantity;
+            $product = product::find($pro_id);
+            
+            if($qty > $product->stock){
+                $message = $product->product_name.' Out of Stock Please Remove and Continue';
+                return response()->json(['message' => $message,'status'=>2], 200);
+            }
+
         }
 
         if($request->shipping_address == 'on'){
@@ -148,82 +166,131 @@ class CheckoutController extends Controller
             $shipping_address->save();
         }
 
-        for ($x=0; $x<count($_POST['product_id']); $x++) 
-    	{
-    		$orders = new orders;
-            $orders->date = date('Y-m-d');
-            $orders->customer_id = Auth::user()->id;
-            $orders->billing_address_id = $request->billing_address_id;
-            if($request->shipping_address == 'on'){
-                $orders->shipping_address_id = $shipping_address->id;
+        $vendor =array();
+        foreach(Cart::getContent() as $cart){
+            if(!in_array($cart->attributes->vendor_id,$vendor)){
+                $vendor[]=$cart->attributes->vendor_id;
+
             }
-            else{
-                $orders->shipping_address_id = $request->billing_address_id;
-            }
-            $orders->vendor_id = $_POST['vendor_id'][$x];
-            $orders->order_message = $request->order_message;
-            $orders->product_id = $_POST['product_id'][$x];
-            $orders->product_name = $_POST['product_name'][$x];
-            $orders->qty = $_POST['quantity'][$x];
-	        $orders->price = $_POST['price'][$x];
+        }
+        foreach($vendor as $current_vendor){
+        
+                $sub_total=0;
+                $shipping_charge=0;
+                foreach(Cart::getContent() as $cart_item){
+                    if($current_vendor == $cart_item->attributes->vendor_id){
+                        $sub_total = $sub_total + ($cart_item->quantity * $cart_item->price);
+                        $shipping_charge = $shipping_charge + $cart_item->attributes->shipping_charge;
+                    }
+                }
+
+                $coupon_code = ' ';
+                $discount_value = 0;
+                if($request->coupon == "true"){
+                    if($current_vendor == $request->coupon_vendor_id){
+                        $coupon_code = $request->coupon_code;
+                        $discount_value = $request->coupon_amount;
+                    }
+                    else{
+                        $coupon_code = ' ';
+                        $discount_value = 0;
+                    }
+                }
+                else{
+                    $coupon_code = ' ';
+                    $discount_value = 0;
+                }
+
+                // $after_discount = $sub_total;
+        
+                $total = round( ($sub_total + $shipping_charge) -$discount_value  );
+                $tax_amount = round( ($total * 5) / (100 + 5) , 2);
+
+                $orders = new orders;
+                $orders->date = date('Y-m-d');
+                $orders->customer_id = Auth::user()->id;
+                $orders->billing_address_id = $request->billing_address_id;
+                if($request->shipping_address == 'on'){
+                    $orders->shipping_address_id = $shipping_address->id;
+                }
+                else{
+                    $orders->shipping_address_id = $request->billing_address_id;
+                }
+                $orders->vendor_id = $current_vendor;
+                $orders->order_message = $request->order_message;
 
 
-            $sub_total = ( $_POST['quantity'][$x] * $_POST['price'][$x] );
-
-            $after_discount = $sub_total;
-
-            $tax_amount = round( ($after_discount * 5) / (100 + 5) , 2);
-            $total = round($after_discount + ($_POST['shipping_charge'][$x]));
-
-
-	        $orders->sub_total = $sub_total;
-            $orders->coupon_id =  $request->coupon_id;
-            $orders->coupon_code =  $request->coupon_code;
-	        // $orders->discount_percentage = $_POST['discount_percentage'][$x];
-	        // $orders->discount_amount = $_POST['discount_amount'][$x];
-	        $orders->after_discount = $after_discount;
-	        $orders->tax_percentage = '5';
-	        $orders->tax_amount = $tax_amount;
-            $orders->shipping_charge = $_POST['shipping_charge'][$x];
-	        $orders->total = $total;
-
-
-	        if($_POST['product_id'][$x]!=""){
-	        	$qty = $_POST['quantity'][$x];
-				$pro_id = $_POST['product_id'][$x];
-				
-				$product = product::find($pro_id);
-				$product->stock = $product->stock - $qty;
-                
+                $orders->sub_total = $sub_total;
+                $orders->coupon_code =  $request->coupon_code;
+                $orders->discount_value = $discount_value;
+                //$orders->after_discount = $after_discount;
+                $orders->tax_percentage = '5';
+                $orders->tax_amount = $tax_amount;
+                $orders->shipping_charge = $shipping_charge;
+                $orders->total = $total;
                 $orders->save();
-				$product->save();
-	    	}
 
-            $list = product_attributes::where('product_id',$orders->product_id)->get();
 
-            $product_attributes='';
-            foreach($list as $list1){
-                $attributes = attributes::find($list1->attribute_id);
+                foreach(Cart::getContent() as $cart_item1){
+                    if($current_vendor == $cart_item1->attributes->vendor_id){
+                        $order_items = new order_items;
+                        $order_items->date = date('Y-m-d');
+                        $order_items->order_id = $orders->id;
+                        $order_items->customer_id = Auth::user()->id;
+                        $order_items->vendor_id = $current_vendor;
+                        $order_items->billing_address_id = $request->billing_address_id;
+                        if($request->shipping_address == 'on'){
+                            $order_items->shipping_address_id = $shipping_address->id;
+                        }
+                        else{
+                            $order_items->shipping_address_id = $request->billing_address_id;
+                        }
 
-                $order_attributes = new order_attributes;
-                $order_attributes->order_id = $orders->id;
-                $order_attributes->product_id = $orders->product_id;
-                $order_attributes->attribute_name = $attributes->attribute_name;
-                $order_attributes->attribute_value = $list1->attribute_value;
-                $order_attributes->save();
+                        $order_items->product_id = $cart_item1->id;
+                        $order_items->product_name = $cart_item1->name;
+                        $order_items->qty = $cart_item1->quantity;
+                        $order_items->price = $cart_item1->price;
+                        $order_items->total = $cart_item1->quantity * $cart_item1->price;
 
-                $product_attributes.='<p>'.$attributes->attribute_name.' : '.$list1->attribute_value.'</p>';
-            }
+                        if($cart_item1->id!=""){
+                            $qty = $cart_item1->quantity;
+                            $pro_id = $cart_item1->id;
+                            
+                            $product = product::find($pro_id);
+                            $product->stock = $product->stock - $qty;
+                            
+                            $order_items->save();
+                            $product->save();
+                        }
 
-            $order_update = orders::find($orders->id);
-            $order_update->product_attributes = $product_attributes;
-            $order_update->save();
+                        $list = product_attributes::where('product_id',$order_items->product_id)->get();
 
-    	}
+                        $product_attributes='';
+                        foreach($list as $list1){
+                            $attributes = attributes::find($list1->attribute_id);
+
+                            $order_attributes = new order_attributes;
+                            $order_attributes->order_id = $orders->id;
+                            $order_attributes->product_id = $order_items->product_id;
+                            $order_attributes->attribute_name = $attributes->attribute_name;
+                            $order_attributes->attribute_value = $list1->attribute_value;
+                            $order_attributes->save();
+
+                            $product_attributes.='<p>'.$attributes->attribute_name.' : '.$list1->attribute_value.'</p>';
+                        }
+
+                        $order_items_update = order_items::find($order_items->id);
+                        $order_items_update->product_attributes = $product_attributes;
+                        $order_items_update->save();
+
+                    }
+                }
+
+        }
 
         Cart::clear();
 
-        //return response()->json('Successfully Save'); 
+        return response()->json(['message'=>'Your Order is Save Successfully','status'=>0], 200); 
 
     }
 
@@ -272,5 +339,62 @@ class CheckoutController extends Controller
         // header(‘Location:’.$server_output[‘paymentURL’]); 
     }
 
+    public function applyCoupon(Request $request){
+        $data = array();
+        $today=date('Y-m-d');
+        $coupon = coupon::where("status",0)->where('start_date','<=',$today)->where('end_date','>=',$today)->where("coupon_code",$request->coupon_code_value)->first();
+        if(!empty($coupon)){
+            $cart_items = Cart::getContent();
+            $product_total=0;
+            $all_product=0;
+            $shipping_charge=0;
+            
+            foreach($cart_items as $product){
+                $product_data = product::where("vendor_id",$coupon->vendor_id)->where('id',$product->id)->first();
+                if(!empty($product_data)){
+                    $product_total+=$product->quantity * $product->price;
+                }
+                $all_product+= $product->quantity * $product->price;
+                $shipping_charge += $product->attributes->shipping_charge;
+            }
+            if($product_total !=0){
+                if($coupon->min_order_value <= $product_total){
+                    $discount_value=0;
+                    if($coupon->value_type==2){
+                        $discount_value = ($coupon->coupon_value / 100) * $product_total;
+                    }else{
+                        if($product_total >= $coupon->max_coupon_value){
+                            $discount_value = $coupon->coupon_value;
+                        }else{
+                            $discount_value = $product_total;
+                        }
+                    }
+                    $data = array(
+                        "msg"=>"Coupon Applied Successfully",
+                        "status"=>0,
+                        "discount"=>$discount_value,
+                        "total"=> ($all_product +$shipping_charge)-$discount_value,
+                        "vendor_id"=>$coupon->vendor_id
+                    ); 
+                }else{
+                    $data = array(
+                        "msg"=>"Minimum Order Value is ".$coupon->min_order_value."KD!",
+                        "status"=>1
+                    ); 
+                }
+            }else{
+                $data = array(
+                    "msg"=>"Coupon Code Not Match!",
+                    "status"=>1
+                ); 
+            }   
+        }else{
+            $data = array(
+                "msg"=>"Invalid Coupon Code!",
+                "status"=>1
+            );
+        }
+        return response()->json(["data"=>$data],200);  
+    }
     
 }

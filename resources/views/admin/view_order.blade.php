@@ -97,16 +97,18 @@
                       </tr>
                     </thead>
                     <tbody>
+                      @foreach($order_items as $row)
                       <tr>
                         <th scope="row">1</th>
                         <td>
-                          <p>{{$orders->product_name}}</p>
+                          <p>{{$row->product_name}}</p>
                           <br>
-                          <span style="word-wrap: break-word;"><?php echo $orders->product_attributes; ?></span>
+                          <span style="word-wrap: break-word;"><?php echo $row->product_attributes; ?></span>
                         </td>
-                        <td class="text-right">{{$orders->qty}}</td>
-                        <td class="text-right">KWD {{$orders->price}}</td>
+                        <td class="text-right">{{$row->qty}}</td>
+                        <td class="text-right">KWD {{$row->price}}</td>
                       </tr>
+                      @endforeach
                     </tbody>
                   </table>
                 </div>
@@ -148,10 +150,12 @@
                           <td>Sub Total</td>
                           <td class="text-right">KWD {{$orders->sub_total}}</td>
                         </tr>
-                        <!-- <tr>
+                        @if($orders->discount_value > 0)
+                        <tr>
                           <td>Discount({{$orders->coupon_code}})</td>
-                          <td class="text-right">KWD {{$orders->coupon_value}}</td>
-                        </tr> -->
+                          <td class="text-right">KWD {{$orders->discount_value}}</td>
+                        </tr>
+                        @endif
                         <tr>
                           <td>Tax( {{$orders->tax_percentage}}% )</td>
                           <td class="text-right">KWD {{$orders->tax_amount}}</td>

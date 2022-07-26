@@ -11,7 +11,7 @@
         @if(Auth::guard('vendor')->user()->business_type == '0')
           <li class="dropdown nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown"><i class="la la-shopping-cart"></i><span>Products</span></a>
           <ul class="dropdown-menu">
-            <li class="dropdown"><a class="dropdown-item" href="/vendor/attributes">Attributes</a></li>
+            <!-- <li class="dropdown"><a class="dropdown-item" href="/vendor/attributes">Attributes</a></li> -->
             <li class="dropdown"><a class="dropdown-item" href="/vendor/product-group">Product Groups</a></li>
             <li class="dropdown"><a class="dropdown-item" href="/vendor/product">Product</a></li>
           </ul>
@@ -21,6 +21,12 @@
             <span>Products</span>
           </a>
         </li> -->
+
+        <li class="coupon nav-item">
+          <a class="nav-link" href="/vendor/coupon"><i class="la la-money"></i>
+            <span>Coupons</span>
+          </a>
+        </li>
 
         <li class="orders nav-item">
           <a class="nav-link" href="/vendor/orders"><i class="la la-cart-plus"></i>
@@ -50,10 +56,15 @@
             <span>Idea Book</span>
           </a>
         </li>
+        <li class="enquiry nav-item">
+          <a class="nav-link" href="/vendor/enquiry"><i class="la la-star"></i>
+            <span>Enquiries</span>
+          </a>
+        </li>
         @endif
 
         <li class="reviews nav-item">
-          <a class="nav-link" href="/vendor/reviews"><i class="la la-star"></i>
+          <a class="nav-link" href="#"><i class="la la-star"></i>
             <span>Reviews</span>
           </a>
         </li>

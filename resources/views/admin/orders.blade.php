@@ -59,7 +59,7 @@
                           <th>Date</th>
                           <th>Vendors</th>
                           <th>Customer</th>
-                          <th>Product</th>
+                          <!-- <th>Product</th> -->
                           <!-- <th>Tax</th>
                           <th>Shipping</th> -->
                           <th>Total</th>
@@ -75,7 +75,7 @@
                           <th>Date</th>
                           <th>Vendors</th>
                           <th>Customer</th>
-                          <th>Product</th>
+                          <!-- <th>Product</th> -->
                           <!-- <th>Tax</th>
                           <th>Shipping</th> -->
                           <th>Total</th>
@@ -118,7 +118,7 @@ var orderPageTable = $('#datatable').DataTable({
     { data: 'date', date: 'name'},
     { data: 'vendor', type: 'vendor'},
     { data: 'customer', type: 'customer'},
-    { data: 'product', name: 'product'},
+    // { data: 'product', name: 'product'},
     //{ data: 'tax', name: 'tax' },
     //{ data: 'shipping', name: 'shipping' },
     { data: 'total', name: 'total' },

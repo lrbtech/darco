@@ -59,7 +59,40 @@
                                     <button class="btn btn-sm">Add to cart</button>
                                 </td> -->
                                 <td class="action text-center" data-title="Remove">
-                                    <a onclick="Delete({{$row->id}})" href="#" class="text-body"><i class="fi-rs-trash"></i></a>
+                                    <a onclick="DeleteFavourite({{$row->id}})" href="#" class="text-body"><i class="fi-rs-trash"></i></a>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    <br>
+                    <table class="table table-wishlist">
+                        <thead>
+                            <tr class="main-heading">
+                                <!-- <th class="custome-checkbox start pl-30">
+                                    <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox11" value="" />
+                                    <label class="form-check-label" for="exampleCheckbox11"></label>
+                                </th> -->
+                                <th style="width:50%;" class="custome-checkbox start pl-30" scope="col" colspan="2">Idea Book Title</th>
+                                <th style="width:10%;" scope="col" class="end">Remove</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($idea_book as $row)
+                            <tr class="pt-30">
+                                <!-- <td class="custome-checkbox pl-30">
+                                    <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox1" value="" />
+                                    <label class="form-check-label" for="exampleCheckbox1"></label>
+                                </td> -->
+                                <td class="image product-thumbnail pt-40"><img src="/project_image/{{$row->image}}" alt="#" /></td>
+                                <td class="product-des product-name">
+                                    <h6><a class="product-name mb-10" href="/get-idea-details/{{$row->id}}">{{$row->title}}</a></h6>
+                                </td>
+                                <!-- <td class="text-right" data-title="Cart">
+                                    <button class="btn btn-sm">Add to cart</button>
+                                </td> -->
+                                <td class="action text-center" data-title="Remove">
+                                    <a onclick="DeleteFavouriteIdea({{$row->id}})" href="#" class="text-body"><i class="fi-rs-trash"></i></a>
                                 </td>
                             </tr>
                             @endforeach

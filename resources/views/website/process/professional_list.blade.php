@@ -54,7 +54,7 @@
                     <ul class="list-inline nav nav-tabs links">
                         @foreach($category_all as $row)
                         <li class="list-inline-item nav-item">
-                            <a class="nav-link home-category{{$row->id}}" href="/professional-list/{{$row->id}}/0">{{$row->category}}</a>
+                            <a class="nav-link home-category{{$row->id}}" href="/professional-list/{{$row->id}}/0/0">{{$row->category}}</a>
                         </li>
                         @endforeach
                     </ul>
@@ -140,7 +140,7 @@
                         </div>
                         <div class="product-content-wrap">
                             <div class="product-category">
-                                <a href="shop-grid-right.html">Hodo Foods</a>
+                                <a href="#">{{\App\Http\Controllers\PageController::viewvendorname($row->vendor_id)}}</a>
                             </div>
                             <h2><a href="shop-product-right.html">{{$row->project_name}}</a></h2>
                             <!-- <div class="product-rate-cover">
@@ -153,7 +153,7 @@
                             <p class="mt-15 mb-15">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nam beatae consectetur, atque inventore aliquam adipisci perspiciatis nostrum qui consequatur praesentium?</p>
                             
                             <div class="mt-30 d-flex align-items-center">
-                                <a aria-label="Buy now" class="btn" href="shop-cart.html"><i class="fi-rs-envelope mr-5"></i>Contact Us</a>
+                                <a aria-label="Buy now" class="btn" href="/professional-details/{{$row->id}}"><i class="fi-rs-envelope mr-5"></i>Contact Us</a>
                                 
                             </div>
                         </div>
@@ -197,7 +197,7 @@ getprofessionalsubcategory({{$category_data->id}});
 
 function getprofessionalsubcategory(id){
   $.ajax({
-    url : '/get-professional-sub-category/'+id,
+    url : '/get-professional-sub-category-view/'+id,
     type: "GET",
     success: function(data)
     {

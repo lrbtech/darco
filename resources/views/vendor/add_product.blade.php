@@ -175,10 +175,38 @@
                           
                           <div class="col-md-3">
                             <div class="form-group">
+                              <label class="branch">Brand</label>
+                              <select required id="branch" name="branch" class="form-control">
+                                <option value="">SELECT</option>
+                                @foreach($brand as $brand1)
+                                <option value="{{$brand1->id}}" >{{$brand1->brand}}</option>
+                                @endforeach
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-md-3">
+                            <div class="form-group">
                               <label for="height_weight_size">Height / Weight / Size</label>
                               <input type="text" class="form-control" id="height_weight_size" name="height_weight_size">
                             </div>
                           </div>
+                          <div class="col-md-3">
+                            <div class="form-group">
+                              <label for="mrp_price">
+                                MRP Price <span class="danger">*</span>
+                              </label>
+                              <input required onfocus="if(this.value=='0') this.value='';" onfocusout="if(this.value=='') this.value='0';" value="0" type="number" class="form-control required" id="mrp_price" name="mrp_price">
+                            </div>
+                          </div>
+                          <div class="col-md-3">
+                            <div class="form-group">
+                              <label for="sales_price">
+                                Sales Price<span class="danger">*</span>
+                              </label>
+                              <input required onfocus="if(this.value=='0') this.value='';" onfocusout="if(this.value=='') this.value='0';" value="0" type="number" class="form-control required" id="sales_price" name="sales_price">
+                            </div>
+                          </div>
+
                           <div class="col-md-3">
                             <div class="form-group">
                               <label for="stock_status">Stock Status:</label>
@@ -193,25 +221,8 @@
                               </div>  
                             </div>
                           </div>
-                          
-                          <div class="col-md-3">
-                            <div class="form-group">
-                              <label for="mrp_price">
-                                MRP Price <span class="danger">*</span>
-                              </label>
-                              <input onfocus="if(this.value=='0') this.value='';" onfocusout="if(this.value=='') this.value='0';" value="0" type="number" class="form-control required" id="mrp_price" name="mrp_price">
-                            </div>
-                          </div>
-                          <div class="col-md-3">
-                            <div class="form-group">
-                              <label for="sales_price">
-                                Sales Price<span class="danger">*</span>
-                              </label>
-                              <input onfocus="if(this.value=='0') this.value='';" onfocusout="if(this.value=='') this.value='0';" value="0" type="number" class="form-control required" id="sales_price" name="sales_price">
-                            </div>
-                          </div>
 
-                          <div class="col-md-6 view_stock">
+                          <div class="col-md-3 view_stock">
                             <div class="form-group">
                               <label for="stock">Stock :</label>
                               <input onfocus="if(this.value=='0') this.value='';" onfocusout="if(this.value=='') this.value='0';" value="0" type="number" class="form-control" id="stock" name="stock">
@@ -241,7 +252,7 @@
                         <div class="row">
                           <div class="col-md-6">
                               <div class="form-group">
-                                <label class="firstName3">Select Attributes</label>
+                                <label class="attributes">Select Attributes</label>
                                 <select onchange="changeattributes()" id="attributes" name="attributes" class="form-control">
                                   <option value="">SELECT</option>
                                   @foreach($attributes as $row)
@@ -600,7 +611,7 @@ function Save(){
                   title: data.message,
                   icon: "success",
                }).then(function() {
-                  //window.location = "/vendor/product";
+                  window.location = "/vendor/product";
                   spinner_body.hide();
                });
             }

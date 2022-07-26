@@ -41,10 +41,6 @@ Route::post('/save-professional-register', [App\Http\Controllers\PageController:
 Route::post('/send-vendor-enquiry', [App\Http\Controllers\PageController::class, 'sendvendorenquiry']);
 Route::post('/save-vendor-enquiry', [App\Http\Controllers\PageController::class, 'savevendorenquiry']);
 
-Route::get('/product-list', [App\Http\Controllers\PageController::class, 'productlist']);
-Route::get('/product-details/{id}', [App\Http\Controllers\PageController::class, 'productdetails']);
-
-
 Route::get('cart', [App\Http\Controllers\CartController::class, 'cartlist']);
 Route::post('add-cart', [App\Http\Controllers\CartController::class, 'addtocart']);
 Route::get('update-cart/{product_id}/{qty}', [App\Http\Controllers\CartController::class, 'updatecart']);
@@ -75,17 +71,34 @@ Route::get('/get-menu', [App\Http\Controllers\PageController::class, 'getMenu'])
 Route::get('/track-order', [App\Http\Controllers\PageController::class, 'orderTrack']);
 Route::get('/category/{id}', [App\Http\Controllers\PageController::class, 'shopCategory']);
 
+//info pages
+Route::get('/pages/{id}', [App\Http\Controllers\PageController::class, 'infoPages']);
 
-Route::get('/professional-details/{id}', [App\Http\Controllers\PageController::class, 'professionalDetails']);
 
-Route::get('/product-list/{category}/{subcategory}/{subsubcategory}', [App\Http\Controllers\ProductListController::class, 'productlist']);
+
+Route::get('/ideas-details/{id}', [App\Http\Controllers\PageController::class, 'ideasDetails']);
+
+Route::get('/product-list/{category}/{subcategory}/{subsubcategory}/{search}', [App\Http\Controllers\ProductListController::class, 'productlist']);
+Route::post('/search-product-list/{category}/{subcategory}/{subsubcategory}/{search}', [App\Http\Controllers\ProductListController::class, 'searchproductlist']);
+
 Route::get('/get-sub-sub-category/{id}', [App\Http\Controllers\ProductListController::class, 'getsubsubcategory']);
+Route::get('/product-details/{id}', [App\Http\Controllers\ProductListController::class, 'productdetails']);
 
-Route::get('/professional-list/{category}/{subcategory}', [App\Http\Controllers\ProfessionalListController::class, 'professionallist']);
-Route::get('/get-professional-sub-category/{id}', [App\Http\Controllers\ProfessionalListController::class, 'getprofessionalsubcategory']);
+Route::get('/professional-list/{category}/{subcategory}/{search}', [App\Http\Controllers\ProfessionalListController::class, 'professionallist']);
+Route::get('/get-professional-sub-category-view/{id}', [App\Http\Controllers\ProfessionalListController::class, 'getprofessionalsubcategory']);
 
-Route::get('/get-ideas/{category}/{subcategory}', [App\Http\Controllers\IdeasListController::class, 'getideas']);
-Route::get('/get-idea-sub-category/{id}', [App\Http\Controllers\IdeasListController::class, 'getideasubcategory']);
+Route::get('/professional-details/{id}', [App\Http\Controllers\ProfessionalListController::class, 'professionaldetails']);
+
+Route::get('/get-ideas/{category}/{subcategory}/{search}', [App\Http\Controllers\IdeasListController::class, 'getideas']);
+Route::get('/get-idea-sub-category-view/{id}', [App\Http\Controllers\IdeasListController::class, 'getideasubcategory']);
+Route::get('/get-idea-details/{id}', [App\Http\Controllers\IdeasListController::class, 'getideadetails']);
+
+//coupon
+Route::POST('/apply-coupon', [App\Http\Controllers\CheckoutController::class, 'applyCoupon']);
+
+
+Route::post('/save-review', [App\Http\Controllers\PageController::class, 'savereview']);
+Route::post('/update-review', [App\Http\Controllers\PageController::class, 'updatereview']);
 
 
 Auth::routes();
@@ -192,8 +205,8 @@ Route::group(['prefix' => 'admin'],function(){
 
 
 
-    Route::get('/change-password', [App\Http\Controllers\Admin\SettingsController::class, 'changepassword']);
-    Route::POST('/update-password', [App\Http\Controllers\Admin\SettingsController::class, 'updatepassword']);
+    // Route::get('/change-password', [App\Http\Controllers\Admin\SettingsController::class, 'changepassword']);
+    // Route::POST('/update-password', [App\Http\Controllers\Admin\SettingsController::class, 'updatepassword']);
 
 	Route::get('/privacy-policy', [App\Http\Controllers\Admin\SettingsController::class, 'privacypolicy']);
     Route::POST('/update-privacy-policy', [App\Http\Controllers\Admin\SettingsController::class, 'updateprivacypolicy']);
@@ -201,11 +214,50 @@ Route::group(['prefix' => 'admin'],function(){
 	Route::get('/terms-and-conditions', [App\Http\Controllers\Admin\SettingsController::class, 'termsandconditions']);
     Route::POST('/update-terms-and-conditions', [App\Http\Controllers\Admin\SettingsController::class, 'updatetermsandconditions']);
 
-	Route::get('/users', [App\Http\Controllers\Admin\SettingsController::class, 'users']);
-	Route::POST('save-user', [App\Http\Controllers\Admin\SettingsController::class, 'saveuser']);
-	Route::get('edit-user/{id}', [App\Http\Controllers\Admin\SettingsController::class, 'edituser']);
-	Route::POST('update-user', [App\Http\Controllers\Admin\SettingsController::class, 'updateuser']);
-	Route::get('delete-user/{id}/{status}', [App\Http\Controllers\Admin\SettingsController::class, 'deleteuser']);
+	Route::get('/about-us', [App\Http\Controllers\Admin\SettingsController::class, 'aboutus']);
+    Route::POST('/update-about-us', [App\Http\Controllers\Admin\SettingsController::class, 'updateaboutus']);
+
+	Route::get('/vendor-guide', [App\Http\Controllers\Admin\SettingsController::class, 'vendorguide']);
+    Route::POST('/update-vendor-guide', [App\Http\Controllers\Admin\SettingsController::class, 'updatevendorguide']);
+
+	Route::get('/purchase-guide', [App\Http\Controllers\Admin\SettingsController::class, 'purchaseguide']);
+    Route::POST('/update-purchase-guide', [App\Http\Controllers\Admin\SettingsController::class, 'updatepurchaseguide']);
+
+	Route::get('/delivery-information', [App\Http\Controllers\Admin\SettingsController::class, 'deliveryinformation']);
+    Route::POST('/update-delivery-information', [App\Http\Controllers\Admin\SettingsController::class, 'updatedeliveryinformation']);
+
+	Route::get('/users', [App\Http\Controllers\Admin\UserController::class, 'users']);
+	Route::POST('save-user', [App\Http\Controllers\Admin\UserController::class, 'saveuser']);
+	Route::get('edit-user/{id}', [App\Http\Controllers\Admin\UserController::class, 'edituser']);
+	Route::POST('update-user', [App\Http\Controllers\Admin\UserController::class, 'updateuser']);
+	Route::get('delete-user/{id}', [App\Http\Controllers\Admin\UserController::class, 'deleteuser']);
+
+	Route::get('/roles', [App\Http\Controllers\Admin\UserController::class, 'roles']);
+	Route::get('/create-roles', [App\Http\Controllers\Admin\UserController::class, 'createroles']);
+	Route::POST('save-roles', [App\Http\Controllers\Admin\UserController::class, 'saveroles']);
+	Route::get('edit-roles/{id}', [App\Http\Controllers\Admin\UserController::class, 'editroles']);
+	Route::POST('update-roles', [App\Http\Controllers\Admin\UserController::class, 'updateroles']);
+	Route::get('delete-roles/{id}', [App\Http\Controllers\Admin\UserController::class, 'deleteroles']);
+
+
+	Route::get('/attributes', [App\Http\Controllers\Admin\ProductController::class, 'attributes']);
+	Route::POST('/save-attributes', [App\Http\Controllers\Admin\ProductController::class, 'saveattributes']);
+	Route::POST('/update-attributes', [App\Http\Controllers\Admin\ProductController::class, 'updateattributes']);
+	Route::get('/edit-attributes/{id}', [App\Http\Controllers\Admin\ProductController::class, 'editattributes']);
+	Route::get('/delete-attributes/{id}/{status}', [App\Http\Controllers\Admin\ProductController::class, 'deleteattributes']);
+
+	Route::get('/attribute-fields/{id}', [App\Http\Controllers\Admin\ProductController::class, 'attributefields']);
+	Route::POST('/save-attribute-fields', [App\Http\Controllers\Admin\ProductController::class, 'saveattributefields']);
+	Route::POST('/update-attribute-fields', [App\Http\Controllers\Admin\ProductController::class, 'updateattributefields']);
+	Route::get('/edit-attribute-fields/{id}', [App\Http\Controllers\Admin\ProductController::class, 'editattributefields']);
+	Route::get('/delete-attribute-fields/{id}/{status}', [App\Http\Controllers\Admin\ProductController::class, 'deleteattributefields']);
+
+	Route::get('/brand', [App\Http\Controllers\Admin\ProductController::class, 'brand']);
+	Route::POST('/save-brand', [App\Http\Controllers\Admin\ProductController::class, 'savebrand']);
+	Route::POST('/update-brand', [App\Http\Controllers\Admin\ProductController::class, 'updatebrand']);
+	Route::get('/edit-brand/{id}', [App\Http\Controllers\Admin\ProductController::class, 'editbrand']);
+	Route::get('/delete-brand/{id}/{status}', [App\Http\Controllers\Admin\ProductController::class, 'deletebrand']);
+
 
 
 
@@ -214,6 +266,10 @@ Route::group(['prefix' => 'admin'],function(){
 	Route::get('backup/create', [App\Http\Controllers\Admin\BackupController::class, 'create']);
 	Route::get('backup/download/{file_name}', [App\Http\Controllers\Admin\BackupController::class, 'download']);
 	Route::get('backup/delete/{file_name}', [App\Http\Controllers\Admin\BackupController::class, 'delete']);
+
+
+	Route::get('/change-password', [App\Http\Controllers\Admin\HomeController::class, 'changepassword']);
+	Route::POST('/update-password', [App\Http\Controllers\Admin\HomeController::class, 'updatepassword']);
 
 
     
@@ -231,6 +287,8 @@ Route::group(['prefix' => 'vendor'],function(){
 	Route::get('/password/reset/{token}', [App\Http\Controllers\VendorLogin\ResetPasswordController::class, 'showResetForm'])->name('vendor.password.reset');
 
 	Route::get('/dashboard', [App\Http\Controllers\Vendor\HomeController::class, 'dashboard'])->name('vendor.dashboard');
+
+	Route::get('/enquiry', [App\Http\Controllers\Vendor\HomeController::class, 'enquiry']);
 
 	Route::get('/orders', [App\Http\Controllers\Vendor\OrderController::class, 'orders']);
     Route::POST('/get-orders', [App\Http\Controllers\Vendor\OrderController::class, 'getorders']);
@@ -255,6 +313,13 @@ Route::group(['prefix' => 'vendor'],function(){
 	Route::get('/delete-product/{id}/{status}', [App\Http\Controllers\Vendor\ProductController::class, 'deleteproduct']);
 	Route::get('/delete-product-image/{id}', [App\Http\Controllers\Vendor\ProductController::class, 'deleteproductimage']);
 	Route::get('/delete-product-attribute/{id}', [App\Http\Controllers\Vendor\ProductController::class, 'deleteproductattribute']);
+
+
+	Route::get('/coupon', [App\Http\Controllers\Vendor\CouponController::class, 'coupon']);
+	Route::POST('/save-coupon', [App\Http\Controllers\Vendor\CouponController::class, 'savecoupon']);
+	Route::POST('/update-coupon', [App\Http\Controllers\Vendor\CouponController::class, 'updatecoupon']);
+	Route::get('/edit-coupon/{id}', [App\Http\Controllers\Vendor\CouponController::class, 'editcoupon']);
+	Route::get('/delete-coupon/{id}', [App\Http\Controllers\Vendor\CouponController::class, 'deletecoupon']);
 
 
 	Route::get('/reviews', [App\Http\Controllers\Vendor\ReviewsController::class, 'reviews']);
@@ -322,6 +387,9 @@ Route::group(['prefix' => 'vendor'],function(){
 	//chat
 	Route::get('/chat/{id}', [App\Http\Controllers\Vendor\ChatController::class, 'getChat']);
 
+	Route::get('/change-password', [App\Http\Controllers\Vendor\HomeController::class, 'changepassword']);
+	Route::POST('/update-password', [App\Http\Controllers\Vendor\HomeController::class, 'updatepassword']);
+
 });
 
 
@@ -330,22 +398,31 @@ Route::group(['prefix' => 'customer'],function(){
 	Route::get('/change-password', [App\Http\Controllers\Customer\HomeController::class, 'changepassword']);
     Route::get('/orders', [App\Http\Controllers\Customer\HomeController::class, 'orders']);
 
+	Route::get('/enquiry', [App\Http\Controllers\Customer\HomeController::class, 'enquiry']);
+
+	
 	Route::get('/track-order/{id}', [App\Http\Controllers\Customer\OrderController::class, 'trackorder']);
-
-
+	
+	
 	Route::get('/manage-address', [App\Http\Controllers\Customer\ProfileController::class, 'manageaddress']);
     Route::post('/save-address', [App\Http\Controllers\Customer\ProfileController::class, 'saveaddress']);
 	Route::post('/update-address', [App\Http\Controllers\Customer\ProfileController::class, 'updateaddress']);
 	Route::get('/edit-address/{id}', [App\Http\Controllers\Customer\ProfileController::class, 'editaddress']);
-
-
-
+	
+	
 	Route::get('/favourites', [App\Http\Controllers\Customer\FavouriteController::class, 'favourites']);
 	Route::get('/save-favourites/{id}', [App\Http\Controllers\Customer\FavouriteController::class, 'savefavourites']);
     Route::get('/delete-favourites/{id}', [App\Http\Controllers\Customer\FavouriteController::class, 'deletefavourites']);
 
+	
+	Route::get('/save-favourites-idea/{id}', [App\Http\Controllers\Customer\FavouriteController::class, 'savefavouritesidea']);
+    Route::get('/delete-favourites-idea/{id}', [App\Http\Controllers\Customer\FavouriteController::class, 'deletefavouritesidea']);
 
+	
     Route::POST('/update-password', [App\Http\Controllers\Customer\HomeController::class, 'updatepassword']);
 	Route::POST('/update-profile', [App\Http\Controllers\Customer\HomeController::class, 'updateprofile']);
+	
+	// Chat
+	Route::get('/chat', [App\Http\Controllers\Customer\ChatController::class, 'chat']);
 
 });

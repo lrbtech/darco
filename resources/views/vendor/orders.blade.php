@@ -58,7 +58,7 @@
                             <th>#</th>
                             <th>Date</th>
                             <th>Customer</th>
-                            <th>Product</th>
+                            <!-- <th>Product</th> -->
                             <th>Tax</th>
                             <th>Shipping</th>
                             <th>Total</th>
@@ -73,7 +73,7 @@
                             <th>#</th>
                             <th>Date</th>
                             <th>Customer</th>
-                            <th>Product</th>
+                            <!-- <th>Product</th> -->
                             <th>Tax</th>
                             <th>Shipping</th>
                             <th>Total</th>
@@ -115,7 +115,7 @@ var orderPageTable = $('#datatable').DataTable({
     { data: 'DT_RowIndex', name: 'DT_RowIndex'},
     { data: 'date', date: 'name'},
     { data: 'customer', type: 'customer'},
-    { data: 'product', name: 'product'},
+    // { data: 'product', name: 'product'},
     { data: 'tax', name: 'tax' },
     { data: 'shipping', name: 'shipping' },
     { data: 'total', name: 'total' },

@@ -15,6 +15,9 @@ use App\Models\attribute_fields;
 use App\Models\product_group;
 use App\Models\vendor;
 use App\Models\vendor_project;
+use App\Models\project_images;
+use App\Models\idea_book;
+use App\Models\idea_book_images;
 use App\Models\User;
 use App\Models\orders;
 use App\Models\vendor_enquiry;
@@ -36,12 +39,12 @@ class ProfessionalListController extends Controller
                 $output.='
                 <div class="card-1">
                     <figure class="img-hover-scale overflow-hidden">
-                        <a href="/professional-list/'.$id.'/'.$row->id.'">
+                        <a href="/professional-list/'.$id.'/'.$row->id.'/0">
                             <img src="/upload_files/'.$row->icon.'" alt="" />
                         </a>
                     </figure>
                     <h6>
-                        <a href="/professional-list/'.$id.'/'.$row->id.'">'.$row->category.'</a>
+                        <a href="/professional-list/'.$id.'/'.$row->id.'/0">'.$row->category.'</a>
                     </h6>
                 </div>
                 ';
@@ -53,12 +56,16 @@ class ProfessionalListController extends Controller
         echo $output;
     }
 
-    public function professionallist($category,$subcategory)
+    public function professionallist($category,$subcategory,$search)
     {
         $category_all = professional_category::where('status',0)->where('parent_id',0)->get();
         $subcategory_all = professional_category::where('status',0)->where('parent_id',$category)->get();
 
         $i =DB::table('vendor_projects as p');
+        if ( $search != '0' )
+        {
+            $i->where('p.project_name', 'like', '%' . $search . '%');
+        }
         if ( $category != '0' )
         {
             $i->where('p.category', $category);
@@ -79,4 +86,17 @@ class ProfessionalListController extends Controller
 
         return view('website.process.professional_list',compact('category_all','subcategory_all','category_data','subcategory_data','project','category_id','subcategory_id'));
     }
+
+    public function professionaldetails($id){
+        $project = vendor_project::find($id);
+        $vendor = vendor::find($project->vendor_id);
+        $project_images = project_images::where('project_id',$id)->get();
+        $related_projects = vendor_project::where('vendor_id',$project->vendor_id)->where('id','!=',$id)->get();
+        $related_projects_count = vendor_project::where('vendor_id',$project->vendor_id)->where('id','!=',$id)->count();
+        $idea_book = idea_book::where('vendor_id',$project->vendor_id)->get();
+        $idea_book_count = idea_book::where('vendor_id',$project->vendor_id)->count();
+
+        return view('website.process.professional_details',compact('project','project_images','vendor','related_projects','related_projects_count','idea_book','idea_book_count'));
+    }
+
 }

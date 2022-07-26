@@ -10,6 +10,7 @@ use App\Models\vendor;
 use App\Models\orders;
 use App\Models\product;
 use App\Models\shipping_address;
+use App\Models\roles;
 use Hash;
 use DB;
 use Mail;

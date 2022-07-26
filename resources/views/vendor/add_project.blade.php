@@ -5,28 +5,7 @@
 <link rel="stylesheet" type="text/css" href="/app-assets/css/plugins/forms/wizard.css">
 
 <style>
-.app-content .wizard.wizard-notification > .steps > ul > li.current .step {
-    border: 2px solid #40e7f8;
-    color: #40e7f8;
-    line-height: 36px;
-}
-.app-content .wizard.wizard-notification > .steps > ul > li.current .step:after {
-    border-top-color: #40e7f8;
-}
-.app-content .wizard > .steps > ul > li.done .step {
-    background-color: #40e7f8;
-    border-color: #40e7f8;
-    color: #fff;
-}
-.app-content .wizard.wizard-notification > .steps > ul > li:before, .app-content .wizard.wizard-notification > .steps > ul > li:after {
-    top: 39px;
-    width: 50%;
-    height: 2px;
-    background-color: #40e7f8;
-}
-.app-content .wizard.wizard-notification > .steps > ul > li.done .step:after {
-    border-top-color: #40e7f8;
-}
+
    .center {
     display:inline;
     margin: 3px;

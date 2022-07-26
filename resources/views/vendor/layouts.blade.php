@@ -6,16 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
   <title>Darco Vendor</title>
 
-  @if(session()->get('theme') == 'light')
-  
-  @elseif(session()->get('theme') == 'dark')
- 
-  @else 
-
-  @endif
-
   <link rel="icon" type="image/x-icon" href="/website_assets/images/ico.ico">
-
+@if(session()->get('theme') == 'dark')
+   <link id="themefile" rel="stylesheet" href="/theme/dark.css"/>
+ @endif
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Quicksand:300,400,500,700"
   rel="stylesheet">
   <link href="https://maxcdn.icons8.com/fonts/line-awesome/1.1/css/line-awesome.min.css"
@@ -40,7 +34,95 @@
   <!-- END Page Level CSS-->
   <!-- BEGIN Custom CSS-->
   <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+  <script src="/theme/iconify.min.js" type="text/javascript"></script>
+<style>
+  
 
+.toggle-checkbox {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.toggle-slot {
+  position: relative;
+  height: 3.5em;
+  width: 7em;
+  border: 5px solid #e4e7ec;
+  border-radius: 10em;
+  background-color: white;
+  box-shadow: 0px 3px 15px #e4e7ec;
+  transition: background-color 250ms;
+  top: 13px;
+}
+
+.toggle-checkbox:checked ~ .toggle-slot {
+  background-color: #374151;
+}
+
+.toggle-button {
+  transform: translate(3.75em, 4px);
+  position: absolute;
+  height: 2em;
+  width: 2em;
+  border-radius: 50%;
+  background-color: #ffeccf;
+  box-shadow: inset 0px 0px 0px 5px #ffbb52;
+  transition: background-color 250ms, border-color 250ms, transform 500ms cubic-bezier(.26,2,.46,.71);
+}
+
+.toggle-checkbox:checked ~ .toggle-slot .toggle-button {
+  background-color: #485367;
+  box-shadow: inset 0px 0px 0px 5px white;
+  transform: translate(6px, 4px);
+}
+
+.sun-icon {
+  position: absolute;
+  height: 2em;
+  width: 2em;
+  color: #ffbb52;
+}
+
+.sun-icon-wrapper {
+  position: absolute;
+  height: 2em;
+  width: 2em;
+  opacity: 1;
+  transform: translate(6px, 4px) rotate(15deg);
+  transform-origin: 50% 50%;
+  transition: opacity 150ms, transform 500ms cubic-bezier(.26,2,.46,.71);
+}
+
+.toggle-checkbox:checked ~ .toggle-slot .sun-icon-wrapper {
+  opacity: 0;
+  transform: translate(3em, 2em) rotate(0deg);
+}
+
+.moon-icon {
+  position: absolute;
+  height: 2em;
+  width: 2em;
+  color: white;
+}
+
+.moon-icon-wrapper {
+  position: absolute;
+  height: 2em;
+  width: 2em;
+  opacity: 0;
+  transform: translate(11em, 2em) rotate(0deg);
+  transform-origin: 50% 50%;
+  transition: opacity 150ms, transform 500ms cubic-bezier(.26,2.5,.46,.71);
+}
+
+.toggle-checkbox:checked ~ .toggle-slot .moon-icon-wrapper {
+  opacity: 1;
+  transform: translate(4em, 4px) rotate(-15deg);
+}
+</style>
   @yield('extra-css')
 
   <!-- END Custom CSS-->
@@ -70,10 +152,109 @@
   .header-navbar .navbar-header .navbar-brand .brand-logo {
     width: 88px;
 }
+</style>
+@if(session()->get('theme') == 'light')
+<style>
 .navbar-dark.navbar-horizontal {
-    background: #801580;
+    background: #250a78;
+}
+
+.btn-danger {
+    background-color: #250a78 !important;
+    color: #FFFFFF;
+}
+.btn-danger:hover {
+    background-color: #250a78 !important;
+}
+.app-content .wizard.wizard-notification > .steps > ul > li.current .step {
+    border: 2px solid #250a78;
+    color: #250a78;
+    line-height: 36px;
+}
+.app-content .wizard.wizard-notification > .steps > ul > li.current .step:after {
+    border-top-color: #250a78;
+}
+.app-content .wizard > .steps > ul > li.done .step {
+    background-color: #250a78;
+    border-color: #250a78;
+    color: #fff;
+}
+.app-content .wizard.wizard-notification > .steps > ul > li:before, .app-content .wizard.wizard-notification > .steps > ul > li:after {
+    top: 39px;
+    width: 50%;
+    height: 2px;
+    background-color: #250a78;
+}
+.app-content .wizard.wizard-notification > .steps > ul > li.done .step:after {
+    border-top-color: #250a78;
 }
 </style>
+@else
+<style>
+  h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    margin-bottom: 0.5rem;
+    font-family: "Quicksand", Georgia, "Times New Roman", Times, serif;
+    font-weight: 400;
+    line-height: 1.2;
+    color: #b0bec5;
+}
+  .navbar-dark .navbar-nav .nav-link {
+    color: #333;
+}
+  .navbar-dark.navbar-horizontal {
+    background: #41eafc;
+}
+.btn-danger.btn-glow {
+    box-shadow: 0px 1px 20px 1px rgb(255 255 255 / 50%);
+}
+.btn-danger {
+    border-color: #6b6f82 !important;
+    background-color: #41eafc !important;
+    color: #FFFFFF;
+}
+.btn-danger:hover {
+    border-color: #6b6f82 !important;
+    background-color: #202125 !important;
+    color: #FFFFFF;
+}
+  form label {
+    color: #40e7f8 !important;
+}
+.app-content .wizard > .steps > ul > li.current > a {
+    color: #fff;
+    cursor: default;
+}
+form .form-control {
+    border: 1px solid #cacfe7;
+    color: #40e7f8;
+}
+.card-header {
+    background-color: #2c303b !important;
+}
+.navbar-light {
+    background: #0e0e0f !important;
+}
+.form-control {
+    background-color: #37474f;
+}
+.mce-panel {
+    background-color: #0e0e0f !important;
+}
+.mce-menubar .mce-menubtn button span {
+    color: #ddd !important;
+}
+.modal-content {
+    background-color: #14151c;
+}
+.form-input {
+    width: 150px;
+    /* padding: 3px; */
+    background: #21252a;
+    /* border: 2px dashed dodgerblue; */
+}
+</style>
+ @endif
+
 </head>
 <body id="spinner_body" class="horizontal-layout horizontal-menu 2-columns   menu-expanded" data-open="hover"
 data-menu="horizontal-menu" data-col="2-columns">
@@ -85,7 +266,12 @@ data-menu="horizontal-menu" data-col="2-columns">
           <li class="nav-item mobile-menu d-md-none mr-auto"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ft-menu font-large-1"></i></a></li>
           <li class="nav-item">
             <a class="navbar-brand" href="/vendor/dashboard/">
+              @if(session()->get('theme') == 'light')
               <img class="brand-logo" alt="modern admin logo" src="/website_assets/images/logo-light.png">
+              @else
+              <img class="brand-logo" alt="modern admin logo" src="/website_assets/images/logo-dark.png">
+
+              @endif
               <!-- <h3 class="brand-text">Darco</h3> -->
             </a>
           </li>
@@ -101,17 +287,37 @@ data-menu="horizontal-menu" data-col="2-columns">
             <li class="nav-item d-none d-md-block"><a class="nav-link nav-link-expand" href="#"><i class="ficon ft-maximize"></i></a></li>
             
           </ul>
+          
           <ul class="nav navbar-nav float-right">
+            <li class="dropdown dropdown-notification nav-item">
+                 <label>
+                                @if(session()->get('theme') == 'light')
+                                <input class='toggle-checkbox' type='checkbox' id='light_dark'></input>
+                                @else
+                                <input class='toggle-checkbox' type='checkbox' id='light_dark' checked></input>
+
+                                @endif
+                                <div class='toggle-slot'>
+                                    <div class='sun-icon-wrapper'>
+                                    <div class="iconify sun-icon" data-icon="feather-sun" data-inline="false"></div>
+                                    </div>
+                                    <div class='toggle-button'></div>
+                                    <div class='moon-icon-wrapper'>
+                                    <div class="iconify moon-icon" data-icon="feather-moon" data-inline="false"></div>
+                                    </div>
+                                </div>
+                                </label>              
+              </li>
             <li class="dropdown dropdown-user nav-item">
               <a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">
                 <span class="mr-1">Hello,
-                  <span class="user-name text-bold-700">LRB</span>
+                  <span class="user-name text-bold-700">{{Auth::guard('vendor')->user()->first_name}} {{Auth::guard('vendor')->user()->last_name}}</span>
                 </span>
                 <span class="avatar avatar-online">
                   <img src="/app-assets/images/portrait/small/avatar-s-19.png" alt="avatar"><i></i></span>
               </a>
               <div class="dropdown-menu dropdown-menu-right">
-                <a class="dropdown-item" href="#"><i class="ft-user"></i> Change Pasword</a>
+                <a class="dropdown-item" href="/vendor/change-password"><i class="ft-user"></i> Change Pasword</a>
                 <div class="dropdown-divider"></div><a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="ft-power"></i> Logout</a>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                 @csrf
@@ -170,16 +376,22 @@ data-menu="horizontal-menu" data-col="2-columns">
     parentId: 'spinner_body'
   });
 
-  function updatetheme(theme) {
-    $.ajax({
-      url : '/update-theme/'+theme,
+ $("#light_dark").change(function(){
+    var themedata;
+if($(this).prop('checked')){
+    themedata = "dark"
+}else{
+   themedata = "light"
+}
+$.ajax({
+      url : '/update-theme/'+themedata,
       type: "GET",
       success: function(data)
       {
         location.reload();
       }
     });
-  }
+});
 
   </script>
   @yield('extra-js')

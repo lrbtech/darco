@@ -18,7 +18,7 @@
                 <div class="archive-header" style="background: url(/upload_files/{{$category_data->image}})">
                 @endif
             @else 
-            <div class="archive-header" style="background: url(/upload_files/{{$category_data->image}})">
+            <div class="archive-header">
             @endif
                 <div class="row align-items-center">
                     <div class="col-xl-12">
@@ -76,7 +76,7 @@
                     <ul class="list-inline nav nav-tabs links">
                         @foreach($subcategory_all as $row)
                         <li class="list-inline-item nav-item">
-                            <a class="nav-link home-category{{$row->id}}" href="/product-list/{{$category_id}}/{{$row->id}}/0">{{$row->category}}</a>
+                            <a class="nav-link home-category{{$row->id}}" href="/product-list/{{$category_id}}/{{$row->id}}/0/0">{{$row->category}}</a>
                         </li>
                         @endforeach
                     </ul>
@@ -107,7 +107,7 @@
                         <p>Showing <strong class="text-brand">{{ $product->firstItem() }} - {{ $product->lastItem() }} of {{$product->total()}}</strong> Listings</p>
                     </div>
                     <div class="sort-by-product-area">
-                        <div class="sort-by-cover mr-10">
+                        <!-- <div class="sort-by-cover mr-10">
                             <div class="sort-by-product-wrap">
                                 <div class="sort-by">
                                     <span><i class="fi-rs-apps"></i>Show:</span>
@@ -125,7 +125,7 @@
                                     <li><a href="#">All</a></li>
                                 </ul>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="sort-by-cover">
                             <div class="sort-by-product-wrap">
                                 <div class="sort-by">
@@ -168,7 +168,7 @@
                             </div>
                             <div class="product-content-wrap">
                                 <div class="product-category">
-                                    <a href="/product-list/{{$row->category}}/0/0">Snack</a>
+                                    <a href="/product-list/{{$row->category}}/0/0/0">{{\App\Http\Controllers\PageController::viewcategoryname($row->category)}}</a>
                                 </div>
                                 <h2><a href="/product-details/{{$row->id}}">{{$row->product_name}}</a></h2>
                                 <!-- <div class="product-rate-cover">
@@ -178,7 +178,7 @@
                                     <span class="font-small ml-5 text-muted"> (4.0)</span>
                                 </div> -->
                                 <div>
-                                    <span class="font-small text-muted">By <a href="#">NestFood</a></span>
+                                    <span class="font-small text-muted">By <a href="#">{{\App\Http\Controllers\PageController::viewvendorname($row->vendor_id)}}</a></span>
                                 </div>
                                 <div class="product-card-bottom">
                                     <div class="product-price">
@@ -227,7 +227,7 @@
                     <ul>
                         @foreach($category_all as $row)
                         <li>
-                            <a class="active" href="/product-list/{{$row->id}}/0/0"> 
+                            <a class="active" href="/product-list/{{$row->id}}/0/0/0"> 
                                 <img src="/upload_files/{{$row->icon}}" alt="" />{{$row->category}}
                             </a>
                             <!-- <span class="count">30</span> -->
@@ -236,9 +236,11 @@
                     </ul>
                 </div>
                 <!-- Fillter By Price -->
+                <form action="/search-product-list/{{$category_id}}/{{$subcategory_id}}/{{$subsubcategory_id}}/{{$search_id}}" id="filter-form" method="POST">
+                {{csrf_field()}}
                 <div class="sidebar-widget price_range range mb-30">
-                    <h5 class="section-title style-1 mb-30">Fill by price</h5>
-                    <div class="price-filter">
+                    <h5 class="section-title style-1 mb-30">Fillter</h5>
+                    <!-- <div class="price-filter">
                         <div class="price-filter-inner">
                             <div id="slider-range" class="mb-20"></div>
                             <div class="d-flex justify-content-between">
@@ -246,35 +248,34 @@
                                 <div class="caption">To: <strong id="slider-range-value2" class="text-brand"></strong></div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="list-group">
                         <div class="list-group-item mb-10 mt-10">
-                            <label class="fw-900">Color</label>
+                            <label class="fw-900">Brand</label>
                             <div class="custome-checkbox">
-                                <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox1" value="" />
-                                <label class="form-check-label" for="exampleCheckbox1"><span>Red (56)</span></label>
+                                @foreach($brand_all as $key => $brand1)
+                                <input class="form-check-input" type="checkbox" name="brand[]" id="brand{{$key+1}}" value="{{$brand1->id}}" />
+                                <label class="form-check-label" for="brand{{$key+1}}">
+                                    <span>{{$brand1->brand}}</span>
+                                </label>
                                 <br />
-                                <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox2" value="" />
-                                <label class="form-check-label" for="exampleCheckbox2"><span>Green (78)</span></label>
-                                <br />
-                                <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox3" value="" />
-                                <label class="form-check-label" for="exampleCheckbox3"><span>Blue (54)</span></label>
+                                @endforeach
                             </div>
-                            <label class="fw-900 mt-15">Item Condition</label>
+                            <label class="fw-900 mt-15">City</label>
                             <div class="custome-checkbox">
-                                <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox11" value="" />
-                                <label class="form-check-label" for="exampleCheckbox11"><span>New (1506)</span></label>
+                                @foreach($city_all as $key => $city1)
+                                <input class="form-check-input" type="checkbox" name="city[]" id="city{{$key+1}}" value="{{$city1->id}}" />
+                                <label class="form-check-label" for="city{{$key+1}}">
+                                    <span>{{$city1->city}}</span>
+                                </label>
                                 <br />
-                                <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox21" value="" />
-                                <label class="form-check-label" for="exampleCheckbox21"><span>Refurbished (27)</span></label>
-                                <br />
-                                <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox31" value="" />
-                                <label class="form-check-label" for="exampleCheckbox31"><span>Used (45)</span></label>
+                                @endforeach
                             </div>
                         </div>
                     </div>
-                    <a href="shop-grid-right.html" class="btn btn-sm btn-default"><i class="fi-rs-filter mr-5"></i> Fillter</a>
+                    <button type="submit" class="btn btn-sm btn-default"><i class="fi-rs-filter mr-5"></i> Fillter</button>
                 </div>
+                </form>
                 
             </div>
         </div>
@@ -345,5 +346,37 @@ function getsubsubcategory(id){
     }
   });
 }
+
+
+// function Filter(){
+//   spinner_body.show();
+//   $(".text-danger").remove();
+//   $('.form-group').removeClass('has-error').removeClass('has-success');
+//   var formData = new FormData($('#filter-form')[0]);
+//     $.ajax({
+//       url : "/add-cart",
+//       type: "POST",
+//       data: formData,
+//       contentType: false,
+//       processData: false,
+//       dataType: "json",
+//       success: function(data)
+//       {   
+//         console.log(data);
+//         spinner_body.hide();
+//         $("#filter-form")[0].reset();
+//         // location.href="/cart";             
+//         // toastr.success('Add Successfully');
+//       },error: function (data) {
+//         spinner_body.hide(); 
+//         var errorData = data.responseJSON.errors;
+//         $.each(errorData, function(i, obj) {
+//           $('#'+i).after('<p class="text-danger">'+obj[0]+'</p>');
+//           $('#'+i).closest('.form-group').addClass('has-error');
+//           toastr.error(obj[0]);
+//         });
+//       }
+//     });
+// }
 </script>
 @endsection

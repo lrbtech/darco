@@ -9,6 +9,7 @@ use App\Models\vendor;
 use App\Models\admin;
 use App\Models\shipping_address;
 use App\Models\orders;
+use App\Models\order_items;
 use App\Models\product;
 use Hash;
 use DB;
@@ -38,11 +39,12 @@ class OrderController extends Controller
 
     public function vieworder($id){
         $orders = orders::find($id);
+        $order_items = order_items::where('order_id',$id)->get();
         $billing_address = shipping_address::find($orders->billing_address_id);
         $vendor = vendor::find($orders->vendor_id);
         $customer = User::find($orders->customer_id);
 
-        return view('vendor.view_order',compact('orders','billing_address','vendor','customer'));
+        return view('vendor.view_order',compact('orders','billing_address','vendor','customer','order_items'));
     }
 
     public function getorders(Request $request){
@@ -60,15 +62,6 @@ class OrderController extends Controller
                 return '<td>
                 <p>'.$customer->first_name.' '.$customer->last_name.'</p>
                 <p>Mobile : '.$customer->mobile.'</p>
-                </td>';
-            })
-
-            ->addColumn('product', function ($orders) {
-                return '<td>
-                <p>'.$orders->product_name.'</p>
-                <p>Price : '.$orders->price.'</p>
-                <p>Qty : '.$orders->qty.'</p>
-                <p>Sub Total : '.$orders->sub_total.'</p>
                 </td>';
             })
 
@@ -127,7 +120,7 @@ class OrderController extends Controller
             })
            
             
-        ->rawColumns(['date','customer','product', 'tax', 'shipping','total','shipping_status','action'])
+        ->rawColumns(['date','customer', 'tax', 'shipping','total','shipping_status','action'])
         ->addIndexColumn()
         ->make(true);
 

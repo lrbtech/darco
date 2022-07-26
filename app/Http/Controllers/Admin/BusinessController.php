@@ -15,6 +15,7 @@ use App\Models\category;
 use App\Models\attributes;
 use App\Models\attribute_fields;
 use App\Models\product_group;
+use App\Models\roles;
 use App\Models\product_images;
 use Hash;
 use DB;

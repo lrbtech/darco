@@ -3,6 +3,25 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\category;
+use App\Models\product;
+use App\Models\vendor;
+use App\Models\vendor_project;
+use App\Models\User;
+use App\Models\shipping_address;
+use App\Models\orders;
+use App\Models\order_items;
+use App\Models\order_attributes;
+use App\Models\product_attributes;
+use App\Models\product_images;
+use App\Models\attributes;
+use App\Models\attribute_fields;
+use App\Models\product_group;
+use App\Models\coupon;
+use Hash;
+use DB;
+use Mail;
+use Auth;
 use Cart;
 
 class CartController extends Controller
@@ -55,6 +74,12 @@ class CartController extends Controller
 
     public function updatecart($product_id,$quantity)
     {
+        $product = product::find($product_id);
+        
+        if($quantity > $product->stock){
+            $message = $product->product_name.' Out of Stock';
+            return response()->json(['message' => $message,'status'=>2], 200);
+        }
         Cart::update(
             $product_id,
             [
@@ -64,12 +89,14 @@ class CartController extends Controller
                 ],
             ]
         );
+
+        return response()->json(['message'=>'Your Order is Save Successfully','status'=>0], 200); 
         
 
           
         // session()->flash('success', 'Item Cart is Updated Successfully !');
 
-        return response()->json('update successfully'); 
+        //return response()->json('update successfully'); 
     }
 
     public function removecart($id)

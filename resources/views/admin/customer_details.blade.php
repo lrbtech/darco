@@ -135,7 +135,6 @@
                 <tr>
                     <th>Order ID</th>
                     <th>Vendor Name</th>
-                    <th>Product</th>
                     <th>Qty</th>
                     <th>Price</th>
                     <th>Total</th>
@@ -146,7 +145,6 @@
                 <tr>
                     <td>#{{$row->id}}</td>
                     <td>{{$row->vendor_id}}</td>
-                    <td>{{$row->product_name}}</td>
                     <td>{{$row->qty}}</td>
                     <td>{{$row->price}} KWD</td>
                     <td>{{$row->total}} KWD</td>
@@ -157,7 +155,6 @@
                 <tr>
                     <th>Order ID</th>
                     <th>Vendor Name</th>
-                    <th>Product</th>
                     <th>Qty</th>
                     <th>Price</th>
                     <th>Total</th>

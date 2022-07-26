@@ -5,6 +5,8 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Cart;
 use App\Models\favourites;
+use App\Models\favourites_idea;
+use App\Models\roles;
 use Auth;
 
 class AppServiceProvider extends ServiceProvider
@@ -26,14 +28,20 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        view()->composer('admin.sidebar', function($view) {
+            $role_get = roles::find(Auth::guard('admin')->user()->role_id);
+
+            $view->with(compact('role_get'));
+        });
+
         view()->composer('website.layouts1', function($view) {
             $cart_items = Cart::getContent();
             if(Auth::check()){
-
-                $wishlist_count = favourites::where('customer_id',Auth::user()->id)->count();
+                $favourites_count = favourites::where('customer_id',Auth::user()->id)->count();
+                $favourites_idea_count = favourites_idea::where('customer_id',Auth::user()->id)->count();
+                $wishlist_count = $favourites_count + $favourites_idea_count;
             }else{
                 $wishlist_count = 0;
-
             }
             $view->with(compact('cart_items','wishlist_count'));
         });

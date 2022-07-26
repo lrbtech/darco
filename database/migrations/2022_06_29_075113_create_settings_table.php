@@ -31,6 +31,9 @@ class CreateSettingsTable extends Migration
             $table->text('about_us')->nullable();
             $table->text('terms_and_conditions')->nullable();
             $table->text('privacy_policy')->nullable();
+            $table->text('purchase_guide')->nullable();
+            $table->text('vendor_guide')->nullable();
+            $table->text('delivery_information')->nullable();
             $table->timestamps();
         });
     }

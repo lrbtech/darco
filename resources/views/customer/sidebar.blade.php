@@ -9,6 +9,11 @@
         <li class="nav-item">
             <a class="nav-link orders" href="/customer/orders"><i class="fi-rs-shopping-bag mr-10"></i>Orders</a>
         </li>
+
+        <li class="nav-item">
+            <a class="nav-link enquiry" href="/customer/enquiry"><i class="fi-rs-shopping-bag mr-10"></i>Enquiry</a>
+        </li>
+
         <!-- <li class="nav-item">
             <a class="nav-link" id="track-orders-tab" data-bs-toggle="tab" href="#track-orders" role="tab" aria-controls="track-orders" aria-selected="false"><i class="fi-rs-shopping-cart-check mr-10"></i>Track Your Order</a>
         </li> -->

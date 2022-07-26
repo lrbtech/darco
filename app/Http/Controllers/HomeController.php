@@ -43,12 +43,12 @@ class HomeController extends Controller
                 $output.='
                 <div class="card-1">
                     <figure class="img-hover-scale overflow-hidden">
-                        <a href="/product-list/'.$id.'/'.$row->id.'/0">
+                        <a href="/product-list/'.$id.'/'.$row->id.'/0/0">
                             <img src="/upload_files/'.$row->icon.'" alt="" />
                         </a>
                     </figure>
                     <h6>
-                        <a href="/product-list/'.$id.'/'.$row->id.'/0">'.$row->category.'</a>
+                        <a href="/product-list/'.$id.'/'.$row->id.'/0/0">'.$row->category.'</a>
                     </h6>
                 </div>
                 ';

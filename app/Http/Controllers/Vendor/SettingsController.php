@@ -238,7 +238,7 @@ class SettingsController extends Controller
 
     public function editproject($id){
         $project = vendor_project::find($id);
-        $category = professional_category::where('status',0)->orderBy('id','DESC')->get();
+        $category = professional_category::where('status',0)->where('parent_id',0)->orderBy('id','DESC')->get();
         $project_images = project_images::where('project_id',$id)->get();
         //return response()->json($project); 
         return view('vendor.edit_project',compact('category','project','project_images'));

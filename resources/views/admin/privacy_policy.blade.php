@@ -70,7 +70,7 @@
 <script src="/app-assets/js/scripts/editors/editor-tinymce.js" type="text/javascript"></script>
 
 
-privacy-policy<script>
+<script>
 $('.privacy-policy').addClass('active');
 
 </script>

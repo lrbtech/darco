@@ -37,7 +37,7 @@
                     <ul class="list-inline nav nav-tabs links">
                         @foreach($category_all as $row)
                         <li class="list-inline-item nav-item">
-                            <a class="nav-link home-category{{$row->id}}" href="/professional-list/{{$row->id}}/0">{{$row->category}}</a>
+                            <a class="nav-link home-category{{$row->id}}" href="/get-ideas/{{$row->id}}/0/0/0">{{$row->category}}</a>
                         </li>
                         @endforeach
                     </ul>
@@ -78,23 +78,27 @@
                                 <div class="product-cart-wrap style-2 wow animate__animated animate__fadeInUp" data-wow-delay="0">
                                     <div class="product-img-action-wrap">
                                         <div class="product-img">
-                                            <a href="shop-product-right.html">
-                                                <img src="frontend/assets/imgs/banner/banner-5.png" alt="" />
+                                            <a href="/get-idea-details/{{$row->id}}">
+                                                <img src="/project_image/{{$row->image}}" alt="" />
                                             </a>
                                         </div>
                                     </div>
                                     <div class="product-content-wrap">
                                         
                                         <div class="deals-content">
-                                            <h2><a href="shop-product-right.html">Seeds of Change Organic Quinoa, Brown, & Red Rice</a></h2>
+                                            <h2><a href="/get-idea-details/{{$row->id}}">{{$row->title}}</a></h2>
                                             
                                             <div>
-                                                <span class="font-small text-muted">By <a href="vendor-details-1.html">NestFood</a></span>
+                                                <span class="font-small text-muted">By <a href="#">{{\App\Http\Controllers\PageController::viewvendorname($row->vendor_id)}}</a></span>
                                             </div>
                                             <div class="product-card-bottom">
                                                 
                                                 <div class="add-cart">
-                                                    <a class="add" href="shop-cart.html"><i class="fi-rs-heart mr-5"></i>Save </a>
+                                                    @if(Auth::check())
+                                                    {{\App\Http\Controllers\Customer\FavouriteController::viewfavouritesidea($row->id)}}
+                                                    @else
+                                                    <a class="add" href="/login"><i class="fi-rs-heart mr-5"></i>Save </a>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
@@ -130,7 +134,7 @@ getideasubcategory({{$category_data->id}});
 
 function getideasubcategory(id){
   $.ajax({
-    url : '/get-idea-sub-category/'+id,
+    url : '/get-idea-sub-category-view/'+id,
     type: "GET",
     success: function(data)
     {

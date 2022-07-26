@@ -6,6 +6,21 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\admin;
+use App\Models\roles;
+use App\Models\vendor;
+use App\Models\vendor_enquiry;
+use App\Models\vendor_project;
+use App\Models\idea_book;
+use App\Models\product;
+use App\Models\product_attributes;
+use App\Models\category;
+use App\Models\attributes;
+use App\Models\attribute_fields;
+use App\Models\product_group;
+use App\Models\product_images;
+use App\Models\brand;
+use App\Models\orders;
+use App\Models\order_items;
 use Yajra\DataTables\Facades\DataTables;
 use Auth;
 use DB;
@@ -30,6 +45,47 @@ class HomeController extends Controller
         $pldate = date('Y-m-d',strtotime('last day of previous month'));
 
 
-        return view('admin.dashboard');
+        $orders = orders::orderBy('id','DESC')->get()->take('5');
+
+        $total_vendor = vendor::count();
+        $total_customer = User::count();
+        $total_order = orders::count();
+        $total_order_value = orders::sum('total');
+
+
+        return view('admin.dashboard',compact('total_order_value','total_order','total_customer','total_vendor','orders'));
     }
+
+    public function changepassword(){
+        $profile = admin::find(Auth::guard('admin')->user()->id);
+        return view('admin.change_password',compact('profile'));
+    }
+
+    public function updatepassword(Request $request){
+        $request->validate([
+            'oldpassword' => 'required',
+            'password' => 'min:6|required_with:password_confirmation|same:password_confirmation',
+            'password_confirmation' => 'min:6'
+        ]);
+        
+        $hashedPassword = Auth::user()->password;
+ 
+        if (\Hash::check($request->oldpassword , $hashedPassword )) {
+            if (!\Hash::check($request->password , $hashedPassword)) {
+ 
+                $user = admin::find(Auth::guard('admin')->user()->id);
+                $user->password = Hash::make($request->password);
+                $user->save();
+ 
+                return response()->json(['message' => 'Password Updated Successfully!' , 'status' => 1], 200);
+            }
+            else{
+                return response()->json(['message' => 'new password can not be the old password!' , 'status' => 0]);
+            }
+        }
+        else{
+            return response()->json(['message' => 'old password doesnt matched!' , 'status' => 0]);
+        }
+    }
+
 }

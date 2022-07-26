@@ -106,7 +106,7 @@ p.mb-65 {
             <div class="row">
             @foreach($professional_category as $key => $row)
             <div class="col-6 col-md-6">
-                <a href="/professional-list/{{$row->id}}/0" class=""><div class="card">
+                <a href="/professional-list/{{$row->id}}/0/0" class=""><div class="card">
                     <div class="card-title">{{$row->category}}</div>
                     <img src="/upload_files/{{$row->image}}" class="img-responsive" height="">
                 </div></a>
@@ -203,7 +203,7 @@ p.mb-65 {
         <div class="row">
             @foreach($professional_category_footer as $key => $row)
             <div class="col-6 col-sm-4 col-md-4 col-lg-2">
-                <a href="/professional-list/{{$row->id}}/0" class="style2"><div class="card">
+                <a href="/professional-list/{{$row->id}}/0/0" class="style2"><div class="card">
                     <div class="card-title">{{$row->category}}</div>
                    
                     <img src="/upload_files/{{$row->image}}" class="img-responsive" height="120px">
@@ -212,7 +212,7 @@ p.mb-65 {
              @endforeach
         </div><br>
         <div class="text-center">
-            <a href="/professional-list/0/0" class="btn btn-dark">View all</a>
+            <a href="/professional-list/0/0/0" class="btn btn-dark">View all</a>
         </div>
     </div>
 </section>

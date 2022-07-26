@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\category;
 use App\Models\professional_category;
 use App\Models\idea_category;
+use App\Models\roles;
 
 class CategoryController extends Controller
 {
@@ -141,7 +142,8 @@ class CategoryController extends Controller
 
     public function category(){
         $category = category::where('parent_id',0)->get();
-        return view('admin.category',compact('category'));
+        $role_get = roles::find(Auth::guard('admin')->user()->role_id);
+        return view('admin.category',compact('category','role_get'));
     }
 
     public function editcategory($id){
@@ -240,7 +242,8 @@ class CategoryController extends Controller
     public function subcategory($id){
         $subcategory = category::where('parent_id',$id)->get();
         $parent_id = $id;
-        return view('admin.subcategory',compact('subcategory','parent_id'));
+        $role_get = roles::find(Auth::guard('admin')->user()->role_id);
+        return view('admin.subcategory',compact('subcategory','parent_id','role_get'));
     }
 
     public function editsubcategory($id){
@@ -343,7 +346,8 @@ class CategoryController extends Controller
 
     public function professionalcategory(){
         $professional_category = professional_category::where('parent_id',0)->get();
-        return view('admin.professional_category',compact('professional_category'));
+        $role_get = roles::find(Auth::guard('admin')->user()->role_id);
+        return view('admin.professional_category',compact('professional_category','role_get'));
     }
 
     public function editprofessionalcategory($id){
@@ -442,7 +446,8 @@ class CategoryController extends Controller
     public function professionalsubcategory($id){
         $professional_subcategory = professional_category::where('parent_id',$id)->get();
         $parent_id = $id;
-        return view('admin.professional_subcategory',compact('professional_subcategory','parent_id'));
+        $role_get = roles::find(Auth::guard('admin')->user()->role_id);
+        return view('admin.professional_subcategory',compact('professional_subcategory','parent_id','role_get'));
     }
 
     public function editprofessionalsubcategory($id){
@@ -543,7 +548,8 @@ class CategoryController extends Controller
 
     public function ideacategory(){
         $idea_category = idea_category::where('parent_id',0)->get();
-        return view('admin.idea_category',compact('idea_category'));
+        $role_get = roles::find(Auth::guard('admin')->user()->role_id);
+        return view('admin.idea_category',compact('idea_category','role_get'));
     }
 
     public function editideacategory($id){
@@ -642,7 +648,8 @@ class CategoryController extends Controller
     public function ideasubcategory($id){
         $idea_subcategory = idea_category::where('parent_id',$id)->get();
         $parent_id = $id;
-        return view('admin.idea_subcategory',compact('idea_subcategory','parent_id'));
+        $role_get = roles::find(Auth::guard('admin')->user()->role_id);
+        return view('admin.idea_subcategory',compact('idea_subcategory','parent_id','role_get'));
     }
 
     public function editideasubcategory($id){

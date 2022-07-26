@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\vendor;
 use App\Models\customer;
 use App\Models\orders;
+use App\Models\vendor_enquiry;
 use Yajra\DataTables\Facades\DataTables;
 use Auth;
 use DB;
@@ -32,6 +33,11 @@ class HomeController extends Controller
     public function changepassword(){
         $profile = User::find(Auth::user()->id);
         return view('customer.change_password',compact('profile'));
+    }
+
+    public function enquiry(){
+        $enquiry = vendor_enquiry::where('customer_id',Auth::user()->id)->orderBy('id','DESC')->get();
+        return view('customer.enquiry',compact('enquiry'));
     }
 
     public function orders(){

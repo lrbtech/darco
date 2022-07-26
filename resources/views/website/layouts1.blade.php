@@ -10,17 +10,24 @@
     <meta property="og:type" content="" />
     <meta property="og:url" content="" />
     <meta property="og:image" content="" />
+    @if(session()->get('theme') == 'light')
+  <link id="themefile" rel="stylesheet" href="/frontend/assets/css/main.css?v=5.2" />
+    @elseif(session()->get('theme') == 'dark')
+     <link rel="stylesheet" href="/frontend/assets/css/dark.css?v=5.2" />
+     <link id="themefile" rel="stylesheet" href="/theme/dark.css"/>
+    @else 
+    <link id="themefile" rel="stylesheet" href="/frontend/assets/css/main.css?v=5.2" />
+    @endif
      <link rel="icon" type="image/x-icon" href="/website_assets/images/ico.ico">
     <!-- Favicon -->
     <!-- <link rel="shortcut icon" type="image/x-icon" href="/frontend/assets/imgs/theme/favicon.svg" /> -->
     <!-- Template CSS -->
     <link rel="stylesheet" href="/frontend/assets/css/plugins/animate.min.css" />
     <link rel="stylesheet" href="/frontend/assets/css/plugins/slider-range.css" />
-    <!-- <link rel="stylesheet" href="/frontend/assets/css/dark.css?v=5.2" /> -->
-    <link rel="stylesheet" href="/frontend/assets/css/main.css?v=5.2" />
     @yield('extra-css')
   </head>
 <script src="/spinner/jquery-spinner.min.js" type="text/javascript"></script>
+<script src="/theme/iconify.min.js" type="text/javascript"></script>
 <style>
   .jquery-spinner-wrap{position:absolute;top:0;z-index:100;width:100%;height:100%;display:none;}.jquery-spinner-wrap .jquery-spinner-circle{height:100%;display:flex;justify-content:center;align-items:center}.jquery-spinner-wrap .jquery-spinner-circle .jquery-spinner-bar{width:40px;height:40px;border:4px solid #ddd;border-top-color:#a40034;border-radius:50%;animation:sp-anime .8s linear infinite}@keyframes sp-anime{to{transform:rotate(1turn)}}
   .text-danger{
@@ -45,6 +52,94 @@
   }
   .main-menu.main-menu-padding-1 > nav > ul > li {
     padding: 0 50px;
+}
+li.sub-mega-menu.sub-mega-menu-width-22 {
+    margin-top: 20px;
+}
+
+
+.toggle-checkbox {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.toggle-slot {
+  position: relative;
+  height: 3.5em;
+  width: 7em;
+  border: 5px solid #e4e7ec;
+  border-radius: 10em;
+  background-color: white;
+  box-shadow: 0px 3px 15px #e4e7ec;
+  transition: background-color 250ms;
+}
+
+.toggle-checkbox:checked ~ .toggle-slot {
+  background-color: #374151;
+}
+
+.toggle-button {
+  transform: translate(3.75em, 4px);
+  position: absolute;
+  height: 2em;
+  width: 2em;
+  border-radius: 50%;
+  background-color: #ffeccf;
+  box-shadow: inset 0px 0px 0px 5px #ffbb52;
+  transition: background-color 250ms, border-color 250ms, transform 500ms cubic-bezier(.26,2,.46,.71);
+}
+
+.toggle-checkbox:checked ~ .toggle-slot .toggle-button {
+  background-color: #485367;
+  box-shadow: inset 0px 0px 0px 5px white;
+  transform: translate(6px, 4px);
+}
+
+.sun-icon {
+  position: absolute;
+  height: 2em;
+  width: 2em;
+  color: #ffbb52;
+}
+
+.sun-icon-wrapper {
+  position: absolute;
+  height: 2em;
+  width: 2em;
+  opacity: 1;
+  transform: translate(6px, 4px) rotate(15deg);
+  transform-origin: 50% 50%;
+  transition: opacity 150ms, transform 500ms cubic-bezier(.26,2,.46,.71);
+}
+
+.toggle-checkbox:checked ~ .toggle-slot .sun-icon-wrapper {
+  opacity: 0;
+  transform: translate(3em, 2em) rotate(0deg);
+}
+
+.moon-icon {
+  position: absolute;
+  height: 2em;
+  width: 2em;
+  color: white;
+}
+
+.moon-icon-wrapper {
+  position: absolute;
+  height: 2em;
+  width: 2em;
+  opacity: 0;
+  transform: translate(11em, 2em) rotate(0deg);
+  transform-origin: 50% 50%;
+  transition: opacity 150ms, transform 500ms cubic-bezier(.26,2.5,.46,.71);
+}
+
+.toggle-checkbox:checked ~ .toggle-slot .moon-icon-wrapper {
+  opacity: 1;
+  transform: translate(4em, 4px) rotate(-15deg);
 }
 </style>
 <body id="spinner_body">
@@ -141,17 +236,14 @@
         </div>
     </div>
     <header class="header-area header-style-1 header-style-5 header-height-2">
-        <div class="mobile-promotion">
-            <span>Grand opening, <strong>up to 15%</strong> off all items. Only <strong>3 days</strong> left</span>
-        </div>
         <div class="header-top header-top-ptb-1 d-none d-lg-block">
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-xl-3 col-lg-4">
                         <div class="header-info">
                             <ul>
-                                <li><a href="page-about.htlm">About Us</a></li>
-                                <li><a href="page-account.html">My Account</a></li>
+                                <li><a href="/about-us">About Us</a></li>
+                                <li><a href="/customer/profile">My Account</a></li>
                                 <li><a href="/contact-us">Contact Us</a></li>
                             </ul>
                         </div>
@@ -171,8 +263,24 @@
                         <div class="header-info header-info-right">
                             <ul>
                               <li>
-                                <a href="#"><img src="/assets/images/icon/moon.png" alt="" /></a>
-                                        </li>
+                                <label>
+                                @if(session()->get('theme') == 'light')
+                                <input class='toggle-checkbox' type='checkbox' id='light_dark'></input>
+                                @else
+                                <input class='toggle-checkbox' type='checkbox' id='light_dark' checked></input>
+
+                                @endif
+                                <div class='toggle-slot'>
+                                    <div class='sun-icon-wrapper'>
+                                    <div class="iconify sun-icon" data-icon="feather-sun" data-inline="false"></div>
+                                    </div>
+                                    <div class='toggle-button'></div>
+                                    <div class='moon-icon-wrapper'>
+                                    <div class="iconify moon-icon" data-icon="feather-moon" data-inline="false"></div>
+                                    </div>
+                                </div>
+                                </label>
+                                </li>
                                 <li>Need help? Email Us: <strong class="text-brand"> Info@darco.com</strong></li>
                                 <!-- <li>
                                     <a class="language-dropdown-active" href="#">English <i class="fi-rs-angle-small-down"></i></a>
@@ -212,24 +320,27 @@
             <div class="container">
                 <div class="header-wrap">
                     <div class="logo logo-width-1">
+                        @if(session()->get('theme') == 'light')
                         <a href="/"><img src="/website_assets/images/logo-light.png" alt="logo" /></a>
+                        @else
+                        <a href="/"><img src="/website_assets/images/logo-dark.png" alt="logo" /></a>
+                        @endif
                     </div>
                     <div class="header-right">
                         <div class="search-style-2">
                             <form action="#">
-                                <select class="select-active">
-                                    <option>All Categories</option>
-                                    <option>Get Ideas</option>
-                                    <option>Find Professionals</option>
-                                    <option>Shop</option>
-                                    
+                                <select name="category_type" id="category_type" class="select-active">
+                                    <option value="">All Categories</option>
+                                    <option value="1">Get Ideas</option>
+                                    <option value="2">Find Professionals</option>
+                                    <option value="3">Shop</option>
                                 </select>
-                                <input type="text" placeholder="Search for items..." />
+                                <input id="search_text" name="search_text" type="text" placeholder="Search for items..." />
                             </form>
                         </div>
                         <div class="header-action-right">
                             <div class="header-action-2">
-                                <div class="search-location">
+                                <!-- <div class="search-location">
                                     <form action="#">
                                         <select class="select-active">
                                             <option>Your Location</option>
@@ -240,7 +351,7 @@
                                             
                                         </select>
                                     </form>
-                                </div>
+                                </div> -->
                                 <!-- <div class="header-action-icon-2">
                                     <a href="shop-compare.html">
                                         <img class="svgInject" src="/frontend/assets/imgs/theme/icons/icon-compare.svg" />
@@ -288,7 +399,7 @@
                                                     </a>
                                                 </div>
                                                 <div class="shopping-cart-title">
-                                                    <h4><a href="shop-product-right.html">{{$row->name}}</a></h4>
+                                                    <h4><a href="/product_drtails/{{$row->id}}">{{$row->name}}</a></h4>
                                                     <h3><span>{{$row->quantity}} × </span>KWD {{$row->price}}</h3>
                                                 </div>
                                                 <div class="shopping-cart-delete">
@@ -326,7 +437,7 @@
                                                 <a href="/customer/orders"><i class="fi fi-rs-location-alt mr-10"></i>My Orders</a>
                                             </li>
                                             <li>
-                                                <a href="/customer/favourites"><i class="fi fi-rs-heart mr-10"></i>My Wishlist</a>
+                                                <a href="/customer/enquiry"><i class="fi fi-rs-heart mr-10"></i>My Enquiries</a>
                                             </li>
                                             <li>
                                                 <a href="/customer/manage-address"><i class="fi fi-rs-location-alt mr-10"></i>My Address</a>
@@ -511,7 +622,7 @@
                     <a href="#"><img src="/frontend/assets/imgs/theme/icons/icon-pinterest-white.svg" alt="" /></a>
                     <a href="#"><img src="/frontend/assets/imgs/theme/icons/icon-youtube-white.svg" alt="" /></a>
                 </div>
-                <div class="site-copyright">Copyright 2022 © Nest. All rights reserved. Powered by AliThemes.</div>
+                <div class="site-copyright">Copyright 2022 © DAR. All rights reserved. Developed By LRBINFOTECHs.</div>
             </div>
         </div>
     </div>
@@ -601,7 +712,11 @@
                     <div class="col">
                         <div class="widget-about font-md mb-md-3 mb-lg-3 mb-xl-0 wow animate__animated animate__fadeInUp" data-wow-delay="0">
                             <div class="logo mb-30">
+                                 @if(session()->get('theme') == 'light')
                                 <a href="index.html" class="mb-15"><img src="/website_assets/images/logo-light.png" alt="logo" /></a>
+                                @else
+                                <a href="index.html" class="mb-15"><img src="/website_assets/images/logo-dark.png" alt="logo" /></a>
+                                @endif
                                 <p class="font-lg text-heading">Perfect Home Service Partner</p>
                             </div>
                             <ul class="contact-infor">
@@ -615,12 +730,12 @@
                     <div class="footer-link-widget col wow animate__animated animate__fadeInUp" data-wow-delay=".1s>
                         <h4 class=" widget-title">Company</h4>
                         <ul class="footer-list mb-sm-5 mb-md-0">
-                            <li><a href="#">About Us</a></li>
-                            <li><a href="#">Delivery Information</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
-                            <li><a href="#">Terms &amp; Conditions</a></li>
-                            <li><a href="#">Contact Us</a></li>
-                            <li><a href="#">Support Center</a></li>
+                            <li><a href="/about-us">About Us</a></li>
+                            <li><a href="/pages/delivery-information">Delivery Information</a></li>
+                            <li><a href="/pages/privacy-policy">Privacy Policy</a></li>
+                            <li><a href="/pages/terms-condition">Terms &amp; Conditions</a></li>
+                            <li><a href="/contact-us">Contact Us</a></li>
+                            <li><a href="/pages/purchase-guide">Purchase Guide</a></li>
                       
                         </ul>
                     </div>
@@ -639,12 +754,10 @@
                     <div class="footer-link-widget col wow animate__animated animate__fadeInUp" data-wow-delay=".3s">
                         <h4 class="widget-title">Corporate</h4>
                         <ul class="footer-list mb-sm-5 mb-md-0">
-                            <li><a href="#">Become a Vendor</a></li>
-                            <li><a href="#">Affiliate Program</a></li>
-                            <li><a href="#">Farm Business</a></li>
-                            <li><a href="#">Farm Careers</a></li>
-                            <li><a href="#">Our Suppliers</a></li>
-                            <li><a href="#">Accessibility</a></li>
+                            <li><a href="/professional-register?email=">Become a Vendor</a></li>
+                            <li><a href="/vendor/login">Vendor Login</a></li>
+                            <li><a href="/pages/vendor-guide">Vendor Guide</a></li>
+                         
                            
                         </ul>
                     </div>
@@ -797,6 +910,49 @@ function DeleteFavourite(id){
         }
     });
 }
+
+function SaveFavouriteIdea(id){
+    $.ajax({
+        url : '/customer/save-favourites-idea/'+id,
+        type: "get",
+        //dataType: "JSON",
+        success: function(data)
+        {                
+            Swal.fire({
+                text: 'Successfully Saved',
+                icon: "success",
+            }).then(function() {
+                location.reload();
+            });
+        },error: function (data) {
+            var errorData = data.responseJSON.errors;
+            $.each(errorData, function(i, obj) {
+                toastr.error(obj[0]);
+            });
+        }
+    });
+}
+function DeleteFavouriteIdea(id){
+    $.ajax({
+        url : '/customer/delete-favourites-idea/'+id,
+        type: "get",
+        //dataType: "JSON",
+        success: function(data)
+        {                
+            Swal.fire({
+                text: 'Successfully Removed',
+                icon: "success",
+            }).then(function() {
+                location.reload();
+            });
+        },error: function (data) {
+            var errorData = data.responseJSON.errors;
+            $.each(errorData, function(i, obj) {
+                toastr.error(obj[0]);
+            });
+        }
+    });
+}
 // getMenu();
 // function getMenu(){
     
@@ -842,6 +998,51 @@ function getMenu(){
     }
   });
 }
+
+$('#search_text').keypress(function (e) {
+  if (e.which == 13) {
+    var category_type = $('#category_type').val();
+    var search_text = $('#search_text').val();
+    var search_text1;
+    if(search_text!=""){
+        search_text1 = search_text;
+    }else{
+        search_text1 = '0';
+    }
+
+    if(category_type == '1'){
+        window.location.href = "/product-list/0/0/0/"+search_text1;
+    }
+    else if(category_type == '2'){
+        window.location.href = "/professional-list/0/0/"+search_text1;
+    }
+    else if(category_type == '3'){
+        window.location.href = "/get-ideas/0/0/0/"+search_text1;
+    }
+    else{
+        window.location.href = "/product-list/0/0/0/"+search_text1;
+    }
+    return false;  
+  }
+});
+
+$("#light_dark").change(function(){
+    var themedata;
+if($(this).prop('checked')){
+    themedata = "dark"
+}else{
+   themedata = "light"
+}
+$.ajax({
+      url : '/update-theme/'+themedata,
+      type: "GET",
+      success: function(data)
+      {
+        location.reload();
+      }
+    });
+});
+
 </script>
 </body>
 

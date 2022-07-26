@@ -8,6 +8,7 @@ use App\Models\reviews;
 use App\Models\vendor;
 use App\Models\User;
 use App\Models\admin;
+use App\Models\roles;
 use Hash;
 use DB;
 use Mail;

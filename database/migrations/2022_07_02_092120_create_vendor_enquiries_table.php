@@ -17,6 +17,8 @@ class CreateVendorEnquiriesTable extends Migration
             $table->id();
             $table->string('date')->nullable();
             $table->string('vendor_id',20)->nullable();
+            $table->string('type',20)->nullable();
+            $table->string('project_idea_book_id',20)->nullable();
             $table->string('customer_id',20)->nullable();
             $table->string('name')->nullable();
             $table->string('email')->nullable();

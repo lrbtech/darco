@@ -21,7 +21,9 @@
           </div>
         </div>
         <div class="content-header-right col-md-6 col-12">
+        @if($role_get->users_create == 'on')
             <button id="add_new" class="float-md-right btn btn-danger round btn-glow px-2" type="button">Add New</button>
+        @endif
           <!-- <div class="dropdown float-md-right">
             <button class="btn btn-danger dropdown-toggle round btn-glow px-2" id="dropdownBreadcrumbButton"
             type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</button>
@@ -74,14 +76,26 @@
                             <td>
                               {{$row->email}}
                             </td>
-                            <td>Admin</td>
+                            <td>
+                              @foreach($roles as $role)
+                              @if($role->id == $row->role_id)
+                              {{$role->role_name}}
+                              @endif
+                              @endforeach
+                            </td>
                             <td>
                                 <div class="btn-group mr-1 mb-1">
                                     <button type="button" class="btn btn-danger btn-block dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Action</button>
                                     <div class="dropdown-menu open-left arrow" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 40px, 0px); top: 0px; left: 0px; will-change: transform;">
-                                        <button onclick="Edit({{$row->id}})"class="dropdown-item" type="button">Edit</button>
+                                    @if($role_get->users_edit == 'on')
+                                        <button onclick="Edit({{$row->id}})" class="dropdown-item" type="button">Edit</button>
+                                    @endif 
+                                    @if($role_get->users_delete == 'on')
                                         <div class="dropdown-divider"></div>
-                                        <button class="dropdown-item" type="button">Block</button>
+                                        @if($row->id != '1')
+                                        <button onclick="Delete({{$row->id}})" class="dropdown-item" type="button">Delete</button>
+                                        @endif
+                                    @endif
                                     </div>
                                 </div>
                             </td>
@@ -128,6 +142,11 @@
                 </div>
 
                 <div class="form-group">
+                    <label class="col-form-label">Mobile</label>
+                    <input autocomplete="off" type="text" id="mobile" name="mobile" class="form-control">
+                </div>
+
+                <div class="form-group">
                     <label class="col-form-label">Email</label>
                     <input autocomplete="off" type="email" id="email" name="email" class="form-control">
                 </div>
@@ -140,7 +159,10 @@
                 <div class="form-group">
                     <label class="col-form-label">Choose Role</label>
                     <select id="role_id" name="role_id" class="form-control">
-                        <option>Admin</option>
+                        <option value="">SELECT</option>
+                        @foreach($roles as $row)
+                        <option value="{{$row->id}}">{{$row->role_name}}</option>
+                        @endforeach
                     </select>
                 </div>
 
@@ -252,6 +274,8 @@ function Edit(id){
       $('#modal-title').text('Update Users');
       $('#save').text('Save Change');
       $('input[name=username]').val(data.username);
+      $('input[name=mobile]').val(data.mobile);
+      $('select[name=role_id]').val(data.role_id);
       $('input[name=email]').val(data.email);
       $('input[name=id]').val(id);
       $('#popup_modal').modal({
@@ -262,12 +286,12 @@ function Edit(id){
     }
   });
 }
-function Delete(id,status){
+function Delete(id){
     var r = confirm("Are you sure");
     if (r == true) {
       spinner_body.show();   
       $.ajax({
-        url : '/admin/delete-user/'+id+'/'+status,
+        url : '/admin/delete-user/'+id,
         type: "GET",
         dataType: "JSON",
         success: function(data)

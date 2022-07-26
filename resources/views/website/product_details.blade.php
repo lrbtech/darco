@@ -8,8 +8,8 @@
             <div class="breadcrumb">
                 <a href="/" rel="nofollow"><i class="fi-rs-home mr-5"></i>Home</a>
                 <span></span> 
-                <a href="/">Vegetables & tubers</a> 
-                <span></span> {{$product->product_name}}
+                <a href="#">{{\App\Http\Controllers\PageController::viewcategoryname($product->category)}}</a> 
+                <span></span> {{\App\Http\Controllers\PageController::viewcategoryname($product->subcategory)}}
             </div>
         </div>
     </div>
@@ -61,11 +61,11 @@
                     </div>
                     <div class="clearfix product-price-cover">
                         <div class="product-price primary-color float-left">
-                            <span class="current-price text-brand">KD {{$product->sales_price}}</span>
+                            <span class="current-price text-brand">KWD {{$product->sales_price}}</span>
                             <span>
                                 <!-- <span class="save-price font-md color3 ml-15">26% Off</span> -->
                                 @if($product->mrp_price > $product->sales_price)
-                                <span class="old-price font-md ml-15">KD {{$product->mrp_price}}</span>
+                                <span class="old-price font-md ml-15">KWD {{$product->mrp_price}}</span>
                                 @endif
                             </span>
                         </div>
@@ -140,10 +140,11 @@
                             <!-- <li class="mb-5">Type: <span class="text-brand">Organic</span></li>
                             <li class="mb-5">MFG:<span class="text-brand"> Jun 4.2022</span></li> -->
                             @if($product->shipping_enable == '0')
-                            <li>Shipping: <span class="text-brand">KD {{$product->shipping_charge}}</span></li>
+                            <li>Shipping: <span class="text-brand">KWD {{$product->shipping_charge}}</span></li>
                             @else 
                             <li>Shipping: <span class="text-brand">Free</span></li>
                             @endif
+                            <li>Height/Weight/Size: <span class="text-brand">{{$product->height_weight_size}}</span></li>
                         </ul>
                         <ul class="float-start">
                             <!-- <li class="mb-5">SKU: <a href="#">FWM15VKT</a></li>
@@ -326,36 +327,41 @@
             </div>
             <div class="col-12">
                 <div class="row related-products">
+                    @foreach($related_products as $row)
                     <div class="col-lg-3 col-md-4 col-12 col-sm-6">
                         <div class="product-cart-wrap hover-up">
                             <div class="product-img-action-wrap">
                                 <div class="product-img product-img-zoom">
-                                    <a href="shop-product-right.html" tabindex="0">
-                                        <img class="default-img" src="/frontend/assets/imgs/shop/product-2-1.jpg" alt="" />
-                                        <img class="hover-img" src="/frontend/assets/imgs/shop/product-2-2.jpg" alt="" />
+                                    <a href="/product-details/{{$row->id}}" tabindex="0">
+                                        <img class="default-img" src="/product_image/{{$row->image}}" alt="" />
+                                        <img class="hover-img" src="/product_image/{{$row->image}}" alt="" />
                                     </a>
                                 </div>
-                                <div class="product-action-1">
+                                <!-- <div class="product-action-1">
                                     <a aria-label="Quick view" class="action-btn small hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal"><i class="fi-rs-search"></i></a>
                                     <a aria-label="Add To Wishlist" class="action-btn small hover-up" href="shop-wishlist.html" tabindex="0"><i class="fi-rs-heart"></i></a>
                                     <a aria-label="Compare" class="action-btn small hover-up" href="shop-compare.html" tabindex="0"><i class="fi-rs-shuffle"></i></a>
-                                </div>
+                                </div> -->
                                 <div class="product-badges product-badges-position product-badges-mrg">
-                                    <span class="hot">Hot</span>
+                                    <span class="hot">{{\App\Http\Controllers\PageController::viewcategoryname($row->category)}}</span>
                                 </div>
                             </div>
                             <div class="product-content-wrap">
-                                <h2><a href="shop-product-right.html" tabindex="0">Ulstra Bass Headphone</a></h2>
-                                <div class="rating-result" title="90%">
+                                <h2><a href="/product-details/{{$row->id}}" tabindex="0">{{$row->product_name}}</a></h2>
+                                <!-- <div class="rating-result" title="90%">
                                     <span> </span>
-                                </div>
+                                </div> -->
                                 <div class="product-price">
-                                    <span>$238.85 </span>
-                                    <span class="old-price">$245.8</span>
+                                    <span>KWD {{$row->sales_price}}</span>
+                                    @if($row->mrp_price > $row->sales_price)
+                                    <span class="old-price">KWD {{$row->mrp_price}}</span>
+                                    @endif
                                 </div>
+                                
                             </div>
                         </div>
                     </div>
+                    @endforeach
 
                 </div>
             </div>
@@ -382,31 +388,31 @@
         </ul>
         <h5 class="section-title style-3 mb-20">Return & Warranty</h5>
         <ul>
-            @if($product->return_policy == '1')
+            @if($product->return_policy == '0')
             <li>
                 <i class="fi fi-rs-shield-check mr-10 text-brand"></i>
                 <span> Return Policy </span>
             </li>
             @endif
-            @if($product->assured_seller == '1')
+            @if($product->assured_seller == '0')
             <li>
                 <i class="fi fi-rs-shield-check mr-10 text-brand"></i>
                 <span> Assured Seller </span>
             </li>
             @endif
-            @if($product->delivery_available == '1')
+            @if($product->delivery_available == '0')
             <li>
                 <i class="fi fi-rs-shield-check mr-10 text-brand"></i>
                 <span> Delivery Available </span>
             </li>
             @endif
-            @if($product->rest_assured_seller == '1')
+            @if($product->rest_assured_seller == '0')
             <li>
                 <i class="fi fi-rs-shield-check mr-10 text-brand"></i>
                 <span> Rest Assured Seller </span>
             </li>
             @endif
-            @if($product->most_trusted == '1')
+            @if($product->most_trusted == '0')
             <li>
                 <i class="fi fi-rs-shield-check mr-10 text-brand"></i>
                 <span> Most Trusted </span>
@@ -430,15 +436,14 @@
     <div class="sidebar-widget widget-category-2 mb-30">
         <h5 class="section-title style-1 mb-30">Category</h5>
         <ul>
+            @foreach($category_all as $row)
             <li>
-                <a href="shop-grid-right.html"> <img src="/frontend/assets/imgs/theme/icons/category-1.svg" alt="" />Milks & Dairies</a><span class="count">30</span>
+                <a class="active" href="/product-list/{{$row->id}}/0/0/0"> 
+                    <img src="/upload_files/{{$row->icon}}" alt="" />{{$row->category}}
+                </a>
+                <!-- <span class="count">30</span> -->
             </li>
-            <li>
-                <a href="shop-grid-right.html"> <img src="/frontend/assets/imgs/theme/icons/category-2.svg" alt="" />Clothing</a><span class="count">35</span>
-            </li>
-            <li>
-                <a href="shop-grid-right.html"> <img src="/frontend/assets/imgs/theme/icons/category-3.svg" alt="" />Pet Foods </a><span class="count">42</span>
-            </li>
+            @endforeach
         </ul>
     </div>
     <!-- <div class="banner-img wow fadeIn mb-lg-0 animated d-lg-block d-none">
@@ -534,9 +539,16 @@ $('.detail-qty').each(function () {
     var qtyval = parseInt($('#quantity').val());
     $('.qty-up').on('click', function (event) {
         event.preventDefault();
+        var stock = '<?php echo $product->stock; ?>';
         qtyval = qtyval + 1;
-        $('.qty-val').text(qtyval);
-        $('#quantity').val(qtyval);
+        alert(stock);
+        alert(qtyval);
+        if (stock > qtyval) {
+            $('.qty-val').text(qtyval);
+            $('#quantity').val(qtyval);
+        } 
+        // $('.qty-val').text(qtyval);
+        // $('#quantity').val(qtyval);
     });
     $('.qty-down').on('click', function (event) {
         event.preventDefault();

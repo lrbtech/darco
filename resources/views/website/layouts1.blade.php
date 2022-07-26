@@ -11,7 +11,7 @@
     <meta property="og:url" content="" />
     <meta property="og:image" content="" />
     @if(session()->get('theme') == 'light')
-  <link id="themefile" rel="stylesheet" href="/frontend/assets/css/main.css?v=5.2" />
+    <link id="themefile" rel="stylesheet" href="/frontend/assets/css/main.css?v=5.2" />
     @elseif(session()->get('theme') == 'dark')
      <link rel="stylesheet" href="/frontend/assets/css/dark.css?v=5.2" />
      <link id="themefile" rel="stylesheet" href="/theme/dark.css"/>
@@ -264,10 +264,10 @@ li.sub-mega-menu.sub-mega-menu-width-22 {
                             <ul>
                               <li>
                                 <label>
-                                @if(session()->get('theme') == 'light')
-                                <input class='toggle-checkbox' type='checkbox' id='light_dark'></input>
-                                @else
+                                @if(session()->get('theme') == 'dark')
                                 <input class='toggle-checkbox' type='checkbox' id='light_dark' checked></input>
+                                @else
+                                <input class='toggle-checkbox' type='checkbox' id='light_dark'></input>
 
                                 @endif
                                 <div class='toggle-slot'>
@@ -320,10 +320,10 @@ li.sub-mega-menu.sub-mega-menu-width-22 {
             <div class="container">
                 <div class="header-wrap">
                     <div class="logo logo-width-1">
-                        @if(session()->get('theme') == 'light')
-                        <a href="/"><img src="/website_assets/images/logo-light.png" alt="logo" /></a>
-                        @else
+                        @if(session()->get('theme') == 'dark')
                         <a href="/"><img src="/website_assets/images/logo-dark.png" alt="logo" /></a>
+                        @else
+                        <a href="/"><img src="/website_assets/images/logo-light.png" alt="logo" /></a>
                         @endif
                     </div>
                     <div class="header-right">

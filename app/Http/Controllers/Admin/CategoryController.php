@@ -8,6 +8,7 @@ use App\Models\category;
 use App\Models\professional_category;
 use App\Models\idea_category;
 use App\Models\roles;
+use Auth;
 
 class CategoryController extends Controller
 {

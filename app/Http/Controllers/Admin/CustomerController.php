@@ -13,6 +13,7 @@ use App\Models\shipping_address;
 use App\Models\roles;
 use Hash;
 use DB;
+use Auth;
 use Mail;
 use Yajra\DataTables\Facades\DataTables;
 

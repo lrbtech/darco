@@ -20,6 +20,7 @@ use App\Models\product_images;
 use Hash;
 use DB;
 use Mail;
+use Auth;
 use Yajra\DataTables\Facades\DataTables;
 
 

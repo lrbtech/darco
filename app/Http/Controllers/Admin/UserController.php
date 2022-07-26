@@ -14,6 +14,7 @@ use App\Models\roles;
 use Hash;
 use DB;
 use Mail;
+use Auth;
 use Yajra\DataTables\Facades\DataTables;
 
 class UserController extends Controller
@@ -78,7 +79,8 @@ class UserController extends Controller
 
     public function roles(){
         $roles = roles::where('status',0)->get();
-        return view('admin.roles',compact('roles'));
+        $role_get = roles::find(Auth::guard('admin')->user()->role_id);
+        return view('admin.roles',compact('roles','role_get'));
     }
 
     public function createroles(){

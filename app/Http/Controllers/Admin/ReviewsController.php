@@ -12,6 +12,7 @@ use App\Models\roles;
 use Hash;
 use DB;
 use Mail;
+use Auth;
 use Yajra\DataTables\Facades\DataTables;
 
 class ReviewsController extends Controller

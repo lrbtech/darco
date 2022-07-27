@@ -81,6 +81,16 @@ class PageController extends Controller
         }
     }
 
+    public static function viewcityname($id) {
+        $city = city::find($id);
+        if(!empty($city)){
+            return $city->city;
+        }
+        else{
+            return '';
+        }
+    }
+
     public static function viewcustomername($id) {
         $user = User::find($id);
         if(!empty($user)){

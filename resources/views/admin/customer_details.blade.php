@@ -78,11 +78,11 @@
             </tr>
             <tr>
             <td>City:</td>
-            <td>{{$customer->city}}</td>
+            <td>{{\App\Http\Controllers\PageController::viewcityname($customer->city)}}</td>
             </tr>
             <tr>
             <td>Area:</td>
-            <td>{{$customer->area}}</td>
+            <td>{{\App\Http\Controllers\PageController::viewcityname($customer->area)}}</td>
             </tr>
 
         </tbody>
@@ -135,8 +135,8 @@
                 <tr>
                     <th>Order ID</th>
                     <th>Vendor Name</th>
-                    <th>Qty</th>
-                    <th>Price</th>
+                    <th>Sub Total</th>
+                    <th>Shipping</th>
                     <th>Total</th>
                 </tr>
             </thead>
@@ -144,9 +144,9 @@
             @foreach($orders as $row)
                 <tr>
                     <td>#{{$row->id}}</td>
-                    <td>{{$row->vendor_id}}</td>
-                    <td>{{$row->qty}}</td>
-                    <td>{{$row->price}} KWD</td>
+                    <td>{{\App\Http\Controllers\PageController::viewvendorname($row->vendor_id)}}</td>
+                    <td>{{$row->sub_total}}</td>
+                    <td>{{$row->shipping_charge}} KWD</td>
                     <td>{{$row->total}} KWD</td>
                 </tr>
             @endforeach
@@ -155,8 +155,8 @@
                 <tr>
                     <th>Order ID</th>
                     <th>Vendor Name</th>
-                    <th>Qty</th>
-                    <th>Price</th>
+                    <th>Sub Total</th>
+                    <th>Shipping</th>
                     <th>Total</th>
                 </tr>
             </tfoot>

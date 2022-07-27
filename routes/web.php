@@ -79,7 +79,7 @@ Route::get('/pages/{id}', [App\Http\Controllers\PageController::class, 'infoPage
 Route::get('/ideas-details/{id}', [App\Http\Controllers\PageController::class, 'ideasDetails']);
 
 Route::get('/product-list/{category}/{subcategory}/{subsubcategory}/{search}', [App\Http\Controllers\ProductListController::class, 'productlist']);
-Route::post('/search-product-list/{category}/{subcategory}/{subsubcategory}/{search}', [App\Http\Controllers\ProductListController::class, 'searchproductlist']);
+Route::get('/search-product-list/{category}/{subcategory}/{subsubcategory}/{search}', [App\Http\Controllers\ProductListController::class, 'searchproductlist']);
 
 Route::get('/get-sub-sub-category/{id}', [App\Http\Controllers\ProductListController::class, 'getsubsubcategory']);
 Route::get('/product-details/{id}', [App\Http\Controllers\ProductListController::class, 'productdetails']);

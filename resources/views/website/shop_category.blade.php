@@ -1,7 +1,7 @@
 @extends('website.layouts')
 @section('extra-css')
 <style>
-    @import url(https://fonts.googleapis.com/css?family=Raleway);
+@import url(https://fonts.googleapis.com/css?family=Raleway);
 
 .main-title{
   color: #2d2d2d;
@@ -11,7 +11,7 @@
 }
 
 .content {
-    padding: 0rem 0;
+  padding: 0rem 0;
 }
 
 .content {

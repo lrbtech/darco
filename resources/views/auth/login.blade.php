@@ -1,4 +1,4 @@
-@extends('website.layouts1')
+@extends('website.layouts')
 @section('extra-css')
 <link rel="stylesheet" href="/website_assets/css/style.css">
 

@@ -1,4 +1,4 @@
-@extends('website.layouts1')
+@extends('website.layouts')
 @section('extra-css')
 <style>
 .product-extra-link2 {

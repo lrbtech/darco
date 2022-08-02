@@ -1,4 +1,4 @@
-@extends('website.layouts1')
+@extends('website.layouts')
 @section('extra-css')
 <link rel="stylesheet" href="/assets/css/font-awesome/css/font-awesome.min.css">
 <link rel="stylesheet" href="/theme/light.css">

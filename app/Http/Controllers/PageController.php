@@ -41,6 +41,16 @@ class PageController extends Controller
         return $pdf->stream('invoice.pdf');
     }
 
+    public static function viewproductname($id) {
+        $product = product::find($id);
+        if(!empty($product)){
+            return $product->product_name;
+        }
+        else{
+            return '';
+        }
+    }
+
     public static function viewcategoryname($id) {
         $category = category::find($id);
         if(!empty($category)){
@@ -390,5 +400,6 @@ class PageController extends Controller
         return view('website.pages',compact('title','content'));
             
       }
+
       
 }

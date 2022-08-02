@@ -1,4 +1,4 @@
-@extends('website.layouts1')
+@extends('website.layouts')
 @section('extra-css')
 
 @endsection
@@ -15,7 +15,7 @@
     <div class="page-content pt-150 pb-150">
         <div class="container">
             <div class="row">
-                <div class="col-xl-8 col-lg-10 col-md-12 m-auto">
+                <div class="col-xl-11 col-lg-11 col-md-12 m-auto">
                     <div class="row">
                         <div class="col-lg-12 col-md-12">
                             <div class="login_wrap widget-taber-content background-white">

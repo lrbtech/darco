@@ -1,11 +1,11 @@
 @extends('website.layouts')
 @section('extra-css')
 <style>
-    .footer-layout{
+.footer-layout{
     position: absolute;
     bottom: -17px;
 }
-    .hovereffect {
+.hovereffect {
   width: 100%;
   height: 100%;
   float: left;
@@ -86,9 +86,9 @@
 @endsection
 @section('content')
 <div class="page-header">
-    <div class="container d-flex flex-column align-items-center">
-        <h2 class="mt-4">About Us</h2>
-    </div>
+  <div class="container d-flex flex-column align-items-center">
+    <h2 class="mt-4">About Us</h2>
+  </div>
 </div>
 <div class="container-fluid">
 <div class="row">

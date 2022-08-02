@@ -63,8 +63,8 @@
         </li>
         @endif
 
-        <li class="reviews nav-item">
-          <a class="nav-link" href="#"><i class="la la-star"></i>
+        <li class="product-reviews nav-item">
+          <a class="nav-link" href="/vendor/product-reviews"><i class="la la-star"></i>
             <span>Reviews</span>
           </a>
         </li>

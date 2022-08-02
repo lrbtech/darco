@@ -34,7 +34,7 @@ class AppServiceProvider extends ServiceProvider
             $view->with(compact('role_get'));
         });
 
-        view()->composer('website.layouts1', function($view) {
+        view()->composer('website.layouts', function($view) {
             $cart_items = Cart::getContent();
             if(Auth::check()){
                 $favourites_count = favourites::where('customer_id',Auth::user()->id)->count();

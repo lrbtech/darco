@@ -1,42 +1,33 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf_token" content="{{ csrf_token() }}" />
-    <link rel="icon" type="image/x-icon" href="/website_assets/images/ico.ico">
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8" />
     <title>Darco</title>
-    <meta name="csrf-token" content="{{ csrf_token() }}" />
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/website_assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v5.15.4/css/all.css" crossorigin="anonymous" />
-    <link rel="stylesheet" href="/website_assets/css/all.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.css">
-    
-    <link rel="stylesheet" href="/website_assets/css/style.css">
-    <link rel="stylesheet" href="/website_assets/css/responsive.css">
-
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta property="og:title" content="" />
+    <meta property="og:type" content="" />
+    <meta property="og:url" content="" />
+    <meta property="og:image" content="" />
+    @if(session()->get('theme') == 'light')
+    <link id="themefile" rel="stylesheet" href="/frontend/assets/css/main.css?v=5.2" />
+    @elseif(session()->get('theme') == 'dark')
+     <link rel="stylesheet" href="/frontend/assets/css/dark.css?v=5.2" />
+     <link id="themefile" rel="stylesheet" href="/theme/dark.css"/>
+    @else 
+    <link id="themefile" rel="stylesheet" href="/frontend/assets/css/main.css?v=5.2" />
+    @endif
+     <link rel="icon" type="image/x-icon" href="/website_assets/images/ico.ico">
+    <!-- Favicon -->
+    <!-- <link rel="shortcut icon" type="image/x-icon" href="/frontend/assets/imgs/theme/favicon.svg" /> -->
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="/frontend/assets/css/plugins/animate.min.css" />
+    <link rel="stylesheet" href="/frontend/assets/css/plugins/slider-range.css" />
     @yield('extra-css')
-
-    <link rel="stylesheet" type="text/css" href="{{ asset('toastr/toastr.css')}}">
-    <link rel="stylesheet" href="{{ asset('sweetalert2/sweetalert2.min.css') }}">
-    <link href="{{asset('autocomplete/jquery-ui.min.css')}}" rel="stylesheet" type="text/css">
-
-    <script type="text/javascript" src="/website_assets/js/jquery.min.js"></script>  
-
-    <script src="{{ asset('sweetalert2/sweetalert2.min.js') }}"></script>
-    <script src="{{ asset('toastr/toastr.min.js')}}" type="text/javascript"></script>
-    <script src="{{ asset('autocomplete/jquery-ui.min.js') }}"></script>
-    <!-- <script src="/website_assets/js/jquery.slim.min.js"></script> -->
-    <script src="/website_assets/js/bootstrap.bundle.min.js"></script>
-
   </head>
 <script src="/spinner/jquery-spinner.min.js" type="text/javascript"></script>
+<script src="/theme/iconify.min.js" type="text/javascript"></script>
 <style>
   .jquery-spinner-wrap{position:absolute;top:0;z-index:100;width:100%;height:100%;display:none;}.jquery-spinner-wrap .jquery-spinner-circle{height:100%;display:flex;justify-content:center;align-items:center}.jquery-spinner-wrap .jquery-spinner-circle .jquery-spinner-bar{width:40px;height:40px;border:4px solid #ddd;border-top-color:#a40034;border-radius:50%;animation:sp-anime .8s linear infinite}@keyframes sp-anime{to{transform:rotate(1turn)}}
   .text-danger{
@@ -59,358 +50,819 @@
     border: 1px solid red;
     outline: none;
   }
+  .main-menu.main-menu-padding-1 > nav > ul > li {
+    padding: 0 50px;
+}
+li.sub-mega-menu.sub-mega-menu-width-22 {
+    margin-top: 20px;
+}
+
+
+.toggle-checkbox {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.toggle-slot {
+  position: relative;
+  height: 3.5em;
+  width: 7em;
+  border: 5px solid #e4e7ec;
+  border-radius: 10em;
+  background-color: white;
+  box-shadow: 0px 3px 15px #e4e7ec;
+  transition: background-color 250ms;
+}
+
+.toggle-checkbox:checked ~ .toggle-slot {
+  background-color: #374151;
+}
+
+.toggle-button {
+  transform: translate(3.75em, 4px);
+  position: absolute;
+  height: 2em;
+  width: 2em;
+  border-radius: 50%;
+  background-color: #ffeccf;
+  box-shadow: inset 0px 0px 0px 5px #ffbb52;
+  transition: background-color 250ms, border-color 250ms, transform 500ms cubic-bezier(.26,2,.46,.71);
+}
+
+.toggle-checkbox:checked ~ .toggle-slot .toggle-button {
+  background-color: #485367;
+  box-shadow: inset 0px 0px 0px 5px white;
+  transform: translate(6px, 4px);
+}
+
+.sun-icon {
+  position: absolute;
+  height: 2em;
+  width: 2em;
+  color: #ffbb52;
+}
+
+.sun-icon-wrapper {
+  position: absolute;
+  height: 2em;
+  width: 2em;
+  opacity: 1;
+  transform: translate(6px, 4px) rotate(15deg);
+  transform-origin: 50% 50%;
+  transition: opacity 150ms, transform 500ms cubic-bezier(.26,2,.46,.71);
+}
+
+.toggle-checkbox:checked ~ .toggle-slot .sun-icon-wrapper {
+  opacity: 0;
+  transform: translate(3em, 2em) rotate(0deg);
+}
+
+.moon-icon {
+  position: absolute;
+  height: 2em;
+  width: 2em;
+  color: white;
+}
+
+.moon-icon-wrapper {
+  position: absolute;
+  height: 2em;
+  width: 2em;
+  opacity: 0;
+  transform: translate(11em, 2em) rotate(0deg);
+  transform-origin: 50% 50%;
+  transition: opacity 150ms, transform 500ms cubic-bezier(.26,2.5,.46,.71);
+}
+
+.toggle-checkbox:checked ~ .toggle-slot .moon-icon-wrapper {
+  opacity: 1;
+  transform: translate(4em, 4px) rotate(-15deg);
+}
 </style>
 <body id="spinner_body">
-
-<header class="bd-navbar">
-
-<div class="container-fluid1">
-<div class="row">
-  <div class="col-md-12 col-lg-2 col-xl-2 text-center" style="padding-right:0">
-    <a class="navbar-brand" href="/">
-      <img src="/website_assets/images/logo-light.png" width="100">
-    </a>
-  </div>
-  <div class="col-md-12 col-lg-10 col-xl-10" style="padding-left: 0;">
-    <nav class="navbar navbar-expand-xl navbar-dark  bg-light">
-  <div class="container-fluid">
-  <div class="toggle-button">
-  <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#menu01" aria-controls="menu01" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-</div>
-</div>
-</nav>
-<div class="topHeader">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-sm-12 col-md-6 col-lg-6">
-        <form action="#" method="POST" id="menuSearch">
-            <input type="text" class="form-control" id="searchInp" placeholder="Search Photos, products, Pros & More...">
-            <button type="submit" class="topSearch"><i class="fa fa-search"></i></button>
-        </form>
-      </div>
-      <div class="col-sm-12 col-md-6 col-lg-6" style="padding-right:0">
-        <ul class="topMenu">
-          <li><a href="/about-us">About Us </a></li>
-          <li><a href="/contact-us">Contact Us</a></li>
-          <li><a href="#">Blog</a></li>
-          
-          <!-- <li class="nav-item dropdown position-static2">
-            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false"><i class="fas fa-heart"></i></a>
-              <div class="dropdown-menu" >
-                <table width="100%" border="0" cellspacing="5" cellpadding="5">
-                  <tr>
-                    <td style="background: #2e2e38;"><i>No order yet added</i> &#128530; !</td>
-                  </tr>
-                </table>
-              </div>
-          </li> -->
-          <!-- <li class="nav-item dropdown position-static2" id="menuWhislist">
-            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false"><i class="fas fa-heart"></i></a>
-              <div class="dropdown-menu" id="menuWhislist_dropdown">
-                <table width="100%" border="0" cellspacing="5" cellpadding="5">
-                  <tr>
-                    <td width="80"><img src="/website_assets/images/dinning-table.png" class="img-responsive"></td>
-                    <td>
-                      <table width="100%">
-                        <tr><td><span><a href="productDetails.php">Dining Table</a></span></td></tr>
-                        <tr><td><a href="cart.php" class="cartMove">Move to cart</a></td></tr>
-                      </table>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td><img src="/website_assets/images/light.png" class="img-responsive"></td>
-                    <td>
-                      <table width="100%">
-                        <tr><td><span><a href="productDetails.php">22" Table Lamp - Whiteray Hurricane Outdoor Metal Lighting</a></span></td></tr>
-                        <tr><td><a href="cart.php" class="cartMove">Move to cart</a></td></tr>
-                      </table>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td width="80"><img src="/website_assets/images/dinning-table.png" class="img-responsive"></td>
-                    <td>
-                      <table width="100%">
-                        <tr><td><span><a href="productDetails.php">Dining Table</a></span></td></tr>
-                        <tr><td><a href="cart.php" class="cartMove">Move to cart</a></td></tr>
-                      </table>
-                    </td>
-                  </tr>
-                </table>
-              </div>
-          </li> -->
-          <!-- <li><a href="cart.php"><i class="far fa-shopping-cart"></i></a></li> -->
-          <li class="nav-item"><a class="nav-link" href="/cart"><i class="far fa-shopping-cart"></i> <span class="badge badge-danger">
-            <?php
-            $cartCollection = Cart::getContent();
-            $cartCollection->count();
-            ?>
-            {{$cartCollection->count()}}
-          </span></a></li>
-
-          @if(Auth::check())
-           <li class="nav-item dropdown position-static2" id="menuProfile2">
-            <a class="nav-link" href="#" class="menuItem" style="font-size:16px"><i class="fas fa-user-circle"></i> Hi {{Auth::user()->first_name}} {{Auth::user()->last_name}},</a>
-            <div class="dropdown-menu" >
-                <a class="dropdown-item" href="/customer/profile">Edit Profile</a>
-                <a class="dropdown-item" href="/customer/orders">View Orders</a>
-                <a class="dropdown-item" href="/customer/manage-address">Manage Address</a>
-                <a class="dropdown-item" href="/customer/favourites">Favourites</a>
-                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Sign Out</a>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                @csrf
-                </form>
-            </div>
-          </li>
-          @else
-          <li><a href="/login"><i class="fa fa-user"></i> Sign In</a></li>
-          @endif
-
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>    </div>
-</div>
-    <nav class="navbar navbar-expand-xl navbar-dark  bg-light">
-  <div class="container-fluid">
-  <!-- <div class="toggle-button">
-  <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#menu01" aria-controls="menu01" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-</div> -->
-<!-- To show dropdwon arrow bootstrap file line no : 3017  -->
-    <div class="collapse navbar-collapse justify-content-center" id="menu01">
-      <ul class="navbar-nav" id="topMenu">
-        
-      
-       
-      
-      
-      </ul>
-    </div>
-    </div>
-</nav>
-  
-
-</div>
-</header>
-
-    
-
-@yield('content')
-
-
-<footer class="footer bg-dark">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-4 col-sm-6">
-                    <h4 class="footer-title">Contact Info</h4>
-                    <ul class="contact-info">
-                        <li>
-                            <span class="contact-info-label">Address:</span>123 Street Name, City, Country
-                        </li>
-                        <li>
-                            <span class="contact-info-label">Phone:</span><a href="tel:">(123)456-7890</a>
-                        </li>
-                        <li>
-                            <span class="contact-info-label">Email:</span> <a href="mailto:mail@example.com">mail@example.com</a>
-                        </li>
-                    </ul>
-                    <div class="social-icons">
-                        <a href="#" class="social-icon social-facebook icon-facebook" target="_blank" title="Facebook"></a>
-                        <a href="#" class="social-icon social-twitter icon-twitter" target="_blank" title="Twitter"></a>
-                        <a href="#" class="social-icon social-instagram icon-instagram" target="_blank" title="Instagram"></a>
-                    </div>
-            </div>
-            <!-- End .col-lg-3 -->
-
-            <div class="col-lg-4 col-sm-6">
-                    <h4 class="footer-title">Customer Service</h4>
-                    <ul class="links">
-                        <li><a href="faq.php">Help &amp; FAQs</a></li>
-                        <li><a href="myorders.php">Order Tracking</a></li>
-                        <li><a href="editprofile.php">My Account</a></li>
-                        <li><a href="#">Careers</a></li>
-                        <li><a href="about.php">About Us</a></li>
-                        <li><a href="#">Privacy</a></li>
-                    </ul>
-            </div>
-
-            <div class="col-lg-4 col-sm-6">
-                <div class="footer-newsletter">
-                    <h4 class="widget-title">Subscribe newsletter</h4>
-                    <p>Get all the latest information on events, sales and offers. Sign up for newsletter:
-                    </p>
-                    <form action="#" class="mb-0">
-                        <div class="form-group">
-                        <input type="email" class="form-control m-b-3" placeholder="Email address" required="">
+    <!-- Quick view -->
+    <div class="modal fade custom-modal" id="quickViewModal" tabindex="-1" aria-labelledby="quickViewModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12 col-xs-12 mb-md-0 mb-sm-5">
+                            <div class="detail-gallery">
+                                <span class="zoom-icon"><i class="fi-rs-search"></i></span>
+                                <!-- MAIN SLIDES -->
+                                <div class="product-image-slider">
+                                    <figure class="border-radius-10">
+                                        <img src="/frontend/assets/imgs/shop/product-16-2.jpg" alt="product image" />
+                                    </figure>
+                                    <figure class="border-radius-10">
+                                        <img src="/frontend/assets/imgs/shop/product-16-1.jpg" alt="product image" />
+                                    </figure>
+                                    <figure class="border-radius-10">
+                                        <img src="/frontend/assets/imgs/shop/product-16-3.jpg" alt="product image" />
+                                    </figure>
+                                    <figure class="border-radius-10">
+                                        <img src="/frontend/assets/imgs/shop/product-16-4.jpg" alt="product image" />
+                                    </figure>
+                                    <figure class="border-radius-10">
+                                        <img src="/frontend/assets/imgs/shop/product-16-5.jpg" alt="product image" />
+                                    </figure>
+                                    <figure class="border-radius-10">
+                                        <img src="/frontend/assets/imgs/shop/product-16-6.jpg" alt="product image" />
+                                    </figure>
+                                    <figure class="border-radius-10">
+                                        <img src="/frontend/assets/imgs/shop/product-16-7.jpg" alt="product image" />
+                                    </figure>
+                                </div>
+                                <!-- THUMBNAILS -->
+                                <div class="slider-nav-thumbnails">
+                                    <div><img src="/frontend/assets/imgs/shop/thumbnail-3.jpg" alt="product image" /></div>
+                                    <div><img src="/frontend/assets/imgs/shop/thumbnail-4.jpg" alt="product image" /></div>
+                                    <div><img src="/frontend/assets/imgs/shop/thumbnail-5.jpg" alt="product image" /></div>
+                                    <div><img src="/frontend/assets/imgs/shop/thumbnail-6.jpg" alt="product image" /></div>
+                                    <div><img src="/frontend/assets/imgs/shop/thumbnail-7.jpg" alt="product image" /></div>
+                                    <div><img src="/frontend/assets/imgs/shop/thumbnail-8.jpg" alt="product image" /></div>
+                                    <div><img src="/frontend/assets/imgs/shop/thumbnail-9.jpg" alt="product image" /></div>
+                                </div>
+                            </div>
+                            <!-- End Gallery -->
                         </div>
+                        <div class="col-md-6 col-sm-12 col-xs-12">
+                            <div class="detail-info pr-30 pl-30">
+                                <span class="stock-status out-stock"> Sale Off </span>
+                                <h3 class="title-detail"><a href="shop-product-right.html" class="text-heading">Seeds of Change Organic Quinoa, Brown</a></h3>
+                                <div class="product-detail-rating">
+                                    <div class="product-rate-cover text-end">
+                                        <div class="product-rate d-inline-block">
+                                            <div class="product-rating" style="width: 90%"></div>
+                                        </div>
+                                        <span class="font-small ml-5 text-muted"> (32 reviews)</span>
+                                    </div>
+                                </div>
+                                <div class="clearfix product-price-cover">
+                                    <div class="product-price primary-color float-left">
+                                        <span class="current-price text-brand">$38</span>
+                                        <span>
+                                            <span class="save-price font-md color3 ml-15">26% Off</span>
+                                            <span class="old-price font-md ml-15">$52</span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="detail-extralink mb-30">
+                                    <div class="detail-qty border radius">
+                                        <a href="#" class="qty-down"><i class="fi-rs-angle-small-down"></i></a>
+                                        <span class="qty-val">1</span>
+                                        <a href="#" class="qty-up"><i class="fi-rs-angle-small-up"></i></a>
+                                    </div>
+                                    <div class="product-extra-link2">
+                                        <button type="submit" class="button button-add-to-cart"><i class="fi-rs-shopping-cart"></i>Add to cart</button>
+                                    </div>
+                                </div>
+                                <div class="font-xs">
+                                    <ul>
+                                        <li class="mb-5">Vendor: <span class="text-brand">Nest</span></li>
+                                        <li class="mb-5">MFG:<span class="text-brand"> Jun 4.2022</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- Detail Info -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <header class="header-area header-style-1 header-style-5 header-height-2">
+        <div class="header-top header-top-ptb-1 d-none d-lg-block">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-xl-3 col-lg-4">
+                        <div class="header-info">
+                            <ul>
+                                <li><a href="/about-us">About Us</a></li>
+                                <li><a href="/customer/profile">My Account</a></li>
+                                <li><a href="/contact-us">Contact Us</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-4">
+                        <!-- <div class="text-center">
+                            <div id="news-flash" class="d-inline-block">
+                                <ul>
+                                    <li>100% Secure delivery without contacting the courier</li>
+                                    <li>Supper Value Deals - Save more with coupons</li>
+                                    <li>Trendy 25silver jewelry, save up 35% off today</li>
+                                </ul>
+                            </div>
+                        </div> -->
+                    </div>
+                    <div class="col-xl-3 col-lg-4">
+                        <div class="header-info header-info-right">
+                            <ul>
+                              <li>
+                                <label>
+                                @if(session()->get('theme') == 'dark')
+                                <input class='toggle-checkbox' type='checkbox' id='light_dark' checked></input>
+                                @else
+                                <input class='toggle-checkbox' type='checkbox' id='light_dark'></input>
 
-                        <input type="submit" class="btn btn-primary shadow-none" value="Subscribe">
+                                @endif
+                                <div class='toggle-slot'>
+                                    <div class='sun-icon-wrapper'>
+                                    <div class="iconify sun-icon" data-icon="feather-sun" data-inline="false"></div>
+                                    </div>
+                                    <div class='toggle-button'></div>
+                                    <div class='moon-icon-wrapper'>
+                                    <div class="iconify moon-icon" data-icon="feather-moon" data-inline="false"></div>
+                                    </div>
+                                </div>
+                                </label>
+                                </li>
+                                <li>Need help? Email Us: <strong class="text-brand"> Info@darco.com</strong></li>
+                                <!-- <li>
+                                    <a class="language-dropdown-active" href="#">English <i class="fi-rs-angle-small-down"></i></a>
+                                    <ul class="language-dropdown">
+                                        <li>
+                                            <a href="#"><img src="/frontend/assets/imgs/theme/flag-fr.png" alt="" />Français</a>
+                                        </li>
+                                        <li>
+                                            <a href="#"><img src="/frontend/assets/imgs/theme/flag-dt.png" alt="" />Deutsch</a>
+                                        </li>
+                                        <li>
+                                            <a href="#"><img src="/frontend/assets/imgs/theme/flag-ru.png" alt="" />Pусский</a>
+                                        </li>
+                                    </ul>
+                                </li> -->
+                                <!-- <li>
+                                    <a class="language-dropdown-active" href="#">USD <i class="fi-rs-angle-small-down"></i></a>
+                                    <ul class="language-dropdown">
+                                        <li>
+                                            <a href="#"><img src="/frontend/assets/imgs/theme/flag-fr.png" alt="" />INR</a>
+                                        </li>
+                                        <li>
+                                            <a href="#"><img src="/frontend/assets/imgs/theme/flag-dt.png" alt="" />MBP</a>
+                                        </li>
+                                        <li>
+                                            <a href="#"><img src="/frontend/assets/imgs/theme/flag-ru.png" alt="" />EU</a>
+                                        </li>
+                                    </ul>
+                                </li> -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="header-middle header-middle-ptb-1 d-none d-lg-block">
+            <div class="container">
+                <div class="header-wrap">
+                    <div class="logo logo-width-1">
+                        @if(session()->get('theme') == 'dark')
+                        <a href="/"><img src="/website_assets/images/logo-dark.png" alt="logo" /></a>
+                        @else
+                        <a href="/"><img src="/website_assets/images/logo-light.png" alt="logo" /></a>
+                        @endif
+                    </div>
+                    <div class="header-right">
+                        <div class="search-style-2">
+                            <form action="#">
+                                <select name="category_type" id="category_type" class="select-active">
+                                    <option value="">All Categories</option>
+                                    <option value="1">Get Ideas</option>
+                                    <option value="2">Find Professionals</option>
+                                    <option value="3">Shop</option>
+                                </select>
+                                <input id="search_text" name="search_text" type="text" placeholder="Search for items..." />
+                            </form>
+                        </div>
+                        <div class="header-action-right">
+                            <div class="header-action-2">
+                                <!-- <div class="search-location">
+                                    <form action="#">
+                                        <select class="select-active">
+                                            <option>Your Location</option>
+                                            <option>Kuwait City</option>
+                                            <option>Al Ahmadi</option>
+                                            <option>Hawalli</option>
+                                            <option>As Salimiyah</option>
+                                            
+                                        </select>
+                                    </form>
+                                </div> -->
+                                <!-- <div class="header-action-icon-2">
+                                    <a href="shop-compare.html">
+                                        <img class="svgInject" src="/frontend/assets/imgs/theme/icons/icon-compare.svg" />
+                                        <span class="pro-count blue">3</span>
+                                    </a>
+                                    <a href="shop-compare.html"><span class="lable ml-0">Compare</span></a>
+                                </div> -->
+                                <div class="header-action-icon-2">
+                                    @if(Auth::check())
+                                    <a href="/customer/favourites">
+                                        <img class="svgInject" src="/frontend/assets/imgs/theme/icons/icon-heart.svg" />
+                                        <span class="pro-count blue">{{$wishlist_count}}</span>
+                                    </a>
+                                    <a href="/customer/favourites"><span class="lable">Wishlist</span></a>
+                                    @else 
+                                    <a href="/login">
+                                        <img class="svgInject" src="/frontend/assets/imgs/theme/icons/icon-heart.svg" />
+                                        <span class="pro-count blue">{{$wishlist_count}}</span>
+                                    </a>
+                                    <a href="/login"><span class="lable">Wishlist</span></a>
+                                    @endif
+                                </div>
+                                <div class="header-action-icon-2">
+                                    <a class="mini-cart-icon" href="/cart">
+                                        <img src="/frontend/assets/imgs/theme/icons/icon-cart.svg" />
+                                        <span class="pro-count blue">
+                                        <?php
+                                        $cartCollection = Cart::getContent();
+                                        $cartCollection->count();
+                                        ?>
+                                        {{$cartCollection->count()}}
+                                        </span>
+                                    </a>
+                                    <a href="/cart"><span class="lable">Cart</span></a>
+                                    <div class="cart-dropdown-wrap cart-dropdown-hm2">
+                                        <ul>
+                                            @php 
+                                            $cart_header_total=0;
+                                            @endphp
+                                            @foreach($cart_items as $key => $row)
+                                            <li>
+                                                <div class="shopping-cart-img">
+                                                    <a href="/product_drtails/{{$row->id}}">
+                                                        <img src="/product_image/{{$row->attributes->product_image}}" />
+                                                    </a>
+                                                </div>
+                                                <div class="shopping-cart-title">
+                                                    <h4><a href="/product_drtails/{{$row->id}}">{{$row->name}}</a></h4>
+                                                    <h3><span>{{$row->quantity}} × </span>KWD {{$row->price}}</h3>
+                                                </div>
+                                                <div class="shopping-cart-delete">
+                                                    <a onclick="RemoveCart({{$row->id}})" href="#"><i class="fi-rs-cross-small"></i></a>
+                                                </div>
+                                            </li>
+                                            @php 
+                                            $cart_header_total = $cart_header_total + ($row->quantity * $row->price); 
+                                            @endphp
+                                            @endforeach
+                                        </ul>
+                                        <div class="shopping-cart-footer">
+                                            <div class="shopping-cart-total">
+                                                <h4>Total <span>KWD {{$cart_header_total}}</span></h4>
+                                            </div>
+                                            <div class="shopping-cart-button">
+                                                <a href="/cart" class="outline">View cart</a>
+                                                <a href="/checkout">Checkout</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="header-action-icon-2">
+                                    @if(Auth::check())
+                                    <a href="page-account.html">
+                                        <img class="svgInject" src="/frontend/assets/imgs/theme/icons/icon-user.svg" />
+                                    </a>
+                                    <a href="#"><span class="lable ml-0">Account</span></a>
+                                    <div class="cart-dropdown-wrap cart-dropdown-hm2 account-dropdown">
+                                        <ul>
+                                            <li>
+                                                <a href="/customer/profile"><i class="fi fi-rs-user mr-10"></i>My Account</a>
+                                            </li>
+                                            <li>
+                                                <a href="/customer/orders"><i class="fi fi-rs-location-alt mr-10"></i>My Orders</a>
+                                            </li>
+                                            <li>
+                                                <a href="/customer/enquiry"><i class="fi fi-rs-heart mr-10"></i>My Enquiries</a>
+                                            </li>
+                                            <li>
+                                                <a href="/customer/manage-address"><i class="fi fi-rs-location-alt mr-10"></i>My Address</a>
+                                            </li>
+                                            <li>
+                                                <a href="/customer/change-password"><i class="fi fi-rs-settings-sliders mr-10"></i>Change Password</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fi fi-rs-sign-out mr-10"></i>Sign out</a>
+                                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                                @csrf
+                                                </form>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    @else
+                                    <a href="/login">
+                                        <img class="svgInject" src="/frontend/assets/imgs/theme/icons/icon-user.svg" />
+                                    </a>
+                                    <a href="/login"><span class="lable ml-0">Login</span></a>                                    
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="header-bottom header-bottom-bg-color sticky-bar">
+            <div class="container">
+                <div class="header-wrap header-space-between position-relative">
+                    <div class="logo logo-width-1 d-block d-lg-none">
+                        <a href="/"><img src="/website_assets/images/logo-light.png" alt="logo" /></a>
+                    </div>
+                    <div class="header-nav d-none d-lg-flex">
+                      
+                        <div style="text-align:center !important;" class="main-menu main-menu-padding-1 main-menu-lh-2 d-none d-lg-block font-heading">
+                            <nav>
+                                <ul class="mega-menu-dyno">
+                                   
+                                   
+                                  
+                                  
+                                    
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                  
+                    <div class="header-action-icon-2 d-block d-lg-none">
+                        <div class="burger-icon burger-icon-white">
+                            <span class="burger-icon-top"></span>
+                            <span class="burger-icon-mid"></span>
+                            <span class="burger-icon-bottom"></span>
+                        </div>
+                    </div>
+                    <div class="header-action-right d-block d-lg-none">
+                        <div class="header-action-2">
+                            <div class="header-action-icon-2">
+                                <a href="shop-wishlist.html">
+                                    <img src="/frontend/assets/imgs/theme/icons/icon-heart.svg" />
+                                    <span class="pro-count white">4</span>
+                                </a>
+                            </div>
+                            <div class="header-action-icon-2">
+                                <a class="mini-cart-icon" href="/cart">
+                                    <img src="/frontend/assets/imgs/theme/icons/icon-cart.svg" />
+                                    <span class="pro-count white">
+                                    <?php
+                                    $cartCollection = Cart::getContent();
+                                    $cartCollection->count();
+                                    ?>
+                                    {{$cartCollection->count()}}
+                                    </span>
+                                </a>
+                                <div class="cart-dropdown-wrap cart-dropdown-hm2">
+                                    <ul>
+                                        @php 
+                                        $cart_header_total=0;
+                                        @endphp
+                                        @foreach($cart_items as $key => $row)
+                                        <li>
+                                            <div class="shopping-cart-img">
+                                                <a href="/product_drtails/{{$row->id}}"><img src="/product_image/{{$row->attributes->product_image}}" /></a>
+                                            </div>
+                                            <div class="shopping-cart-title">
+                                                <h4><a href="shop-product-right.html">{{$row->name}}</a></h4>
+                                                <h3><span>{{$row->quantity}} × </span>KWD {{$row->price}}</h3>
+                                            </div>
+                                            <div class="shopping-cart-delete">
+                                                <a onclick="RemoveCart({{$row->id}})" href="#"><i class="fi-rs-cross-small"></i></a>
+                                            </div>
+                                        </li>
+                                        @php 
+                                        $cart_header_total = $cart_header_total + ($row->quantity * $row->price); 
+                                        @endphp
+                                        @endforeach
+                                    </ul>
+                                    <div class="shopping-cart-footer">
+                                        <div class="shopping-cart-total">
+                                            <h4>Total <span>KWD {{$cart_header_total}}</span></h4>
+                                        </div>
+                                        <div class="shopping-cart-button">
+                                            <a href="/cart">View cart</a>
+                                            <!-- <a href="/checkout">Checkout</a> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="mobile-header-active mobile-header-wrapper-style">
+        <div class="mobile-header-wrapper-inner">
+            <div class="mobile-header-top">
+                <div class="mobile-header-logo">
+                    <a href="/"><img src="/website_assets/images/logo-light.png" alt="logo" /></a>
+                </div>
+                <div class="mobile-menu-close close-style-wrap close-style-position-inherit">
+                    <button class="close-style search-close">
+                        <i class="icon-top"></i>
+                        <i class="icon-bottom"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="mobile-header-content-area">
+                <div class="mobile-search search-style-3 mobile-header-border">
+                    <form action="#">
+                        <input type="text" placeholder="Search for items…" />
+                        <button type="submit"><i class="fi-rs-search"></i></button>
                     </form>
                 </div>
+                <div class="mobile-menu-wrap mobile-header-border">
+                    <!-- mobile menu start -->
+                    <nav>
+                        <ul class="mobile-menu font-heading">
+                            <li class="menu-item-has-children">
+                                <a href="#">GET IDEAS</a>
+                                <ul class="dropdown">
+                                    <li><a href="#">Vendors Grid</a></li>
+                                    <li><a href="#">Vendors List</a></li>
+                                </ul>
+                            </li>
+                            <li class="menu-item-has-children">
+                                <a href="#">FIND PROFESSIONALS</a>
+                                <ul class="dropdown">
+                                    <li><a href="#">Vendors Grid</a></li>
+                                    <li><a href="#">Vendors List</a></li>
+                                </ul>
+                            </li>
+                            <li class="menu-item-has-children">
+                                <a href="#">SHOP BY DEPARTMENT</a>
+                                <ul class="dropdown">
+                                    <li><a href="#">Vendors Grid</a></li>
+                                    <li><a href="#">Vendors List</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+                    <!-- mobile menu end -->
+                </div>
+                <div class="mobile-header-info-wrap">
+                    <div class="single-mobile-header-info">
+                        <a href="page-contact.html"><i class="fi-rs-marker"></i> Our location </a>
+                    </div>
+                    <div class="single-mobile-header-info">
+                        <a href="page-login.html"><i class="fi-rs-user"></i>Log In / Sign Up </a>
+                    </div>
+                    <div class="single-mobile-header-info">
+                        <a href="#"><i class="fi-rs-headphones"></i>(+01) - 2345 - 6789 </a>
+                    </div>
+                </div>
+                <div class="mobile-social-icon mb-50">
+                    <h6 class="mb-15">Follow Us</h6>
+                    <a href="#"><img src="/frontend/assets/imgs/theme/icons/icon-facebook-white.svg" alt="" /></a>
+                    <a href="#"><img src="/frontend/assets/imgs/theme/icons/icon-twitter-white.svg" alt="" /></a>
+                    <a href="#"><img src="/frontend/assets/imgs/theme/icons/icon-instagram-white.svg" alt="" /></a>
+                    <a href="#"><img src="/frontend/assets/imgs/theme/icons/icon-pinterest-white.svg" alt="" /></a>
+                    <a href="#"><img src="/frontend/assets/imgs/theme/icons/icon-youtube-white.svg" alt="" /></a>
+                </div>
+                <div class="site-copyright">Copyright 2022 © DAR. All rights reserved. Developed By LRBINFOTECHs.</div>
             </div>
         </div>
     </div>
+    <!--End header-->
 
-    <div class="container">
-        <div class="footer-bottom">
+
+    @yield('content')
+
+
+    <footer class="main">
+   
+        <section class="featured section-padding">
             <div class="container">
+                <div class="row">
+                    <div class="col-lg-1-5 col-md-4 col-12 col-sm-6 mb-md-4 mb-xl-0">
+                        <div class="banner-left-icon d-flex align-items-center wow animate__animated animate__fadeInUp" data-wow-delay="0">
+                            <div class="banner-icon">
+                                <img src="/frontend/assets/imgs/theme/icons/icon-1.svg" alt="" />
+                            </div>
+                            <div class="banner-text">
+                                <h3 class="icon-box-title">Best prices & offers</h3>
+                                <p>Orders $50 or more</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-1-5 col-md-4 col-12 col-sm-6">
+                        <div class="banner-left-icon d-flex align-items-center wow animate__animated animate__fadeInUp" data-wow-delay=".1s">
+                            <div class="banner-icon">
+                                <img src="/frontend/assets/imgs/theme/icons/icon-2.svg" alt="" />
+                            </div>
+                            <div class="banner-text">
+                                <h3 class="icon-box-title">Free delivery</h3>
+                                <p>24/7 amazing services</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-1-5 col-md-4 col-12 col-sm-6">
+                        <div class="banner-left-icon d-flex align-items-center wow animate__animated animate__fadeInUp" data-wow-delay=".2s">
+                            <div class="banner-icon">
+                                <img src="/frontend/assets/imgs/theme/icons/icon-3.svg" alt="" />
+                            </div>
+                            <div class="banner-text">
+                                <h3 class="icon-box-title">Great daily deal</h3>
+                                <p>When you sign up</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-1-5 col-md-4 col-12 col-sm-6">
+                        <div class="banner-left-icon d-flex align-items-center wow animate__animated animate__fadeInUp" data-wow-delay=".3s">
+                            <div class="banner-icon">
+                                <img src="/frontend/assets/imgs/theme/icons/icon-4.svg" alt="" />
+                            </div>
+                            <div class="banner-text">
+                                <h3 class="icon-box-title">Wide assortment</h3>
+                                <p>Mega Discounts</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-1-5 col-md-4 col-12 col-sm-6">
+                        <div class="banner-left-icon d-flex align-items-center wow animate__animated animate__fadeInUp" data-wow-delay=".4s">
+                            <div class="banner-icon">
+                                <img src="/frontend/assets/imgs/theme/icons/icon-5.svg" alt="" />
+                            </div>
+                            <div class="banner-text">
+                                <h3 class="icon-box-title">Easy returns</h3>
+                                <p>Within 30 days</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-1-5 col-md-4 col-12 col-sm-6 d-xl-none">
+                        <div class="banner-left-icon d-flex align-items-center wow animate__animated animate__fadeInUp" data-wow-delay=".5s">
+                            <div class="banner-icon">
+                                <img src="/frontend/assets/imgs/theme/icons/icon-6.svg" alt="" />
+                            </div>
+                            <div class="banner-text">
+                                <h3 class="icon-box-title">Safe delivery</h3>
+                                <p>Within 30 days</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="section-padding footer-mid">
+            <div class="container pt-15 pb-20">
+                <div class="row">
+                    <div class="col">
+                        <div class="widget-about font-md mb-md-3 mb-lg-3 mb-xl-0 wow animate__animated animate__fadeInUp" data-wow-delay="0">
+                            <div class="logo mb-30">
+                                 @if(session()->get('theme') == 'light')
+                                <a href="index.html" class="mb-15"><img src="/website_assets/images/logo-light.png" alt="logo" /></a>
+                                @else
+                                <a href="index.html" class="mb-15"><img src="/website_assets/images/logo-dark.png" alt="logo" /></a>
+                                @endif
+                                <p class="font-lg text-heading">Perfect Home Service Partner</p>
+                            </div>
+                            <ul class="contact-infor">
+                                <li><img src="/frontend/assets/imgs/theme/icons/icon-location.svg" alt="" /><strong>Address: </strong> <span>Darco kuwait</span></li>
+                                <li><img src="/frontend/assets/imgs/theme/icons/icon-contact.svg" alt="" /><strong>Call Us:</strong><span>(+965) - 540-025-124553</span></li>
+                                <li><img src="/frontend/assets/imgs/theme/icons/icon-email-2.svg" alt="" /><strong>Email:</strong><span><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="fb889a979ebbb59e888fd5989496">[email&#160;protected]</a></span></li>
+                               
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="footer-link-widget col wow animate__animated animate__fadeInUp" data-wow-delay=".1s>
+                        <h4 class=" widget-title">Company</h4>
+                        <ul class="footer-list mb-sm-5 mb-md-0">
+                            <li><a href="/about-us">About Us</a></li>
+                            <li><a href="/pages/delivery-information">Delivery Information</a></li>
+                            <li><a href="/pages/privacy-policy">Privacy Policy</a></li>
+                            <li><a href="/pages/terms-condition">Terms &amp; Conditions</a></li>
+                            <li><a href="/contact-us">Contact Us</a></li>
+                            <li><a href="/pages/purchase-guide">Purchase Guide</a></li>
+                      
+                        </ul>
+                    </div>
+                    <!-- <div class="footer-link-widget col wow animate__animated animate__fadeInUp" data-wow-delay=".2s">
+                        <h4 class="widget-title">Account</h4>
+                        <ul class="footer-list mb-sm-5 mb-md-0">
+                            <li><a href="#">Sign In</a></li>
+                            <li><a href="#">View Cart</a></li>
+                            <li><a href="#">My Wishlist</a></li>
+                            <li><a href="#">Track My Order</a></li>
+                            <li><a href="#">Help Ticket</a></li>
+                            <li><a href="#">Shipping Details</a></li>
+                            <li><a href="#">Compare products</a></li>
+                        </ul>
+                    </div> -->
+                    <div class="footer-link-widget col wow animate__animated animate__fadeInUp" data-wow-delay=".3s">
+                        <h4 class="widget-title">Corporate</h4>
+                        <ul class="footer-list mb-sm-5 mb-md-0">
+                            <li><a href="/professional-register?email=">Become a Vendor</a></li>
+                            <li><a href="/vendor/login">Vendor Login</a></li>
+                            <li><a href="/pages/vendor-guide">Vendor Guide</a></li>
+                         
+                           
+                        </ul>
+                    </div>
+                    <!-- <div class="footer-link-widget col wow animate__animated animate__fadeInUp" data-wow-delay=".4s">
+                        <h4 class="widget-title">Popular</h4>
+                        <ul class="footer-list mb-sm-5 mb-md-0">
+                            <li><a href="#">Milk & Flavoured Milk</a></li>
+                            <li><a href="#">Butter and Margarine</a></li>
+                            <li><a href="#">Eggs Substitutes</a></li>
+                            <li><a href="#">Marmalades</a></li>
+                            <li><a href="#">Sour Cream and Dips</a></li>
+                            <li><a href="#">Tea & Kombucha</a></li>
+                            <li><a href="#">Cheese</a></li>
+                        </ul>
+                    </div> -->
+                    <div class="footer-link-widget widget-install-app col wow animate__animated animate__fadeInUp" data-wow-delay=".5s">
+                        <h4 class="widget-title">Install App</h4>
+                        <p class="">From App Store or Google Play</p>
+                        <div class="download-app">
+                            <a href="#" class="hover-up mb-sm-2 mb-lg-0"><img class="active" src="/frontend/assets/imgs/theme/app-store.jpg" alt="" /></a>
+                            <a href="#" class="hover-up mb-sm-2"><img src="/frontend/assets/imgs/theme/google-play.jpg" alt="" /></a>
+                        </div>
+                        <p class="mb-20">Secured Payment Gateways</p>
+                        <img class="" src="/frontend/assets/imgs/theme/payment-method.png" alt="" />
+                    </div>
+                </div>
+        </section>
+        <div class="container pb-30 wow animate__animated animate__fadeInUp" data-wow-delay="0">
+            <div class="row align-items-center">
+                <div class="col-12 mb-30">
+                    <div class="footer-bottom"></div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6">
+                    <p class="font-sm mb-0">&copy; 2022, <strong class="text-brand">DARCO</strong> -  All rights reserved<br /> Developed By LRBINFOTECH</p>
+                </div>
+                <!-- <div class="col-xl-4 col-lg-6 text-center d-none d-xl-block">
+                    <div class="hotline d-lg-inline-flex mr-30">
+                        <img src="/frontend/assets/imgs/theme/icons/phone-call.svg" alt="hotline" />
+                        <p>1900 - 6666<span>Working 8:00 - 22:00</span></p>
+                    </div>
+                    <div class="hotline d-lg-inline-flex">
+                        <img src="/frontend/assets/imgs/theme/icons/phone-call.svg" alt="hotline" />
+                        <p>1900 - 8888<span>24/7 Support Center</span></p>
+                    </div>
+                </div> -->
+                <div class="col-xl-6 col-lg-6 col-md-6 text-end d-none d-md-block">
+                    <div class="mobile-social-icon">
+                        <h6>Follow Us</h6>
+                        <a href="#"><img src="/frontend/assets/imgs/theme/icons/icon-facebook-white.svg" alt="" /></a>
+                        <a href="#"><img src="/frontend/assets/imgs/theme/icons/icon-twitter-white.svg" alt="" /></a>
+                        <a href="#"><img src="/frontend/assets/imgs/theme/icons/icon-instagram-white.svg" alt="" /></a>
+                        <a href="#"><img src="/frontend/assets/imgs/theme/icons/icon-pinterest-white.svg" alt="" /></a>
+                        <a href="#"><img src="/frontend/assets/imgs/theme/icons/icon-youtube-white.svg" alt="" /></a>
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Preloader Start -->
+    <div id="preloader-active">
+        <div class="preloader d-flex align-items-center justify-content-center">
+            <div class="preloader-inner position-relative">
                 <div class="text-center">
-                    <span class="footer-copyright">© DARCO 2022. All Rights Reserved</span>
+                    <img src="/frontend/assets/imgs/theme/loading.gif" alt="" />
                 </div>
             </div>
         </div>
-        <!-- End .footer-bottom -->
     </div>
-    <!-- End .container -->
-</footer>
+    <!-- Vendor JS-->
+    <!-- <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script> -->
 
+    <link rel="stylesheet" type="text/css" href="{{ asset('toastr/toastr.css')}}">
+    <link rel="stylesheet" href="{{ asset('sweetalert2/sweetalert2.min.css') }}">
+    <link href="{{asset('autocomplete/jquery-ui.min.css')}}" rel="stylesheet" type="text/css">
 
-<!-- Modal enteringViewpoint -->
-<div class="modal fade" id="enteringViewpoint" tabindex="-1" role="dialog" aria-labelledby="enteringViewpointLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg  modal-dialog-centered modal-dialog-scrollable" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalLabel">Choose who you are?</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-          <div class="col-sm-6">
-            <a href="/individual-register" class="style3" id="view1">
-              <div class="card">
-                <div class="card-title"><h4>Individual</h4></div>
-                <div class="card-desc text-center">
-                  <span id="img-icon"></span><br> <br>
-                  <p>I am a owner of the property, selling the lands, homes, appliances, like etc.,</p>
-                <div class="text-left">  
-                </div>
-              </div>
-              <button type="button" class="btn btn-dark btn-md">Join us</button>
-            </div>
-          </a>
-          </div>
-          <div class="col-sm-6">
-            <a href="/professional-register" class="style3" id="view2">
-            <div class="card">
-              <div class="card-title"><h4>Professional</h4></div>
-              <div class="card-desc text-center">
-                <span id="img-icon2"></span><br> <br>
-                <p>We offer home improvement service or sell home products, lands.</p>
-                <div class="text-left">
-              </div>
-              </div>
-              <button type="button" class="btn btn-dark btn-md">Join us</button>
-            </div>
-          </a>
-          </div>
-        </div>
-      </div>
-      <!-- <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div> -->
-    </div>
-  </div>
-</div>
+    <script src="/frontend/assets/js/vendor/modernizr-3.6.0.min.js"></script>
+    <script src="/frontend/assets/js/vendor/jquery-3.6.0.min.js"></script>
+    <script src="/frontend/assets/js/vendor/jquery-migrate-3.3.0.min.js"></script>
 
-            
-<script type="text/javascript">
-// Banner
-$(function(){
-let slideIndex = 0;
-showSlides();
-  function showSlides() {
-    let i;
-    let slides = document.getElementsByClassName("mySlides");
-    for (i = 0; i < slides.length; i++) {
-      slides[i].style.display = "none";  
-    }
-    slideIndex++;
-    if (slideIndex > slides.length) {slideIndex = 1}    
-    slides[slideIndex-1].style.display = "block";  
-    setTimeout(showSlides, 9000); 
-  };
-});
-</script>
-
-<script type="text/javascript">
-$(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-})
-</script>
-
-
-<script>
-
-// Edit Profile
-function readURL(input) {
-  if (input.files && input.files[0]) {
-    var reader = new FileReader();
-    reader.onload = function(e) {
-        $('#imagePreview').css('background-image', 'url('+e.target.result +')');
-        $('#imagePreview').hide();
-        $('#imagePreview').fadeIn(650);
-    }
-    reader.readAsDataURL(input.files[0]);
-  }
-}
-$("#imageUpload").change(function() {
-  readURL(this);
-});
-</script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/owl.carousel.js"></script>
-
-<script type="text/javascript">
-  $(document).ready(function(){
-  if($('.bbb_viewed_slider').length)
-  {
-    var viewedSlider = $('.bbb_viewed_slider');
-
-    viewedSlider.owlCarousel(
-    {
-        loop:true,
-        margin:30,
-        autoplay:true,
-        autoplayTimeout:6000,
-        nav:false,
-        dots:false,
-        responsive:
-        {
-            0:{items:2},
-            575:{items:2},
-            768:{items:3},
-            991:{items:4},
-            1199:{items:6}
-        }
-    });
-
-    if($('.bbb_viewed_prev').length)
-    {
-        var prev = $('.bbb_viewed_prev');
-        prev.on('click', function()
-        {
-            viewedSlider.trigger('prev.owl.carousel');
-        });
-    }
-
-    if($('.bbb_viewed_next').length)
-    {
-        var next = $('.bbb_viewed_next');
-        next.on('click', function()
-        {
-            viewedSlider.trigger('next.owl.carousel');
-        });
-    }
-  }
-});
-</script>
+    <script src="{{ asset('sweetalert2/sweetalert2.min.js') }}"></script>
+    <script src="{{ asset('toastr/toastr.min.js')}}" type="text/javascript"></script>
+    <script src="{{ asset('autocomplete/jquery-ui.min.js') }}"></script>
+    
+    <script src="/frontend/assets/js/vendor/bootstrap.bundle.min.js"></script>
+    <script src="/frontend/assets/js/plugins/slick.js"></script>
+    <script src="/frontend/assets/js/plugins/jquery.syotimer.min.js"></script>
+    <script src="/frontend/assets/js/plugins/waypoints.js"></script>
+    <script src="/frontend/assets/js/plugins/wow.js"></script>
+    <script src="/frontend/assets/js/plugins/perfect-scrollbar.js"></script>
+    <script src="/frontend/assets/js/plugins/magnific-popup.js"></script>
+    <script src="/frontend/assets/js/plugins/select2.min.js"></script>
+    <script src="/frontend/assets/js/plugins/slider-range.js"></script>
+    <script src="/frontend/assets/js/plugins/counterup.js"></script>
+    <script src="/frontend/assets/js/plugins/jquery.countdown.min.js"></script>
+    <script src="/frontend/assets/js/plugins/images-loaded.js"></script>
+    <script src="/frontend/assets/js/plugins/isotope.js"></script>
+    <script src="/frontend/assets/js/plugins/scrollup.js"></script>
+    <script src="/frontend/assets/js/plugins/jquery.vticker-min.js"></script>
+    <script src="/frontend/assets/js/plugins/jquery.theia.sticky.js"></script>
+    <script src="/frontend/assets/js/plugins/jquery.elevatezoom.js"></script>
+    <!-- Template  JS -->
+    <script src="/frontend/assets/js/main.js?v=5.2"></script>
+    <script src="/frontend/assets/js/shop.js?v=5.2"></script>
+    @yield('extra-js')
 <script>
   var spinner_body = new jQuerySpinner({
     parentId: 'spinner_body'
@@ -459,9 +911,139 @@ function DeleteFavourite(id){
     });
 }
 
+function SaveFavouriteIdea(id){
+    $.ajax({
+        url : '/customer/save-favourites-idea/'+id,
+        type: "get",
+        //dataType: "JSON",
+        success: function(data)
+        {                
+            Swal.fire({
+                text: 'Successfully Saved',
+                icon: "success",
+            }).then(function() {
+                location.reload();
+            });
+        },error: function (data) {
+            var errorData = data.responseJSON.errors;
+            $.each(errorData, function(i, obj) {
+                toastr.error(obj[0]);
+            });
+        }
+    });
+}
+function DeleteFavouriteIdea(id){
+    $.ajax({
+        url : '/customer/delete-favourites-idea/'+id,
+        type: "get",
+        //dataType: "JSON",
+        success: function(data)
+        {                
+            Swal.fire({
+                text: 'Successfully Removed',
+                icon: "success",
+            }).then(function() {
+                location.reload();
+            });
+        },error: function (data) {
+            var errorData = data.responseJSON.errors;
+            $.each(errorData, function(i, obj) {
+                toastr.error(obj[0]);
+            });
+        }
+    });
+}
+// getMenu();
+// function getMenu(){
+    
+//   $.ajax({
+//     url : '/get-menu',
+//     type: "GET",
+//     dataType: "JSON",
+//     success: function(data)
+//     {
+//       $("#topMenu").html(data);
+//     }
+//   });
+// }
+
+
+function RemoveCart(id){
+    var r = confirm("Are you sure");
+    if (r == true) {
+      spinner_body.show();   
+      $.ajax({
+        url : '/remove-cart/'+id,
+        type: "GET",
+        dataType: "JSON",
+        success: function(data)
+        {
+          spinner_body.hide();   
+          toastr.success('Removed Successfully');
+          location.reload();
+        }
+      });
+    } 
+}
+getMenu();
+function getMenu(){
+    
+  $.ajax({
+    url : '/get-menu',
+    type: "GET",
+    dataType: "JSON",
+    success: function(data)
+    {
+      $(".mega-menu-dyno").html(data);
+    }
+  });
+}
+
+$('#search_text').keypress(function (e) {
+  if (e.which == 13) {
+    var category_type = $('#category_type').val();
+    var search_text = $('#search_text').val();
+    var search_text1;
+    if(search_text!=""){
+        search_text1 = search_text;
+    }else{
+        search_text1 = '0';
+    }
+
+    if(category_type == '1'){
+        window.location.href = "/product-list/0/0/0/"+search_text1;
+    }
+    else if(category_type == '2'){
+        window.location.href = "/professional-list/0/0/"+search_text1;
+    }
+    else if(category_type == '3'){
+        window.location.href = "/get-ideas/0/0/0/"+search_text1;
+    }
+    else{
+        window.location.href = "/product-list/0/0/0/"+search_text1;
+    }
+    return false;  
+  }
+});
+
+$("#light_dark").change(function(){
+    var themedata;
+if($(this).prop('checked')){
+    themedata = "dark"
+}else{
+   themedata = "light"
+}
+$.ajax({
+      url : '/update-theme/'+themedata,
+      type: "GET",
+      success: function(data)
+      {
+        location.reload();
+      }
+    });
+});
+
 </script>
-@yield('extra-js')
+</body>
 
-
-  </body>
 </html>

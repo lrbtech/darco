@@ -1,4 +1,4 @@
-@extends('website.layouts1')
+@extends('website.layouts')
 @section('extra-css')
 
 @endsection
@@ -171,12 +171,12 @@
                                     <a href="/product-list/{{$row->category}}/0/0/0">{{\App\Http\Controllers\PageController::viewcategoryname($row->category)}}</a>
                                 </div>
                                 <h2><a href="/product-details/{{$row->id}}">{{$row->product_name}}</a></h2>
-                                <!-- <div class="product-rate-cover">
+                                <div class="product-rate-cover">
                                     <div class="product-rate d-inline-block">
-                                        <div class="product-rating" style="width: 90%"></div>
+                                        <div class="product-rating" style="width:{{\App\Http\Controllers\ProductListController::viewratingpercentage($row->id)}}%"></div>
                                     </div>
-                                    <span class="font-small ml-5 text-muted"> (4.0)</span>
-                                </div> -->
+                                    <!-- <span class="font-small ml-5 text-muted"> (4.0)</span> -->
+                                </div>
                                 <div>
                                     <span class="font-small text-muted">By <a href="#">{{\App\Http\Controllers\PageController::viewvendorname($row->vendor_id)}}</a></span>
                                 </div>
@@ -236,7 +236,7 @@
                     </ul>
                 </div>
                 <!-- Fillter By Price -->
-                <form action="/search-product-list/{{$category_id}}/{{$subcategory_id}}/{{$subsubcategory_id}}/{{$search_id}}" id="filter-form" method="POST">
+                <form action="/search-product-list/{{$category_id}}/{{$subcategory_id}}/{{$subsubcategory_id}}/{{$search_id}}" id="filter-form" method="GET">
                 {{csrf_field()}}
                 <div class="sidebar-widget price_range range mb-30">
                     <h5 class="section-title style-1 mb-30">Fillter</h5>

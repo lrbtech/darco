@@ -1,4 +1,4 @@
-@extends('website.layouts1')
+@extends('website.layouts')
 @section('extra-css')
  @if(session()->get('theme') == 'light')
 <style>

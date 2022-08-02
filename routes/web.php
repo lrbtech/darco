@@ -81,6 +81,9 @@ Route::get('/ideas-details/{id}', [App\Http\Controllers\PageController::class, '
 Route::get('/product-list/{category}/{subcategory}/{subsubcategory}/{search}', [App\Http\Controllers\ProductListController::class, 'productlist']);
 Route::get('/search-product-list/{category}/{subcategory}/{subsubcategory}/{search}', [App\Http\Controllers\ProductListController::class, 'searchproductlist']);
 
+Route::post('/save-review', [App\Http\Controllers\ProductListController::class, 'savereview']);
+Route::post('/update-review', [App\Http\Controllers\ProductListController::class, 'updatereview']);
+
 Route::get('/get-sub-sub-category/{id}', [App\Http\Controllers\ProductListController::class, 'getsubsubcategory']);
 Route::get('/product-details/{id}', [App\Http\Controllers\ProductListController::class, 'productdetails']);
 
@@ -95,10 +98,6 @@ Route::get('/get-idea-details/{id}', [App\Http\Controllers\IdeasListController::
 
 //coupon
 Route::POST('/apply-coupon', [App\Http\Controllers\CheckoutController::class, 'applyCoupon']);
-
-
-Route::post('/save-review', [App\Http\Controllers\PageController::class, 'savereview']);
-Route::post('/update-review', [App\Http\Controllers\PageController::class, 'updatereview']);
 
 
 Auth::routes();
@@ -151,8 +150,8 @@ Route::group(['prefix' => 'admin'],function(){
 	Route::get('/delete-category/{id}/{status}', [App\Http\Controllers\Admin\CategoryController::class, 'deletecategory']);
 
 
-	Route::get('/reviews', [App\Http\Controllers\Admin\ReviewsController::class, 'reviews']);
-	Route::get('/reviews-status/{id}/{status}', [App\Http\Controllers\Admin\ReviewsController::class, 'reviewsstatus']);
+	Route::get('/product-reviews', [App\Http\Controllers\Admin\ReviewsController::class, 'productreviews']);
+	// Route::get('/reviews-status/{id}/{status}', [App\Http\Controllers\Admin\ReviewsController::class, 'reviewsstatus']);
 
 
 
@@ -322,8 +321,8 @@ Route::group(['prefix' => 'vendor'],function(){
 	Route::get('/delete-coupon/{id}', [App\Http\Controllers\Vendor\CouponController::class, 'deletecoupon']);
 
 
-	Route::get('/reviews', [App\Http\Controllers\Vendor\ReviewsController::class, 'reviews']);
-	Route::get('/reviews-status/{id}/{status}', [App\Http\Controllers\Vendor\ReviewsController::class, 'reviewsstatus']);
+	Route::get('/product-reviews', [App\Http\Controllers\Vendor\ReviewsController::class, 'productreviews']);
+	// Route::get('/reviews-status/{id}/{status}', [App\Http\Controllers\Vendor\ReviewsController::class, 'reviewsstatus']);
 
 
 	Route::get('/add-project', [App\Http\Controllers\Vendor\SettingsController::class, 'addproject']);

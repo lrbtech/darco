@@ -1,4 +1,4 @@
-@extends('website.layouts1')
+@extends('website.layouts')
 @section('extra-css')
 <style>
 @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');

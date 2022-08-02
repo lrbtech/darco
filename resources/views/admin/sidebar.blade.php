@@ -20,8 +20,8 @@
         @endif
 
         @if($role_get->reviews == 'on')
-        <li class="reviews nav-item">
-            <a href="#"><i class="la la-star-o"></i><span class="menu-title" data-i18n="nav.dash.main">Reviews</span></a>
+        <li class="product-reviews nav-item">
+            <a href="/admin/product-reviews"><i class="la la-star-o"></i><span class="menu-title" data-i18n="nav.dash.main">Reviews</span></a>
         </li>
         @endif
 

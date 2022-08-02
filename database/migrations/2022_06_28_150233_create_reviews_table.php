@@ -22,7 +22,7 @@ class CreateReviewsTable extends Migration
             $table->string('name')->nullable();
             $table->string('email')->nullable();
             $table->string('mobile')->nullable();
-            $table->string('reviews')->nullable();
+            $table->string('rating')->nullable();
             $table->TEXT('message')->nullable();
             $table->string('status')->default('0');
             $table->timestamps();

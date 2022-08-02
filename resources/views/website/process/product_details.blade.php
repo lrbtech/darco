@@ -1,5 +1,11 @@
-@extends('website.layouts1')
+@extends('website.layouts')
 @section('extra-css')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+<style>
+    .star-rating{
+        direction:rtl;margin-bottom:25px;text-align:center}.star-rating input{display:none}.star-rating input:checked ~ label::after{opacity:1}.star-rating label{display:inline-block;position:relative;cursor:pointer;margin:0px 8px}.star-rating label:hover::after{opacity:1}.star-rating label:hover:hover ~ label::after{opacity:1}.star-rating label::before{content:"\f005";font-family:'Font Awesome 5 Free';font-weight:900;font-size:35px;display:block;color:#bbbbbb}.star-rating label::after{content:"\f005";font-family:'Font Awesome 5 Free';font-weight:900;font-size:35px;position:absolute;display:block;top:0px;left:0px;color:#ffcc23;opacity:0}@media (max-width: 575px){.star-rating label{margin:0px 3px}
+    }
+</style>
 @endsection
 @section('content')
 <main class="main">
@@ -174,7 +180,7 @@
                         <a class="nav-link" id="Vendor-info-tab" data-bs-toggle="tab" href="#Vendor-info">Vendor</a>
                     </li> -->
                     <li class="nav-item">
-                        <a class="nav-link" id="Reviews-tab" data-bs-toggle="tab" href="#Reviews">Reviews (3)</a>
+                        <a class="nav-link" id="Reviews-tab" data-bs-toggle="tab" href="#Reviews">Reviews ({{$reviews_count}})</a>
                     </li>
                 </ul>
                 <div class="tab-content shop_info_tab entry-main-content">
@@ -232,95 +238,192 @@
                                 <div class="col-lg-8">
                                     <h4 class="mb-30">Customer Reviews</h4>
                                     <div class="comment-list">
+                                        @foreach($all_reviews as $row)
                                         <div class="single-comment justify-content-between d-flex mb-30">
                                             <div class="user justify-content-between d-flex">
                                                 <div class="thumb text-center">
+                                                    @if($row->profile_image == '')
                                                     <img src="/frontend/assets/imgs/blog/author-2.png" alt="" />
-                                                    <a href="#" class="font-heading text-brand">Sienna</a>
+                                                    @else 
+                                                    <a href="#"><img src="/profile_image/{{$row->profile_image}}"></a>
+                                                    @endif
+                                                    <a href="#" class="font-heading text-brand">{{$row->first_name}} {{$row->last_name}}</a>
                                                 </div>
                                                 <div class="desc">
                                                     <div class="d-flex justify-content-between mb-10">
                                                         <div class="d-flex align-items-center">
-                                                            <span class="font-xs text-muted">December 4, 2022 at 3:12 pm </span>
+                                                            <span class="font-xs text-muted">{{$row->updated_at}} </span>
                                                         </div>
                                                         <div class="product-rate d-inline-block">
-                                                            <div class="product-rating" style="width: 100%"></div>
+                                                        @if($row->rating == '1')
+                                                        <div class="product-rating" style="width:20%"></div>
+                                                        @elseif($row->rating == '2')
+                                                        <div class="product-rating" style="width:40%"></div>
+                                                        @elseif($row->rating == '3')
+                                                        <div class="product-rating" style="width:60%"></div>
+                                                        @elseif($row->rating == '4')
+                                                        <div class="product-rating" style="width:80%"></div>
+                                                        @elseif($row->rating == '5')
+                                                        <div class="product-rating" style="width:100%"></div>
+                                                        @endif
                                                         </div>
                                                     </div>
-                                                    <p class="mb-10">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus, suscipit exercitationem accusantium obcaecati quos voluptate nesciunt facilis itaque modi commodi dignissimos sequi repudiandae minus ab deleniti totam officia id incidunt? <a href="#" class="reply">Reply</a></p>
+                                                    <p class="mb-10">{{$row->message}}
+                                                        <!-- <a href="#" class="reply">Reply</a> -->
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
+                                        @endforeach
+                                        {!! $all_reviews->links('pagination.pagination') !!}
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
                                     <h4 class="mb-30">Customer reviews</h4>
                                     <div class="d-flex mb-30">
+                                        <?php 
+                                        if($reviews_count > 0){
+                                            $average_percentage =(($reviews_1*1) + ($reviews_2*2) + ($reviews_3*3) + ($reviews_4*4) + ($reviews_5*5))/$reviews_count;
+                                        }
+                                        else{
+                                            $average_percentage=0;
+                                        }
+                                        ?>
                                         <div class="product-rate d-inline-block mr-15">
-                                            <div class="product-rating" style="width: 90%"></div>
+                                            <div class="product-rating" style="width: {{$average_percentage * 20}}%"></div>
                                         </div>
-                                        <h6>4.8 out of 5</h6>
+                                        <h6><?php echo $average_percentage; ?> out of 5</h6>
                                     </div>
+                                    @if($reviews_count > 0)
                                     <div class="progress">
                                         <span>5 star</span>
-                                        <div class="progress-bar" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%</div>
+                                        <div class="progress-bar" role="progressbar" style="width:{{($reviews_5 / $reviews_count)*100}}%" aria-valuenow="{{($reviews_5 / $reviews_count)*100}}" aria-valuemin="0" aria-valuemax="100">{{($reviews_5 / $reviews_count)*100}}%</div>
                                     </div>
                                     <div class="progress">
                                         <span>4 star</span>
-                                        <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+                                        <div class="progress-bar" role="progressbar" style="width:{{($reviews_4 / $reviews_count)*100}}%" aria-valuenow="{{($reviews_4 / $reviews_count)*100}}" aria-valuemin="0" aria-valuemax="100">{{($reviews_4 / $reviews_count)*100}}%</div>
                                     </div>
                                     <div class="progress">
                                         <span>3 star</span>
-                                        <div class="progress-bar" role="progressbar" style="width: 45%" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100">45%</div>
+                                        <div class="progress-bar" role="progressbar" style="width:{{($reviews_3 / $reviews_count)*100}}%" aria-valuenow="{{($reviews_3 / $reviews_count)*100}}" aria-valuemin="0" aria-valuemax="100">{{($reviews_3 / $reviews_count)*100}}%</div>
                                     </div>
                                     <div class="progress">
                                         <span>2 star</span>
-                                        <div class="progress-bar" role="progressbar" style="width: 65%" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">65%</div>
+                                        <div class="progress-bar" role="progressbar" style="width:{{($reviews_2 / $reviews_count)*100}}%" aria-valuenow="{{($reviews_2 / $reviews_count)*100}}" aria-valuemin="0" aria-valuemax="100">{{($reviews_2 / $reviews_count)*100}}%</div>
                                     </div>
                                     <div class="progress mb-30">
                                         <span>1 star</span>
-                                        <div class="progress-bar" role="progressbar" style="width: 85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">85%</div>
+                                        <div class="progress-bar" role="progressbar" style="width:{{($reviews_1 / $reviews_count)*100}}%" aria-valuenow="{{($reviews_1 / $reviews_count)*100}}" aria-valuemin="0" aria-valuemax="100">{{($reviews_1 / $reviews_count)*100}}%</div>
                                     </div>
-                                    <a href="#" class="font-xs text-muted">How are ratings calculated?</a>
+                                    @endif
+                                    <!-- <a href="#" class="font-xs text-muted">How are ratings calculated?</a> -->
                                 </div>
                             </div>
                         </div>
                         <!--comment form-->
+                        @if(Auth::check())
+                        @if(count($buy_product) > 0)
+                        @if(!empty($reviews))
                         <div class="comment-form">
                             <h4 class="mb-15">Add a review</h4>
-                            <div class="product-rate d-inline-block mb-30"></div>
+                            <!-- <div class="product-rate d-inline-block mb-30"></div> -->
                             <div class="row">
                                 <div class="col-lg-8 col-md-12">
-                                    <form class="form-contact comment_form" action="#" id="commentForm">
+                                    <form class="form-contact comment_form" action="#" id="review_form" method="POST">
+                                    {{ csrf_field() }}
+                                    <input value="{{$reviews->id}}" type="hidden" name="review_id">
+                                    <input value="{{$product->id}}" type="hidden" name="review_product_id">
                                         <div class="row">
                                             <div class="col-12">
-                                                <div class="form-group">
-                                                    <textarea class="form-control w-100" name="comment" id="comment" cols="30" rows="9" placeholder="Write Comment"></textarea>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="form-group">
-                                                    <input class="form-control" name="name" id="name" type="text" placeholder="Name" />
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="form-group">
-                                                    <input class="form-control" name="email" id="email" type="email" placeholder="Email" />
+                                                <div class="star-rating">
+                                                    <input value="5" type="radio" name="rating" id="star-1"  {{ ($reviews->rating == '5' ? ' checked' : '') }}>
+                                                    <label for="star-1"></label>
+                                                    <input {{ ($reviews->rating == '4' ? ' checked' : '') }} value="4" type="radio" name="rating" id="star-2">
+                                                    <label for="star-2"></label>
+                                                    <input {{ ($reviews->rating == '3' ? ' checked' : '') }} value="3" type="radio" name="rating" id="star-3">
+                                                    <label for="star-3"></label>
+                                                    <input {{ ($reviews->rating == '2' ? ' checked' : '') }} value="2" type="radio" name="rating" id="star-4">
+                                                    <label for="star-4"></label>
+                                                    <input {{ ($reviews->rating == '1' ? ' checked' : '') }} value="1" type="radio" name="rating" id="star-5">
+                                                    <label for="star-5"></label>
                                                 </div>
                                             </div>
                                             <div class="col-12">
                                                 <div class="form-group">
-                                                    <input class="form-control" name="website" id="website" type="text" placeholder="Website" />
+                                                    <textarea class="form-control w-100" name="message" id="message" rows="4" placeholder="Write Message">{{$reviews->message}}</textarea>
+                                                </div>
+                                            </div>
+                                    
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <input readonly value="{{$reviews->name}}" class="form-control" name="name" id="name" type="text" placeholder="Name" />
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <input readonly value="{{$reviews->email}}" class="form-control" name="email" id="email" type="email" placeholder="Email" />
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <button type="submit" class="button button-contactForm">Submit Review</button>
+                                            <button id="savereview" type="button" onclick="UpdateReview()" class="button button-contactForm">Update Review</button>
                                         </div>
                                     </form>
                                 </div>
                             </div>
                         </div>
+                        @else 
+                        <div class="comment-form">
+                            <h4 class="mb-15">Add a review</h4>
+                            <!-- <div class="product-rate d-inline-block mb-30"></div> -->
+                            <div class="row">
+                                <div class="col-lg-8 col-md-12">
+                                    <form class="form-contact comment_form" action="#" id="review_form" method="POST">
+                                    {{ csrf_field() }}
+                                    <input value="{{$product->id}}" type="hidden" name="review_product_id">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="star-rating">
+                                                    <input value="5" type="radio" name="rating" id="star-1">
+                                                    <label for="star-1"></label>
+                                                    <input value="4" type="radio" name="rating" id="star-2">
+                                                    <label for="star-2"></label>
+                                                    <input value="3" type="radio" name="rating" id="star-3">
+                                                    <label for="star-3"></label>
+                                                    <input value="2" type="radio" name="rating" id="star-4">
+                                                    <label for="star-4"></label>
+                                                    <input value="1" type="radio" name="rating" id="star-5">
+                                                    <label for="star-5"></label>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <textarea class="form-control w-100" name="message" id="message" rows="4" placeholder="Write Message"></textarea>
+                                                </div>
+                                            </div>
+                                    
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <input readonly value="{{Auth::user()->first_name}} {{Auth::user()->last_name}}" class="form-control" name="name" id="name" type="text" placeholder="Name" />
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <input value="{{Auth::user()->email}}" readonly class="form-control" name="email" id="email" type="email" placeholder="Email" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <button id="savereview" type="button" onclick="SaveReview()" class="button button-contactForm">Submit Review</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+                        @endif
+                        @endif
                     </div>
                 </div>
             </div>
@@ -355,6 +458,9 @@
                                 <!-- <div class="rating-result" title="90%">
                                     <span> </span>
                                 </div> -->
+                                <div class="product-rate d-inline-block">
+                                    <div class="product-rating" style="width:{{\App\Http\Controllers\ProductListController::viewratingpercentage($row->id)}}%"></div>
+                                </div>
                                 <div class="product-price">
                                     <span>KWD {{$row->sales_price}}</span>
                                     @if($row->mrp_price > $row->sales_price)
@@ -572,6 +678,91 @@ $('.detail-qty').each(function () {
         }
     });
 });
+
+
+
+function SaveReview(){
+    spinner_body.show();
+    $(".text-danger").remove();
+    $('.form-group').removeClass('has-error').removeClass('has-success');
+    $("#savereview").attr("disabled", true);
+    var formData = new FormData($('#review_form')[0]);
+    $.ajax({
+        url : '/save-review',
+        type: "POST",
+        data: formData,
+        contentType: false,
+        processData: false,
+        dataType: "JSON",
+        success: function(data)
+        {               
+            spinner_body.hide(); 
+            Swal.fire({
+                text: 'Successfully Save',
+                icon: 'success',
+                showCancelButton: false,
+                confirmButtonText: 'Ok!'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    console.log(data);
+                    $("#review_form")[0].reset();
+                    location.reload();
+                    $("#savereview").attr("disabled", false);
+                }
+            })  
+        },error: function (data) {
+            var errorData = data.responseJSON.errors;
+            spinner_body.hide();
+            $.each(errorData, function(i, obj) {
+                toastr.error(obj[0]);
+                $('input[name='+i+']').after('<p class="text-danger">'+obj[0]+'</p>');
+                $('input[name='+i+']').closest('.form-group').addClass('has-error');
+            });
+            $("#savereview").attr("disabled", false);
+        }
+    });
+}
+function UpdateReview(){
+    spinner_body.show();
+    $(".text-danger").remove();
+    $('.form-group').removeClass('has-error').removeClass('has-success');
+    $("#savereview").attr("disabled", true);
+    var formData = new FormData($('#review_form')[0]);
+    $.ajax({
+        url : '/update-review',
+        type: "POST",
+        data: formData,
+        contentType: false,
+        processData: false,
+        dataType: "JSON",
+        success: function(data)
+        {     
+            spinner_body.hide();           
+            Swal.fire({
+                text: 'Successfully Update',
+                icon: 'success',
+                showCancelButton: false,
+                confirmButtonText: 'Ok!'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    console.log(data);
+                    $("#review_form")[0].reset();
+                    location.reload();
+                    $("#savereview").attr("disabled", false);
+                }
+            })  
+        },error: function (data) {
+            var errorData = data.responseJSON.errors;
+            spinner_body.hide();
+            $.each(errorData, function(i, obj) {
+                toastr.error(obj[0]);
+                $('input[name='+i+']').after('<p class="text-danger">'+obj[0]+'</p>');
+                $('input[name='+i+']').closest('.form-group').addClass('has-error');
+            });
+            $("#savereview").attr("disabled", false);
+        }
+    });
+}
 
 </script>
 @endsection

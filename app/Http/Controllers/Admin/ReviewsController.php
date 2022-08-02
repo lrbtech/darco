@@ -8,6 +8,7 @@ use App\Models\reviews;
 use App\Models\vendor;
 use App\Models\User;
 use App\Models\admin;
+use App\Models\product;
 use App\Models\roles;
 use Hash;
 use DB;
@@ -24,11 +25,10 @@ class ReviewsController extends Controller
         date_default_timezone_get();
     }
 
-    public function reviews(){
-        $reviews = reviews::all();
-        $vendor = vendor::where('role_id','admin')->where('status',1)->get();
-        $customer = User::all();
-        return view('admin.reviews',compact('reviews','customer','vendor'));
+    public function productreviews(){
+        $product_reviews = reviews::orderBy('id','DESC')->get();
+        $product = product::all();
+        return view('admin.product_reviews',compact('product_reviews','product'));
     }
 
     public function reviewsstatus($id,$status){

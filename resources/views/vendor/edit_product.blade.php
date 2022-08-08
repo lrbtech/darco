@@ -353,7 +353,7 @@
                               </div>  
                             </div>
                           </div>
-                          <div class="col-md-3 view_shipping_charge">
+                          <div class="col-md-4 view_shipping_charge">
                             <div class="form-group">
                               <label for="shipping_charge">
                                 Shipping Charge : <span class="danger">*</span>
@@ -361,9 +361,9 @@
                               <input onfocus="if(this.value=='0') this.value='';" onfocusout="if(this.value=='') this.value='0';" value="{{$product->shipping_charge}}" type="number" class="form-control required" id="shipping_charge" name="shipping_charge">
                             </div>
                           </div>
-                          <div class="col-md-6">
+                          <div class="col-md-5 view_shipping_charge">
                             <div class="form-group">
-                              <label for="shipping_description">Shipping and Returnsß</label>
+                              <label for="shipping_description">Shipping Description</label>
                               <textarea name="shipping_description" id="shipping_description" rows="4" class="form-control"><?php echo $product->shipping_description; ?></textarea>
                             </div>
                           </div>
@@ -380,6 +380,31 @@
                                 <input {{ ($product->return_policy == '1' ? ' checked' : '') }} value="1" type="radio" id="return_policy2" name="return_policy" class="custom-control-input">  
                                 <label class="custom-control-label" for="return_policy2"> No </label>  
                               </div>  
+                            </div>
+                          </div>
+
+                          <div class="col-md-4 view_return_policy">
+                            <div class="form-group">
+                              <label for="return_policy">Return Days:</label>
+                              <br>
+                              <div class="custom-control custom-radio custom-control-inline">  
+                                <input {{ ($product->return_days == '7' ? ' checked' : '') }} value="7" type="radio" id="return_days1" name="return_days" class="custom-control-input">  
+                                <label class="custom-control-label" for="return_days1"> 7 Days </label>  
+                              </div>  
+                              <div class="custom-control custom-radio custom-control-inline">  
+                                <input {{ ($product->return_days == '15' ? ' checked' : '') }} value="15" type="radio" id="return_days2" name="return_days" class="custom-control-input">  
+                                <label class="custom-control-label" for="return_days2"> 15 Days </label>  
+                              </div>
+                              <div class="custom-control custom-radio custom-control-inline">  
+                                <input {{ ($product->return_days == '30' ? ' checked' : '') }} value="30" type="radio" id="return_days3" name="return_days" class="custom-control-input">  
+                                <label class="custom-control-label" for="return_days3"> 30 Days </label>  
+                              </div>  
+                            </div>
+                          </div>
+                          <div class="col-md-5 view_return_policy">
+                            <div class="form-group">
+                              <label for="return_description">Return Description</label>
+                              <textarea name="return_description" id="return_description" rows="4" class="form-control"><?php echo $product->return_description; ?></textarea>
                             </div>
                           </div>
 
@@ -487,6 +512,13 @@ else{
   $('.view_shipping_charge').hide();
 }
 
+if ('<?php echo $product->return_policy; ?>' == '0') {
+  $('.view_return_policy').show();
+}
+else{
+  $('.view_return_policy').hide();
+}
+
 $(document).ready(function () {
   $('input:radio[name="stock_status"]').click(function(){
     if ($(this).val() == '0') {
@@ -502,6 +534,14 @@ $(document).ready(function () {
     }
     else{
       $('.view_shipping_charge').hide();
+    }
+  });
+  $('input:radio[name="return_policy"]').click(function(){
+    if ($(this).val() == '0') {
+      $('.view_return_policy').show();
+    }
+    else{
+      $('.view_return_policy').hide();
     }
   });
 });

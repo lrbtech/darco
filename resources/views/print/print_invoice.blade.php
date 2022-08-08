@@ -84,7 +84,7 @@
                         <td style="border-bottom:1px solid #EDEDED; padding: 7px 5px 7px 40px; font-size: 12px;">
                             <span style="word-wrap: break-word;">{{$row->product_name}}</span>
                             <br>
-                            <span style="word-wrap: break-word;"><?php echo $row->product_attributes; ?>
+                            <span style="word-wrap: break-word;"><?php echo $row->product_attributes; ?></span>
                         </td>
                         <td style="border-bottom:1px solid #EDEDED; padding: 7px 5px 7px 40px; font-size: 12px;">
                             <span style="word-wrap: break-word;">{{$row->qty}}</span><br>

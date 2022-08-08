@@ -148,6 +148,8 @@ class ProductController extends Controller
         $product->stock_status = $request->stock_status;
         $product->shipping_enable = $request->shipping_enable;
         $product->return_policy = $request->return_policy;
+        $product->return_days = $request->return_days;
+        $product->return_description = $request->return_description;
         $product->assured_seller = $request->assured_seller;
         $product->delivery_available = $request->delivery_available;
         $product->rest_assured_seller = $request->rest_assured_seller;
@@ -262,6 +264,8 @@ class ProductController extends Controller
         $product->stock_status = $request->stock_status;
         $product->shipping_enable = $request->shipping_enable;
         $product->return_policy = $request->return_policy;
+        $product->return_days = $request->return_days;
+        $product->return_description = $request->return_description;
         $product->assured_seller = $request->assured_seller;
         $product->delivery_available = $request->delivery_available;
         $product->rest_assured_seller = $request->rest_assured_seller;

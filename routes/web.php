@@ -219,6 +219,9 @@ Route::group(['prefix' => 'admin'],function(){
 	Route::get('/vendor-guide', [App\Http\Controllers\Admin\SettingsController::class, 'vendorguide']);
     Route::POST('/update-vendor-guide', [App\Http\Controllers\Admin\SettingsController::class, 'updatevendorguide']);
 
+	Route::get('/professional-guide', [App\Http\Controllers\Admin\SettingsController::class, 'professionalguide']);
+    Route::POST('/update-professional-guide', [App\Http\Controllers\Admin\SettingsController::class, 'updateprofessionalguide']);
+
 	Route::get('/purchase-guide', [App\Http\Controllers\Admin\SettingsController::class, 'purchaseguide']);
     Route::POST('/update-purchase-guide', [App\Http\Controllers\Admin\SettingsController::class, 'updatepurchaseguide']);
 
@@ -293,6 +296,12 @@ Route::group(['prefix' => 'vendor'],function(){
     Route::POST('/get-orders', [App\Http\Controllers\Vendor\OrderController::class, 'getorders']);
     Route::get('/change-order-status/{id}/{status}', [App\Http\Controllers\Vendor\OrderController::class, 'changeorderstatus']);
 	Route::get('/view-order/{id}', [App\Http\Controllers\Vendor\OrderController::class, 'vieworder']);
+
+
+	Route::get('/return-item', [App\Http\Controllers\Vendor\OrderController::class, 'returnitem']);
+    Route::POST('/get-return-item', [App\Http\Controllers\Vendor\OrderController::class, 'getreturnitem']);
+    Route::get('/change-return-item-status/{id}/{status}', [App\Http\Controllers\Vendor\OrderController::class, 'changereturnitemtatus']);
+
 
 
 	Route::get('/customer', [App\Http\Controllers\Vendor\CustomerController::class, 'customer']);
@@ -391,11 +400,32 @@ Route::group(['prefix' => 'vendor'],function(){
 
 });
 
+Route::group(['prefix' => 'professional'],function(){
+
+	Route::get('/login', [App\Http\Controllers\PageController::class, 'professionallogin']);
+
+	// Route::get('/login', [App\Http\Controllers\ProfessionalLogin\LoginController::class, 'showLoginForm'])->name('professional.login');
+	// Route::post('/login', [App\Http\Controllers\ProfessionalLogin\LoginController::class, 'login'])->name('professional.login.submit');
+	// Route::post('/logout', [App\Http\Controllers\ProfessionalLogin\LoginController::class, 'logout'])->name('professional.logout');
+
+	// Route::post('/password/email', [App\Http\Controllers\ProfessionalLogin\ForgotPasswordController::class, 'sendResetLinkEmail'])->name('professional.password.email');
+	// Route::get('/password/reset', [App\Http\Controllers\ProfessionalLogin\ForgotPasswordController::class, 'showLinkRequestForm'])->name('professional.password.request');
+	// Route::post('/password/reset', [App\Http\Controllers\ProfessionalLogin\ResetPasswordController::class, 'reset']);
+	// Route::get('/password/reset/{token}', [App\Http\Controllers\ProfessionalLogin\ResetPasswordController::class, 'showResetForm'])->name('professional.password.reset');
+
+	// Route::get('/dashboard', [App\Http\Controllers\professional\HomeController::class, 'dashboard'])->name('professional.dashboard');
+});
+
 
 Route::group(['prefix' => 'customer'],function(){
 	Route::get('/profile', [App\Http\Controllers\Customer\HomeController::class, 'profile']);
 	Route::get('/change-password', [App\Http\Controllers\Customer\HomeController::class, 'changepassword']);
     Route::get('/orders', [App\Http\Controllers\Customer\HomeController::class, 'orders']);
+
+	Route::get('/view-orders/{id}', [App\Http\Controllers\Customer\HomeController::class, 'vieworders']);
+	Route::post('return-item', [App\Http\Controllers\Customer\HomeController::class, 'returnitem']);
+	Route::get('order-cancel/{id}', [App\Http\Controllers\Customer\HomeController::class, 'ordercancel']);
+
 
 	Route::get('/enquiry', [App\Http\Controllers\Customer\HomeController::class, 'enquiry']);
 

@@ -35,11 +35,13 @@ class CreateProductsTable extends Migration
             $table->string('tax_type',20)->default('0');
             $table->string('tax_percentage',20)->nullable();
             $table->string('return_policy',20)->nullable();
+            $table->string('return_days',20)->nullable();
             $table->string('assured_seller',20)->nullable();
             $table->string('delivery_available',20)->nullable();
             $table->string('rest_assured_seller',20)->nullable();
             $table->string('most_trusted',20)->nullable();
             $table->TEXT('shipping_description')->nullable();
+            $table->TEXT('return_description')->nullable();
             $table->string('image')->nullable();
             $table->string('status',11)->default('0');
             $table->timestamps();

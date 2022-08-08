@@ -98,6 +98,20 @@ class SettingsController extends Controller
         //return response()->json('successfully update'); 
     }
 
+    public function professionalguide(){
+        $settings = settings::find(1);
+        return view('admin.professional_guide',compact('settings'));
+    }
+
+    public function updateprofessionalguide(Request $request){
+        $settings = settings::find($request->id);
+        $settings->professional_guide = $request->professional_guide;
+        $settings->save();
+
+        return back();
+        //return response()->json('successfully update'); 
+    }
+
     public function purchaseguide(){
         $settings = settings::find(1);
         return view('admin.purchase_guide',compact('settings'));

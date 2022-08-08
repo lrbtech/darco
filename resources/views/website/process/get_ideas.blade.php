@@ -79,14 +79,14 @@
                                     <div class="product-img-action-wrap">
                                         <div class="product-img">
                                             <a href="/get-idea-details/{{$row->id}}">
-                                                <img src="/project_image/{{$row->image}}" alt="" />
+                                                <img style="height:250px;" src="/project_image/{{$row->image}}" alt="" />
                                             </a>
                                         </div>
                                     </div>
                                     <div class="product-content-wrap">
                                         
                                         <div class="deals-content">
-                                            <h2><a href="/get-idea-details/{{$row->id}}">{{$row->title}}</a></h2>
+                                            <h2 class="garage-title"><a href="/get-idea-details/{{$row->id}}">{{$row->title}}</a></h2>
                                             
                                             <div>
                                                 <span class="font-small text-muted">By <a href="#">{{\App\Http\Controllers\PageController::viewvendorname($row->vendor_id)}}</a></span>

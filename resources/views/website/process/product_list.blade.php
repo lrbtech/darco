@@ -154,7 +154,7 @@
                             <div class="product-img-action-wrap">
                                 <div class="product-img product-img-zoom">
                                     <a href="/product-details/{{$row->id}}">
-                                        <img class="default-img" src="/product_image/{{$row->image}}" alt="" />
+                                        <img style="height:250px;" class="default-img" src="/product_image/{{$row->image}}" alt="" />
                                         <img class="hover-img" src="/product_image/{{$row->image}}" alt="" />
                                     </a>
                                 </div>
@@ -170,7 +170,7 @@
                                 <div class="product-category">
                                     <a href="/product-list/{{$row->category}}/0/0/0">{{\App\Http\Controllers\PageController::viewcategoryname($row->category)}}</a>
                                 </div>
-                                <h2><a href="/product-details/{{$row->id}}">{{$row->product_name}}</a></h2>
+                                <h2 class="garage-title"><a href="/product-details/{{$row->id}}">{{$row->product_name}}</a></h2>
                                 <div class="product-rate-cover">
                                     <div class="product-rate d-inline-block">
                                         <div class="product-rating" style="width:{{\App\Http\Controllers\ProductListController::viewratingpercentage($row->id)}}%"></div>

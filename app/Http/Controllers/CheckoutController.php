@@ -259,6 +259,9 @@ class CheckoutController extends Controller
                             $product = product::find($pro_id);
                             $product->stock = $product->stock - $qty;
                             
+                            $today = date('Y-m-d');
+                            $order_items->return_policy = $product->return_policy;
+                            $order_items->reurn_date = date('Y-m-d', strtotime($today . '+'.$product->return_days.'days'));
                             $order_items->save();
                             $product->save();
                         }

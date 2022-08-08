@@ -141,6 +141,15 @@ li.sub-mega-menu.sub-mega-menu-width-22 {
   opacity: 1;
   transform: translate(4em, 4px) rotate(-15deg);
 }
+
+.garage-title {
+    /* clear: both;
+    display: inline-block; */
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
 </style>
 <body id="spinner_body">
     <!-- Quick view -->
@@ -754,11 +763,11 @@ li.sub-mega-menu.sub-mega-menu-width-22 {
                     <div class="footer-link-widget col wow animate__animated animate__fadeInUp" data-wow-delay=".3s">
                         <h4 class="widget-title">Corporate</h4>
                         <ul class="footer-list mb-sm-5 mb-md-0">
-                            <li><a href="/professional-register?email=">Become a Vendor</a></li>
+                            <li><a href="/professional-register?email=">Become a Vendor or Professional</a></li>
                             <li><a href="/vendor/login">Vendor Login</a></li>
                             <li><a href="/pages/vendor-guide">Vendor Guide</a></li>
-                         
-                           
+                            <li><a href="/professional/login">Professional Login</a></li>
+                            <li><a href="/pages/professional-guide">Professional Guide</a></li>                         
                         </ul>
                     </div>
                     <!-- <div class="footer-link-widget col wow animate__animated animate__fadeInUp" data-wow-delay=".4s">
@@ -1011,15 +1020,15 @@ $('#search_text').keypress(function (e) {
     }
 
     if(category_type == '1'){
-        window.location.href = "/product-list/0/0/0/"+search_text1;
+        window.location.href = "/get-ideas/0/0/"+search_text1;
     }
     else if(category_type == '2'){
         window.location.href = "/professional-list/0/0/"+search_text1;
     }
     else if(category_type == '3'){
-        window.location.href = "/get-ideas/0/0/0/"+search_text1;
+        window.location.href = "/product-list/0/0/0/"+search_text1;
     }
-    else{
+    else if(category_type == ''){
         window.location.href = "/product-list/0/0/0/"+search_text1;
     }
     return false;  

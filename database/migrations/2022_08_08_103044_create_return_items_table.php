@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateOrderItemsTable extends Migration
+class CreateReturnItemsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateOrderItemsTable extends Migration
      */
     public function up()
     {
-        Schema::create('order_items', function (Blueprint $table) {
+        Schema::create('return_items', function (Blueprint $table) {
             $table->id();
             $table->string('date')->nullable();
             $table->string('order_id',20)->nullable();
+            $table->string('order_item_id',20)->nullable();
             $table->string('vendor_id',20)->nullable();
             $table->string('customer_id',20)->nullable();
             $table->string('shipping_address_id',20)->nullable();
@@ -27,9 +28,8 @@ class CreateOrderItemsTable extends Migration
             $table->string('price',50)->nullable();
             $table->string('qty',20)->nullable();
             $table->string('total',50)->nullable();
-            $table->string('return_policy',20)->nullable();
-            $table->string('return_date',50)->nullable();
-            $table->string('is_return',11)->default('0');
+            $table->string('return_reason')->nullable();
+            $table->text('description')->nullable();
             $table->string('status',11)->default('0');
             $table->timestamps();
         });
@@ -42,6 +42,6 @@ class CreateOrderItemsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('order_items');
+        Schema::dropIfExists('return_items');
     }
 }

@@ -11,11 +11,11 @@
             </div>
         </div>
     </div>
-    <div class="page-content pt-150 pb-150">
+    <div class="page-content pt-50 pb-50">
         <div class="container">
             <div class="row">
                 <div class="col-lg-10 m-auto">
-                    <div class="row"></div>
+                    <div class="row">
                         <div class="col-md-3">
                             @include('customer.sidebar')
                         </div>

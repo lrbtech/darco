@@ -11,6 +11,7 @@ use App\Models\shipping_address;
 use App\Models\orders;
 use App\Models\order_items;
 use App\Models\product;
+use App\Models\return_item;
 use Hash;
 use DB;
 use Mail;
@@ -81,17 +82,22 @@ class OrderController extends Controller
             })
 
             ->addColumn('shipping_status', function ($orders) {
-                if($orders->shipping_status == 0){
-                    return 'Order Placed';
+                if($orders->status == 0){
+                    if($orders->shipping_status == 0){
+                        return 'Order Placed';
+                    }
+                    elseif($orders->shipping_status == 1){
+                        return 'Order Processing';
+                    }
+                    elseif($orders->shipping_status == 2){
+                        return 'Order Dispatched';
+                    }
+                    elseif($orders->shipping_status == 3){
+                        return 'Delivered';
+                    }
                 }
-                elseif($orders->shipping_status == 1){
-                    return 'Order Processing';
-                }
-                elseif($orders->shipping_status == 2){
-                    return 'Order Dispatched';
-                }
-                elseif($orders->shipping_status == 3){
-                    return 'Delivered';
+                else{
+                    return 'Order Cancelled';
                 }
             })
 
@@ -125,5 +131,104 @@ class OrderController extends Controller
         ->make(true);
 
         //return Datatables::of($orders) ->addIndexColumn()->make(true);
+    }
+
+    public function getreturnitem(Request $request){
+        $return_item = return_item::where('vendor_id',Auth::guard('vendor')->user()->id)->orderBy('id','DESC')->get();
+        
+        return Datatables::of($return_item)
+            ->addColumn('date', function ($return_item) {
+                return '<td>
+                <p>'.date('d-m-Y',strtotime($return_item->date)).'</p>
+                </td>';
+            })
+
+            ->addColumn('customer', function ($return_item) {
+                $customer = User::find($return_item->customer_id);
+                return '<td>
+                <p>'.$customer->first_name.' '.$customer->last_name.'</p>
+                <p>Mobile : '.$customer->mobile.'</p>
+                </td>';
+            })
+
+            ->addColumn('product', function ($return_item) {
+                $product = product::find($return_item->product_id);
+                return '<td>
+                <p>'.$product->product_name.'</p>
+                </td>';
+            })
+
+            ->addColumn('return_reason', function ($return_item) {
+                return '<td>'.$return_item->return_reason.'</td>';
+            })
+
+            ->addColumn('description', function ($return_item) {
+                return '<td>'.$return_item->description.'</td>';
+            })
+
+            ->addColumn('total', function ($return_item) {
+                return '<td>'.$return_item->total.'</td>';
+            })
+
+            ->addColumn('status', function ($return_item) {
+                if($return_item->status == 0){
+                    return 'Waiting for Pickup';
+                }
+                elseif($return_item->status == 1){
+                    return 'Item Returned';
+                }
+                elseif($return_item->status == 2){
+                    return 'Request Canceled';
+                }
+            })
+
+            ->addColumn('action', function ($return_item) {
+                $output='';
+                if($return_item->status == 0){
+                    $output.='<button onclick="ChangeStatus('.$return_item->id.',1)"class="dropdown-item" type="button">Item Returned</button>';
+                    $output.='<button onclick="ChangeStatus('.$return_item->id.',2)"class="dropdown-item" type="button">Request Canceled</button>';
+                }
+                return '<td>
+                <div class="btn-group mr-1 mb-1">
+                    <button type="button" class="btn btn-danger btn-block dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Action</button>
+                    <div class="dropdown-menu open-left arrow" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 40px, 0px); top: 0px; left: 0px; will-change: transform;">
+                        
+                        <!--<div class="dropdown-divider"></div>-->
+                        '.$output.'
+                        
+                    </div>
+                </div>
+                </td>';
+            })
+           
+            
+        ->rawColumns(['date','customer', 'product', 'return_reason','total','status','description','action'])
+        ->addIndexColumn()
+        ->make(true);
+
+        //return Datatables::of($orders) ->addIndexColumn()->make(true);
+    }
+
+    public function returnitem(){
+        return view('vendor.return_item');
+    }
+
+    public function changereturnitemtatus($id,$status){
+        $return_item = return_item::find($id);
+        $return_item->status = $status;
+        $return_item->save();
+
+        if($status == 2){
+            $order_items_update = order_items::find($return_item->order_item_id);
+            $order_items_update->is_return = 0;
+            $order_items_update->save();
+        }
+        elseif($status == 1){
+            $product = product::find($return_item->product_id);
+            $product->stock = $product->stock + $return_item->qty;
+            $product->save();
+        }
+
+        return response()->json(['message'=>'Successfully Delete'],200); 
     }
 }

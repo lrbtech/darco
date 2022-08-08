@@ -246,7 +246,7 @@ button#chat-submit {
             </div>
         </div>
     </div>
-    <div class="page-content pt-150 pb-150">
+    <div class="page-content pt-50 pb-50">
         <div class="container">
             <div class="row">
                 <div class="col-lg-10 m-auto">
@@ -262,51 +262,56 @@ button#chat-submit {
                                         <h3 class="mb-0">Your Orders</h3>
                                     </div>
                                     <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table class="table">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Order</th>
-                                                        <th>Date</th>
-                                                        <th>Vendor</th>
-                                                        <th>Status</th>
-                                                        <th>Total(KWD)</th>
-                                                        <th>Actions</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                  @foreach($orders as $row)
-                                                    <tr>
-                                                        <td>#{{$row->id}}</td>
-                                                        <td>{{$row->date}}</td>
-                                                        <td>
-                                                        {{\App\Http\Controllers\PageController::viewvendorname($row->vendor_id)}}</
-                                                        </td>
-                                                        <td>
-                                                        @if($row->shipping_status == 0)
-                                                        Order Confirmed 
-                                                        @elseif($row->shipping_status == 1)
-                                                        Order Processing
-                                                        @elseif($row->shipping_status == 2)
-                                                        Order Dispatched
-                                                        @elseif($row->shipping_status == 3)
-                                                        Delivered
-                                                        @endif
-                                                        </td>
-                                                        <td>{{$row->total}}</td>
-                                                        <td width="15%">
-                                                          @if($row->shipping_status != 3)
-                                                          <a href="/customer/track-order/{{$row->id}}" class="btn-small d-block"><i class="fa fa-truck" aria-hidden="true"></i> Track Order</a>
-                                                          @endif
-                                                          
-                                                          <a target="_blank" href="/print-invoice/{{$row->id}}" class="btn-small d-block"><i class="fa fa-eye" aria-hidden="true"></i> View</a>
-                                                          <a href="javascript:void(null)" class="btn-small d-block chat-circle"><i class="fa fa-comments-o" aria-hidden="true"></i> Chat</a>
-                                                        </td>
-                                                    </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
-                                        </div>
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Order</th>
+                <th>Date</th>
+                <th>Vendor</th>
+                <th>Status</th>
+                <th>Total(KWD)</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+          @foreach($orders as $row)
+            <tr>
+                <td>#{{$row->id}}</td>
+                <td>{{$row->date}}</td>
+                <td>
+                {{\App\Http\Controllers\PageController::viewvendorname($row->vendor_id)}}</
+                </td>
+                <td>
+                @if($row->status == 0)
+                  @if($row->shipping_status == 0)
+                  Order Confirmed 
+                  @elseif($row->shipping_status == 1)
+                  Order Processing
+                  @elseif($row->shipping_status == 2)
+                  Order Dispatched
+                  @elseif($row->shipping_status == 3)
+                  Delivered
+                  @endif
+                @else 
+                Order Cancelled
+                @endif
+                </td>
+                <td>{{$row->total}}</td>
+                <td width="15%">
+                @if($row->status == 0)
+                  @if($row->shipping_status != 3)
+                  <a href="/customer/track-order/{{$row->id}}" class="btn-small d-block"><i class="fa fa-truck" aria-hidden="true"></i> Track Order</a>
+                  @endif
+                  <a href="/customer/view-orders/{{$row->id}}" class="btn-small d-block"><i class="fa fa-eye" aria-hidden="true"></i> View</a>
+                  <a href="javascript:void(null)" class="btn-small d-block chat-circle"><i class="fa fa-comments-o" aria-hidden="true"></i> Chat</a>
+                @endif
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
                                     </div>
                                   </div>
                                 </div>

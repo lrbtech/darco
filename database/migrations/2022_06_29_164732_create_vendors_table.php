@@ -25,6 +25,13 @@ class CreateVendorsTable extends Migration
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
             $table->string('mobile')->nullable();
+            $table->string('trade_license_no')->nullable();
+            $table->string('vat_certificate_no')->nullable();
+            $table->string('emirates_id')->nullable();
+            $table->string('passport_number')->nullable();
+            $table->string('id_proof')->nullable();
+            $table->string('passport_copy')->nullable();
+            $table->string('emirates_id_copy')->nullable();
             $table->string('password')->nullable();
             $table->string('city')->nullable();
             $table->string('area')->nullable();

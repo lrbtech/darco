@@ -6,6 +6,7 @@
         direction:rtl;margin-bottom:25px;text-align:center}.star-rating input{display:none}.star-rating input:checked ~ label::after{opacity:1}.star-rating label{display:inline-block;position:relative;cursor:pointer;margin:0px 8px}.star-rating label:hover::after{opacity:1}.star-rating label:hover:hover ~ label::after{opacity:1}.star-rating label::before{content:"\f005";font-family:'Font Awesome 5 Free';font-weight:900;font-size:35px;display:block;color:#bbbbbb}.star-rating label::after{content:"\f005";font-family:'Font Awesome 5 Free';font-weight:900;font-size:35px;position:absolute;display:block;top:0px;left:0px;color:#ffcc23;opacity:0}@media (max-width: 575px){.star-rating label{margin:0px 3px}
     }
 </style>
+<link href="/lightboxed/lightboxed.css" rel="stylesheet" />
 @endsection
 @section('content')
 <main class="main">
@@ -45,9 +46,13 @@
                     </div>
                     <!-- THUMBNAILS -->
                     <div class="slider-nav-thumbnails">
-                        <div><img src="/product_image/{{$product->image}}" /></div>
+                        <div>
+                            <img class="lightboxed" rel="group1" src="/product_image/{{$product->image}}" data-link="/product_image/{{$product->image}}" data-caption="" >
+                        </div>
                         @foreach($product_images as $row)
-                        <div><img src="/product_image/{{$row->image}}" /></div>
+                        <div>
+                            <img class="lightboxed" rel="group1" src="/product_image/{{$row->image}}" data-link="/product_image/{{$row->image}}" data-caption=""  />
+                        </div>
                         @endforeach
                     </div>
                 </div>
@@ -440,7 +445,7 @@
                             <div class="product-img-action-wrap">
                                 <div class="product-img product-img-zoom">
                                     <a href="/product-details/{{$row->id}}" tabindex="0">
-                                        <img class="default-img" src="/product_image/{{$row->image}}" alt="" />
+                                        <img style="height:180px;" class="default-img" src="/product_image/{{$row->image}}" alt="" />
                                         <img class="hover-img" src="/product_image/{{$row->image}}" alt="" />
                                     </a>
                                 </div>
@@ -454,7 +459,7 @@
                                 </div>
                             </div>
                             <div class="product-content-wrap">
-                                <h2><a href="/product-details/{{$row->id}}" tabindex="0">{{$row->product_name}}</a></h2>
+                                <h2 class="garage-title"><a href="/product-details/{{$row->id}}" tabindex="0">{{$row->product_name}}</a></h2>
                                 <!-- <div class="rating-result" title="90%">
                                     <span> </span>
                                 </div> -->
@@ -576,6 +581,7 @@
 </main>
 @endsection
 @section('extra-js')
+<script src="/lightboxed/lightboxed.js"></script>
 <script>
 function ProductOpen(id){
     window.location.href="/product-details/"+id;

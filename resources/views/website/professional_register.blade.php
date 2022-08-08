@@ -28,13 +28,7 @@
                                     <form id="form" method="POST" enctype="multipart/form-data">
                                     {{ csrf_field() }}
                                       <div class="row">
-                                        <div class="col-md-6">
-                                          <div class="form-group mb-3">
-                                            <label>Business Name</label>
-                                            <input autocomplete="off" type="text" name="business_name" id="business_name" class="form-control">
-                                          </div>
-                                        </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-2">
                                             <div class="form-group mb-3">
                                               <label>Business Type</label>
                                               <div class="business_type mb-50">
@@ -49,16 +43,19 @@
                                               </div>
                                             </div>
                                         </div>
-                                      </div>
-
-                                      <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
+                                          <div class="form-group mb-3">
+                                            <label>Business Name</label>
+                                            <input autocomplete="off" type="text" name="business_name" id="business_name" class="form-control">
+                                          </div>
+                                        </div>
+                                        <div class="col-md-4">
                                           <div class="form-group mb-3">
                                             <label>First Name</label>
                                             <input autocomplete="off" type="text" name="first_name" id="first_name" class="form-control">
                                           </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-2">
                                             <div class="form-group mb-3">
                                               <label>Last Name</label>
                                               <input autocomplete="off" type="text" name="last_name" id="last_name" class="form-control">
@@ -67,27 +64,25 @@
                                       </div>
 
                                       <div class="row">
-                                        <div class="col-md-6">
+                                        
+                                      </div>
+
+                                      <div class="row">
+                                        <div class="col-md-4">
                                           <div class="form-group mb-3">
                                             <label>Email address</label>
                                             <input value="<?php echo $_GET['email']; ?>" autocomplete="off" type="email" name="email" id="email" class="form-control">
                                           </div>
                                         </div>
-                                        <div class="col-md-6">
-                                          <div class="form-group mb-3">
-                                            <label>Mobile</label>
-                                            <input autocomplete="off" type="number" name="mobile" id="mobile" class="form-control">
-                                          </div>
-                                        </div>
 
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                           <div class="form-group mb-3">
                                             <label>Password</label>
                                             <input autocomplete="off" id="password" name="password" type="password" class="form-control">
                                           </div>
                                         </div>
 
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <label>Confirm Password</label>
                                             <div class="form-group">
                                                 <input autocomplete="off" id="password_confirmation" name="password_confirmation" type="password" placeholder="" class="form-control">
@@ -99,7 +94,13 @@
                                         
 
                                       <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
+                                          <div class="form-group mb-3">
+                                            <label>Mobile</label>
+                                            <input autocomplete="off" type="number" name="mobile" id="mobile" class="form-control">
+                                          </div>
+                                        </div>
+                                        <div class="col-md-4">
                                           <div class="form-group mb-3">
                                             <label>City</label>
                                             <select onchange="changecity()" id="city" name="city" class="form-control">
@@ -111,12 +112,62 @@
                                             <input type="hidden" value="kuwait" name="country" id="country">
                                           </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                           <div class="form-group mb-3">
                                             <label>Area</label>
                                             <select id="area" name="area" class="form-control">
                                               <option value="">SELECT</option>
                                             </select>
+                                          </div>
+                                        </div>
+                                      </div>
+
+
+                                      <div class="row">
+                                        <div class="col-md-3">
+                                          <div class="form-group mb-3">
+                                            <label>TRADE LICENSE NO</label>
+                                            <input autocomplete="off" type="text" name="trade_license_no" id="trade_license_no" class="form-control">
+                                          </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                          <div class="form-group mb-3">
+                                            <label>VAT CERTIFICATE NO</label>
+                                            <input autocomplete="off" type="text" name="vat_certificate_no" id="vat_certificate_no" class="form-control">
+                                          </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                          <div class="form-group mb-3">
+                                            <label>EMIRATES ID</label>
+                                            <input autocomplete="off" type="text" name="emirates_id" id="emirates_id" class="form-control">
+                                          </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                          <div class="form-group mb-3">
+                                            <label>PASSPORT NUMBER</label>
+                                            <input autocomplete="off" type="text" name="passport_number" id="passport_number" class="form-control">
+                                          </div>
+                                        </div>
+                                      </div>
+
+
+                                      <div class="row">
+                                        <div class="col-md-4">
+                                          <div class="form-group mb-3">
+                                            <label>ID Proof</label>
+                                            <input autocomplete="off" type="file" name="id_proof" id="id_proof" class="form-control">
+                                          </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                          <div class="form-group mb-3">
+                                            <label>Passport Copy</label>
+                                            <input autocomplete="off" type="file" name="passport_copy" id="passport_copy" class="form-control">
+                                          </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                          <div class="form-group mb-3">
+                                            <label>EMIRATES ID COPY</label>
+                                            <input autocomplete="off" type="file" name="emirates_id_copy" id="emirates_id_copy" class="form-control">
                                           </div>
                                         </div>
                                       </div>

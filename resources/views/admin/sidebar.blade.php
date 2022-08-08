@@ -108,6 +108,10 @@
             <a href="/admin/vendor-guide"><i class="la la-wrench"></i><span class="menu-title" data-i18n="nav.dash.main">Vendor Guide</span></a>
         </li>
 
+        <li class="professional-guide nav-item">
+            <a href="/admin/professional-guide"><i class="la la-wrench"></i><span class="menu-title" data-i18n="nav.dash.main">Professional Guide</span></a>
+        </li>
+
         <li class="delivery-information nav-item">
             <a href="/admin/delivery-information"><i class="la la-wrench"></i><span class="menu-title" data-i18n="nav.dash.main">Delivery Information</span></a>
         </li>

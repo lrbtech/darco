@@ -323,7 +323,7 @@
                               </div>  
                             </div>
                           </div>
-                          <div class="col-md-3 view_shipping_charge">
+                          <div class="col-md-4 view_shipping_charge">
                             <div class="form-group">
                               <label for="shipping_charge">
                                 Shipping Charge : <span class="danger">*</span>
@@ -331,9 +331,9 @@
                               <input onfocus="if(this.value=='0') this.value='';" onfocusout="if(this.value=='') this.value='0';" value="0" type="number" class="form-control required" id="shipping_charge" name="shipping_charge">
                             </div>
                           </div>
-                          <div class="col-md-6">
+                          <div class="col-md-5 view_shipping_charge">
                             <div class="form-group">
-                              <label for="shipping_description">Shipping and Returnsß</label>
+                              <label for="shipping_description">Shipping Description</label>
                               <textarea name="shipping_description" id="shipping_description" rows="4" class="form-control"></textarea>
                             </div>
                           </div>
@@ -343,13 +343,38 @@
                               <label for="return_policy">Return Policy:</label>
                               <br>
                               <div class="custom-control custom-radio custom-control-inline">  
-                                <input value="0" type="radio" id="return_policy1" name="return_policy" class="custom-control-input">  
+                                <input checked value="0" type="radio" id="return_policy1" name="return_policy" class="custom-control-input">  
                                 <label class="custom-control-label" for="return_policy1"> Yes </label>  
                               </div>  
                               <div class="custom-control custom-radio custom-control-inline">  
                                 <input value="1" type="radio" id="return_policy2" name="return_policy" class="custom-control-input">  
                                 <label class="custom-control-label" for="return_policy2"> No </label>  
                               </div>  
+                            </div>
+                          </div>
+
+                          <div class="col-md-4 view_return_policy">
+                            <div class="form-group">
+                              <label for="return_policy">Return Days:</label>
+                              <br>
+                              <div class="custom-control custom-radio custom-control-inline">  
+                                <input value="7" type="radio" id="return_days1" name="return_days" class="custom-control-input">  
+                                <label class="custom-control-label" for="return_days1"> 7 Days </label>  
+                              </div>  
+                              <div class="custom-control custom-radio custom-control-inline">  
+                                <input checked value="15" type="radio" id="return_days2" name="return_days" class="custom-control-input">  
+                                <label class="custom-control-label" for="return_days2"> 15 Days </label>  
+                              </div>
+                              <div class="custom-control custom-radio custom-control-inline">  
+                                <input value="30" type="radio" id="return_days3" name="return_days" class="custom-control-input">  
+                                <label class="custom-control-label" for="return_days3"> 30 Days </label>  
+                              </div>  
+                            </div>
+                          </div>
+                          <div class="col-md-5 view_return_policy">
+                            <div class="form-group">
+                              <label for="return_description">Return Description</label>
+                              <textarea name="return_description" id="return_description" rows="4" class="form-control"></textarea>
                             </div>
                           </div>
 
@@ -362,7 +387,7 @@
                                 <label class="custom-control-label" for="assured_seller1"> Yes </label>  
                               </div>  
                               <div class="custom-control custom-radio custom-control-inline">  
-                                <input value="1" type="radio" id="assured_seller2" name="assured_seller" class="custom-control-input">  
+                                <input checked value="1" type="radio" id="assured_seller2" name="assured_seller" class="custom-control-input">  
                                 <label class="custom-control-label" for="assured_seller2"> No </label>  
                               </div>  
                             </div>
@@ -377,7 +402,7 @@
                                 <label class="custom-control-label" for="delivery_available1"> Yes </label>  
                               </div>  
                               <div class="custom-control custom-radio custom-control-inline">  
-                                <input value="1" type="radio" id="delivery_available2" name="delivery_available" class="custom-control-input">  
+                                <input checked value="1" type="radio" id="delivery_available2" name="delivery_available" class="custom-control-input">  
                                 <label class="custom-control-label" for="delivery_available2"> No </label>  
                               </div>  
                             </div>
@@ -392,7 +417,7 @@
                                 <label class="custom-control-label" for="rest_assured_seller1"> Yes </label>  
                               </div>  
                               <div class="custom-control custom-radio custom-control-inline">  
-                                <input value="1" type="radio" id="rest_assured_seller2" name="rest_assured_seller" class="custom-control-input">  
+                                <input checked value="1" type="radio" id="rest_assured_seller2" name="rest_assured_seller" class="custom-control-input">  
                                 <label class="custom-control-label" for="rest_assured_seller2"> No </label>  
                               </div>  
                             </div>
@@ -407,7 +432,7 @@
                                 <label class="custom-control-label" for="most_trusted1"> Yes </label>  
                               </div>  
                               <div class="custom-control custom-radio custom-control-inline">  
-                                <input value="1" type="radio" id="most_trusted2" name="most_trusted" class="custom-control-input">  
+                                <input checked value="1" type="radio" id="most_trusted2" name="most_trusted" class="custom-control-input">  
                                 <label class="custom-control-label" for="most_trusted2"> No </label>  
                               </div>  
                             </div>
@@ -442,6 +467,7 @@
 
 <script>
 // $('.product').addClass('active');
+
 $(document).ready(function () {
   $('input:radio[name="stock_status"]').click(function(){
     if ($(this).val() == '0') {
@@ -457,6 +483,14 @@ $(document).ready(function () {
     }
     else{
       $('.view_shipping_charge').hide();
+    }
+  });
+  $('input:radio[name="return_policy"]').click(function(){
+    if ($(this).val() == '0') {
+      $('.view_return_policy').show();
+    }
+    else{
+      $('.view_return_policy').hide();
     }
   });
 });

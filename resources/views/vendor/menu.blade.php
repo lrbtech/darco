@@ -34,6 +34,12 @@
           </a>
         </li>
 
+        <li class="return-item nav-item">
+          <a class="nav-link" href="/vendor/return-item"><i class="la la-cart-plus"></i>
+            <span>Return Item</span>
+          </a>
+        </li>
+
         @else 
 
         <li class="profile nav-item">

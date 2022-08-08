@@ -163,6 +163,11 @@ class PageController extends Controller
         echo $output;
     }
 
+    public function professionallogin()
+    {       
+        return view('professional-login.login');
+    }
+
     public function home()
     {
         $category = category::where('status',0)->where('parent_id',0)->get();
@@ -317,6 +322,16 @@ class PageController extends Controller
             'email' => 'required|unique:vendors',
             'password' => 'min:6|required_with:password_confirmation|same:password_confirmation',
             'password_confirmation' => 'min:6|required',
+            'id_proof' => 'nullable|mimes:jpeg,jpg,png,pdf|max:3000',
+            'passport_copy' => 'nullable|mimes:jpeg,jpg,png,pdf|max:3000',
+            'emirates_id_copy' => 'nullable|mimes:jpeg,jpg,png,pdf|max:3000',
+            ],[
+            'id_proof.mimes' => 'Only jpeg,png,pdf and jpg formats are allowed',
+            'id_proof.max' => 'Sorry! Maximum allowed size for an ID Proof is 3MB',
+            'passport_copy.mimes' => 'Only jpeg,png,pdf and jpg formats are allowed',
+            'passport_copy.max' => 'Sorry! Maximum allowed size for an passport copy is 3MB',
+            'emirates_id_copy.mimes' => 'Only jpeg,png,pdf and jpg formats are allowed',
+            'emirates_id_copy.max' => 'Sorry! Maximum allowed size for an Emirates id copy is 3MB',
         ]);
  
         $vendor = new vendor;
@@ -332,7 +347,39 @@ class PageController extends Controller
         $vendor->country = $request->country;
         $vendor->city = $request->city;
         $vendor->area = $request->area;
+        $vendor->trade_license_no = $request->trade_license_no;
+        $vendor->vat_certificate_no = $request->vat_certificate_no;
+        $vendor->emirates_id = $request->emirates_id;
+        $vendor->passport_number = $request->passport_number;
         $vendor->status = 1;
+
+        if($request->id_proof!=""){
+            if($request->file('id_proof')!=""){
+            $image = $request->file('id_proof');
+            $upload_image = rand().time().'.'.$image->getClientOriginalExtension();
+            $image->move(public_path('vendor_files/'), $upload_image);
+            $vendor->id_proof = $upload_image;
+            }
+        }
+
+        if($request->passport_copy!=""){
+            if($request->file('passport_copy')!=""){
+            $image = $request->file('passport_copy');
+            $upload_image = rand().time().'.'.$image->getClientOriginalExtension();
+            $image->move(public_path('vendor_files/'), $upload_image);
+            $vendor->passport_copy = $upload_image;
+            }
+        }
+
+        if($request->emirates_id_copy!=""){
+            if($request->file('emirates_id_copy')!=""){
+            $image = $request->file('emirates_id_copy');
+            $upload_image = rand().time().'.'.$image->getClientOriginalExtension();
+            $image->move(public_path('vendor_files/'), $upload_image);
+            $vendor->emirates_id_copy = $upload_image;
+            }
+        }
+
         $vendor->save();
 
         
@@ -384,16 +431,24 @@ class PageController extends Controller
         if($id=="privacy-policy"){
             $title='Privacy Policy';
             $content=$page->privacy_policy;
-        }elseif($id=="terms-condition"){
+        }
+        elseif($id=="terms-condition"){
             $title='Terms and Condition';
             $content=$page->terms_and_conditions;
-        }elseif($id=="vendor-guide"){
+        }
+        elseif($id=="vendor-guide"){
             $title='Vendor Guide';
             $content=$page->vendor_guide;
-        }elseif($id=="purchase-guide"){
+        }
+        elseif($id=="professional-guide"){
+            $title='Professional Guide';
+            $content=$page->professional_guide;
+        }
+        elseif($id=="purchase-guide"){
             $title='Purchase Guide';
             $content=$page->purchase_guide;
-        }else{
+        }
+        else{
             $title='Delivery Information';
             $content=$page->delivery_information;
         }

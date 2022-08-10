@@ -65,10 +65,10 @@
     <section class="popular-categories section-padding">
         <div class="container">
             <div class="section-title">
-                <div class="title">
-                    <h3>@if(!empty($category_data))
-                            {{$category_data->category}}
-                            @endif</h3>
+                <div id="view_sub_cat" class="title">
+                    {{--<h3>@if(!empty($category_data))
+                    {{$category_data->category}}
+                    @endif</h3>
                     <!-- <a class="show-all" href="shop-grid-right.html">
                        All Categories 
                         <i class="fi-rs-angle-right"></i>
@@ -76,12 +76,14 @@
                     <ul class="list-inline nav nav-tabs links">
                         @foreach($subcategory_all as $row)
                         <li class="list-inline-item nav-item">
-                            <a class="nav-link home-category{{$row->id}}" href="/product-list/{{$category_id}}/{{$row->id}}/0/0">{{$row->category}}</a>
+                            <a class="nav-link home-category{{$row->id}}" href="javascript:void(0)" onclick="getsubsubcategory({{$row->id}})">{{$row->category}}</a>
                         </li>
                         @endforeach
-                    </ul>
+                    </ul>--}}
                 </div>
-                <div class="slider-arrow slider-arrow-2 flex-right carausel-8-columns-arrow" id="carausel-8-columns-arrows"></div>
+                <div class="slider-arrow slider-arrow-2 flex-right carausel-8-columns-arrow" id="carausel-8-columns-arrows">
+
+                </div>
             </div>
             <div class="shopBycat"></div>
             <!-- <div class="carausel-8-columns-cover position-relative">
@@ -101,10 +103,12 @@
     <div class="container mb-30">
         <div class="row flex-row-reverse">
             <div class="col-lg-4-5">
+            <!-- <input type="hidden" name="_token" id="csrf-token" value="{{csrf_token()}}" /> -->
+
                 <div class="shop-product-fillter">
                     <div class="totall-product">
                         <!-- <p>We found <strong class="text-brand">29</strong> items for you!</p> -->
-                        <p>Showing <strong class="text-brand">{{ $product->firstItem() }} - {{ $product->lastItem() }} of {{$product->total()}}</strong> Listings</p>
+                        {{--<p>Showing <strong class="text-brand">{{ $product->firstItem() }} - {{ $product->lastItem() }} of {{$product->total()}}</strong> Listings</p>--}}
                     </div>
                     <div class="sort-by-product-area">
                         <!-- <div class="sort-by-cover mr-10">
@@ -127,27 +131,28 @@
                             </div>
                         </div> -->
                         <div class="sort-by-cover">
-                            <div class="sort-by-product-wrap">
+                            <!-- <div class="sort-by-product-wrap">
                                 <div class="sort-by">
                                     <span><i class="fi-rs-apps-sort"></i>Sort by:</span>
                                 </div>
                                 <div class="sort-by-dropdown-wrap">
                                     <span> Featured <i class="fi-rs-angle-small-down"></i></span>
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="sort-by-dropdown">
                                 <ul>
-                                    <li><a class="active" href="#">Featured</a></li>
+                                    <!-- <li><a class="active" href="#">Featured</a></li> -->
                                     <li><a href="#">Price: Low to High</a></li>
                                     <li><a href="#">Price: High to Low</a></li>
-                                    <li><a href="#">Release Date</a></li>
-                                    <li><a href="#">Avg. Rating</a></li>
+                                    <!-- <li><a href="#">Release Date</a></li>
+                                    <li><a href="#">Avg. Rating</a></li> -->
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="row product-grid">
+                <div id="view_product_list" class="row product-grid">
+                {{--<div class="row product-grid">
                     @foreach($product as $row)
                     <div class="col-lg-4 col-md-4 col-12 col-sm-6">
                         <div class="product-cart-wrap mb-30">
@@ -199,9 +204,10 @@
                     @endforeach
                     <!--end product card-->
                     
+                </div>--}}
                 </div>
                 <!--product grid-->
-                <div class="pagination-area mt-20 mb-20">
+                {{--<div class="pagination-area mt-20 mb-20">
                     <nav aria-label="Page navigation example">
                         {!! $product->links('pagination.pagination') !!}
                         <!-- <ul class="pagination justify-content-start">
@@ -218,16 +224,17 @@
                             </li>
                         </ul> -->
                     </nav>
-                </div>
+                </div>--}}
                 
             </div>
+
             <div class="col-lg-1-5 primary-sidebar sticky-sidebar">
                 <div class="sidebar-widget widget-category-2 mb-30">
                     <h5 class="section-title style-1 mb-30">Shop Category</h5>
                     <ul>
                         @foreach($category_all as $row)
                         <li>
-                            <a class="active" href="/product-list/{{$row->id}}/0/0/0"> 
+                            <a class="active" href="javascript:void(0)" onclick="searchcategory({{$row->id}})"> 
                                 <img src="/upload_files/{{$row->icon}}" alt="" />{{$row->category}}
                             </a>
                             <!-- <span class="count">30</span> -->
@@ -236,7 +243,7 @@
                     </ul>
                 </div>
                 <!-- Fillter By Price -->
-                <form action="/search-product-list/{{$category_id}}/{{$subcategory_id}}/{{$subsubcategory_id}}/{{$search_id}}" id="filter-form" method="GET">
+                <form action="#" id="filter-form" method="POST">
                 {{csrf_field()}}
                 <div class="sidebar-widget price_range range mb-30">
                     <h5 class="section-title style-1 mb-30">Fillter</h5>
@@ -273,7 +280,7 @@
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-sm btn-default"><i class="fi-rs-filter mr-5"></i> Fillter</button>
+                    <button onclick='search_product_list("","<?php echo $category_id; ?>","<?php echo $subcategory_id; ?>","<?php echo $subsubcategory_id; ?>","<?php echo $search_id; ?>")' type="button" class="btn btn-sm btn-default"><i class="fi-rs-filter mr-5"></i> Fillter</button>
                 </div>
                 </form>
                 
@@ -286,10 +293,85 @@
 @endsection
 @section('extra-js')
 <script>
+// $(document).ready(function(){
+    var category = '<?php echo $category_id;  ?>';
+    var subcategory = '<?php echo $subcategory_id;  ?>';
+    var subsubcategory = '<?php echo $subsubcategory_id;  ?>';
+    var search = '<?php echo $search_id;  ?>';
+    view_product_list('',category,subcategory,subsubcategory,search);
+    function view_product_list(id="",category,subcategory,subsubcategory,search)
+    {
+        var formData = new FormData($('#filter-form')[0]);
+        // var new_id = [];
+        // for(var i=0;i<id.length;i++){
+        //     new_id.push(id[i]);
+        // }
+        formData.append('id',id);
+        formData.append('category',category);
+        formData.append('subcategory',subcategory);
+        formData.append('subsubcategory',subsubcategory);
+        formData.append('search',search);
+        $.ajax({
+            url:"/load-data-product-list",
+            method:"POST",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success:function(data)
+            {
+                //$('#view_product_list').html('');
+                $('.search_product_load_more_button').remove();
+                $('#view_product_list').append(data);
+            }
+        })
+    }
+    var id = [];
+    var search_id = [];
+    $(document).on('click', '#search_product_load_more_button', function(){
+        id = $(this).data('id');
+        for(var i=0;i<id.length;i++){
+            search_id.push(id[i]);
+        }
+        console.log(search_id);
+        $('#search_product_load_more_button').html('<b>Loading...</b>');
+        view_product_list(search_id,category,subcategory,subsubcategory,search);
+    });
+
+    function search_product_list(id="",category,subcategory,subsubcategory,search)
+    {
+        var formData = new FormData($('#filter-form')[0]);
+        // var new_id = [];
+        // for(var i=0;i<id.length;i++){
+        //     new_id.push(id[i]);
+        // }
+        formData.append('id',id);
+        formData.append('category',category);
+        formData.append('subcategory',subcategory);
+        formData.append('subsubcategory',subsubcategory);
+        formData.append('search',search);
+        $.ajax({
+            url:"/load-data-product-list",
+            method:"POST",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success:function(data)
+            {
+                $('#view_product_list').html('');
+                $('.search_product_load_more_button').remove();
+                $('#view_product_list').append(data);
+            }
+        })
+    }
+
+// });
+
+// var new_url = '/vendor/get-orders';
+// orderPageTable.ajax.url(new_url).load(null, false);
+ 
 @if(!empty($subcategory_data))
 getsubsubcategory({{$subcategory_data->id}});
 @endif
-
 function getsubsubcategory(id){
   $.ajax({
     url : '/get-sub-sub-category/'+id,
@@ -299,6 +381,8 @@ function getsubsubcategory(id){
         $('.shopBycat').html(data);
         $('.nav-link').removeClass('active');
         $('.home-category'+id).addClass('active');
+        subcategory = id;
+        $('#carausel-8-columns-arrows').html('');
         $(".carausel-8-columns").each(function (key, item) {
             var id = $(this).attr("id");
             var sliderID = "#" + id;
@@ -345,6 +429,35 @@ function getsubsubcategory(id){
 
     }
   });
+}
+
+
+@if(!empty($category_data))
+getsubcategory({{$category_data->id}});
+@endif
+
+function getsubcategory(id){
+  $.ajax({
+    url : '/get-sub-category-product/'+id,
+    type: "GET",
+    success: function(data)
+    {
+        $('#view_sub_cat').html(data);
+    }
+  });
+}
+
+function searchcategory(id){
+    getsubcategory(id);
+    search_product_list("",id,"0","0","0");
+    getsubsubcategory('00');
+    category = id;
+}
+
+function searchchildcategory(category,subcategory,subsubcategory){
+    search_product_list("",category,subcategory,subsubcategory,"0");
+    $('.card-1').removeClass('child-category-active');
+    $('.card-active'+subsubcategory).addClass('child-category-active');
 }
 
 

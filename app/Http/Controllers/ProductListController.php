@@ -33,22 +33,44 @@ use PDF;
 
 class ProductListController extends Controller
 {
+    public function getsubcategoryproduct($id) {
+        $main_category = category::find($id);
+        $subcategory_all = category::where('parent_id',$id)->where('status',0)->orderBy('id','ASC')->get();
+
+        $output='<h3>'.$main_category->category.'</h3>';
+        $output.='<ul class="list-inline nav nav-tabs links">';
+        if(!empty($subcategory_all)){
+            foreach($subcategory_all as $row){
+                $output.='
+                <li class="list-inline-item nav-item">
+                    <a class="nav-link home-category'.$row->id.'" href="javascript:void(0)" onclick="getsubsubcategory('.$row->id.')">'.$row->category.'</a>
+                </li>
+                ';
+            }
+        }
+
+        $output.='</ul>';
+
+        echo $output;
+    }
+
     public function getsubsubcategory($id) {
         $category_all = category::where('parent_id',$id)->where('status',0)->orderBy('id','ASC')->get();
         $main_category = category::find($id);
+        if(!empty($category_all)){
         $output='<div class="carausel-8-columns-cover position-relative">
         <div class="carausel-8-columns" id="carausel-8-columns">';
         if(!empty($category_all)){
             foreach($category_all as $row){
                 $output.='
-                <div class="card-1">
+                <div class="card-1 card-active'.$row->id.'">
                     <figure class="img-hover-scale overflow-hidden">
-                        <a href="/product-list/'.$main_category->parent_id.'/'.$id.'/'.$row->id.'/0">
+                        <a href="javascript:void(0)" onclick="searchchildcategory('.$main_category->parent_id.','.$id.','.$row->id.',0)" >
                             <img src="/upload_files/'.$row->icon.'" alt="" />
                         </a>
                     </figure>
                     <h6>
-                        <a href="/product-list/'.$main_category->parent_id.'/'.$id.'/'.$row->id.'/0">'.$row->category.'</a>
+                    <a href="javascript:void(0)" onclick="searchchildcategory('.$main_category->parent_id.','.$id.','.$row->id.')" >'.$row->category.'</a>
                     </h6>
                 </div>
                 ';
@@ -56,6 +78,10 @@ class ProductListController extends Controller
         }
 
         $output.='</div></div>';
+        }
+        else{
+            $output='';
+        }
 
         echo $output;
     }
@@ -249,5 +275,165 @@ class ProductListController extends Controller
   
         return response()->json('Successfully Save'); 
     }
+
+
+
+
+    function loaddataproductlist(Request $request)
+    {
+        if($request->ajax())
+        {
+            $last_id = array();
+            //if($request->id > 0)
+            if($request->id != '')
+            {
+                $iddata = array();
+                foreach(explode(',', $request->id) as $ids) {
+                    $iddata[] = $ids;
+                }
+                $i =DB::table('products as p');
+                if ( $request->search != '0' )
+                {
+                    $i->where('p.product_name', 'like', '%' . $request->search . '%');
+                }
+                if ( $request->category != '0' )
+                {
+                    $i->where('p.category', $request->category);
+                }
+                if ( $request->subcategory != '0' )
+                {
+                    $i->where('p.subcategory', $request->subcategory);
+                }
+                if ( $request->subsubcategory != '0' )
+                {
+                    $i->where('p.subsubcategory', $request->subsubcategory);
+                }
+                if ($request->brand && !empty($request->brand) )
+                {
+                    $i->whereIn('p.brand', $request->brand);
+                }
+                if ($request->city && !empty($request->city) )
+                {
+                    $i->join('vendors as v', 'v.id', '=', 'p.vendor_id');
+                    $i->whereIn('v.city', $request->city);
+                }
+                $i->select('p.*');
+                $i->where('p.status',0);
+                $i->whereNotIn('p.id' , $iddata);
+                $data = $i->limit(6)->get();
+            }
+            else
+            {
+                $i =DB::table('products as p');
+                if ( $request->search != '0' )
+                {
+                    $i->where('p.product_name', 'like', '%' . $request->search . '%');
+                }
+                if ( $request->category != '0' )
+                {
+                    $i->where('p.category', $request->category);
+                }
+                if ( $request->subcategory != '0' )
+                {
+                    $i->where('p.subcategory', $request->subcategory);
+                }
+                if ( $request->subsubcategory != '0' )
+                {
+                    $i->where('p.subsubcategory', $request->subsubcategory);
+                }
+                if ($request->brand && !empty($request->brand) )
+                {
+                    $i->whereIn('p.brand', $request->brand);
+                }
+                if ($request->city && !empty($request->city) )
+                {
+                    $i->join('vendors as v', 'v.id', '=', 'p.vendor_id');
+                    $i->whereIn('v.city', $request->city);
+                }
+                $i->select('p.*');
+                $i->where('p.status',0);
+                $data = $i->limit(6)->get();
+            }
+            $output = '';
+            
+if(!$data->isEmpty())
+{
+// $output.='
+//     <div class="row product-grid">
+// ';
+        foreach($data as $row){
+        $output.='
+        <div class="col-lg-4 col-md-4 col-12 col-sm-6">
+            <div class="product-cart-wrap mb-30">
+                <div class="product-img-action-wrap">
+                    <div class="product-img product-img-zoom">
+                        <a href="/product-details/'.$row->id.'">
+                            <img style="height:250px;" class="default-img" src="/product_image/'.$row->image.'" alt="" />
+                            <img class="hover-img" src="/product_image/'.$row->image.'" alt="" />
+                        </a>
+                    </div>
+                    <!-- <div class="product-action-1">
+                        <a aria-label="Add To Wishlist" class="action-btn" href="#"><i class="fi-rs-heart"></i></a>
+                        <a aria-label="Quick view" class="action-btn" data-bs-toggle="modal" data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
+                    </div> -->
+                    <!-- <div class="product-badges product-badges-position product-badges-mrg">
+                        <span class="hot">Hot</span>
+                    </div> -->
+                </div>
+                <div class="product-content-wrap">
+                    <div class="product-category">
+                        <a href="/product-list/'.$row->category.'/0/0/0">'.\App\Http\Controllers\PageController::viewcategoryname($row->category).'</a>
+                    </div>
+                    <h2 class="garage-title"><a href="/product-details/'.$row->id.'">'.$row->product_name.'</a></h2>
+                    <div class="product-rate-cover">
+                        <div class="product-rate d-inline-block">
+                            <div class="product-rating" style="width:'.\App\Http\Controllers\ProductListController::viewratingpercentage($row->id).'%"></div>
+                        </div>
+                        <!-- <span class="font-small ml-5 text-muted"> (4.0)</span> -->
+                    </div>
+                    <div>
+                        <span class="font-small text-muted">By <a href="#">'.\App\Http\Controllers\PageController::viewvendorname($row->vendor_id).'</a></span>
+                    </div>
+                    <div class="product-card-bottom">
+                        <div class="product-price">
+                            <span>KWD '.$row->sales_price.'</span>';
+                            if($row->mrp_price > $row->sales_price){
+                            $output.='<span class="old-price">KWD '.$row->mrp_price.'</span>';
+                            }
+                        $output.='</div>
+                        <div class="add-cart">
+                            <a class="add" href="/product-details/'.$row->id.'">
+                                <i class="fi-rs-eye mr-5"></i>View 
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>';
+        $last_id[] = $row->id;
+        }
+    // $output.='
+    // </div>
+    // ';
+    $output .= '
+    <div class="text-center search_product_load_more_button" style="width:100%;margin-bottom:20px;">
+        <div class="more-btn"><a href="javascript:void(0)" class="theme-btn-one" data-id="'.json_encode($last_id).'" id="search_product_load_more_button">Load More</a></div>
+    </div>
+    ';
+}
+else
+{
+    // if(count($data) > 9){
+    $output .= '
+    <div class="text-center" style="width:100%;margin-bottom:20px;">
+        <div class="more-btn"><a href="javascript:void(0)" class="theme-btn-one">No Data Found</a></div>
+    </div>
+    ';
+    // }
+}
+        echo $output;
+        }
+    }
+
 
 }

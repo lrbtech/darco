@@ -113,8 +113,12 @@
                             @if($row->return_policy == 0)
                             @if($row->is_return == 0)
                                 @if(strtotime(date('Y-m-d')) <= strtotime($row->return_date))
+                                @if($orders->shipping_status == 3)
                                     <a onclick="ReurnPopup({{$row->id}})" href="javascript:void(0)" class="btn btn-lg btn-custom btn-print hover-up"> Return Item </a>
                                 @endif
+                                @endif
+                            @else 
+                                Product Return
                             @endif
                             @endif
                             </td>
@@ -213,8 +217,9 @@
                         <label>Return Reason</label>
                         <select id="return_reason" name="return_reason">
                             <option value="">SELECT REASON</option>
-                            <option>Item Damage</option>
-                            <option>Wrong Item Received</option>
+                            @foreach($return_reason as $row)
+                            <option>{{$row->return_reason}}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="form-group col-lg-12">
@@ -257,7 +262,7 @@ function ReturnItem(){
     $('.form-group').removeClass('has-error').removeClass('has-success');
     var formData = new FormData($('#form')[0]);
     $.ajax({
-      url : '/customer/return-item',
+      url : '/customer/save-return-item',
       type: "POST",
       data: formData,
       contentType: false,
@@ -283,19 +288,41 @@ function ReturnItem(){
 }
 
 function OrderCancel(id){
-    var r = confirm("Are you sure");
-    if (r == true) {
-      $.ajax({
-        url : '/customer/order-cancel/'+id,
-        type: "GET",
-        dataType: "JSON",
-        success: function(data)
-        {
-            toastr.success(data, 'Successfully Canceled');
-            window.location.assign('/customer/orders');
+    Swal.fire({
+    title: 'Are you sure?',
+    icon: "success",
+    showDenyButton: true,
+    // showCancelButton: true,
+    denyButtonText: 'No',
+    confirmButtonText: 'Yes',
+    customClass: {
+        // confirmButton: 'btn-radius btn-ok',
+        // denyButton: 'btn-radius btn-cancel',
+    }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url : '/customer/order-cancel/'+id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {
+                    toastr.success(data, 'Successfully Canceled');
+                    window.location.assign('/customer/orders');
+                }
+            });
+        } 
+        else if (result.isDenied) {
+            Swal.fire({
+                text: 'Request Canceled',
+                icon: "info",
+                customClass: {
+                //   confirmButton: 'btn-radius btn-ok',
+                }
+            });
         }
-      });
-    } 
+    })
 }
+
 </script>
 @endsection

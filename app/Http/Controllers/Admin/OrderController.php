@@ -49,7 +49,7 @@ class OrderController extends Controller
     }
 
     public function getorders(Request $request){
-        $orders = orders::orderBy('id','DESC')->get();
+        $orders = orders::orderBy('id','DESC')->where('payment_status',1)->get();
         
         return Datatables::of($orders)
             ->addColumn('date', function ($orders) {

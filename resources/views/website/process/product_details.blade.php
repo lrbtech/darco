@@ -164,7 +164,15 @@
                         <ul class="float-start">
                             <!-- <li class="mb-5">SKU: <a href="#">FWM15VKT</a></li>
                             <li class="mb-5">Tags: <a href="#" rel="tag">Snack</a>, <a href="#" rel="tag">Organic</a>, <a href="#" rel="tag">Brown</a></li> -->
-                            <li>Stock:<span class="in-stock text-brand ml-5">{{$product->stock}} Items In Stock</span></li>
+                            @if($product->stock_status == '0')
+                                @if($product->stock > 0)
+                                <li>Stock: <span class="in-stock text-brand ml-5">{{$product->stock}} Items In Stock</span></li>
+                                @else 
+                                <li>Stock: <span class="in-stock text-brand ml-5">Out of Stock</span></li>
+                                @endif
+                            @else 
+                            <li>Stock: <span class="in-stock text-brand ml-5">Out of Stock</span></li>
+                            @endif
                         </ul>
                     </div>
                 </div>
@@ -181,9 +189,11 @@
                     <li class="nav-item">
                         <a class="nav-link" id="Additional-info-tab" data-bs-toggle="tab" href="#Additional-info">Additional info</a>
                     </li>
-                    <!-- <li class="nav-item">
-                        <a class="nav-link" id="Vendor-info-tab" data-bs-toggle="tab" href="#Vendor-info">Vendor</a>
-                    </li> -->
+                    @if($product->return_policy == '0')
+                    <li class="nav-item">
+                        <a class="nav-link" id="Vendor-info-tab" data-bs-toggle="tab" href="#Vendor-info">Return Policy</a>
+                    </li>
+                    @endif
                     <li class="nav-item">
                         <a class="nav-link" id="Reviews-tab" data-bs-toggle="tab" href="#Reviews">Reviews ({{$reviews_count}})</a>
                     </li>
@@ -199,43 +209,13 @@
                             <?php echo $product->specifications; ?>
                         </div>
                     </div>
-                    <!-- <div class="tab-pane fade" id="Vendor-info">
-                        <div class="vendor-logo d-flex mb-30">
-                            <img src="/frontend/assets/imgs/vendor/vendor-18.svg" alt="" />
-                            <div class="vendor-name ml-15">
-                                <h6>
-                                    <a href="vendor-details-2.html">Noodles Co.</a>
-                                </h6>
-                                <div class="product-rate-cover text-end">
-                                    <div class="product-rate d-inline-block">
-                                        <div class="product-rating" style="width: 90%"></div>
-                                    </div>
-                                    <span class="font-small ml-5 text-muted"> (32 reviews)</span>
-                                </div>
-                            </div>
-                        </div>
-                        <ul class="contact-infor mb-50">
-                            <li><img src="/frontend/assets/imgs/theme/icons/icon-location.svg" alt="" /><strong>Address: </strong> <span>5171 W Campbell Ave undefined Kent, Utah 53127 United States</span></li>
-                            <li><img src="/frontend/assets/imgs/theme/icons/icon-contact.svg" alt="" /><strong>Contact Seller:</strong><span>(+91) - 540-025-553</span></li>
-                        </ul>
-                        <div class="d-flex mb-55">
-                            <div class="mr-30">
-                                <p class="text-brand font-xs">Rating</p>
-                                <h4 class="mb-0">92%</h4>
-                            </div>
-                            <div class="mr-30">
-                                <p class="text-brand font-xs">Ship on time</p>
-                                <h4 class="mb-0">100%</h4>
-                            </div>
-                            <div>
-                                <p class="text-brand font-xs">Chat response</p>
-                                <h4 class="mb-0">89%</h4>
-                            </div>
-                        </div>
+                    @if($product->return_policy == '0')
+                    <div class="tab-pane fade" id="Vendor-info">
                         <p>
-                            Noodles & Company is an American fast-casual restaurant that offers international and American noodle dishes and pasta in addition to soups and salads. Noodles & Company was founded in 1995 by Aaron Kennedy and is headquartered in Broomfield, Colorado. The company went public in 2013 and recorded a $457 million revenue in 2017.In late 2018, there were 460 Noodles & Company locations across 29 states and Washington, D.C.
+                            {{$product->return_description}}
                         </p>
-                    </div> -->
+                    </div>
+                    @endif
                     <div class="tab-pane fade" id="Reviews">
                         <!--Comments-->
                         <div class="comments-area">
@@ -250,34 +230,33 @@
                                                     @if($row->profile_image == '')
                                                     <img src="/frontend/assets/imgs/blog/author-2.png" alt="" />
                                                     @else 
-                                                    <a href="#"><img src="/profile_image/{{$row->profile_image}}"></a>
+                                                    <img src="/profile_image/{{$row->profile_image}}">
                                                     @endif
                                                     <a href="#" class="font-heading text-brand">{{$row->first_name}} {{$row->last_name}}</a>
                                                 </div>
-                                                <div class="desc">
+                                                <div style="width:100%;" class="desc">
                                                     <div class="d-flex justify-content-between mb-10">
                                                         <div class="d-flex align-items-center">
                                                             <span class="font-xs text-muted">{{$row->updated_at}} </span>
                                                         </div>
                                                         <div class="product-rate d-inline-block">
-                                                        @if($row->rating == '1')
-                                                        <div class="product-rating" style="width:20%"></div>
-                                                        @elseif($row->rating == '2')
-                                                        <div class="product-rating" style="width:40%"></div>
-                                                        @elseif($row->rating == '3')
-                                                        <div class="product-rating" style="width:60%"></div>
-                                                        @elseif($row->rating == '4')
-                                                        <div class="product-rating" style="width:80%"></div>
-                                                        @elseif($row->rating == '5')
-                                                        <div class="product-rating" style="width:100%"></div>
-                                                        @endif
+                                                            @if($row->rating == '1')
+                                                            <div class="product-rating" style="width:20%"></div>
+                                                            @elseif($row->rating == '2')
+                                                            <div class="product-rating" style="width:40%"></div>
+                                                            @elseif($row->rating == '3')
+                                                            <div class="product-rating" style="width:60%"></div>
+                                                            @elseif($row->rating == '4')
+                                                            <div class="product-rating" style="width:80%"></div>
+                                                            @elseif($row->rating == '5')
+                                                            <div class="product-rating" style="width:100%"></div>
+                                                            @endif
                                                         </div>
                                                     </div>
-                                                    <p class="mb-10">{{$row->message}}
-                                                        <!-- <a href="#" class="reply">Reply</a> -->
-                                                    </p>
+                                                    <p class="mb-10">{{$row->message}}</p>
                                                 </div>
                                             </div>
+
                                         </div>
                                         @endforeach
                                         {!! $all_reviews->links('pagination.pagination') !!}

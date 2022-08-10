@@ -5,8 +5,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
   <title>Vendor Login</title>
-  <link rel="icon" type="image/x-icon" href="/website_assets/images/ico.ico">
-
+  @if(session()->get('theme') == 'dark')
+  <link rel="icon" type="image/x-icon" href="/website_assets/images/dark.ico">
+  @else
+   <link rel="icon" type="image/x-icon" href="/website_assets/images/light.ico">
+  @endif
+  
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Quicksand:300,400,500,700"
   rel="stylesheet">
   <link href="https://maxcdn.icons8.com/fonts/line-awesome/1.1/css/line-awesome.min.css"

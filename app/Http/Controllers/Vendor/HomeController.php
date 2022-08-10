@@ -49,7 +49,7 @@ class HomeController extends Controller
 
 
         $enquiry = vendor_enquiry::where('vendor_id',Auth::guard('vendor')->user()->id)->orderBy('id','DESC')->get()->take('5');
-        $orders = orders::where('vendor_id',Auth::guard('vendor')->user()->id)->orderBy('id','DESC')->get()->take('5');
+        $orders = orders::where('vendor_id',Auth::guard('vendor')->user()->id)->where('payment_status',1)->orderBy('id','DESC')->get()->take('5');
 
         $total_products = product::where('vendor_id',Auth::guard('vendor')->user()->id)->count();
         $total_orders = orders::where('vendor_id',Auth::guard('vendor')->user()->id)->count();

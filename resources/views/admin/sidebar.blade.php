@@ -96,6 +96,10 @@
         </li>
         @endif
 
+        <li class="return-reason nav-item">
+            <a href="/admin/return-reason"><i class="la la-wrench"></i><span class="menu-title" data-i18n="nav.dash.main">Return Reason</span></a>
+        </li>
+
         <li class="about-us nav-item">
             <a href="/admin/about-us"><i class="la la-wrench"></i><span class="menu-title" data-i18n="nav.dash.main">About Us</span></a>
         </li>

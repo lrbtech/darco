@@ -82,7 +82,7 @@ p.mb-65 {
             </div>
             <div class="slider-arrow slider-arrow-2 flex-right carausel-8-columns-arrow" id="carausel-8-columns-arrows"></div>
         </div>
-            <div class="shopBycat"></div>
+        <div class="shopBycat"></div>
         
     </div>
 </section>
@@ -363,7 +363,7 @@ function gethomesubcategory(id){
                 ],
                 prevArrow: '<span class="slider-btn slider-prev"><i class="fi-rs-arrow-small-left"></i></span>',
                 nextArrow: '<span class="slider-btn slider-next"><i class="fi-rs-arrow-small-right"></i></span>',
-                appendArrows: appendArrowsClassName
+                // appendArrows: appendArrowsClassName
             });
         });
 

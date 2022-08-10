@@ -45,7 +45,7 @@ class HomeController extends Controller
         $pldate = date('Y-m-d',strtotime('last day of previous month'));
 
 
-        $orders = orders::orderBy('id','DESC')->get()->take('5');
+        $orders = orders::orderBy('id','DESC')->where('payment_status',1)->get()->take('5');
 
         $total_vendor = vendor::count();
         $total_customer = User::count();

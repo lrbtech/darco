@@ -34,6 +34,11 @@ class HomeController extends Controller
         return response()->json(['message' => 'Successfully update'], 200);
     }
 
+    public function updatecookies($cookies){
+        Session::put('cookies', $cookies);
+        return response()->json(['message' => 'Successfully update'], 200);
+    }
+
     public function gethomesubcategory($id) {
         $category = category::where('parent_id',$id)->where('status',0)->orderBy('id','ASC')->get();
         $output='<div class="carausel-8-columns-cover position-relative">

@@ -23,14 +23,19 @@ use DB;
 use Mail;
 use Auth;
 use Cart;
+use MyFatoorah\Library\PaymentMyfatoorahApiV2;
 
 class CheckoutController extends Controller
 {
+    public $mfObj;
+
     public function __construct()
     {
         $this->middleware('auth');
         date_default_timezone_set("Asia/Kuwait");
         date_default_timezone_get();
+
+        $this->mfObj = new PaymentMyfatoorahApiV2(config('myfatoorah.api_key'), config('myfatoorah.country_iso'), config('myfatoorah.test_mode'));
     }
 
     public function checkout()
@@ -120,10 +125,9 @@ class CheckoutController extends Controller
 
 
     public function saveorder(Request $request){
+        
         $this->validate($request, [
             'billing_address_id'=>'required',
-        ],[
-            // 'profile_image.required' => 'Profile Image Field is Required',
         ]);
         if($request->shipping_address == 'on'){
             $this->validate($request, [
@@ -133,8 +137,6 @@ class CheckoutController extends Controller
                 'new_address_line1'=>'required',
                 'new_city'=>'required',
                 'new_pincode'=>'required',
-            ],[
-                // 'profile_image.required' => 'Profile Image Field is Required',
             ]);
         }
 
@@ -228,6 +230,8 @@ class CheckoutController extends Controller
                 $orders->tax_amount = $tax_amount;
                 $orders->shipping_charge = $shipping_charge;
                 $orders->total = $total;
+                $orders->payment_type = $request->payment_type;
+                $orders->payment_status = 0;
                 $orders->save();
 
 
@@ -261,7 +265,7 @@ class CheckoutController extends Controller
                             
                             $today = date('Y-m-d');
                             $order_items->return_policy = $product->return_policy;
-                            $order_items->reurn_date = date('Y-m-d', strtotime($today . '+'.$product->return_days.'days'));
+                            $order_items->return_date = date('Y-m-d', strtotime($today . '+'.$product->return_days.'days'));
                             $order_items->save();
                             $product->save();
                         }
@@ -293,53 +297,71 @@ class CheckoutController extends Controller
 
         Cart::clear();
 
-        return response()->json(['message'=>'Your Order is Save Successfully','status'=>0], 200); 
+        try {
+            $paymentMethodId = 0; // 0 for MyFatoorah invoice or 1 for Knet in test mode
+
+            $curlData = $this->getPayLoadData($orders->id);
+            $data     = $this->mfObj->getInvoiceURL($curlData, $paymentMethodId);
+
+            $response = ['IsSuccess'=>'true','message'=>'Your Order is Save Successfully','Data'=>$data,'status'=>0];
+
+            $invoice_update = orders::find($orders->id);
+            $invoice_update->invoiceid = $data['invoiceId'];
+            $invoice_update->invoiceurl = $data['invoiceURL'];
+            $invoice_update->save();
+
+        } catch (\Exception $e) {
+            $response = ['IsSuccess'=>'false','message'=> $e->getMessage(),'status'=>0];
+        }
+        return response()->json($response);
 
     }
+
+    public function onlinepayorder($orderId) {
+        // try {
+            $paymentMethodId = 0; // 0 for MyFatoorah invoice or 1 for Knet in test mode
+
+            $curlData = $this->getPayLoadData($orderId);
+            $data     = $this->mfObj->getInvoiceURL($curlData, $paymentMethodId);
+
+            $response = ['IsSuccess'=>'true','message'=>'Your Order is Save Successfully','Data'=>$data,'status'=>0];
+
+            $invoice_update = orders::find($orderId);
+            $invoice_update->invoiceid = $data->invoiceId;
+            $invoice_update->invoiceurl = $data->invoiceURL;
+            $invoice_update->save();
+
+        // } catch (\Exception $e) {
+        //     $response = ['IsSuccess'=>'false','message'=> $e->getMessage(),'status'=>0];
+        // }
+
+        return response()->json($response);
+        //return response()->json(['message'=>'Your Order is Save Successfully','status'=>0,'Data'=>$data], 200); 
+    }
+
+    private function getPayLoadData($orderId = null) {
+        $callbackURL = route('myfatoorah.callback');
+
+        $orders = orders::find($orderId);
+        $name = Auth::user()->first_name.' '.Auth::user()->last_name;
+        return [
+            'CustomerName'       => $name,
+            'InvoiceValue'       => '5',
+            'DisplayCurrencyIso' => 'KWD',
+            'CustomerEmail'      => Auth::user()->email,
+            'CallBackUrl'        => $callbackURL,
+            'ErrorUrl'           => $callbackURL,
+            'MobileCountryCode'  => '+965',
+            'CustomerMobile'     => Auth::user()->mobile,
+            'Language'           => 'en',
+            'CustomerReference'  => $orders->id,
+            'SourceInfo'         => 'Laravel ' . app()::VERSION . ' - MyFatoorah Package ' . MYFATOORAH_LARAVEL_PACKAGE_VERSION
+        ];
+    }
+
 
     public function ordersuccess(){
         return view('website.order_success');
-    }
-
-    public function onlinepay(){
-        if (! function_exists( 'curl_version' )) {
-            exit ( "Enable cURL in PHP" );
-        }
-        $fields = array(
-        'merchant_id'=>'1201',
-        'username' => 'test',
-        'password'=>stripslashes('test'), 
-        'api_key'=>'jtest123', // in sandbox request
-        //'api_key' =>password_hash('API_KEY',PASSWORD_BCRYPT), 
-        'order_id'=>time(), 
-        'total_price'=>'10',
-        'CurrencyCode'=>'KWD',//only works in production mode
-        'CstFName'=>'Test Name',
-        'CstEmail'=>'test@test.com',
-        'CstMobile'=>'12345678',
-        'success_url'=>'https://example.com/success.html',
-        'error_url'=>'https://example.com/error.html',
-        'test_mode'=>1, // test mode enabled
-        'whitelabled'=>true, // only accept in live credentials (it will not work in test)
-        'payment_gateway'=>'knet',// only works in production mode
-        'ProductName'=>json_encode(['computer','television']),
-        'ProductQty'=>json_encode([2,1]),
-        'ProductPrice'=>json_encode([150,1500]),
-        'reference'=>'Ref00001', // Reference that you want to show in invoice in ref column
-        // 'ExtraMerchantsData'=>json_encode($extraMerchantsData)
-        );
-        $fields_string = http_build_query($fields);
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL,"https://api.upayments.com/test-payment");
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS,$fields_string);
-        // receive server response ...
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $server_output = curl_exec($ch);
-        curl_close($ch);
-        $server_output = json_decode($server_output,true);
-        echo $server_output['paymentURL'];
-        // header(‘Location:’.$server_output[‘paymentURL’]); 
     }
 
     public function applyCoupon(Request $request){

@@ -24,6 +24,7 @@ use App\Models\order_items;
 use App\Models\shipping_address;
 use App\Models\settings;
 use App\Models\return_item;
+use App\Models\return_reason;
 use Yajra\DataTables\Facades\DataTables;
 use Auth;
 use DB;
@@ -55,8 +56,13 @@ class HomeController extends Controller
         return view('customer.enquiry',compact('enquiry'));
     }
 
+    public function returnitem(){
+        $return_item = return_item::where('customer_id',Auth::user()->id)->orderBy('id','DESC')->get();
+        return view('customer.return_item',compact('return_item'));
+    }
+
     public function orders(){
-        $orders = orders::where('customer_id',Auth::user()->id)->orderBy('id','DESC')->get();
+        $orders = orders::where('customer_id',Auth::user()->id)->where('payment_status',1)->orderBy('id','DESC')->get();
         return view('customer.orders',compact('orders'));
     }
 
@@ -84,7 +90,7 @@ class HomeController extends Controller
         return response()->json(['message'=>'Successfully Canceled'],200); 
     }
 
-    public function returnitem(Request $request){
+    public function savereturnitem(Request $request){
         $this->validate($request, [
             'return_reason'=>'required',
         ],[
@@ -104,7 +110,7 @@ class HomeController extends Controller
         $return_item->billing_address_id = $order_items->billing_address_id;
         $return_item->shipping_address_id = $order_items->shipping_address_id;
         $return_item->product_id = $order_items->id;
-        $return_item->product_name = $order_items->name;
+        $return_item->product_name = $order_items->product_name;
         $return_item->qty = $order_items->quantity;
         $return_item->price = $order_items->price;
         $return_item->total = $order_items->total;
@@ -120,11 +126,12 @@ class HomeController extends Controller
     public function vieworders($id){
         $orders = orders::find($id);
         $order_items = order_items::where('order_id',$id)->get();
+        $return_reason = return_reason::orderBy('id','ASC')->get();
         $billing_address = shipping_address::find($orders->billing_address_id);
         $vendor = vendor::find($orders->vendor_id);
         $customer = User::find($orders->customer_id);
 
-        return view('customer.view_orders',compact('orders','billing_address','vendor','customer','order_items'));
+        return view('customer.view_orders',compact('orders','billing_address','vendor','customer','order_items','return_reason'));
     }
 
     public function updateprofile(Request $request){

@@ -20,9 +20,13 @@ use Illuminate\Support\Facades\Session;
 // });
 
 
-session(['theme' => 'light']);
+session(
+	['theme' => 'light'],
+	['cookies' => '0']
+);
 
 Route::get('/update-theme/{theme}', [App\Http\Controllers\HomeController::class, 'updatetheme']);
+Route::get('/update-cookies/{cookies}', [App\Http\Controllers\HomeController::class, 'updatecookies']);
 
 
 Route::get('/', [App\Http\Controllers\PageController::class, 'home']);
@@ -79,11 +83,14 @@ Route::get('/pages/{id}', [App\Http\Controllers\PageController::class, 'infoPage
 Route::get('/ideas-details/{id}', [App\Http\Controllers\PageController::class, 'ideasDetails']);
 
 Route::get('/product-list/{category}/{subcategory}/{subsubcategory}/{search}', [App\Http\Controllers\ProductListController::class, 'productlist']);
+Route::POST('/load-data-product-list', [App\Http\Controllers\ProductListController::class, 'loaddataproductlist']);
+
 Route::get('/search-product-list/{category}/{subcategory}/{subsubcategory}/{search}', [App\Http\Controllers\ProductListController::class, 'searchproductlist']);
 
 Route::post('/save-review', [App\Http\Controllers\ProductListController::class, 'savereview']);
 Route::post('/update-review', [App\Http\Controllers\ProductListController::class, 'updatereview']);
 
+Route::get('/get-sub-category-product/{id}', [App\Http\Controllers\ProductListController::class, 'getsubcategoryproduct']);
 Route::get('/get-sub-sub-category/{id}', [App\Http\Controllers\ProductListController::class, 'getsubsubcategory']);
 Route::get('/product-details/{id}', [App\Http\Controllers\ProductListController::class, 'productdetails']);
 
@@ -261,6 +268,13 @@ Route::group(['prefix' => 'admin'],function(){
 	Route::get('/delete-brand/{id}/{status}', [App\Http\Controllers\Admin\ProductController::class, 'deletebrand']);
 
 
+	Route::get('/return-reason', [App\Http\Controllers\Admin\ProductController::class, 'returnreason']);
+	Route::POST('/save-return-reason', [App\Http\Controllers\Admin\ProductController::class, 'savereturnreason']);
+	Route::POST('/update-return-reason', [App\Http\Controllers\Admin\ProductController::class, 'updatereturnreason']);
+	Route::get('/edit-return-reason/{id}', [App\Http\Controllers\Admin\ProductController::class, 'editreturnreason']);
+	Route::get('/delete-return-reason/{id}', [App\Http\Controllers\Admin\ProductController::class, 'deletereturnreason']);
+
+
 
 
 
@@ -420,10 +434,12 @@ Route::group(['prefix' => 'professional'],function(){
 Route::group(['prefix' => 'customer'],function(){
 	Route::get('/profile', [App\Http\Controllers\Customer\HomeController::class, 'profile']);
 	Route::get('/change-password', [App\Http\Controllers\Customer\HomeController::class, 'changepassword']);
-    Route::get('/orders', [App\Http\Controllers\Customer\HomeController::class, 'orders']);
+    Route::get('/return-item', [App\Http\Controllers\Customer\HomeController::class, 'returnitem']);
+
+	Route::get('/orders', [App\Http\Controllers\Customer\HomeController::class, 'orders']);
 
 	Route::get('/view-orders/{id}', [App\Http\Controllers\Customer\HomeController::class, 'vieworders']);
-	Route::post('return-item', [App\Http\Controllers\Customer\HomeController::class, 'returnitem']);
+	Route::post('save-return-item', [App\Http\Controllers\Customer\HomeController::class, 'savereturnitem']);
 	Route::get('order-cancel/{id}', [App\Http\Controllers\Customer\HomeController::class, 'ordercancel']);
 
 

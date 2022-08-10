@@ -7,7 +7,19 @@
 <main class="main pages">
     <div class="page-header mt-30 mb-50">
         <div class="container">
+            @if(!empty($category_data))
+                @if(!empty($subcategory_data))
+                    @if(!empty($subsubcategory_data))
+                    <div class="archive-header" style="background: url(/upload_files/{{$subsubcategory_data->image}})">
+                    @else 
+                    <div class="archive-header" style="background: url(/upload_files/{{$subcategory_data->image}})">
+                    @endif
+                @else 
+                <div class="archive-header" style="background: url(/upload_files/{{$category_data->image}})">
+                @endif
+            @else 
             <div class="archive-header">
+            @endif
                 <div class="row align-items-center">
                     <div class="col-xl-3">
                         <h1 class="mb-15">GET IDEAS</h1>
@@ -37,7 +49,7 @@
                     <ul class="list-inline nav nav-tabs links">
                         @foreach($category_all as $row)
                         <li class="list-inline-item nav-item">
-                            <a class="nav-link home-category{{$row->id}}" href="/get-ideas/{{$row->id}}/0/0/0">{{$row->category}}</a>
+                            <a class="nav-link home-category{{$row->id}}" href="/get-ideas/{{$row->id}}/0/0">{{$row->category}}</a>
                         </li>
                         @endforeach
                     </ul>

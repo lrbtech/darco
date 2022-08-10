@@ -33,9 +33,10 @@ class CreateOrdersTable extends Migration
             $table->string('payment_type',20)->default('0');
             $table->string('payment_status',20)->default('0');
             $table->string('payment_id')->nullable();
-            $table->string('transaction_id')->nullable();
-            $table->string('reference_no')->nullable();
-            $table->string('tracking_id')->nullable();
+            $table->string('invoiceid')->nullable();
+            $table->string('invoiceurl')->nullable();
+            $table->string('invoicestatus')->nullable();
+            $table->string('invoicereference')->nullable();
             $table->string('shipping_status',11)->default('0');
             $table->string('status',11)->default('0');
             $table->timestamps();

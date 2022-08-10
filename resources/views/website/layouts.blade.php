@@ -12,13 +12,16 @@
     <meta property="og:image" content="" />
     @if(session()->get('theme') == 'light')
     <link id="themefile" rel="stylesheet" href="/frontend/assets/css/main.css?v=5.2" />
+     <link rel="icon" type="image/x-icon" href="/website_assets/images/light.ico">
     @elseif(session()->get('theme') == 'dark')
      <link rel="stylesheet" href="/frontend/assets/css/dark.css?v=5.2" />
      <link id="themefile" rel="stylesheet" href="/theme/dark.css"/>
+     <link rel="icon" type="image/x-icon" href="/website_assets/images/dark.ico">
     @else 
-    <link id="themefile" rel="stylesheet" href="/frontend/assets/css/main.css?v=5.2" />
+     <link rel="icon" type="image/x-icon" href="/website_assets/images/light.ico">
+     <link id="themefile" rel="stylesheet" href="/frontend/assets/css/main.css?v=5.2" />
     @endif
-     <link rel="icon" type="image/x-icon" href="/website_assets/images/ico.ico">
+    
     <!-- Favicon -->
     <!-- <link rel="shortcut icon" type="image/x-icon" href="/frontend/assets/imgs/theme/favicon.svg" /> -->
     <!-- Template CSS -->
@@ -148,6 +151,420 @@ li.sub-mega-menu.sub-mega-menu-width-22 {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+}
+
+.child-category-active {
+    background: #fff;
+    border: 1px solid #26007a;
+    /* -webkit-box-shadow: 5px 5px 15px rgb(0 0 0 / 5%);
+    box-shadow: 5px 5px 15px rgb(0 0 0 / 5%);
+    -webkit-transition: 0.2s;
+    transition: 0.2s; */
+}
+
+body {
+	/* color: #26262b;
+	font-family: Avenir Next, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell,
+		Fira Sans, Droid Sans, sans-serif;
+	font-size: 18px;
+	line-height: 1.78; */
+}
+
+.btns {
+	background-color: transparent;
+	border: 1px solid transparent;
+	border-radius: 6px;
+	display: inline-block;
+	font-family: Avenir Next, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell,
+		Fira Sans, Droid Sans, sans-serif;
+	font-size: 16px;
+	letter-spacing: 1px;
+	line-height: 1.5;
+	padding: 12px 30px;
+	text-align: center;
+	text-decoration: none;
+	transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+		border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	vertical-align: middle;
+	white-space: nowrap;
+}
+
+.btns:not(:disabled):not(.btn_disabled) {
+	cursor: pointer;
+}
+
+.btn_primary {
+	background-color: #26262b;
+	color: #fff;
+}
+
+.btn_primary:focus:not(:disabled):not(.btn_disabled),
+.btn_primary:hover:not(:disabled):not(.btn_disabled) {
+	background-color: #36383e;
+}
+
+.btn_primary:active:not(:disabled):not(.btn_disabled) {
+	background-color: #2b2d32;
+}
+
+.btn_primary.btn_disabled,
+.btn_primary:disabled {
+	opacity: 0.5;
+}
+
+.btn_secondary {
+	background-color: #fff;
+	border-color: #fff;
+	color: #26262b;
+}
+
+.btn_secondary:focus:not(:disabled):not(.btn_disabled),
+.btn_secondary:hover:not(:disabled):not(.btn_disabled) {
+	background-color: #f1f1f2;
+	border-color: #fff;
+}
+
+.btn_secondary:active:not(:disabled):not(.btn_disabled) {
+	background-color: #ebebec;
+	border-color: #ebebec;
+}
+
+.btn_secondary.btn_disabled,
+.btn_secondary:disabled {
+	opacity: 0.5;
+}
+
+.btn_outline-primary {
+	border-color: #26262b;
+	color: #26262b;
+}
+
+.btn_outline-primary:focus:not(:disabled):not(.btn_disabled),
+.btn_outline-primary:hover:not(:disabled):not(.btn_disabled) {
+	background-color: #26262b;
+	color: #fff;
+}
+
+.btn_outline-primary:active:not(:disabled):not(.btn_disabled) {
+	background-color: #2b2d32;
+}
+
+.btn_outline-primary.btn_disabled,
+.btn_outline-primary:disabled {
+	opacity: 0.5;
+}
+
+.btn_outline-secondary {
+	border-color: #fff;
+	color: #fff;
+}
+
+.btn_outline-secondary:focus:not(:disabled):not(.btn_disabled),
+.btn_outline-secondary:hover:not(:disabled):not(.btn_disabled) {
+	background-color: #f1f1f2;
+	color: #26262b;
+}
+
+.btn_outline-secondary:active:not(:disabled):not(.btn_disabled) {
+	background-color: #fff;
+}
+
+.btn_outline-secondary.btn_disabled,
+.btn_outline-secondary:disabled {
+	opacity: 0.5;
+}
+
+.btn_teams-primary {
+	background-color: #b88662;
+	border-color: #b88662;
+	color: #fff;
+}
+
+.btn_teams-primary:focus:not(:disabled):not(.btn_disabled),
+.btn_teams-primary:hover:not(:disabled):not(.btn_disabled) {
+	background-color: #9f6c48;
+	border-color: #9f6c48;
+}
+
+.btn_teams-primary:active:not(:disabled):not(.btn_disabled) {
+	background-color: #7c5438;
+	border-color: #7c5438;
+}
+
+.btn_teams-primary.btn_disabled,
+.btn_teams-primary:disabled {
+	opacity: 0.5;
+}
+
+.btn_google {
+	background-color: #dd4b39;
+	color: #fff;
+}
+
+.btn_google:focus,
+.btn_google:hover {
+	background-color: #ee5846;
+}
+
+.btn_google:active {
+	background-color: #c44232;
+}
+
+.btn_facebook {
+	background-color: #3b5998;
+	color: #fff;
+}
+
+.btn_facebook:focus,
+.btn_facebook:hover {
+	background-color: #4d69a3;
+}
+
+.btn_facebook:active {
+	background-color: #2d4578;
+}
+
+.btn_link {
+	background: transparent;
+	border: none;
+	color: #e6842e;
+	cursor: pointer;
+	display: inline;
+	font-family: Avenir Next, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell,
+		Fira Sans, Droid Sans, sans-serif;
+	font-size: 16px;
+	font-weight: 500;
+	padding: 0;
+}
+
+.btn_sm {
+	font-size: 0.875rem;
+	line-height: 1.4289;
+	padding: 5px 22px;
+}
+
+.btn_block {
+	display: block;
+	width: 100%;
+}
+
+.btn_no-spacing {
+	padding-left: 0;
+	padding-right: 0;
+}
+
+@media (max-width: 575.98px) {
+	.btn_block-mobile {
+		display: block;
+		width: 100%;
+	}
+}
+
+.btn_play {
+	background: #fff
+		url(https://cdn.setapp.com/master/cfc7de255d8fc3560dcc68d6cfa9ac72778ebeea/build/main/9ed7d2fe9afc67ab3c9f.svg)
+		no-repeat 52% 50%;
+	background-size: 18%;
+	border-radius: 50%;
+	box-shadow: 0 3px 14px 0 rgba(0, 0, 0, 0.5);
+	height: 48px;
+	padding: 0;
+	transition: transform 0.15s ease-in-out;
+	width: 48px;
+}
+
+.btn_play:focus,
+.btn_play:hover {
+	transform: scale(1.1);
+}
+
+.btn_play:active {
+	transform: scale(1);
+}
+
+@media (min-width: 576px) {
+	.btn_play:not(.btn_play_sm) {
+		height: 74px;
+		width: 74px;
+	}
+}
+
+.btn_with-rhombus {
+	background-color: rgba(255, 255, 255, 0.2);
+	color: #3a3844;
+	padding-left: 45px;
+	padding-right: 25px;
+	position: relative;
+}
+
+.btn_with-rhombus:before {
+	background-image: url(https://cdn.setapp.com/master/cfc7de255d8fc3560dcc68d6cfa9ac72778ebeea/build/main/aebbaf8d7ddb524ccd25.svg);
+	background-size: contain;
+	content: "";
+	height: 16px;
+	left: 16px;
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 16px;
+}
+
+.btn_with-rhombus:focus:not(:disabled):not(.btn_disabled),
+.btn_with-rhombus:hover:not(:disabled):not(.btn_disabled) {
+	background-color: #fff;
+}
+
+.btn_with-rhombus:active:not(:disabled):not(.btn_disabled) {
+	background-color: #ebebec;
+}
+
+.btn_with-rhombus.btn_disabled,
+.btn_with-rhombus:disabled {
+	opacity: 0.6;
+}
+
+.btn__input-close {
+	background: url(https://cdn.setapp.com/master/cfc7de255d8fc3560dcc68d6cfa9ac72778ebeea/build/main/351e912995feef9e5a79.svg)
+		no-repeat 50%;
+	background-size: 32px;
+	height: 32px;
+	opacity: 0.95;
+	padding: 0;
+	position: absolute;
+	right: 16px;
+	top: 8px;
+	transition: all 0.3s ease-in-out;
+	visibility: visible;
+	width: 32px;
+	z-index: 100;
+}
+
+.btn__input-close:focus,
+.btn__input-close:hover {
+	opacity: 1;
+}
+
+.btn__input-close:active {
+	opacity: 0.95;
+}
+
+@media (min-width: 768px) {
+	.btn__input-close {
+		top: 14px;
+	}
+}
+
+.btn__input-close_hidden {
+	opacity: 0;
+	visibility: hidden;
+}
+
+.btn__input-close_hidden:focus,
+.btn__input-close_hidden:hover {
+	opacity: 0;
+}
+
+.btn-link {
+	font-size: 20px;
+	letter-spacing: 1.6px;
+}
+
+.btn-link_dark {
+	color: #3a3844;
+	font-weight: 600;
+}
+
+.btn-link_dark.btn-link_with-arrow {
+	background-image: url(https://cdn.setapp.com/master/cfc7de255d8fc3560dcc68d6cfa9ac72778ebeea/build/main/c484c59e58ae10901608.svg);
+}
+
+.btn-link_light {
+	color: #fff;
+	font-weight: 500;
+}
+
+.btn-link_light.btn-link_with-arrow {
+	background-image: url(https://cdn.setapp.com/master/cfc7de255d8fc3560dcc68d6cfa9ac72778ebeea/build/main/a77801e1cdb15ca14faa.svg);
+}
+
+.btn-link_with-arrow {
+	background-position: left 30px center;
+	background-repeat: no-repeat;
+	padding-left: 68px;
+	transition: background-position 0.1s ease-in-out;
+}
+
+.btn-link_with-arrow:hover {
+	background-position: left 33px center;
+}
+
+.btn-link_with-arrow.btn_no-spacing {
+	background-position: 0;
+	padding-left: 38px;
+}
+
+.btn-link_with-arrow.btn_no-spacing:hover {
+	background-position: left 3px center;
+}
+
+.btn-group {
+	display: flex;
+	flex-flow: row wrap;
+	margin-left: -10px;
+	margin-right: -10px;
+}
+
+.btn-group__item {
+	flex: 0 0 auto;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.cookie-banner {
+	align-items: flex-start;
+	background: #26262b;
+	border-radius: 10px;
+	bottom: 12px;
+	color: #fff;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	left: 50%;
+	max-width: 500px;
+	padding: 12px 16px;
+	position: fixed;
+	transform: translateX(-50%);
+	width: calc(100% - 24px);
+	z-index: 10;
+}
+
+@media (min-width: 576px) {
+	.cookie-banner {
+		align-items: center;
+	}
+}
+
+.cookie-banner__text {
+	font-size: 12px;
+	line-height: 1.67;
+	margin-right: 12px;
+}
+
+.policy-header_cookie {
+	background-color: #d9ae89;
+}
+
+.link {
+	color: #e6842e;
+	text-decoration: none;
+}
+
+.link:hover {
+	text-decoration: underline;
 }
 
 </style>
@@ -826,12 +1243,24 @@ li.sub-mega-menu.sub-mega-menu-width-22 {
             </div>
         </div>
     </footer>
+     @if(session()->get('cookies') != '1')
+    <div class="cookie-banner small js-cookie-banner" role="alert" id="cookies_banner">
+        <div class="cookie-banner__text">
+            MyApp uses cookies to personalize your experience on our website. By continuing to use this site, you agree to our <a href="#" class="link">cookie policy</a>.
+        </div>
+        <button class="btns btn_secondary btn_sm cookie-banner__button js-accept-cookies" onclick="cookies()">Okay</button>
+    </div>
+    @endif
     <!-- Preloader Start -->
     <div id="preloader-active">
         <div class="preloader d-flex align-items-center justify-content-center">
             <div class="preloader-inner position-relative">
                 <div class="text-center">
-                    <img src="/frontend/assets/imgs/theme/loading.gif" alt="" />
+                    @if(session()->get('theme') == 'dark')
+                    <img src="/frontend/assets/imgs/theme/dark.gif" alt="" />
+                    @else
+                    <img src="/frontend/assets/imgs/theme/light.gif" alt="" />
+                    @endif
                 </div>
             </div>
         </div>
@@ -1051,7 +1480,17 @@ $.ajax({
       }
     });
 });
-
+function cookies(){
+    
+    $.ajax({
+      url : '/update-cookies/1',
+      type: "GET",
+      success: function(data)
+      {
+     $('#cookies_banner').remove();
+      }
+    });
+}
 </script>
 </body>
 

@@ -7,7 +7,19 @@
 <main class="main">
     <div class="page-header mt-30 mb-50">
         <div class="container">
+            @if(!empty($category_data))
+                @if(!empty($subcategory_data))
+                    @if(!empty($subsubcategory_data))
+                    <div class="archive-header" style="background: url(/upload_files/{{$subsubcategory_data->image}})">
+                    @else 
+                    <div class="archive-header" style="background: url(/upload_files/{{$subcategory_data->image}})">
+                    @endif
+                @else 
+                <div class="archive-header" style="background: url(/upload_files/{{$category_data->image}})">
+                @endif
+            @else 
             <div class="archive-header">
+            @endif
                 <div class="row align-items-center">
                     <div class="col-xl-12">
                         <h1 class="mb-15">Professional List</h1>

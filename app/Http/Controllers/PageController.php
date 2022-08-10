@@ -241,7 +241,7 @@ class PageController extends Controller
     }
 
 
-    public function viewproductattributes($id,$product_id) {
+    public static function viewproductattributes($id,$product_id) {
         $list = product_attributes::where('product_group',$id)->groupBy('product_group','attribute_id')->select('product_group','attribute_id')->get();
 
         $output='';
@@ -250,7 +250,7 @@ class PageController extends Controller
             $output.='<div class="attr-detail attr-size mb-30">
                 <strong class="mr-10">'.$attributes->attribute_name.': </strong>
                 <ul class="list-filter size-filter font-small">';
-                $product_attributes = product_attributes::where('attribute_id',$list1->attribute_id)->get();
+                $product_attributes = product_attributes::where('attribute_id',$list1->attribute_id)->where('product_group',$id)->get();
                 foreach($product_attributes as $attr){
                 $field = attribute_fields::find($attr->attribute_field_id);
                     if($attr->product_id == $product_id){

@@ -49,7 +49,7 @@ class OrderController extends Controller
     }
 
     public function getorders(Request $request){
-        $orders = orders::where('vendor_id',Auth::guard('vendor')->user()->id)->orderBy('id','DESC')->get();
+        $orders = orders::where('vendor_id',Auth::guard('vendor')->user()->id)->where('payment_status',1)->orderBy('id','DESC')->get();
         
         return Datatables::of($orders)
             ->addColumn('date', function ($orders) {

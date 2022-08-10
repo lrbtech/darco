@@ -11,6 +11,10 @@
         </li>
 
         <li class="nav-item">
+            <a class="nav-link return-item" href="/customer/return-item"><i class="fi-rs-shopping-bag mr-10"></i>Return Item</a>
+        </li>
+
+        <li class="nav-item">
             <a class="nav-link enquiry" href="/customer/enquiry"><i class="fi-rs-shopping-bag mr-10"></i>Enquiry</a>
         </li>
 

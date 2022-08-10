@@ -331,12 +331,12 @@
                             <div class="form-group">
                                 <div class="chek-form">
                                     <div class="custome-checkbox">
-                                        <input class="form-check-input" type="checkbox" name="shippingaddress" id="shippingaddress">
-                                        <label class="form-check-label label_info" data-bs-toggle="collapse" data-target="#shipping_address" href="#shipping_address" aria-controls="shipping_address" for="shippingaddress"><span>Ship to a different address?</span></label>
+                                        <input class="form-check-input" type="checkbox" name="shipping_address" id="shipping_address">
+                                        <label class="form-check-label label_info" data-bs-toggle="collapse" data-target="#shippingaddress" href="#shippingaddress" aria-controls="shippingaddress" for="shipping_address"><span>Ship to a different address?</span></label>
                                     </div>
                                 </div>
                             </div>
-                            <div id="shipping_address" class="different_address collapse in">
+                            <div id="shippingaddress" class="different_address collapse in">
 
                               <div class="row">
                                 <div class="form-group col-lg-6">
@@ -534,16 +534,12 @@
                     <h4 class="mb-30">Payment</h4>
                     <div class="payment_option">
                         <!-- <div class="custome-radio">
-                            <input class="form-check-input" type="radio" name="payment_option" id="payment_option1" checked="">
-                            <label class="form-check-label" for="payment_option1" data-bs-toggle="collapse" data-target="#bankTranfer" aria-controls="bankTranfer">Direct Bank Transfer</label>
-                        </div> -->
-                        <!-- <div class="custome-radio">
-                            <input class="form-check-input" type="radio" name="payment_option" id="payment_option2" checked="">
-                            <label class="form-check-label" for="payment_option2" data-bs-toggle="collapse" data-target="#checkPayment" aria-controls="checkPayment">Cash on delivery</label>
+                            <input value="0" class="form-check-input" type="radio" name="payment_type" id="payment_type2" checked="">
+                            <label class="form-check-label" for="payment_type2" data-bs-toggle="collapse" data-target="#checkPayment" aria-controls="checkPayment">Cash on delivery</label>
                         </div> -->
                         <div class="custome-radio">
-                            <input class="form-check-input" type="radio" name="payment_option" id="payment_option3" checked="">
-                            <label class="form-check-label" for="payment_option3" data-bs-toggle="collapse" data-target="#paypal" aria-controls="paypal">Online Getway</label>
+                            <input value="1" class="form-check-input" type="radio" name="payment_type" id="payment_type3" checked="">
+                            <label class="form-check-label" for="payment_type3" data-bs-toggle="collapse" data-target="#paypal" aria-controls="paypal">Online Getway</label>
                         </div>
                     </div>
                     <!-- <div class="payment-logo d-flex">
@@ -658,37 +654,40 @@ function SaveOrder(){
             console.log(data);  
             if(data.status == 0){
               spinner_body.hide();              
-              $("#form")[0].reset();
-              Swal.fire({
-                // title: "Verify Your Email",
-                text: "Order Successfully!",
-                icon: "success",
-                confirmButtonClass: 'btn btn-primary',
-                buttonsStyling: false,
-              }).then(function() {
-                location.href="/customer/orders";
-              });
+              
+              if(data.IsSuccess == 'true'){
+                $("#form")[0].reset();
+                location.href=data.Data.invoiceURL;
+              }
+              else if(data.IsSuccess == 'false'){
+                warningMsg(data.message);
+              }
+              // Swal.fire({
+              //   // title: "Verify Your Email",
+              //   text: "Order Successfully!",
+              //   icon: "success",
+              //   confirmButtonClass: 'btn btn-primary',
+              //   buttonsStyling: false,
+              // }).then(function() {
+              //   location.href="/customer/orders";
+              // });
             }
             else if(data.status == 2){
-              Swal.fire({
-                title: data.message,
-                icon: "warning",
-                type: "warning",
-              });
+              warningMsg(data.message);
               spinner_body.hide();
             }  
         },error: function (data, errorThrown) {
-            var errorData = data.responseJSON.errors;
             spinner_body.hide();
+            var errorData = data.responseJSON.errors;
             $.each(errorData, function(i, obj) {
-                if(i == 'billing_address_id'){
-                  warningMsg('Enter Billing Address');
-                }
-                else{
-                  toastr.error(obj[0]);
-                  $('#'+i).after('<p class="text-danger">'+obj[0]+'</p>');
-                  $('#'+i).closest('.form-group').addClass('has-error');
-                }
+              if(i == 'billing_address_id'){
+                warningMsg('Enter Billing Address');
+              }
+              else{
+                toastr.error(obj[0]);
+                $('#'+i).after('<p class="text-danger">'+obj[0]+'</p>');
+                $('#'+i).closest('.form-group').addClass('has-error');
+              }
             });
         }
     });

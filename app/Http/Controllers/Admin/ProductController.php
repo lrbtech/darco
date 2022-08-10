@@ -13,6 +13,7 @@ use App\Models\product_group;
 use App\Models\product_images;
 use App\Models\brand;
 use App\Models\roles;
+use App\Models\return_reason;
 use Yajra\DataTables\Facades\DataTables;
 use Auth;
 use DB;
@@ -188,6 +189,47 @@ class ProductController extends Controller
         $brand = brand::find($id);
         $brand->status = $status;
         $brand->save();
+        return response()->json(['message'=>'Successfully Delete'],200); 
+    }
+
+
+    public function savereturnreason(Request $request){
+        $this->validate($request, [
+            'return_reason'=>'required',
+        ]);
+
+        $return_reason = new return_reason;
+        $return_reason->return_reason = $request->return_reason;
+        $return_reason->save();
+
+        return response()->json('successfully save'); 
+    }
+    public function updatereturnreason(Request $request){
+        $this->validate($request, [
+            'return_reason'=>'required',
+        ]);
+        
+        $return_reason = return_reason::find($request->id);
+        $return_reason->return_reason = $request->return_reason;
+        $return_reason->save();
+
+        return response()->json('successfully update'); 
+    }
+
+    public function returnreason(){
+        $return_reason = return_reason::all();
+        $role_get = roles::find(Auth::guard('admin')->user()->role_id);
+        return view('admin.return_reason',compact('return_reason','role_get'));
+    }
+
+    public function editreturnreason($id){
+        $return_reason = return_reason::find($id);
+        return response()->json($return_reason); 
+    }
+    
+    public function deletereturn_reason($id){
+        $return_reason = return_reason::find($id);
+        $return_reason->delete();
         return response()->json(['message'=>'Successfully Delete'],200); 
     }
 

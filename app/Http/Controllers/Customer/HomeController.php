@@ -109,7 +109,7 @@ class HomeController extends Controller
         $return_item->vendor_id = $order_items->vendor_id;
         $return_item->billing_address_id = $order_items->billing_address_id;
         $return_item->shipping_address_id = $order_items->shipping_address_id;
-        $return_item->product_id = $order_items->id;
+        $return_item->product_id = $order_items->product_id;
         $return_item->product_name = $order_items->product_name;
         $return_item->qty = $order_items->quantity;
         $return_item->price = $order_items->price;

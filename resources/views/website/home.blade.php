@@ -142,7 +142,7 @@ p.mb-65 {
         <div class="row">
             @foreach($idea_category as $row)
             <div class="col-4 col-md-3 col-lg-4">
-                <a href="#" class="style2"><div class="card">
+                <a href="/get-ideas/{{$row->id}}/0/0" class="style2"><div class="card">
                     <div class="card-title">{{$row->category}}</div>
                     <img src="/upload_files/{{$row->image}}" class="img-responsive" height="">
                 </div></a>

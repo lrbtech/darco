@@ -1138,10 +1138,10 @@ body {
                     <div class="col">
                         <div class="widget-about font-md mb-md-3 mb-lg-3 mb-xl-0 wow animate__animated animate__fadeInUp" data-wow-delay="0">
                             <div class="logo mb-30">
-                                 @if(session()->get('theme') == 'light')
-                                <a href="index.html" class="mb-15"><img src="/website_assets/images/logo-light.png" alt="logo" /></a>
-                                @else
-                                <a href="index.html" class="mb-15"><img src="/website_assets/images/logo-dark.png" alt="logo" /></a>
+                                 @if(session()->get('theme') == 'dark')
+                                 <a href="index.html" class="mb-15"><img src="/website_assets/images/logo-dark.png" alt="logo" /></a>
+                                 @else
+                                 <a href="index.html" class="mb-15"><img src="/website_assets/images/logo-light.png" alt="logo" /></a>
                                 @endif
                                 <p class="font-lg text-heading">Perfect Home Service Partner</p>
                             </div>

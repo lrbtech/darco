@@ -30,6 +30,8 @@ class CreateReturnItemsTable extends Migration
             $table->string('total',50)->nullable();
             $table->string('return_reason')->nullable();
             $table->text('description')->nullable();
+            $table->string('image')->nullable();
+            $table->text('return_pickup_description')->nullable();
             $table->string('status',11)->default('0');
             $table->timestamps();
         });

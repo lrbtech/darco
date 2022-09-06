@@ -223,8 +223,13 @@
                         </select>
                     </div>
                     <div class="form-group col-lg-12">
+                        <label>Image</label>
+                        <input type="file" id="image" name="image">
+                    </div>
+                    <div class="form-group col-lg-12">
                         <label>Description</label>
                         <textarea id="description" name="description"></textarea>
+                        <textarea style="display:none;" id="return_pickup_description" name="return_pickup_description">return make it as 14 days</textarea>
                     </div>
                 </div>
 

@@ -287,8 +287,12 @@ Route::group(['prefix' => 'admin'],function(){
 	Route::get('/change-password', [App\Http\Controllers\Admin\HomeController::class, 'changepassword']);
 	Route::POST('/update-password', [App\Http\Controllers\Admin\HomeController::class, 'updatepassword']);
 
+	Route::get('/payments-out-report', [App\Http\Controllers\Admin\ReportController::class, 'paymentsoutreport']);
+	Route::POST('/get-payments-out-report/{date1}/{date2}', [App\Http\Controllers\Admin\ReportController::class, 'getpaymentsoutreport']);
 
-    
+	Route::get('/change-status-paymentsout/{id}/{status}', [App\Http\Controllers\Admin\ReportController::class, 'changestatuspaymentsout']);
+
+
 });
 
 Route::group(['prefix' => 'vendor'],function(){

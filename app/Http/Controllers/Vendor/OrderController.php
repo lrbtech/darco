@@ -34,6 +34,9 @@ class OrderController extends Controller
     public function changeorderstatus($id,$status){
         $orders = orders::find($id);
         $orders->shipping_status = $status;
+        if($status == '3'){
+            $orders->delivery_date = date('Y-m-d');
+        }
         $orders->save();
         return response()->json(['message'=>'Successfully Delete'],200); 
     }
@@ -158,6 +161,16 @@ class OrderController extends Controller
                 </td>';
             })
 
+            ->addColumn('image', function ($return_item) {
+                return '<td>
+                <img style="width:200px;" src="/return_image/'.$return_item->image.'">
+                </td>';
+            })
+
+            ->addColumn('return_pickup_description', function ($return_item) {
+                return '<td>'.$return_item->return_pickup_description.'</td>';
+            })
+
             ->addColumn('return_reason', function ($return_item) {
                 return '<td>'.$return_item->return_reason.'</td>';
             })
@@ -202,7 +215,7 @@ class OrderController extends Controller
             })
            
             
-        ->rawColumns(['date','customer', 'product', 'return_reason','total','status','description','action'])
+        ->rawColumns(['date','customer', 'product', 'return_reason','total','status','description','action','return_pickup_description','image'])
         ->addIndexColumn()
         ->make(true);
 

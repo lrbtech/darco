@@ -99,7 +99,7 @@ p.mb-65 {
 
             <br>
         <div class="text-center">
-            <a href="#" class="btn btn-dark view-text">View all</a>
+            <a href="/professional-list/0/0/0" class="btn btn-dark view-text">View all</a>
         </div>
         </div>
         <div class="col-sm-12 col-md-8">
@@ -181,7 +181,7 @@ p.mb-65 {
         </div>
         <br>
         <div class="text-center">
-            <a href="#" class="btn btn-dark btn-lg view-text">View your ideas</a>
+            <a href="/get-ideas/0/0/0" class="btn btn-dark btn-lg view-text">View your ideas</a>
         </div>
     </div>
 </section>

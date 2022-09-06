@@ -175,6 +175,7 @@ class CheckoutController extends Controller
 
             }
         }
+        $onlinepayorderid=array();
         foreach($vendor as $current_vendor){
         
                 $sub_total=0;
@@ -229,7 +230,8 @@ class CheckoutController extends Controller
                 $orders->tax_percentage = '5';
                 $orders->tax_amount = $tax_amount;
                 $orders->shipping_charge = $shipping_charge;
-                $orders->total = $total;
+                $orders->service_charge = $request->service_charge;
+                $orders->total = $total + $request->service_charge;
                 $orders->payment_type = $request->payment_type;
                 $orders->payment_status = 0;
                 $orders->save();
@@ -293,6 +295,8 @@ class CheckoutController extends Controller
                     }
                 }
 
+            //$onlinepayorderid[] = $orders->id;
+
         }
 
         Cart::clear();
@@ -346,7 +350,7 @@ class CheckoutController extends Controller
         $name = Auth::user()->first_name.' '.Auth::user()->last_name;
         return [
             'CustomerName'       => $name,
-            'InvoiceValue'       => '5',
+            'InvoiceValue'       => $orders->total,
             'DisplayCurrencyIso' => 'KWD',
             'CustomerEmail'      => Auth::user()->email,
             'CallBackUrl'        => $callbackURL,
@@ -354,6 +358,7 @@ class CheckoutController extends Controller
             'MobileCountryCode'  => '+965',
             'CustomerMobile'     => Auth::user()->mobile,
             'Language'           => 'en',
+            'CustomerIdentifier' => Auth::user()->user_unique_id,
             'CustomerReference'  => $orders->id,
             'SourceInfo'         => 'Laravel ' . app()::VERSION . ' - MyFatoorah Package ' . MYFATOORAH_LARAVEL_PACKAGE_VERSION
         ];

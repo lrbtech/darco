@@ -18,8 +18,10 @@
                 <div class="col-xl-11 col-lg-11 col-md-12 m-auto">
                     <div class="row">
                         <div class="col-lg-12 col-md-12">
-                            <div class="login_wrap widget-taber-content background-white">
-                                <div class="padding_eight_all bg-white">
+                            <!-- <div class="login_wrap widget-taber-content background-white">
+                                <div class="padding_eight_all bg-white"> -->
+                              <div class="login_wrap widget-taber-content">
+                                  <div class="padding_eight_all">
                                     <div class="heading_s1">
                                         <h1 class="mb-5">Let’s  get started by creating your profile</h1>
                                         <p class="mb-30">Please fill the below details, it may help us to update your profile information</p>
@@ -51,13 +53,13 @@
                                         </div>
                                         <div class="col-md-4">
                                           <div class="form-group mb-3">
-                                            <label>First Name</label>
+                                            <label>First Name (Authorized Signator)</label>
                                             <input autocomplete="off" type="text" name="first_name" id="first_name" class="form-control">
                                           </div>
                                         </div>
                                         <div class="col-md-2">
                                             <div class="form-group mb-3">
-                                              <label>Last Name</label>
+                                              <label>Last Name (Authorized Signator)</label>
                                               <input autocomplete="off" type="text" name="last_name" id="last_name" class="form-control">
                                             </div>
                                         </div>
@@ -102,6 +104,15 @@
                                         </div>
                                         <div class="col-md-4">
                                           <div class="form-group mb-3">
+                                            <label>Country</label>
+                                            <select id="country" name="country" class="form-control">
+                                              <option value="">SELECT</option>
+                                              <option value="1">kuwait</option>
+                                            </select>
+                                          </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                          <div class="form-group mb-3">
                                             <label>City</label>
                                             <select onchange="changecity()" id="city" name="city" class="form-control">
                                               <option value="">SELECT</option>
@@ -109,7 +120,6 @@
                                               <option value="{{$row->id}}">{{$row->city}}</option>
                                               @endforeach
                                             </select>
-                                            <input type="hidden" value="kuwait" name="country" id="country">
                                           </div>
                                         </div>
                                         <div class="col-md-4">
@@ -119,6 +129,12 @@
                                               <option value="">SELECT</option>
                                             </select>
                                           </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>Zipcode</label>
+                                            <div class="form-group">
+                                                <input autocomplete="off" id="zipcode" name="zipcode" type="text" placeholder="" class="form-control">
+                                            </div>
                                         </div>
                                       </div>
 
@@ -138,36 +154,42 @@
                                         </div>
                                         <div class="col-md-3">
                                           <div class="form-group mb-3">
-                                            <label>EMIRATES ID</label>
-                                            <input autocomplete="off" type="text" name="emirates_id" id="emirates_id" class="form-control">
+                                            <label>Civil ID  / Passport</label>
+                                            <input autocomplete="off" type="text" name="civi_id_or_passport" id="civi_id_or_passport" class="form-control">
                                           </div>
                                         </div>
                                         <div class="col-md-3">
                                           <div class="form-group mb-3">
-                                            <label>PASSPORT NUMBER</label>
-                                            <input autocomplete="off" type="text" name="passport_number" id="passport_number" class="form-control">
+                                            <label>Commercial LICENSE NO</label>
+                                            <input autocomplete="off" type="text" name="commercial_license_no" id="commercial_license_no" class="form-control">
                                           </div>
                                         </div>
                                       </div>
 
 
                                       <div class="row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                           <div class="form-group mb-3">
                                             <label>ID Proof</label>
                                             <input autocomplete="off" type="file" name="id_proof" id="id_proof" class="form-control">
                                           </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                           <div class="form-group mb-3">
-                                            <label>Passport Copy</label>
-                                            <input autocomplete="off" type="file" name="passport_copy" id="passport_copy" class="form-control">
+                                            <label>Civil ID  / Passport Copy</label>
+                                            <input autocomplete="off" type="file" name="civi_id_or_passport_copy" id="civi_id_or_passport_copy" class="form-control">
                                           </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                           <div class="form-group mb-3">
-                                            <label>EMIRATES ID COPY</label>
-                                            <input autocomplete="off" type="file" name="emirates_id_copy" id="emirates_id_copy" class="form-control">
+                                            <label>Commercial LICENSE COPY</label>
+                                            <input autocomplete="off" type="file" name="commercial_license_copy" id="commercial_license_copy" class="form-control">
+                                          </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                          <div class="form-group mb-3">
+                                            <label>Article of Association</label>
+                                            <input autocomplete="off" type="file" name="article_of_association" id="article_of_association" class="form-control">
                                           </div>
                                         </div>
                                       </div>
@@ -179,7 +201,7 @@
                                                     <label class="form-check-label" for="privacy_policy"><span>I agree to terms &amp; Policy.</span></label>
                                                 </div>
                                             </div>
-                                            <a href="/privacy-policy"><i class="fi-rs-book-alt mr-5 text-muted"></i>Lean more</a>
+                                            <a href="/pages/privacy-policy"><i class="fi-rs-book-alt mr-5 text-muted"></i>Lean more</a>
                                         </div>
                                         <div class="form-group mb-30">
                                             <button onclick="Save()" type="button" class="btn btn-fill-out btn-block hover-up font-weight-bold" name="login">Submit &amp; Register</button>
@@ -216,29 +238,29 @@ function Save(){
   $(".text-danger").remove();
   $('.form-group').removeClass('has-error').removeClass('has-success');
   var formData = new FormData($('#form')[0]);
-    $.ajax({
-      url : '/save-professional-register',
-      type: "POST",
-      data: formData,
-      contentType: false,
-      processData: false,
-      dataType: "JSON",
-      success: function(data)
-      {   
-        spinner_body.hide();             
-        $("#form")[0].reset();
-        location.reload();
-        toastr.success(data, 'Successfully Save');
-      },error: function (data) {
-        spinner_body.hide(); 
-        var errorData = data.responseJSON.errors;
-        $.each(errorData, function(i, obj) {
-          $('#'+i).after('<p class="text-danger">'+obj[0]+'</p>');
-          $('#'+i).closest('.form-group').addClass('has-error');
-          toastr.error(obj[0]);
-        });
-      }
-    });
+  $.ajax({
+    url : '/save-professional-register',
+    type: "POST",
+    data: formData,
+    contentType: false,
+    processData: false,
+    dataType: "JSON",
+    success: function(data)
+    {   
+      spinner_body.hide();             
+      $("#form")[0].reset();
+      location.reload();
+      toastr.success(data, 'Successfully Save');
+    },error: function (data) {
+      spinner_body.hide(); 
+      var errorData = data.responseJSON.errors;
+      $.each(errorData, function(i, obj) {
+        $('#'+i).after('<p class="text-danger">'+obj[0]+'</p>');
+        $('#'+i).closest('.form-group').addClass('has-error');
+        toastr.error(obj[0]);
+      });
+    }
+  });
 }
 </script>
 @endsection

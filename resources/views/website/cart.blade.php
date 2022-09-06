@@ -131,7 +131,8 @@
             <input value="{{$sub_total}}" type="hidden" name="sub_total" id="sub_total">
             <input value="5" type="hidden" name="tax_percentage" id="tax_percentage">
             <input value="{{$tax_amount}}" type="hidden" name="tax_amount" id="tax_amount">
-            <input value="{{$total}}" type="hidden" name="total" id="total">
+            <input value="1" type="hidden" name="service_charge" id="service_charge">
+            <input value="{{$total+1}}" type="hidden" name="total" id="total">
             <div class="col-lg-4">
                 <div class="border p-md-4 cart-totals ml-30">
                     <div class="table-responsive">
@@ -175,10 +176,18 @@
                                 </tr>
                                 <tr>
                                     <td class="cart_total_label">
+                                        <h6 class="text-muted">Service Charge</h6>
+                                    </td>
+                                    <td class="cart_total_amount">
+                                        <h4 class="text-brand text-end">KWD 1</h4>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="cart_total_label">
                                         <h6 class="text-muted">Total</h6>
                                     </td>
                                     <td class="cart_total_amount">
-                                        <h4 class="text-brand text-end">KWD {{$total}}</h4>
+                                        <h4 class="text-brand text-end">KWD {{$total+1}}</h4>
                                     </td>
                                 </tr>
                             </tbody>

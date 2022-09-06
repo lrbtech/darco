@@ -432,7 +432,7 @@
                                   <h6 class="text-muted pl-20 pr-20">x {{$row->quantity}}</h6>
                               </td>
                               <td>
-                                  <h4 class="text-brand">KD {{$row->quantity * $row->price}}</h4>
+                                  <h4 class="text-brand">KWD {{$row->quantity * $row->price}}</h4>
                               </td>
                           </tr>
                           <input value="{{$row->name}}" type="hidden" name="product_name[]" id="product_name{{$key}}">
@@ -461,7 +461,8 @@
                     <input value="{{$sub_total}}" type="hidden" name="sub_total" id="sub_total">
                     <input value="5" type="hidden" name="tax_percentage" id="tax_percentage">
                     <input value="{{$tax_amount}}" type="hidden" name="tax_amount" id="tax_amount">
-                    <input value="{{$total}}" type="hidden" name="total" id="total">
+                    <input value="1" type="hidden" name="service_charge" id="service_charge">
+                    <input value="{{$total+1}}" type="hidden" name="total" id="total">
                     <div class="table-responsive">
                         <table class="table no-border">
                             <tbody>
@@ -470,7 +471,7 @@
                                         <h6 class="text-muted">Subtotal</h6>
                                     </td>
                                     <td class="cart_total_amount">
-                                        <h4 class="text-brand text-end">KD {{$sub_total}}</h4>
+                                        <h4 class="text-brand text-end">KWD {{$sub_total}}</h4>
                                     </td>
                                 </tr>
                                 <!-- <tr>
@@ -484,7 +485,7 @@
                                     </td>
                                     <td class="cart_total_amount">
                                         @if($shipping_charge > 0)
-                                        <h5 class="text-heading text-end">KD {{$shipping_charge}}</h4>
+                                        <h5 class="text-heading text-end">KWD {{$shipping_charge}}</h4>
                                         @else
                                         <h5 class="text-heading text-end">Free</h4>
                                         @endif
@@ -497,17 +498,26 @@
                                         <h6 class="text-muted">Tax (5%)</h6>
                                     </td>
                                     <td class="cart_total_amount">
-                                        <h5 class="text-heading text-end">KD {{$tax_amount}}</h4</td> </tr> <tr>
+                                        <h5 class="text-heading text-end">KWD {{$tax_amount}}</h4</td> </tr> <tr>
                                     <td scope="col" colspan="2">
                                         <div class="divider-2 mt-10 mb-10"></div>
                                     </td>
                                 </tr> -->
                                 <tr>
                                     <td class="cart_total_label">
+                                        <h6 class="text-muted">Service Charge</h6>
+                                    </td>
+                                    <td class="cart_total_amount">
+                                        <h5 class="text-heading text-end">KWD 1</h4>
+                                    </td> 
+                                    
+                                </tr>
+                                <tr>
+                                    <td class="cart_total_label">
                                         <h6 class="text-muted">Total</h6>
                                     </td>
                                     <td class="cart_total_amount">
-                                        <h4 class="text-brand text-end" id="total_value">KD {{$total}}</h4>
+                                        <h4 class="text-brand text-end" id="total_value">KWD {{$total}}</h4>
                                     </td>
                                 </tr>
                             </tbody>
@@ -719,7 +729,7 @@ function couponSubmit(){
                 timer: 2000
               }).then(function() {
               $("#discount_place").html('<td class="cart_total_label"><h6 class="text-muted" >Discount</h6></td><td class="cart_total_amount">'+
-                '<h4 class="text-brand text-end">KD '+data["data"]["discount"]+'<br /><span style="color:green;font-size:12px">Coupon '+coupon_code_value+' Applied</span></h4></td>');
+                '<h4 class="text-brand text-end">KWD '+data["data"]["discount"]+'<br /><span style="color:green;font-size:12px">Coupon '+coupon_code_value+' Applied</span></h4></td>');
               
                   $("#total_value").html(data["data"]["total"]);
                   coupon =new Boolean(true);;

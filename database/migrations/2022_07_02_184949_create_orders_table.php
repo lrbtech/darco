@@ -28,6 +28,7 @@ class CreateOrdersTable extends Migration
             $table->string('tax_percentage',11)->nullable();
             $table->string('tax_amount',50)->nullable();
             $table->string('shipping_charge',50)->nullable();
+            $table->string('service_charge',20)->nullable();
             $table->string('total',50)->nullable();
 
             $table->string('payment_type',20)->default('0');
@@ -38,6 +39,7 @@ class CreateOrdersTable extends Migration
             $table->string('invoicestatus')->nullable();
             $table->string('invoicereference')->nullable();
             $table->string('shipping_status',11)->default('0');
+            $table->string('delivery_date')->nullable();
             $table->string('status',11)->default('0');
             $table->timestamps();
         });

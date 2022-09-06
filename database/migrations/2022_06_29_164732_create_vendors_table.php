@@ -16,6 +16,7 @@ class CreateVendorsTable extends Migration
         Schema::create('vendors', function (Blueprint $table) {
             $table->id();
             $table->string('user_id',20)->default('0');
+            $table->string('vendor_unique_id')->nullable();
             $table->string('email')->nullable();
             $table->string('date')->nullable();
             $table->string('username')->nullable();
@@ -27,14 +28,16 @@ class CreateVendorsTable extends Migration
             $table->string('mobile')->nullable();
             $table->string('trade_license_no')->nullable();
             $table->string('vat_certificate_no')->nullable();
-            $table->string('emirates_id')->nullable();
-            $table->string('passport_number')->nullable();
+            $table->string('civi_id_or_passport')->nullable();
+            $table->string('commercial_license_no')->nullable();
             $table->string('id_proof')->nullable();
-            $table->string('passport_copy')->nullable();
-            $table->string('emirates_id_copy')->nullable();
+            $table->string('civi_id_or_passport_copy')->nullable();
+            $table->string('commercial_license_copy')->nullable();
+            $table->string('article_of_association')->nullable();
             $table->string('password')->nullable();
             $table->string('city')->nullable();
             $table->string('area')->nullable();
+            $table->string('zipcode')->nullable();
             $table->TEXT('address')->nullable();
             $table->string('website')->nullable();
             $table->string('landline')->nullable();
@@ -45,6 +48,16 @@ class CreateVendorsTable extends Migration
             $table->string('login_status')->default('0');
             $table->string('status')->default('0');
             $table->string('role_id')->default('admin');
+            $table->string('vendor_commission')->default('0');
+            $table->string('package_id')->nullable();
+            $table->string('account_number')->nullable();
+            $table->string('account_name')->nullable();
+            $table->string('bank_name')->nullable();
+            $table->string('iban_number')->nullable();
+            $table->string('swift_code')->nullable();
+            $table->string('admin_pay')->nullable();
+            $table->string('admin_paid')->nullable();
+            $table->string('admin_balance')->nullable();
             $table->rememberToken();
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();

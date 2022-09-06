@@ -22,8 +22,8 @@
                             <img class="border-radius-15" src="/assets/images/login.png" alt="" />
                         </div>
                         <div class="col-lg-6 col-md-8">
-                            <div class="login_wrap widget-taber-content background-white">
-                                <div class="padding_eight_all bg-white">
+                            <div class="login_wrap widget-taber-content">
+                                <div class="padding_eight_all ">
                                     <div class="heading_s1">
                                         <h1 class="mb-5">Login</h1>
                                         <p class="mb-30">Don't have an account? <a href="javascript:;" onclick="Signup()">Create here</a></p>

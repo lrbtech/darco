@@ -40,6 +40,7 @@
                 <th>Date</th>
                 <th>Vendor</th>
                 <th>Product</th>
+                <th>Image</th>
                 <th>Status</th>
             </tr>
         </thead>
@@ -52,6 +53,7 @@
                 {{\App\Http\Controllers\PageController::viewvendorname($row->vendor_id)}}</
                 </td>
                 <td>{{$row->product_name}}</td>
+                <td><img style="width:200px;" src="/return_image/{{$row->image}}"></td>
                 <td width="15%">
                 @if($row->status == 0)
                 Waiting for Pickup 

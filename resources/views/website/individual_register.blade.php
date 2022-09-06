@@ -18,8 +18,8 @@
                 <div class="col-xl-8 col-lg-10 col-md-12 m-auto">
                     <div class="row">
                         <div class="col-lg-12 col-md-12">
-                            <div class="login_wrap widget-taber-content background-white">
-                                <div class="padding_eight_all bg-white">
+                            <div class="login_wrap widget-taber-content">
+                                <div class="padding_eight_all ">
                                     <div class="heading_s1">
                                         <h1 class="mb-5">Creating your own profile</h1>
                                         <p class="mb-30">Already have an account? <a href="/login">Login</a></p>
@@ -74,7 +74,16 @@
                                         
 
                                       <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-3">
+                                          <div class="form-group mb-3">
+                                            <label>Country</label>
+                                            <select id="country" name="country" class="form-control">
+                                              <option value="">SELECT</option>
+                                              <option value="1">kuwait</option>
+                                            </select>
+                                          </div>
+                                        </div>
+                                        <div class="col-md-3">
                                           <div class="form-group mb-3">
                                             <label>City</label>
                                             <select onchange="changecity()" id="city" name="city" class="form-control">
@@ -86,13 +95,19 @@
                                             <input type="hidden" value="kuwait" name="country" id="country">
                                           </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-3">
                                           <div class="form-group mb-3">
                                             <label>Area</label>
                                             <select id="area" name="area" class="form-control">
                                               <option value="">SELECT</option>
                                             </select>
                                           </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>Zipcode</label>
+                                            <div class="form-group">
+                                                <input autocomplete="off" id="zipcode" name="zipcode" type="text" placeholder="" class="form-control">
+                                            </div>
                                         </div>
                                       </div>
                                         <!-- <div class="payment_option mb-50">

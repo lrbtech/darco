@@ -114,6 +114,17 @@ class HomeController extends Controller
         $return_item->qty = $order_items->quantity;
         $return_item->price = $order_items->price;
         $return_item->total = $order_items->total;
+        $return_item->return_pickup_description = $request->return_pickup_description;
+
+        if($request->image!=""){
+            if($request->file('image')!=""){
+            $image = $request->file('image');
+            $upload_image = rand().time().'.'.$image->getClientOriginalExtension();
+            $image->move(public_path('return_image/'), $upload_image);
+            $return_item->image = $upload_image;
+            }
+        }
+
         $return_item->save();
 
         $order_items_update = order_items::find($request->item_id);

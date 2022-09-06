@@ -287,6 +287,7 @@ class PageController extends Controller
             'last_name' => 'required',
             'mobile' => 'required|numeric|digits:9|unique:users',
             'city' => 'required',
+            'zipcode' => 'required',
             'email' => 'required|unique:users',
             'password' => 'min:6|required_with:password_confirmation|same:password_confirmation',
             'password_confirmation' => 'min:6|required',
@@ -294,6 +295,7 @@ class PageController extends Controller
  
         $user = new User;
         $user->date = date('Y-m-d');
+        $user->user_unique_id = rand().time();
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
         $user->mobile = $request->mobile;
@@ -303,6 +305,7 @@ class PageController extends Controller
         $user->country = $request->country;
         $user->city = $request->city;
         $user->area = $request->area;
+        $user->zipcode = $request->zipcode;
         $user->status = 1;
         $user->save();
 
@@ -319,23 +322,28 @@ class PageController extends Controller
             'last_name' => 'required',
             'mobile' => 'required|numeric|digits:9|unique:vendors',
             'city' => 'required',
+            'zipcode' => 'required',
             'email' => 'required|unique:vendors',
             'password' => 'min:6|required_with:password_confirmation|same:password_confirmation',
             'password_confirmation' => 'min:6|required',
             'id_proof' => 'nullable|mimes:jpeg,jpg,png,pdf|max:3000',
-            'passport_copy' => 'nullable|mimes:jpeg,jpg,png,pdf|max:3000',
-            'emirates_id_copy' => 'nullable|mimes:jpeg,jpg,png,pdf|max:3000',
+            'civi_id_or_passport_copy' => 'nullable|mimes:jpeg,jpg,png,pdf|max:3000',
+            'commercial_license_copy' => 'nullable|mimes:jpeg,jpg,png,pdf|max:3000',
+            'article_of_association' => 'nullable|mimes:jpeg,jpg,png,pdf|max:3000',
             ],[
             'id_proof.mimes' => 'Only jpeg,png,pdf and jpg formats are allowed',
             'id_proof.max' => 'Sorry! Maximum allowed size for an ID Proof is 3MB',
-            'passport_copy.mimes' => 'Only jpeg,png,pdf and jpg formats are allowed',
-            'passport_copy.max' => 'Sorry! Maximum allowed size for an passport copy is 3MB',
-            'emirates_id_copy.mimes' => 'Only jpeg,png,pdf and jpg formats are allowed',
-            'emirates_id_copy.max' => 'Sorry! Maximum allowed size for an Emirates id copy is 3MB',
+            'civi_id_or_passport_copy.mimes' => 'Only jpeg,png,pdf and jpg formats are allowed',
+            'civi_id_or_passport_copy.max' => 'Sorry! Maximum allowed size for an passport copy is 3MB',
+            'commercial_license_copy.mimes' => 'Only jpeg,png,pdf and jpg formats are allowed',
+            'commercial_license_copy.max' => 'Sorry! Maximum allowed size for an Emirates id copy is 3MB',
+            'article_of_association.mimes' => 'Only jpeg,png,pdf and jpg formats are allowed',
+            'article_of_association.max' => 'Sorry! Maximum allowed size for an Emirates id copy is 3MB',
         ]);
  
         $vendor = new vendor;
         $vendor->date = date('Y-m-d');
+        $vendor->user_unique_id = rand().time();
         $vendor->business_name = $request->business_name;
         $vendor->business_type = $request->business_type;
         $vendor->first_name = $request->first_name;
@@ -349,8 +357,9 @@ class PageController extends Controller
         $vendor->area = $request->area;
         $vendor->trade_license_no = $request->trade_license_no;
         $vendor->vat_certificate_no = $request->vat_certificate_no;
-        $vendor->emirates_id = $request->emirates_id;
-        $vendor->passport_number = $request->passport_number;
+        $vendor->civi_id_or_passport = $request->civi_id_or_passport;
+        $vendor->commercial_license_no = $request->commercial_license_no;
+        $user->zipcode = $request->zipcode;
         $vendor->status = 1;
 
         if($request->id_proof!=""){
@@ -362,21 +371,30 @@ class PageController extends Controller
             }
         }
 
-        if($request->passport_copy!=""){
-            if($request->file('passport_copy')!=""){
-            $image = $request->file('passport_copy');
+        if($request->civi_id_or_passport_copy!=""){
+            if($request->file('civi_id_or_passport_copy')!=""){
+            $image = $request->file('civi_id_or_passport_copy');
             $upload_image = rand().time().'.'.$image->getClientOriginalExtension();
             $image->move(public_path('vendor_files/'), $upload_image);
-            $vendor->passport_copy = $upload_image;
+            $vendor->civi_id_or_passport_copy = $upload_image;
             }
         }
 
-        if($request->emirates_id_copy!=""){
-            if($request->file('emirates_id_copy')!=""){
-            $image = $request->file('emirates_id_copy');
+        if($request->commercial_license_copy!=""){
+            if($request->file('commercial_license_copy')!=""){
+            $image = $request->file('commercial_license_copy');
             $upload_image = rand().time().'.'.$image->getClientOriginalExtension();
             $image->move(public_path('vendor_files/'), $upload_image);
-            $vendor->emirates_id_copy = $upload_image;
+            $vendor->commercial_license_copy = $upload_image;
+            }
+        }
+
+        if($request->article_of_association!=""){
+            if($request->file('article_of_association')!=""){
+            $image = $request->file('article_of_association');
+            $upload_image = rand().time().'.'.$image->getClientOriginalExtension();
+            $image->move(public_path('vendor_files/'), $upload_image);
+            $vendor->article_of_association = $upload_image;
             }
         }
 

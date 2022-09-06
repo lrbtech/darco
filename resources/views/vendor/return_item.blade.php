@@ -62,6 +62,7 @@
                             <th>Return Reason</th>
                             <th>Description</th>
                             <th>Total</th>
+                            <th>Image</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -77,6 +78,7 @@
                             <th>Return Reason</th>
                             <th>Description</th>
                             <th>Total</th>
+                            <th>Image</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -119,6 +121,7 @@ var orderPageTable = $('#datatable').DataTable({
     { data: 'return_reason', name: 'return_reason' },
     { data: 'description', name: 'description' },
     { data: 'total', name: 'total' },
+    { data: 'image', name: 'image' },
     { data: 'status', name: 'status' },
     { data: 'action', name: 'action' },
   ]

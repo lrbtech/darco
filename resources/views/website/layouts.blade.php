@@ -44,7 +44,7 @@
         width: 100%;
     }
     .form-group input {
-        color:#000 !important;
+        color:#fff !important;
     }
     </style>
     @else 

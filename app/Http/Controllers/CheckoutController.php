@@ -175,7 +175,7 @@ class CheckoutController extends Controller
 
             }
         }
-        $onlinepayorderid=array();
+        $onlinepayorderid =array();
         foreach($vendor as $current_vendor){
         
                 $sub_total=0;
@@ -234,6 +234,12 @@ class CheckoutController extends Controller
                 $orders->total = $total + $request->service_charge;
                 $orders->payment_type = $request->payment_type;
                 $orders->payment_status = 0;
+
+                $vendor_commission = vendor::find($current_vendor);
+                $commission_amount = ($vendor_commission->vendor_commission / 100) * $total;
+
+                $orders->commission_percentage = $vendor_commission->vendor_commission;
+                $orders->commission_amount = $request->commission_amount;
                 $orders->save();
 
 
@@ -295,24 +301,30 @@ class CheckoutController extends Controller
                     }
                 }
 
-            //$onlinepayorderid[] = $orders->id;
+            $onlinepayorderid[] = $orders->id;
+
+
 
         }
+
+        $orderids = implode('.', $onlinepayorderid);
 
         Cart::clear();
 
         try {
             $paymentMethodId = 0; // 0 for MyFatoorah invoice or 1 for Knet in test mode
 
-            $curlData = $this->getPayLoadData($orders->id);
+            $curlData = $this->getPayLoadData($orderids);
             $data     = $this->mfObj->getInvoiceURL($curlData, $paymentMethodId);
 
             $response = ['IsSuccess'=>'true','message'=>'Your Order is Save Successfully','Data'=>$data,'status'=>0];
 
-            $invoice_update = orders::find($orders->id);
-            $invoice_update->invoiceid = $data['invoiceId'];
-            $invoice_update->invoiceurl = $data['invoiceURL'];
-            $invoice_update->save();
+            foreach(explode('.', $orderids) as $ids){
+                $invoice_update = orders::find($ids);
+                $invoice_update->invoiceid = $data['invoiceId'];
+                $invoice_update->invoiceurl = $data['invoiceURL'];
+                $invoice_update->save();
+            }
 
         } catch (\Exception $e) {
             $response = ['IsSuccess'=>'false','message'=> $e->getMessage(),'status'=>0];
@@ -321,36 +333,19 @@ class CheckoutController extends Controller
 
     }
 
-    public function onlinepayorder($orderId) {
-        // try {
-            $paymentMethodId = 0; // 0 for MyFatoorah invoice or 1 for Knet in test mode
-
-            $curlData = $this->getPayLoadData($orderId);
-            $data     = $this->mfObj->getInvoiceURL($curlData, $paymentMethodId);
-
-            $response = ['IsSuccess'=>'true','message'=>'Your Order is Save Successfully','Data'=>$data,'status'=>0];
-
-            $invoice_update = orders::find($orderId);
-            $invoice_update->invoiceid = $data->invoiceId;
-            $invoice_update->invoiceurl = $data->invoiceURL;
-            $invoice_update->save();
-
-        // } catch (\Exception $e) {
-        //     $response = ['IsSuccess'=>'false','message'=> $e->getMessage(),'status'=>0];
-        // }
-
-        return response()->json($response);
-        //return response()->json(['message'=>'Your Order is Save Successfully','status'=>0,'Data'=>$data], 200); 
-    }
 
     private function getPayLoadData($orderId = null) {
         $callbackURL = route('myfatoorah.callback');
 
-        $orders = orders::find($orderId);
+        $total = 0;
+        foreach(explode('.', $orderId) as $ids){
+            $orders = orders::find($ids);
+            $total = $total + $orders->total;
+        }
         $name = Auth::user()->first_name.' '.Auth::user()->last_name;
         return [
             'CustomerName'       => $name,
-            'InvoiceValue'       => $orders->total,
+            'InvoiceValue'       => $total,
             'DisplayCurrencyIso' => 'KWD',
             'CustomerEmail'      => Auth::user()->email,
             'CallBackUrl'        => $callbackURL,
@@ -359,7 +354,7 @@ class CheckoutController extends Controller
             'CustomerMobile'     => Auth::user()->mobile,
             'Language'           => 'en',
             'CustomerIdentifier' => Auth::user()->user_unique_id,
-            'CustomerReference'  => $orders->id,
+            'CustomerReference'  => $orderId,
             'SourceInfo'         => 'Laravel ' . app()::VERSION . ' - MyFatoorah Package ' . MYFATOORAH_LARAVEL_PACKAGE_VERSION
         ];
     }

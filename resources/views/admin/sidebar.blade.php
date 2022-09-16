@@ -62,6 +62,10 @@
         </li>
         @endif
 
+        <li class="package nav-item">
+          <a href="/admin/package"><i class="la la-navicon"></i><span class="menu-title" data-i18n="nav.dash.main">Vendor Package</span></a>
+        </li>
+
         <li class=" navigation-header">
           <span data-i18n="nav.category.layouts">Reports</span><i class="la la-ellipsis-h ft-minus" data-toggle="tooltip"
           data-placement="right" data-original-title="Layouts"></i>
@@ -75,8 +79,8 @@
         @endif
 
         @if($role_get->settlement_report == 'on')
-        <li class="settlement-reports nav-item">
-          <a href="#"><i class="la la-money"></i><span class="menu-title" data-i18n="nav.dash.main">Settlement Reports</span></a>
+        <li class="payments-out-report nav-item">
+          <a href="/admin/payments-out-report"><i class="la la-money"></i><span class="menu-title" data-i18n="nav.dash.main">Settlement Reports</span></a>
         </li>
         @endif
 

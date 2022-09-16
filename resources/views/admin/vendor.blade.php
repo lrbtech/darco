@@ -61,6 +61,7 @@
                             <th>Name</th>
                             <th>Mobile</th>
                             <th>E-mail</th>
+                            <th>Commission</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -75,6 +76,7 @@
                             <th>Name</th>
                             <th>Mobile</th>
                             <th>E-mail</th>
+                            <th>Commission</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -91,6 +93,33 @@
       </div>
     </div>
   </div>
+
+<div class="modal fade" id="commission_modal"  tabindex="-1" role="dialog" aria-labelledby="commission_modal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title">Add New</h5>
+              <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+          </div>
+          <div class="modal-body">
+              <form id="commission_form" method="POST" enctype="multipart/form-data">
+              {{ csrf_field() }}
+              <input type="hidden" name="vendor_id" id="vendor_id">
+
+              <div class="form-group">
+                  <label class="col-form-label">Vendor Commission %$_COOKIE</label>
+                  <input autocomplete="off" type="number" id="vendor_commission" name="vendor_commission" class="form-control">
+              </div>
+
+              </form>
+          </div>
+          <div class="modal-footer">
+              <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
+              <button onclick="UpdateCommission()" class="btn btn-primary" type="button">Update</button>
+          </div>
+      </div>
+  </div>
+</div>
 @endsection
 @section('extra-js')
 <script src="/app-assets/vendors/js/tables/datatable/datatables.min.js" type="text/javascript"></script>
@@ -116,10 +145,65 @@ var orderPageTable = $('#datatable').DataTable({
     { data: 'name', name: 'name'},
     { data: 'mobile', name: 'mobile' },
     { data: 'email', name: 'email' },
+    { data: 'vendor_commission', name: 'vendor_commission' },
     { data: 'status', name: 'status' },
     { data: 'action', name: 'action' },
   ]
 });
+
+function UpdateCommission(){
+  spinner_body.show();
+  $(".text-danger").remove();
+  $('.form-group').removeClass('has-error').removeClass('has-success');
+  var formData = new FormData($('#commission_form')[0]);
+  $.ajax({
+    url : '/admin/update-commission',
+    type: "POST",
+    data: formData,
+    contentType: false,
+    processData: false,
+    dataType: "JSON",
+    success: function(data)
+    {   
+      spinner_body.hide();             
+      $("#commission_form")[0].reset();
+      $('#commission_modal').modal('hide');
+      //location.reload();
+      var new_url = '/admin/get-vendor';
+      orderPageTable.ajax.url(new_url).load(null, false);
+      toastr.success(data, 'Successfully Save');
+    },error: function (data) {
+      var errorData = data.responseJSON.errors;
+      spinner_body.hide();   
+      $.each(errorData, function(i, obj) {
+        $('#'+i).after('<p class="text-danger">'+obj[0]+'</p>');
+        $('#'+i).closest('.form-group').addClass('has-error');
+        toastr.error(obj[0]);
+      });
+    }
+  });
+}
+function EditCommission(id){
+  spinner_body.show();   
+  $.ajax({
+    url : '/admin/edit-commission/'+id,
+    type: "GET",
+    dataType: "JSON",
+    success: function(data)
+    {
+      spinner_body.hide();   
+      $('#modal-title').text('Update Commission');
+      $('#save').text('Save Change');
+      $('input[name=vendor_commission]').val(data.vendor_commission);
+      $('input[name=vendor_id]').val(id);
+      $('#commission_modal').modal({
+        backdrop: 'static',
+        keyboard: false,
+      });
+    }
+  });
+}
+
 function Delete(id,status){
   var r = confirm("Are you sure");
   if (r == true) {

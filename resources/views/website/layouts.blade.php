@@ -12,14 +12,56 @@
     <meta property="og:image" content="" />
     @if(session()->get('theme') == 'light')
     <link id="themefile" rel="stylesheet" href="/frontend/assets/css/main.css?v=5.2" />
-     <link rel="icon" type="image/x-icon" href="/website_assets/images/light.ico">
+    <link rel="icon" type="image/x-icon" href="/website_assets/images/light.ico">
+    <style>
+    .form-group select {
+        background: #fff;
+        border: 1px solid #ececec;
+        height: 64px;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        padding-left: 20px;
+        font-size: 16px;
+        width: 100%;
+    }
+    .form-group input {
+        color:#fff !important;
+    }
+    </style>
     @elseif(session()->get('theme') == 'dark')
-     <link rel="stylesheet" href="/frontend/assets/css/dark.css?v=5.2" />
-     <link id="themefile" rel="stylesheet" href="/theme/dark.css"/>
-     <link rel="icon" type="image/x-icon" href="/website_assets/images/dark.ico">
+    <link rel="stylesheet" href="/frontend/assets/css/dark.css?v=5.2" />
+    <link id="themefile" rel="stylesheet" href="/theme/dark.css"/>
+    <link rel="icon" type="image/x-icon" href="/website_assets/images/dark.ico">
+    <style>
+    .form-group select {
+        background: #212529;
+        border: 1px solid #ececec;
+        height: 64px;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        padding-left: 20px;
+        font-size: 16px;
+        width: 100%;
+    }
+    </style>
     @else 
-     <link rel="icon" type="image/x-icon" href="/website_assets/images/light.ico">
-     <link id="themefile" rel="stylesheet" href="/frontend/assets/css/main.css?v=5.2" />
+    <link rel="icon" type="image/x-icon" href="/website_assets/images/light.ico">
+    <link id="themefile" rel="stylesheet" href="/frontend/assets/css/main.css?v=5.2" />
+    <style>
+    .form-group select {
+        background: #fff;
+        border: 1px solid #ececec;
+        height: 64px;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        padding-left: 20px;
+        font-size: 16px;
+        width: 100%;
+    }
+    .form-group input {
+        color:#fff !important;
+    }
+    </style>
     @endif
     
     <!-- Favicon -->

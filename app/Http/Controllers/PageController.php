@@ -21,6 +21,7 @@ use App\Models\order_items;
 use App\Models\vendor_enquiry;
 use App\Models\shipping_address;
 use App\Models\settings;
+use App\Models\package;
 use Hash;
 use DB;
 use Mail;
@@ -237,7 +238,8 @@ class PageController extends Controller
     public function professionalregister()
     {
         $city = city::where('parent_id',0)->where('status',0)->orderBy('id','ASC')->get();
-        return view('website.professional_register',compact('city'));
+        $package = package::where('status',0)->orderBy('id','ASC')->get();
+        return view('website.professional_register',compact('city','package'));
     }
 
 
@@ -318,6 +320,7 @@ class PageController extends Controller
         $this->validate($request, [
             'business_name' => 'required',
             'business_type' => 'required',
+            'package_id' => 'required',
             'first_name' => 'required',
             'last_name' => 'required',
             'mobile' => 'required|numeric|digits:9|unique:vendors',
@@ -339,6 +342,7 @@ class PageController extends Controller
             'commercial_license_copy.max' => 'Sorry! Maximum allowed size for an Emirates id copy is 3MB',
             'article_of_association.mimes' => 'Only jpeg,png,pdf and jpg formats are allowed',
             'article_of_association.max' => 'Sorry! Maximum allowed size for an Emirates id copy is 3MB',
+            'package_id.required' => 'Choose Package is Required',
         ]);
  
         $vendor = new vendor;
@@ -346,6 +350,7 @@ class PageController extends Controller
         $vendor->user_unique_id = rand().time();
         $vendor->business_name = $request->business_name;
         $vendor->business_type = $request->business_type;
+        $vendor->package_id = $request->package_id;
         $vendor->first_name = $request->first_name;
         $vendor->last_name = $request->last_name;
         $vendor->mobile = $request->mobile;
@@ -406,10 +411,10 @@ class PageController extends Controller
 
     public function sendvendorenquiry(Request $request){
         $request->validate([
-             'name'=>'required',
-             'email'=>'required',
-             'mobile'=>'required',
-             'comments'=>'required',
+            'name'=>'required',
+            'email'=>'required',
+            'mobile'=>'required',
+            'comments'=>'required',
         ]);
 
         $vendor_enquiry = new vendor_enquiry;
@@ -431,17 +436,19 @@ class PageController extends Controller
         //      $message->from('info@lrbtech.com',$all['name']);
         // });
         return response()->json(['message'=>'Successfully Send'],200); 
-      }
-       
-      public function orderTrack(){
+    }
+    
+    public function orderTrack(){
         return view('website.order_track');
-      }
-      public function shopCategory($id){
+    }
+
+    public function shopCategory($id){
         $name = category::find($id);
         $category = category::where("parent_id",$id)->get();
         return view('website.shop_category',compact('category','name'));
-      }
-      public function infoPages($id){
+    }
+
+    public function infoPages($id){
         $page = settings::find(1);
         //return view('website.shop_category',compact('category','name'));
         $title='';
@@ -471,8 +478,8 @@ class PageController extends Controller
             $content=$page->delivery_information;
         }
         return view('website.pages',compact('title','content'));
-            
-      }
+        
+    }
 
       
 }

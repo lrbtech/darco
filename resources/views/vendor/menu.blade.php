@@ -34,6 +34,12 @@
           </a>
         </li>
 
+        <li class="payments-in-report nav-item">
+          <a class="nav-link" href="/vendor/payments-in-report"><i class="la la-money"></i>
+            <span>Settlement Report</span>
+          </a>
+        </li>
+
         <li class="return-item nav-item">
           <a class="nav-link" href="/vendor/return-item"><i class="la la-cart-plus"></i>
             <span>Return Item</span>

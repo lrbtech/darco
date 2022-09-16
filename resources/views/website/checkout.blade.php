@@ -503,12 +503,22 @@
                                         <div class="divider-2 mt-10 mb-10"></div>
                                     </td>
                                 </tr> -->
+                                <?php
+                                $vendor =array();
+                                $service_charge = 0;
+                                foreach(Cart::getContent() as $cart){
+                                    if(!in_array($cart->attributes->vendor_id,$vendor)){
+                                        $vendor[]=$cart->attributes->vendor_id;
+                                        $service_charge++;
+                                    }
+                                }
+                                ?>
                                 <tr>
                                     <td class="cart_total_label">
                                         <h6 class="text-muted">Service Charge</h6>
                                     </td>
                                     <td class="cart_total_amount">
-                                        <h5 class="text-heading text-end">KWD 1</h4>
+                                        <h5 class="text-heading text-end">KWD {{$service_charge}}</h4>
                                     </td> 
                                     
                                 </tr>

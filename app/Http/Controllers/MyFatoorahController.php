@@ -97,56 +97,75 @@ class MyFatoorahController extends Controller {
             $data      = $this->mfObj->getPaymentStatus($paymentId, 'PaymentId');
 
             if ($data->InvoiceStatus == 'Paid') {
-                $orders = orders::find($data->CustomerReference);
-                $orders->payment_id = $paymentId;
-                $orders->invoicestatus = $data->InvoiceStatus;
-                $orders->invoicereference = $data->InvoiceReference;
-                $orders->payment_status = 1;
-                $orders->save();
+                
+                $total = 0;
+                foreach(explode('.', $data->CustomerReference) as $ids){
+                    $orders = orders::find($ids);
+                    $total = $total + $orders->total;
 
-                $this->htmloutput('Transcation Success',$paymentId,$orders->total);
+                    $orders->payment_id = $paymentId;
+                    $orders->invoicestatus = $data->InvoiceStatus;
+                    $orders->invoicereference = $data->InvoiceReference;
+                    $orders->payment_status = 1;
+                    $orders->save();
+                }
+
+                $this->htmloutput('Transcation Success',$paymentId,$total);
 
                 $msg = 'Invoice is paid.';
             } else if ($data->InvoiceStatus == 'Failed') {
-                $orders = orders::find($data->CustomerReference);
-                $orders->payment_id = $paymentId;
-                $orders->invoicestatus = $data->InvoiceStatus;
-                $orders->invoicereference = $data->InvoiceReference;
-                $orders->payment_status = 0;
-                $orders->save();
 
-                $order_items = order_items::where('order_id',$data->CustomerReference)->where('status',0)->get();
-                foreach($order_items as $row){
-                    $qty = $row->qty;
-                    $pro_id = $row->product_id;
-                    
-                    $product = product::find($pro_id);
-                    $product->stock = $product->stock + $qty;
-                    $product->save();
+                $total = 0;
+                foreach(explode('.', $data->CustomerReference) as $ids){
+                    $orders = orders::find($ids);
+                    $total = $total + $orders->total;
+
+                    $orders->payment_id = $paymentId;
+                    $orders->invoicestatus = $data->InvoiceStatus;
+                    $orders->invoicereference = $data->InvoiceReference;
+                    $orders->payment_status = 0;
+                    $orders->save();
+
+                    $order_items = order_items::where('order_id',$ids)->where('status',0)->get();
+                    foreach($order_items as $row){
+                        $qty = $row->qty;
+                        $pro_id = $row->product_id;
+                        
+                        $product = product::find($pro_id);
+                        $product->stock = $product->stock + $qty;
+                        $product->save();
+                    }
                 }
+                
 
-                $this->htmloutput('Payment Failed',$paymentId,$orders->total);
+                $this->htmloutput('Payment Failed',$paymentId,$total);
 
                 $msg = 'Invoice is not paid due to ' . $data->InvoiceError;
             } else if ($data->InvoiceStatus == 'Expired') {
-                $orders = orders::find($data->CustomerReference);
-                $orders->payment_id = $paymentId;
-                $orders->invoicestatus = $data->InvoiceStatus;
-                $orders->invoicereference = $data->InvoiceReference;
-                $orders->payment_status = 0;
-                $orders->save();
 
-                $order_items = order_items::where('order_id',$data->CustomerReference)->where('status',0)->get();
-                foreach($order_items as $row){
-                    $qty = $row->qty;
-                    $pro_id = $row->product_id;
-                    
-                    $product = product::find($pro_id);
-                    $product->stock = $product->stock + $qty;
-                    $product->save();
+                $total = 0;
+                foreach(explode('.', $data->CustomerReference) as $ids){
+                    $orders = orders::find($ids);
+                    $total = $total + $orders->total;
+
+                    $orders->payment_id = $paymentId;
+                    $orders->invoicestatus = $data->InvoiceStatus;
+                    $orders->invoicereference = $data->InvoiceReference;
+                    $orders->payment_status = 0;
+                    $orders->save();
+
+                    $order_items = order_items::where('order_id',$ids)->where('status',0)->get();
+                    foreach($order_items as $row){
+                        $qty = $row->qty;
+                        $pro_id = $row->product_id;
+                        
+                        $product = product::find($pro_id);
+                        $product->stock = $product->stock + $qty;
+                        $product->save();
+                    }
                 }
 
-                $this->htmloutput('Payment Failed',$paymentId,$orders->total);
+                $this->htmloutput('Payment Failed',$paymentId,$total);
 
                 $msg = 'Invoice is expired.';
             }

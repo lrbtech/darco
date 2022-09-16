@@ -33,6 +33,24 @@ class BusinessController extends Controller
         date_default_timezone_get();
     }
 
+
+    public function updatecommission(Request $request){
+        $this->validate($request, [
+            'vendor_commission'=>'required',
+        ]);
+        
+        $vendor = vendor::find($request->vendor_id);
+        $vendor->vendor_commission = $request->vendor_commission;
+        $vendor->save();
+
+        return response()->json('successfully update'); 
+    }
+
+    public function editcommission($id){
+        $vendor = vendor::find($id);
+        return response()->json($vendor); 
+    }
+
     public function vendordetails($id){
         $vendor = vendor::find($id);
         $vendor_all = vendor::all();
@@ -63,7 +81,7 @@ class BusinessController extends Controller
 
             ->addColumn('type', function ($vendor) {
                 if($vendor->business_type == 0){
-                    return 'Business';
+                    return 'Shop';
                 }
                 elseif($vendor->business_type == 1){
                     return 'Professionals';
@@ -78,6 +96,10 @@ class BusinessController extends Controller
 
             ->addColumn('email', function ($vendor) {
                 return '<td>'.$vendor->email.'</td>';
+            })
+
+            ->addColumn('vendor_commission', function ($vendor) {
+                return '<td>'.$vendor->vendor_commission.' %</td>';
             })
 
             ->addColumn('status', function ($vendor) {
@@ -101,16 +123,17 @@ class BusinessController extends Controller
             ->addColumn('action', function ($vendor) {
                 $output='';
                 if($vendor->status == 1){
-                    $output.='<button onclick="Delete('.$vendor->id.',2)"class="dropdown-item" type="button">DeActive</button>';
+                    $output.='<button onclick="Delete('.$vendor->id.',2)" class="dropdown-item" type="button">DeActive</button>';
                 }
                 elseif($vendor->status == 2){
-                    $output.='<button onclick="Delete('.$vendor->id.',1)"class="dropdown-item" type="button">Active</button>';
+                    $output.='<button onclick="Delete('.$vendor->id.',1)" class="dropdown-item" type="button">Active</button>';
                 }
                 return '<td>
                 <div class="btn-group mr-1 mb-1">
                     <button type="button" class="btn btn-danger btn-block dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Action</button>
                     <div class="dropdown-menu open-left arrow" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 40px, 0px); top: 0px; left: 0px; will-change: transform;">
                         '.$output.'
+                        <a onclick="EditCommission('.$vendor->id.')" href="#" class="dropdown-item" type="button">Edit Commission</a>
                         <a href="/admin/vendor-details/'.$vendor->id.'" class="dropdown-item" type="button">View Details</a>
                         <!--<div class="dropdown-divider"></div>
                         <a target="_private" href="/vendor-login/'.$vendor->id.'" class="dropdown-item" type="button">Business Login</a>-->
@@ -120,7 +143,7 @@ class BusinessController extends Controller
             })
            
             
-        ->rawColumns(['name','mobile', 'email', 'status','action','date','type'])
+        ->rawColumns(['name','mobile', 'email','vendor_commission', 'status','action','date','type'])
         ->addIndexColumn()
         ->make(true);
 

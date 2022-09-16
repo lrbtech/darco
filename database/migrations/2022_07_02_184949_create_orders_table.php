@@ -40,6 +40,13 @@ class CreateOrdersTable extends Migration
             $table->string('invoicereference')->nullable();
             $table->string('shipping_status',11)->default('0');
             $table->string('delivery_date')->nullable();
+            $table->string('commission_percentage')->nullable();
+            $table->string('commission_amount')->nullable();
+            $table->string('paid_amount')->nullable();
+            $table->string('paid_type')->nullable();
+            $table->text('paid_description')->nullable();
+            $table->string('paid_image')->nullable();
+            $table->string('paid_status',11)->default('0');
             $table->string('status',11)->default('0');
             $table->timestamps();
         });

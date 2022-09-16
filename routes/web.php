@@ -146,6 +146,8 @@ Route::group(['prefix' => 'admin'],function(){
     Route::POST('/get-vendor', [App\Http\Controllers\Admin\BusinessController::class, 'getvendor']);
     Route::get('/delete-vendor/{id}/{status}', [App\Http\Controllers\Admin\BusinessController::class, 'deletevendor']);
 
+	Route::get('edit-commission/{id}', [App\Http\Controllers\Admin\BusinessController::class, 'editcommission']);
+	Route::POST('update-commission', [App\Http\Controllers\Admin\BusinessController::class, 'updatecommission']);
 	Route::get('/vendor-details/{id}', [App\Http\Controllers\Admin\BusinessController::class, 'vendordetails']);
 
 
@@ -208,6 +210,15 @@ Route::group(['prefix' => 'admin'],function(){
 	Route::POST('/update-area', [App\Http\Controllers\Admin\SettingsController::class, 'updatearea']);
 	Route::get('/edit-area/{id}', [App\Http\Controllers\Admin\SettingsController::class, 'editarea']);
 	Route::get('/delete-area/{id}/{status}', [App\Http\Controllers\Admin\SettingsController::class, 'deletearea']);
+
+
+	//package
+	Route::get('/package', [App\Http\Controllers\Admin\PackageController::class, 'package']);
+	Route::POST('/save-package', [App\Http\Controllers\Admin\PackageController::class, 'savepackage']);
+	Route::POST('/update-package', [App\Http\Controllers\Admin\PackageController::class, 'updatepackage']);
+	Route::get('/edit-package/{id}', [App\Http\Controllers\Admin\PackageController::class, 'editpackage']);
+	Route::get('/delete-package/{id}/{status}', [App\Http\Controllers\Admin\PackageController::class, 'deletepackage']);
+	
 
 
 
@@ -288,7 +299,7 @@ Route::group(['prefix' => 'admin'],function(){
 	Route::POST('/update-password', [App\Http\Controllers\Admin\HomeController::class, 'updatepassword']);
 
 	Route::get('/payments-out-report', [App\Http\Controllers\Admin\ReportController::class, 'paymentsoutreport']);
-	Route::POST('/get-payments-out-report/{date1}/{date2}', [App\Http\Controllers\Admin\ReportController::class, 'getpaymentsoutreport']);
+	Route::POST('/get-payments-out-report', [App\Http\Controllers\Admin\ReportController::class, 'getpaymentsoutreport']);
 
 	Route::get('/change-status-paymentsout/{id}/{status}', [App\Http\Controllers\Admin\ReportController::class, 'changestatuspaymentsout']);
 
@@ -368,6 +379,11 @@ Route::group(['prefix' => 'vendor'],function(){
 	Route::get('/edit-idea-book/{id}', [App\Http\Controllers\Vendor\IdeaBookController::class, 'editideabook']);
 	Route::get('/delete-idea-book/{id}', [App\Http\Controllers\Vendor\IdeaBookController::class, 'deleteideabook']);
 	Route::get('/delete-idea-book-image/{id}', [App\Http\Controllers\Vendor\IdeaBookController::class, 'deleteideabookimage']);
+
+
+	Route::get('/payments-in-report', [App\Http\Controllers\Vendor\ReportController::class, 'paymentsinreport']);
+	Route::POST('/get-payments-in-report', [App\Http\Controllers\Vendor\ReportController::class, 'getpaymentsinreport']);
+
 
 
 	// Route::get('/idea-book', [App\Http\Controllers\Vendor\SettingsController::class, 'ideabook']);

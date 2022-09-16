@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Vendor;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -20,27 +20,19 @@ use Yajra\DataTables\Facades\DataTables;
 
 class ReportController extends Controller
 {
-
     public function __construct()
     {
-        $this->middleware('auth:admin');
+        $this->middleware('auth:vendor');
         date_default_timezone_set("Asia/Kuwait");
         date_default_timezone_get();
     }
 
-    public function paymentsoutreport(){
-        return view('admin.payments_out_report');
+    public function paymentsinreport(){
+        return view('vendor.payments_in_report');
     }
 
-    public function changestatuspaymentsout($id,$status){
-        $orders = orders::find($id);
-        $orders->paid_status = $status;
-        $orders->save();
-        return response()->json('successfully update'); 
-    }
-
-    public function getpaymentsoutreport(Request $request){
-        $orders = orders::orderBy('id','DESC')->where('payment_status',1)->get();
+    public function getpaymentsinreport(Request $request){
+        $orders = orders::orderBy('id','DESC')->where('vendor_id',Auth::guard('vendor')->user()->id)->where('payment_status',1)->get();
         
         return Datatables::of($orders)
             ->addColumn('date', function ($orders) {
@@ -49,14 +41,13 @@ class ReportController extends Controller
                 </td>';
             })
             
-            ->addColumn('vendor', function ($orders) {
-                $vendor = vendor::find($orders->vendor_id);
+            ->addColumn('customer', function ($orders) {
+                $user = user::find($orders->customer_id);
                 return '<td>
-                <p>'.$vendor->first_name.' '.$vendor->last_name.'</p>
-                <p>Mobile : '.$vendor->mobile.'</p>
+                <p>'.$user->first_name.' '.$user->last_name.'</p>
+                <p>Mobile : '.$user->mobile.'</p>
                 </td>';
             })
-
 
             ->addColumn('total', function ($orders) {
                 return '<td>'.$orders->total.' KWD</td>';
@@ -87,32 +78,13 @@ class ReportController extends Controller
                     return '<td>Paid</td>';
                 }
             })
-
-            ->addColumn('action', function ($orders) {
-                $output='';
-                if($orders->status == '0'){
-                    $output.='<a onclick="ChangeStatus('.$orders->id.',1)" href="#" class="dropdown-item" type="button">Paid</a>';
-                }
-                elseif($orders->status == '1'){
-                    $output.='<a onclick="ChangeStatus('.$orders->id.',0)" href="#" class="dropdown-item" type="button">Un Paid</a>';
-                }
-                return '<td>
-                <div class="btn-group mr-1 mb-1">
-                    <button type="button" class="btn btn-danger btn-block dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Action</button>
-                    <div class="dropdown-menu open-left arrow" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 40px, 0px); top: 0px; left: 0px; will-change: transform;">
-                        '.$output.'
-                    </div>
-                </div>
-                </td>';
-            })
            
             
-        ->rawColumns(['date','vendor','commission','service_charge','total','payable_amount','paid_status','action'])
+        ->rawColumns(['date','customer','commission','service_charge','total','payable_amount','paid_status'])
         ->addIndexColumn()
         ->make(true);
 
         //return Datatables::of($orders) ->addIndexColumn()->make(true);
     }
-
 
 }

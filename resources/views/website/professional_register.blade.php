@@ -70,10 +70,30 @@
                                       </div>
 
                                       <div class="row">
+
+                                        <div class="col-md-4">
+                                          <div class="form-group mb-3">
+                                            <label>Choose Package</label>
+                                            <select id="package_id" name="package_id" class="form-control">
+                                              <option value="">SELECT</option>
+                                              @foreach($package as $row)
+                                              <option value="{{$row->id}}">{{$row->package_name}}</option>
+                                              @endforeach
+                                            </select>
+                                          </div>
+                                        </div>
+
                                         <div class="col-md-4">
                                           <div class="form-group mb-3">
                                             <label>Email address</label>
                                             <input value="<?php echo $_GET['email']; ?>" autocomplete="off" type="email" name="email" id="email" class="form-control">
+                                          </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                          <div class="form-group mb-3">
+                                            <label>Mobile</label>
+                                            <input autocomplete="off" type="number" name="mobile" id="mobile" class="form-control">
                                           </div>
                                         </div>
 
@@ -91,17 +111,12 @@
                                             </div>
                                         </div>
                                       
-                                      </div>
+                                      <!-- </div>
                                   
                                         
 
-                                      <div class="row">
-                                        <div class="col-md-4">
-                                          <div class="form-group mb-3">
-                                            <label>Mobile</label>
-                                            <input autocomplete="off" type="number" name="mobile" id="mobile" class="form-control">
-                                          </div>
-                                        </div>
+                                      <div class="row"> -->
+                                        
                                         <div class="col-md-4">
                                           <div class="form-group mb-3">
                                             <label>Country</label>
@@ -234,33 +249,38 @@ function changecity(){
 }
 
 function Save(){
-  spinner_body.show();
-  $(".text-danger").remove();
-  $('.form-group').removeClass('has-error').removeClass('has-success');
-  var formData = new FormData($('#form')[0]);
-  $.ajax({
-    url : '/save-professional-register',
-    type: "POST",
-    data: formData,
-    contentType: false,
-    processData: false,
-    dataType: "JSON",
-    success: function(data)
-    {   
-      spinner_body.hide();             
-      $("#form")[0].reset();
-      location.reload();
-      toastr.success(data, 'Successfully Save');
-    },error: function (data) {
-      spinner_body.hide(); 
-      var errorData = data.responseJSON.errors;
-      $.each(errorData, function(i, obj) {
-        $('#'+i).after('<p class="text-danger">'+obj[0]+'</p>');
-        $('#'+i).closest('.form-group').addClass('has-error');
-        toastr.error(obj[0]);
-      });
-    }
-  });
+  if ($("#privacy_policy").is(":checked")) {
+    spinner_body.show();
+    $(".text-danger").remove();
+    $('.form-group').removeClass('has-error').removeClass('has-success');
+    var formData = new FormData($('#form')[0]);
+    $.ajax({
+      url : '/save-professional-register',
+      type: "POST",
+      data: formData,
+      contentType: false,
+      processData: false,
+      dataType: "JSON",
+      success: function(data)
+      {   
+        spinner_body.hide();             
+        $("#form")[0].reset();
+        location.reload();
+        toastr.success(data, 'Successfully Save');
+      },error: function (data) {
+        spinner_body.hide(); 
+        var errorData = data.responseJSON.errors;
+        $.each(errorData, function(i, obj) {
+          $('#'+i).after('<p class="text-danger">'+obj[0]+'</p>');
+          $('#'+i).closest('.form-group').addClass('has-error');
+          toastr.error(obj[0]);
+        });
+      }
+    });
+  }
+	else{
+		toastr.error('Accept Terms & Privacy Policy');
+	}
 }
 </script>
 @endsection

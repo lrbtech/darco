@@ -25,7 +25,7 @@
         width: 100%;
     }
     .form-group input {
-        color:#fff !important;
+        color:#000 !important;
     }
     </style>
     @elseif(session()->get('theme') == 'dark')
@@ -43,6 +43,9 @@
         font-size: 16px;
         width: 100%;
     }
+    .form-group input {
+        color:#000 !important;
+    }
     </style>
     @else 
     <link rel="icon" type="image/x-icon" href="/website_assets/images/light.ico">
@@ -59,7 +62,7 @@
         width: 100%;
     }
     .form-group input {
-        color:#fff !important;
+        color:#000 !important;
     }
     </style>
     @endif

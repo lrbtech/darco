@@ -100,7 +100,7 @@ class HomeController extends Controller
         echo $output;
     }
 
-    public static function viewmobileideascategory() {
+    public static function viewmobileideacategory() {
         $category = idea_category::where('parent_id',0)->where('status',0)->orderBy('id','ASC')->get();
         $output='';
         foreach($category as $row){

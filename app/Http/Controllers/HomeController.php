@@ -105,7 +105,7 @@ class HomeController extends Controller
         $output='';
         foreach($category as $row){
             $output.='<li>
-                <a href="/get-ideas/'.$row->id.'/0/0">'.$cat->category.'</a>
+                <a href="/get-ideas/'.$row->id.'/0/0">'.$row->category.'</a>
             </li>';
         }
 
@@ -147,7 +147,7 @@ class HomeController extends Controller
         $output='';
         foreach($category as $row){
             $output.='<li>
-                <a href="/professional-list/'.$row->id.'/0/0">'.$cat->category.'</a>
+                <a href="/professional-list/'.$row->id.'/0/0">'.$row->category.'</a>
             </li>';
         }
 
@@ -190,7 +190,7 @@ class HomeController extends Controller
         $output='';
         foreach($category as $row){
             $output.='<li>
-                <a href="/product-list/'.$row->id.'/0/0/0">'.$cat->category.'</a>
+                <a href="/product-list/'.$row->id.'/0/0/0">'.$row->category.'</a>
             </li>';
         }
 

@@ -1139,7 +1139,7 @@ body {
                             <li class="menu-item-has-children">
                                 <a href="#">{{$language[134][session()->get('lang')]}}</a>
                                 <ul class="translate dropdown">
-                                    {{\App\Http\Controllers\HomeController::viewmoileshopcategory()}}
+                                    {{\App\Http\Controllers\HomeController::viewmobileshopcategory()}}
                                 </ul>
                             </li>
                             <li class="menu-item-has-children">

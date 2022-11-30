@@ -11,6 +11,7 @@ use App\Models\orders;
 use App\Models\product;
 use App\Models\shipping_address;
 use App\Models\roles;
+use App\Models\language;
 use Hash;
 use DB;
 use Auth;
@@ -31,11 +32,13 @@ class CustomerController extends Controller
         $customer = User::find($id);
         $customer_all = User::all();
         $orders = orders::where('customer_id',$id)->orderBy('id','DESC')->get();
-        return view('admin.customer_details',compact('customer','orders','customer_all'));
+        $language = language::all();
+        return view('admin.customer_details',compact('customer','orders','customer_all','language'));
     }
 
     public function customer(){
-        return view('admin.customer');
+        $language = language::all();
+        return view('admin.customer',compact('language'));
     }
 
     public function deletecustomer($id,$status){
@@ -95,8 +98,8 @@ class CustomerController extends Controller
                     <div class="dropdown-menu open-left arrow" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 40px, 0px); top: 0px; left: 0px; will-change: transform;">
                         '.$output.'
                         <a href="/admin/customer-details/'.$customer->id.'" class="dropdown-item" type="button">View Details</a>
-                        <!--<div class="dropdown-divider"></div>
-                        <a target="_private" href="/user-login/'.$customer->id.'" class="dropdown-item" type="button">Customer Login</a>-->
+                        <div class="dropdown-divider"></div>
+                        <a target="_private" href="/customer-login/'.$customer->id.'" class="dropdown-item" type="button">Customer Login</a>
                     </div>
                 </div>
                 </td>';

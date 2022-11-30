@@ -23,9 +23,11 @@ class CreateShippingAddressesTable extends Migration
             $table->string('address_line1')->nullable();
             $table->string('address_line2')->nullable();
             $table->string('landmark')->nullable();
+            $table->string('country_code')->nullable();
+            $table->string('country')->nullable();
             $table->string('area')->nullable();
             $table->string('city')->nullable();
-            $table->string('pincode',50)->nullable();
+            $table->string('zipcode',50)->nullable();
             $table->string('is_active',11)->default('0');
             $table->string('status',11)->default('0');
             $table->timestamps();

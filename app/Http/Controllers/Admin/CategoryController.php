@@ -8,6 +8,7 @@ use App\Models\category;
 use App\Models\professional_category;
 use App\Models\idea_category;
 use App\Models\roles;
+use App\Models\language;
 use Auth;
 
 class CategoryController extends Controller
@@ -60,6 +61,7 @@ class CategoryController extends Controller
     public function savecategory(Request $request){
         $this->validate($request, [
             'category'=>'required',
+            'category_arabic'=>'required',
             'image' => 'required|mimes:jpeg,jpg,png|max:3000', // max 1000kb
             'icon' => 'required|mimes:jpeg,jpg,png|max:3000', // max 1000kb
           ],[
@@ -73,6 +75,7 @@ class CategoryController extends Controller
 
         $category = new category;
         $category->category = $request->category;
+        $category->category_arabic = $request->category_arabic;
         $category->parent_id = 0;
 
         if($request->image!=""){
@@ -100,6 +103,7 @@ class CategoryController extends Controller
     public function updatecategory(Request $request){
         $this->validate($request, [
             'category'=>'required',
+            'category_arabic'=>'required',
             'image' => 'mimes:jpeg,jpg,png|max:3000', // max 1000kb
             'icon' => 'mimes:jpeg,jpg,png|max:3000', // max 1000kb
           ],[
@@ -111,6 +115,7 @@ class CategoryController extends Controller
         
         $category = category::find($request->id);
         $category->category = $request->category;
+        $category->category_arabic = $request->category_arabic;
         $category->parent_id = 0;
         if($request->image!=""){
             $old_image = "upload_files/".$category->image;
@@ -144,7 +149,8 @@ class CategoryController extends Controller
     public function category(){
         $category = category::where('parent_id',0)->get();
         $role_get = roles::find(Auth::guard('admin')->user()->role_id);
-        return view('admin.category',compact('category','role_get'));
+        $language = language::all();
+        return view('admin.category',compact('category','role_get','language'));
     }
 
     public function editcategory($id){
@@ -163,6 +169,7 @@ class CategoryController extends Controller
     public function savesubcategory(Request $request){
         $this->validate($request, [
             'category'=>'required',
+            'category_arabic'=>'required',
             'image' => 'required|mimes:jpeg,jpg,png|max:3000', // max 1000kb
             'icon' => 'required|mimes:jpeg,jpg,png|max:3000', // max 1000kb
           ],[
@@ -176,6 +183,7 @@ class CategoryController extends Controller
 
         $category = new category;
         $category->category = $request->category;
+        $category->category_arabic = $request->category_arabic;
         $category->parent_id = $request->parent_id;
         if($request->image!=""){
             if($request->file('image')!=""){
@@ -200,6 +208,7 @@ class CategoryController extends Controller
     public function updatesubcategory(Request $request){
         $this->validate($request, [
             'category'=>'required',
+            'category_arabic'=>'required',
             'image' => 'mimes:jpeg,jpg,png|max:3000', // max 1000kb
             'icon' => 'mimes:jpeg,jpg,png|max:3000', // max 1000kb
           ],[
@@ -211,6 +220,7 @@ class CategoryController extends Controller
         
         $category = category::find($request->id);
         $category->category = $request->category;
+        $category->category_arabic = $request->category_arabic;
         $category->parent_id = $request->parent_id;
         if($request->image!=""){
             $old_image = "upload_files/".$category->image;
@@ -244,7 +254,8 @@ class CategoryController extends Controller
         $subcategory = category::where('parent_id',$id)->get();
         $parent_id = $id;
         $role_get = roles::find(Auth::guard('admin')->user()->role_id);
-        return view('admin.subcategory',compact('subcategory','parent_id','role_get'));
+        $language = language::all();
+        return view('admin.subcategory',compact('subcategory','parent_id','role_get','language'));
     }
 
     public function editsubcategory($id){
@@ -265,6 +276,7 @@ class CategoryController extends Controller
     public function saveprofessionalcategory(Request $request){
         $this->validate($request, [
             'category'=>'required',
+            'category_arabic'=>'required',
             'image' => 'required|mimes:jpeg,jpg,png|max:3000', // max 1000kb
             'icon' => 'required|mimes:jpeg,jpg,png|max:3000', // max 1000kb
           ],[
@@ -278,6 +290,7 @@ class CategoryController extends Controller
 
         $professional_category = new professional_category;
         $professional_category->category = $request->category;
+        $professional_category->category_arabic = $request->category_arabic;
         $professional_category->parent_id = 0;
 
         if($request->image!=""){
@@ -304,6 +317,7 @@ class CategoryController extends Controller
     public function updateprofessionalcategory(Request $request){
         $this->validate($request, [
             'category'=>'required',
+            'category_arabic'=>'required',
             'image' => 'mimes:jpeg,jpg,png|max:3000', // max 1000kb
             'icon' => 'mimes:jpeg,jpg,png|max:3000', // max 1000kb
           ],[
@@ -315,6 +329,7 @@ class CategoryController extends Controller
         
         $professional_category = professional_category::find($request->id);
         $professional_category->category = $request->category;
+        $professional_category->category_arabic = $request->category_arabic;
         $professional_category->parent_id = 0;
         if($request->image!=""){
             $old_image = "upload_files/".$professional_category->image;
@@ -348,7 +363,8 @@ class CategoryController extends Controller
     public function professionalcategory(){
         $professional_category = professional_category::where('parent_id',0)->get();
         $role_get = roles::find(Auth::guard('admin')->user()->role_id);
-        return view('admin.professional_category',compact('professional_category','role_get'));
+        $language = language::all();
+        return view('admin.professional_category',compact('professional_category','role_get','language'));
     }
 
     public function editprofessionalcategory($id){
@@ -367,6 +383,7 @@ class CategoryController extends Controller
     public function saveprofessionalsubcategory(Request $request){
         $this->validate($request, [
             'category'=>'required',
+            'category_arabic'=>'required',
             'image' => 'required|mimes:jpeg,jpg,png|max:3000', // max 1000kb
             'icon' => 'required|mimes:jpeg,jpg,png|max:3000', // max 1000kb
           ],[
@@ -380,6 +397,7 @@ class CategoryController extends Controller
 
         $professional_category = new professional_category;
         $professional_category->category = $request->category;
+        $professional_category->category_arabic = $request->category_arabic;
         $professional_category->parent_id = $request->parent_id;
         if($request->image!=""){
             if($request->file('image')!=""){
@@ -404,6 +422,7 @@ class CategoryController extends Controller
     public function updateprofessionalsubcategory(Request $request){
         $this->validate($request, [
             'category'=>'required',
+            'category_arabic'=>'required',
             'image' => 'mimes:jpeg,jpg,png|max:3000', // max 1000kb
             'icon' => 'mimes:jpeg,jpg,png|max:3000', // max 1000kb
           ],[
@@ -415,6 +434,7 @@ class CategoryController extends Controller
         
         $professional_category = professional_category::find($request->id);
         $professional_category->category = $request->category;
+        $professional_category->category_arabic = $request->category_arabic;
         $professional_category->parent_id = $request->parent_id;
         if($request->image!=""){
             $old_image = "upload_files/".$professional_category->image;
@@ -448,7 +468,8 @@ class CategoryController extends Controller
         $professional_subcategory = professional_category::where('parent_id',$id)->get();
         $parent_id = $id;
         $role_get = roles::find(Auth::guard('admin')->user()->role_id);
-        return view('admin.professional_subcategory',compact('professional_subcategory','parent_id','role_get'));
+        $language = language::all();
+        return view('admin.professional_subcategory',compact('professional_subcategory','parent_id','role_get','language'));
     }
 
     public function editprofessionalsubcategory($id){
@@ -467,6 +488,7 @@ class CategoryController extends Controller
     public function saveideacategory(Request $request){
         $this->validate($request, [
             'category'=>'required',
+            'category_arabic'=>'required',
             'image' => 'required|mimes:jpeg,jpg,png|max:3000', // max 1000kb
             'icon' => 'required|mimes:jpeg,jpg,png|max:3000', // max 1000kb
           ],[
@@ -480,6 +502,7 @@ class CategoryController extends Controller
 
         $idea_category = new idea_category;
         $idea_category->category = $request->category;
+        $idea_category->category_arabic = $request->category_arabic;
         $idea_category->parent_id = 0;
 
         if($request->image!=""){
@@ -506,6 +529,7 @@ class CategoryController extends Controller
     public function updateideacategory(Request $request){
         $this->validate($request, [
             'category'=>'required',
+            'category_arabic'=>'required',
             'image' => 'mimes:jpeg,jpg,png|max:3000', // max 1000kb
             'icon' => 'mimes:jpeg,jpg,png|max:3000', // max 1000kb
           ],[
@@ -517,6 +541,7 @@ class CategoryController extends Controller
         
         $idea_category = idea_category::find($request->id);
         $idea_category->category = $request->category;
+        $idea_category->category_arabic = $request->category_arabic;
         $idea_category->parent_id = 0;
         if($request->image!=""){
             $old_image = "upload_files/".$idea_category->image;
@@ -550,7 +575,8 @@ class CategoryController extends Controller
     public function ideacategory(){
         $idea_category = idea_category::where('parent_id',0)->get();
         $role_get = roles::find(Auth::guard('admin')->user()->role_id);
-        return view('admin.idea_category',compact('idea_category','role_get'));
+        $language = language::all();
+        return view('admin.idea_category',compact('idea_category','role_get','language'));
     }
 
     public function editideacategory($id){
@@ -569,6 +595,7 @@ class CategoryController extends Controller
     public function saveideasubcategory(Request $request){
         $this->validate($request, [
             'category'=>'required',
+            'category_arabic'=>'required',
             'image' => 'required|mimes:jpeg,jpg,png|max:3000', // max 1000kb
             'icon' => 'required|mimes:jpeg,jpg,png|max:3000', // max 1000kb
           ],[
@@ -582,6 +609,7 @@ class CategoryController extends Controller
 
         $idea_category = new idea_category;
         $idea_category->category = $request->category;
+        $idea_category->category_arabic = $request->category_arabic;
         $idea_category->parent_id = $request->parent_id;
         if($request->image!=""){
             if($request->file('image')!=""){
@@ -606,6 +634,7 @@ class CategoryController extends Controller
     public function updateideasubcategory(Request $request){
         $this->validate($request, [
             'category'=>'required',
+            'category_arabic'=>'required',
             'image' => 'mimes:jpeg,jpg,png|max:3000', // max 1000kb
             'icon' => 'mimes:jpeg,jpg,png|max:3000', // max 1000kb
           ],[
@@ -617,6 +646,7 @@ class CategoryController extends Controller
         
         $idea_category = idea_category::find($request->id);
         $idea_category->category = $request->category;
+        $idea_category->category_arabic = $request->category_arabic;
         $idea_category->parent_id = $request->parent_id;
         if($request->image!=""){
             $old_image = "upload_files/".$idea_category->image;
@@ -650,7 +680,8 @@ class CategoryController extends Controller
         $idea_subcategory = idea_category::where('parent_id',$id)->get();
         $parent_id = $id;
         $role_get = roles::find(Auth::guard('admin')->user()->role_id);
-        return view('admin.idea_subcategory',compact('idea_subcategory','parent_id','role_get'));
+        $language = language::all();
+        return view('admin.idea_subcategory',compact('idea_subcategory','parent_id','role_get','language'));
     }
 
     public function editideasubcategory($id){

@@ -14,6 +14,7 @@ use App\Models\product_images;
 use App\Models\brand;
 use App\Models\roles;
 use App\Models\return_reason;
+use App\Models\language;
 use Yajra\DataTables\Facades\DataTables;
 use Auth;
 use DB;
@@ -58,7 +59,8 @@ class ProductController extends Controller
     public function attributes(){
         $attributes = attributes::orderBy('id','DESC')->get();
         $role_get = roles::find(Auth::guard('admin')->user()->role_id);
-        return view('admin.attributes',compact('attributes','role_get'));
+        $language = language::all();
+        return view('admin.attributes',compact('attributes','role_get','language'));
     }
 
     public function editattributes($id){
@@ -103,7 +105,8 @@ class ProductController extends Controller
         $attribute_fields = attribute_fields::where('attribute_id',$id)->orderBy('id','DESC')->get();
         $attribute_id = $id;
         $role_get = roles::find(Auth::guard('admin')->user()->role_id);
-        return view('admin.attribute_fields',compact('attribute_fields','attribute_id','role_get'));
+        $language = language::all();
+        return view('admin.attribute_fields',compact('attribute_fields','attribute_id','role_get','language'));
     }
 
     public function editattributefields($id){
@@ -177,7 +180,8 @@ class ProductController extends Controller
     public function brand(){
         $brand = brand::all();
         $role_get = roles::find(Auth::guard('admin')->user()->role_id);
-        return view('admin.brand',compact('brand','role_get'));
+        $language = language::all();
+        return view('admin.brand',compact('brand','role_get','language'));
     }
 
     public function editbrand($id){
@@ -219,7 +223,8 @@ class ProductController extends Controller
     public function returnreason(){
         $return_reason = return_reason::all();
         $role_get = roles::find(Auth::guard('admin')->user()->role_id);
-        return view('admin.return_reason',compact('return_reason','role_get'));
+        $language = language::all();
+        return view('admin.return_reason',compact('return_reason','role_get','language'));
     }
 
     public function editreturnreason($id){

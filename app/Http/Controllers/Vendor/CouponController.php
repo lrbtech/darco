@@ -12,6 +12,7 @@ use App\Models\attribute_fields;
 use App\Models\product_group;
 use App\Models\product_images;
 use App\Models\coupon;
+use App\Models\language;
 use Yajra\DataTables\Facades\DataTables;
 use Auth;
 use DB;
@@ -87,7 +88,8 @@ class CouponController extends Controller
 
     public function coupon(){
         $coupon = coupon::where('vendor_id',Auth::guard('vendor')->user()->id)->orderBy('id','DESC')->get();
-        return view('vendor.coupon',compact('coupon'));
+        $language = language::all();
+        return view('vendor.coupon',compact('coupon','language'));
     }
 
     public function editcoupon($id){

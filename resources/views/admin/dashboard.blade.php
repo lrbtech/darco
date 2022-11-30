@@ -18,7 +18,7 @@
                   <div class="media d-flex">
                     <div class="media-body text-left">
                       <h3 class="info">{{$total_customer}}</h3>
-                      <h6>Total Customer</h6>
+                      <h6>{{$language[1][Auth::guard('admin')->user()->lang]}}</h6>
                     </div>
                     <div>
                       <i class="icon-basket-loaded info font-large-2 float-right"></i>
@@ -39,7 +39,7 @@
                   <div class="media d-flex">
                     <div class="media-body text-left">
                       <h3 class="warning">{{$total_vendor}}</h3>
-                      <h6>Total Vendor</h6>
+                      <h6>{{$language[2][Auth::guard('admin')->user()->lang]}}</h6>
                     </div>
                     <div>
                       <i class="icon-pie-chart warning font-large-2 float-right"></i>
@@ -60,7 +60,7 @@
                   <div class="media d-flex">
                     <div class="media-body text-left">
                       <h3 class="success">{{$total_order}}</h3>
-                      <h6>Total Order</h6>
+                      <h6>{{$language[3][Auth::guard('admin')->user()->lang]}}</h6>
                     </div>
                     <div>
                       <i class="icon-user-follow success font-large-2 float-right"></i>
@@ -81,7 +81,7 @@
                   <div class="media d-flex">
                     <div class="media-body text-left">
                       <h3 class="danger">{{$total_order_value}}</h3>
-                      <h6>Total Order Value</h6>
+                      <h6>{{$language[4][Auth::guard('admin')->user()->lang]}}</h6>
                     </div>
                     <div>
                       <i class="icon-heart danger font-large-2 float-right"></i>
@@ -104,7 +104,7 @@
           <div id="recent-transactions" class="col-12">
             <div class="card">
               <div class="card-header">
-                <h4 class="card-title">Recent Transactions</h4>
+                <h4 class="card-title">{{$language[5][Auth::guard('admin')->user()->lang]}}</h4>
                 <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                 <div class="heading-elements">
                   <ul class="list-inline mb-0">
@@ -118,13 +118,13 @@
                   <table id="recent-orders" class="table table-hover table-xl mb-0">
                     <thead>
                       <tr>
-                        <th class="border-top-0">Order ID</th>
-                        <th class="border-top-0">Date</th>
-                        <th class="border-top-0">Customer</th>
-                        <th class="border-top-0">Vendor </th>
-                        <th class="border-top-0">Shipping</th>
-                        <th class="border-top-0">Status</th>
-                        <th class="border-top-0">Amount</th>
+                        <th class="border-top-0">{{$language[6][Auth::guard('admin')->user()->lang]}}</th>
+                        <th class="border-top-0">{{$language[7][Auth::guard('admin')->user()->lang]}}</th>
+                        <th class="border-top-0">{{$language[8][Auth::guard('admin')->user()->lang]}}</th>
+                        <th class="border-top-0">{{$language[9][Auth::guard('admin')->user()->lang]}} </th>
+                        <th class="border-top-0">{{$language[10][Auth::guard('admin')->user()->lang]}}</th>
+                        <th class="border-top-0">{{$language[11][Auth::guard('admin')->user()->lang]}}</th>
+                        <th class="border-top-0">{{$language[12][Auth::guard('admin')->user()->lang]}}</th>
                       </tr>
                     </thead>
                     <tbody>

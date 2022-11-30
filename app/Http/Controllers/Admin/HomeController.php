@@ -21,6 +21,7 @@ use App\Models\product_images;
 use App\Models\brand;
 use App\Models\orders;
 use App\Models\order_items;
+use App\Models\language;
 use Yajra\DataTables\Facades\DataTables;
 use Auth;
 use DB;
@@ -52,13 +53,15 @@ class HomeController extends Controller
         $total_order = orders::count();
         $total_order_value = orders::sum('total');
 
+        $language = language::all();
 
-        return view('admin.dashboard',compact('total_order_value','total_order','total_customer','total_vendor','orders'));
+        return view('admin.dashboard',compact('total_order_value','total_order','total_customer','total_vendor','orders','language'));
     }
 
     public function changepassword(){
         $profile = admin::find(Auth::guard('admin')->user()->id);
-        return view('admin.change_password',compact('profile'));
+        $language = language::all();
+        return view('admin.change_password',compact('profile','language'));
     }
 
     public function updatepassword(Request $request){

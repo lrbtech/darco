@@ -30,7 +30,8 @@ class UserController extends Controller
         $users = admin::all();
         $roles = roles::where('status',0)->get();
         $role_get = roles::find(Auth::guard('admin')->user()->role_id);
-        return view('admin.users',compact('users','roles','role_get'));
+        $language = language::all();
+        return view('admin.users',compact('users','roles','role_get','language'));
     }
 
     public function saveuser(Request $request){
@@ -80,13 +81,15 @@ class UserController extends Controller
     public function roles(){
         $roles = roles::where('status',0)->get();
         $role_get = roles::find(Auth::guard('admin')->user()->role_id);
-        return view('admin.roles',compact('roles','role_get'));
+        $language = language::all();
+        return view('admin.roles',compact('roles','role_get','language'));
     }
 
     public function createroles(){
         $roles = roles::where('status',0)->get();
         $role_get = roles::find(Auth::guard('admin')->user()->role_id);
-        return view('admin.create_roles',compact('roles','role_get'));
+        $language = language::all();
+        return view('admin.create_roles',compact('roles','role_get','language'));
     }
 
     public function saveroles(Request $request){
@@ -176,7 +179,8 @@ class UserController extends Controller
     public function editroles($id){
         $roles = roles::find($id);
         $role_get = roles::find(Auth::guard('admin')->user()->role_id);
-        return view('admin.edit_roles',compact('roles','role_get'));
+        $language = language::all();
+        return view('admin.edit_roles',compact('roles','role_get','language'));
     }
 
     public function deleteroles($id,$status){

@@ -11,6 +11,7 @@ use App\Models\admin;
 use App\Models\settings;
 use App\Models\city;
 use App\Models\roles;
+use App\Models\language;
 use Hash;
 use DB;
 use Mail;
@@ -30,7 +31,8 @@ class SettingsController extends Controller
 
     public function termsandconditions(){
         $settings = settings::find(1);
-        return view('admin.terms',compact('settings'));
+        $language = language::all();
+        return view('admin.terms',compact('settings','language'));
     }
 
     public function updatetermsandconditions(Request $request){
@@ -44,7 +46,8 @@ class SettingsController extends Controller
 
     public function privacypolicy(){
         $settings = settings::find(1);
-        return view('admin.privacy_policy',compact('settings'));
+        $language = language::all();
+        return view('admin.privacy_policy',compact('settings','language'));
     }
 
     public function updateprivacypolicy(Request $request){
@@ -58,7 +61,8 @@ class SettingsController extends Controller
 
     public function aboutus(){
         $settings = settings::find(1);
-        return view('admin.about_us',compact('settings'));
+        $language = language::all();
+        return view('admin.about_us',compact('settings','language'));
     }
 
     public function updateaboutus(Request $request){
@@ -72,7 +76,8 @@ class SettingsController extends Controller
 
     public function deliveryinformation(){
         $settings = settings::find(1);
-        return view('admin.delivery_information',compact('settings'));
+        $language = language::all();
+        return view('admin.delivery_information',compact('settings','language'));
     }
 
     public function updatedeliveryinformation(Request $request){
@@ -86,7 +91,8 @@ class SettingsController extends Controller
 
     public function vendorguide(){
         $settings = settings::find(1);
-        return view('admin.vendor_guide',compact('settings'));
+        $language = language::all();
+        return view('admin.vendor_guide',compact('settings','language'));
     }
 
     public function updatevendorguide(Request $request){
@@ -100,7 +106,8 @@ class SettingsController extends Controller
 
     public function professionalguide(){
         $settings = settings::find(1);
-        return view('admin.professional_guide',compact('settings'));
+        $language = language::all();
+        return view('admin.professional_guide',compact('settings','language'));
     }
 
     public function updateprofessionalguide(Request $request){
@@ -114,7 +121,8 @@ class SettingsController extends Controller
 
     public function purchaseguide(){
         $settings = settings::find(1);
-        return view('admin.purchase_guide',compact('settings'));
+        $language = language::all();
+        return view('admin.purchase_guide',compact('settings','language'));
     }
 
     public function updatepurchaseguide(Request $request){
@@ -156,7 +164,8 @@ class SettingsController extends Controller
     public function city(){
         $city = city::where('parent_id',0)->get();
         $role_get = roles::find(Auth::guard('admin')->user()->role_id);
-        return view('admin.city',compact('city','role_get'));
+        $language = language::all();
+        return view('admin.city',compact('city','role_get','language'));
     }
 
     public function editcity($id){
@@ -200,7 +209,8 @@ class SettingsController extends Controller
         $area = city::where('parent_id',$id)->get();
         $parent_id = $id;
         $role_get = roles::find(Auth::guard('admin')->user()->role_id);
-        return view('admin.area',compact('area','parent_id','role_get'));
+        $language = language::all();
+        return view('admin.area',compact('area','parent_id','role_get','language'));
     }
 
     public function editarea($id){
@@ -214,5 +224,61 @@ class SettingsController extends Controller
         $city->save();
         return response()->json(['message'=>'Successfully Delete'],200); 
     }
+
+    public function changelanguage($language)
+    {
+        $user = admin::find(Auth::guard('admin')->user()->id);
+        $user->lang = $language;
+        $user->save();
+        return response()->json(['message'=>'Successfully Update'],200); 
+    }
+
+
+    public function languageTable(){
+        $language = language::all();
+        return view('admin.languages',compact('language'));
+    }
+    
+    public function fetchLanguage(Request $request){
+       $language = array();
+      // return response()->json();
+        if($request['english'] !=null){
+            $language = language::where('english', 'like', '%' . $request['english'].'%')->get();
+        }else if($request['arabic'] !=null){
+            $language = language::where('arabic', 'like', '%' . $request['arabic']. '%')->get();
+        }else{
+            $language = language::all();
+        }
+       
+         $languages = array();
+        if(count($language) >0){
+            foreach ($language as $key => $value) {
+               $lang=array(
+                   'arabic'=>$value->arabic,
+                   'english'=>$value->english,
+                   'id'=>$value->id,
+                   'index'=>$key,
+               ); 
+              // $language[] = $lang;
+               $languages[]=$lang;
+            }
+            return response()->json($languages);
+        }
+        return response()->json($language);
+    }
+
+    public function insertLanguage(Request $request){
+        $language = new language;
+        $language->english = $request->english;
+        $language->arabic = $request->arabic;
+        $language->save();
+    }
+    public function updateLanguage(Request $request){
+        $language =  language::find($request->id);
+        $language->english = $request->english;
+        $language->arabic = $request->arabic;
+        $language->save();
+    }
+
 
 }

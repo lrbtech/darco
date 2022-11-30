@@ -8,13 +8,13 @@
     <div class="content-wrapper">
       <div class="content-header row">
         <div class="content-header-left col-md-6 col-12 mb-2 breadcrumb-new">
-          <h3 class="content-header-title mb-0 d-inline-block">Brand</h3>
+          <h3 class="content-header-title mb-0 d-inline-block">{{$language[66][Auth::guard('admin')->user()->lang]}}</h3>
           <div class="row breadcrumbs-top d-inline-block">
             <div class="breadcrumb-wrapper col-12">
               <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a>
                 </li>
-                <li class="breadcrumb-item"><a href="#">All Brand</a>
+                <li class="breadcrumb-item"><a href="#">{{$language[67][Auth::guard('admin')->user()->lang]}}</a>
                 </li>
               </ol>
             </div>
@@ -22,7 +22,7 @@
         </div>
         <div class="content-header-right col-md-6 col-12">
             @if($role_get->product_category_create == 'on')
-            <button id="add_new" class="float-md-right btn btn-danger round btn-glow px-2" type="button">Add New</button>
+            <button id="add_new" class="float-md-right btn btn-danger round btn-glow px-2" type="button">{{$language[68][Auth::guard('admin')->user()->lang]}}</button>
             @endif
           <!-- <div class="dropdown float-md-right">
             <button class="btn btn-danger dropdown-toggle round btn-glow px-2" id="dropdownBreadcrumbButton"
@@ -42,7 +42,7 @@
             <div class="col-12">
               <div class="card">
                 <div class="card-header">
-                  <h4 class="card-title">All Brand</h4>
+                  <h4 class="card-title">{{$language[67][Auth::guard('admin')->user()->lang]}}</h4>
                   <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                   <div class="heading-elements">
                     <ul class="list-inline mb-0">
@@ -59,10 +59,10 @@
                       <thead>
                         <tr>
                             <th>#</th>
-                            <th>Brand</th>
-                            <th>Image</th>
-                            <th>Status</th>
-                            <th>Action</th>
+                            <th>{{$language[69][Auth::guard('admin')->user()->lang]}}</th>
+                            <th>{{$language[70][Auth::guard('admin')->user()->lang]}}</th>
+                            <th>{{$language[71][Auth::guard('admin')->user()->lang]}}</th>
+                            <th>{{$language[72][Auth::guard('admin')->user()->lang]}}</th>
                         </tr>
                       </thead>
                       <tbody>

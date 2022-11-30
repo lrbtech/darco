@@ -3,7 +3,7 @@
 
 @endsection
 @section('content')
-<main class="main pages">
+<main class="translate main pages">
     <div class="page-header breadcrumb-wrap">
         <div class="container">
             <div class="breadcrumb">
@@ -213,10 +213,12 @@
                                             <div class="chek-form">
                                                 <div class="custome-checkbox">
                                                     <input class="form-check-input" type="checkbox" name="privacy_policy" id="privacy_policy" value="" />
-                                                    <label class="form-check-label" for="privacy_policy"><span>I agree to terms &amp; Policy.</span></label>
+                                                    <label class="form-check-label" for="privacy_policy">
+                                                    <span class="view_popup">I agree to terms and conditions.</span>
+                                                    </label>
                                                 </div>
                                             </div>
-                                            <a href="/pages/privacy-policy"><i class="fi-rs-book-alt mr-5 text-muted"></i>Lean more</a>
+                                            <!-- <a href="/pages/privacy-policy"><i class="fi-rs-book-alt mr-5 text-muted"></i>Lean more</a> -->
                                         </div>
                                         <div class="form-group mb-30">
                                             <button onclick="Save()" type="button" class="btn btn-fill-out btn-block hover-up font-weight-bold" name="login">Submit &amp; Register</button>
@@ -232,9 +234,31 @@
         </div>
     </div>
 </main>
+
+<div class="modal fade custom-modal" id="popupmodal" tabindex="-1" aria-labelledby="popupmodalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div style="overflow: scroll;height:500px;width:95%;" class="modal-body">
+                <?php echo $settings->terms_and_conditions; ?>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 @section('extra-js')
 <script>
+
+$('#privacy_policy').click(function(){
+  // alert('hi');
+  $('#popupmodal').modal('show');
+  $('#popupmodal').modal({
+    backdrop: 'static',
+    keyboard: false,
+  });
+  //$('#modal-title').text('Add Category');
+});
+
 function changecity(){
   var id = $('#city').val();
   // alert(id);

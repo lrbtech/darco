@@ -8,13 +8,13 @@
     <div class="content-wrapper">
       <div class="content-header row">
         <div class="content-header-left col-md-6 col-12 mb-2 breadcrumb-new">
-          <h3 class="content-header-title mb-0 d-inline-block">Vendors</h3>
+          <h3 class="content-header-title mb-0 d-inline-block">{{$language[21][Auth::guard('admin')->user()->lang]}}</h3>
           <div class="row breadcrumbs-top d-inline-block">
             <div class="breadcrumb-wrapper col-12">
               <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a>
                 </li>
-                <li class="breadcrumb-item"><a href="#">All Vendors</a>
+                <li class="breadcrumb-item"><a href="#">{{$language[22][Auth::guard('admin')->user()->lang]}}</a>
                 </li>
               </ol>
             </div>
@@ -39,7 +39,7 @@
             <div class="col-12">
               <div class="card">
                 <div class="card-header">
-                  <h4 class="card-title">All Vendors</h4>
+                  <h4 class="card-title">{{$language[22][Auth::guard('admin')->user()->lang]}}</h4>
                   <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                   <div class="heading-elements">
                     <ul class="list-inline mb-0">
@@ -56,14 +56,14 @@
                       <thead>
                         <tr>
                             <th>#</th>
-                            <th>Date</th>
-                            <th>Type</th>
-                            <th>Name</th>
-                            <th>Mobile</th>
-                            <th>E-mail</th>
-                            <th>Commission</th>
-                            <th>Status</th>
-                            <th>Action</th>
+                            <th>{{$language[23][Auth::guard('admin')->user()->lang]}}</th>
+                            <th>{{$language[24][Auth::guard('admin')->user()->lang]}}</th>
+                            <th>{{$language[25][Auth::guard('admin')->user()->lang]}}</th>
+                            <th>{{$language[26][Auth::guard('admin')->user()->lang]}}</th>
+                            <th>{{$language[27][Auth::guard('admin')->user()->lang]}}</th>
+                            <th>{{$language[28][Auth::guard('admin')->user()->lang]}}</th>
+                            <th>{{$language[29][Auth::guard('admin')->user()->lang]}}</th>
+                            <th>{{$language[30][Auth::guard('admin')->user()->lang]}}</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -71,14 +71,14 @@
                       <tfoot>
                         <tr>
                             <th>#</th>
-                            <th>Date</th>
-                            <th>Type</th>
-                            <th>Name</th>
-                            <th>Mobile</th>
-                            <th>E-mail</th>
-                            <th>Commission</th>
-                            <th>Status</th>
-                            <th>Action</th>
+                            <th>{{$language[23][Auth::guard('admin')->user()->lang]}}</th>
+                            <th>{{$language[24][Auth::guard('admin')->user()->lang]}}</th>
+                            <th>{{$language[25][Auth::guard('admin')->user()->lang]}}</th>
+                            <th>{{$language[26][Auth::guard('admin')->user()->lang]}}</th>
+                            <th>{{$language[27][Auth::guard('admin')->user()->lang]}}</th>
+                            <th>{{$language[28][Auth::guard('admin')->user()->lang]}}</th>
+                            <th>{{$language[29][Auth::guard('admin')->user()->lang]}}</th>
+                            <th>{{$language[30][Auth::guard('admin')->user()->lang]}}</th>
                         </tr>
                       </tfoot>
                     </table>

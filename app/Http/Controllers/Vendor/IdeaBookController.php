@@ -9,6 +9,7 @@ use App\Models\vendor;
 use App\Models\idea_book;
 use App\Models\idea_category;
 use App\Models\idea_book_images;
+use App\Models\language;
 use Yajra\DataTables\Facades\DataTables;
 use Auth;
 use DB;
@@ -225,12 +226,14 @@ class IdeaBookController extends Controller
 
     public function ideabook(){
         $idea_book = idea_book::where('vendor_id',Auth::guard('vendor')->user()->id)->orderBy('id','DESC')->get();
-        return view('vendor.idea_book',compact('idea_book'));
+        $language = language::all();
+        return view('vendor.idea_book',compact('idea_book','language'));
     }
 
     public function addideabook(){
         $category = idea_category::where('status',0)->where('parent_id',0)->orderBy('id','DESC')->get();
-        return view('vendor.add_idea_book',compact('category'));
+        $language = language::all();
+        return view('vendor.add_idea_book',compact('category','language'));
     }
 
     public function editideabook($id){
@@ -238,7 +241,8 @@ class IdeaBookController extends Controller
         $category = idea_category::where('status',0)->where('parent_id',0)->orderBy('id','DESC')->get();
         $idea_book_images = idea_book_images::where('idea_book_id',$id)->get();
         //return response()->json($idea_book); 
-        return view('vendor.edit_idea_book',compact('category','idea_book','idea_book_images'));
+        $language = language::all();
+        return view('vendor.edit_idea_book',compact('category','idea_book','idea_book_images','language'));
     }
     
     public function deleteideabook($id){

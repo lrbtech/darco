@@ -9,6 +9,7 @@ use App\Models\professional_category;
 use App\Models\idea_category;
 use App\Models\roles;
 use App\Models\package;
+use App\Models\language;
 use Auth;
 
 class PackageController extends Controller
@@ -82,7 +83,8 @@ class PackageController extends Controller
     public function package(){
         $package = package::all();
         $role_get = roles::find(Auth::guard('admin')->user()->role_id);
-        return view('admin.package',compact('package','role_get'));
+        $language = language::all();
+        return view('admin.package',compact('package','role_get','language'));
     }
 
     public function editpackage($id){

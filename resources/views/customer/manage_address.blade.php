@@ -2,7 +2,7 @@
 @section('extra-css')
 @endsection
 @section('content')
-<main class="main pages">
+<main class="translate main pages">
     <div class="page-header breadcrumb-wrap">
         <div class="container">
             <div class="breadcrumb">
@@ -32,7 +32,7 @@
                                             <table class="table">
                                                 <thead>
                                                     <tr>
-                                                        <th>Address Type</th>
+                                                        <th>#</th>
                                                         <th>Name</th>
                                                         <th>Mobile</th>
                                                         <th>Address</th>
@@ -40,15 +40,9 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                  @foreach($manage_address as $row)
+                                                  @foreach($manage_address as $key => $row)
                                                     <tr>
-                                                        <td>
-                                                        @if($row->address_type == 0)
-                                                        Home 
-                                                        @elseif($row->address_type == 1)
-                                                        Office
-                                                        @endif
-                                                        </td>
+                                                        <td>{{$key+1}}</td>
                                                         <td>{{$row->contact_person}}</td>
                                                         <td>{{$row->mobile}}</td>
                                                         <td>{{$row->address_line1}} <br> {{$row->address_line2}}</td>
@@ -89,7 +83,7 @@
                 <input type="hidden" name="id" id="id">
 
                 <div class="row">
-                    <div class="form-group col-lg-6">
+                    <!-- <div class="form-group col-lg-6">
                         <label>Address Type <span class="asterisk">*</span></label>
                         <div class="custome-radio">
                             <input value="0" class="form-check-input" type="radio" name="address_type" id="address_type1"/>
@@ -99,18 +93,26 @@
                             <input value="1"  class="form-check-input" type="radio" name="address_type" id="address_type2" />
                             <label class="form-check-label" for="address_type2">Office (9am-6pm, Weekdays)</label>
                         </div>
+                    </div> -->
+                    <div class="form-group col-lg-5">
+                      <label>Contact Person <span class="asterisk">*</span></label>
+                      <input type="text" id="contact_person" name="contact_person" placeholder="Contact Person *">
                     </div>
-                    <div class="form-group col-lg-6">
-                    <label>Contact Person <span class="asterisk">*</span></label>
-                    <input type="text" id="contact_person" name="contact_person" placeholder="Contact Person *">
+                    <div class="form-group col-lg-7">
+                      <label>Contact Mobile</label>
+                      <div class="input-group mb-3">
+                          <div class="input-group-prepend">
+                            <select  name="country_code" id="country_code">
+                              <option value="+965">+965</option>
+                              <!-- <option value="+971">+971</option> -->
+                            </select>
+                          </div>
+                          <input type="number" class="form-control" name="contact_mobile" id="contact_mobile" placeholder="Contact Mobile">
+                      </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-lg-6">
-                    <label>Contact Mobile <span class="asterisk">*</span></label>
-                    <input type="text" id="contact_mobile" name="contact_mobile" placeholder="Contact Mobile">
-                    </div>
-                    <div class="form-group col-lg-6">
+                    <div class="form-group col-lg-12">
                     <label>Landmark <span class="asterisk">*</span></label>
                     <input type="text" id="landmark" name="landmark" placeholder="Landmark">
                     </div>
@@ -134,10 +136,17 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-lg-12">
-                    <label>Pincode <span class="asterisk">*</span></label>
-                    <input type="text" id="pincode" name="pincode" placeholder="Pincode">
-                    </div>
+                  <div class="form-group col-lg-6">
+                    <label>Country <span class="asterisk">*</span></label>
+                    <select id="country" name="country" class="form-control">
+                      <option value="">SELECT</option>
+                      <option value="1">kuwait</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-lg-6">
+                    <label>Zipcode <span class="asterisk">*</span></label>
+                    <input type="text" id="zipcode" name="zipcode" placeholder="Zipcode">
+                  </div>
                 </div>
 
                 </form>

@@ -4,7 +4,7 @@
 @endsection
 @section('content')
 
-<main class="main">
+<main class="translate main">
     <div class="page-header mt-30 mb-50">
         <div class="container">
             @if(!empty($category_data))
@@ -104,7 +104,6 @@
         <div class="row flex-row-reverse">
             <div class="col-lg-4-5">
             <!-- <input type="hidden" name="_token" id="csrf-token" value="{{csrf_token()}}" /> -->
-
                 <div class="shop-product-fillter">
                     <div class="totall-product">
                         <!-- <p>We found <strong class="text-brand">29</strong> items for you!</p> -->
@@ -131,18 +130,18 @@
                             </div>
                         </div> -->
                         <div class="sort-by-cover">
-                            <!-- <div class="sort-by-product-wrap">
+                            <div class="sort-by-product-wrap">
                                 <div class="sort-by">
                                     <span><i class="fi-rs-apps-sort"></i>Sort by:</span>
                                 </div>
                                 <div class="sort-by-dropdown-wrap">
                                     <span> Featured <i class="fi-rs-angle-small-down"></i></span>
                                 </div>
-                            </div> -->
+                            </div>
                             <div class="sort-by-dropdown">
                                 <ul>
-                                    <!-- <li><a class="active" href="#">Featured</a></li> -->
-                                    <li><a href="#">Price: Low to High</a></li>
+                                    <!-- <li><a href="#">Featured</a></li> -->
+                                    <li><a class="active" href="#">Price: Low to High</a></li>
                                     <li><a href="#">Price: High to Low</a></li>
                                     <!-- <li><a href="#">Release Date</a></li>
                                     <li><a href="#">Avg. Rating</a></li> -->
@@ -278,6 +277,20 @@
                                 <br />
                                 @endforeach
                             </div>
+                            {{\App\Http\Controllers\HomeController::viewattributefilter()}}
+                            <!-- <label class="fw-900 mt-15">Colour</label>
+                            <div class="custome-checkbox">
+                                <input class="form-check-input" type="checkbox" name="colour1" id="colour" value="Red" />
+                                <label class="form-check-label" for="colour1">
+                                    <span>Red</span>
+                                </label>
+                                <br />
+                                <input class="form-check-input" type="checkbox" name="colour2" id="colour" value="Black" />
+                                <label class="form-check-label" for="colour2">
+                                    <span>Black</span>
+                                </label>
+                                <br />
+                            </div> -->
                         </div>
                     </div>
                     <button onclick='search_product_list("","<?php echo $category_id; ?>","<?php echo $subcategory_id; ?>","<?php echo $subsubcategory_id; ?>","<?php echo $search_id; ?>")' type="button" class="btn btn-sm btn-default"><i class="fi-rs-filter mr-5"></i> Fillter</button>

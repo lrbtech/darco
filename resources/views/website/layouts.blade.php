@@ -1,8 +1,15 @@
 <!DOCTYPE html>
-<html class="no-js" lang="en">
+@if(session()->get('lang') == 'english')
+<html class="no-js" lang="en" dir="ltr">
+@elseif(session()->get('lang') == 'arabic')
+<html class="no-js" lang="en" dir="rtl">
+@else 
+<html class="no-js" lang="en" dir="ltr">
+@endif
+
 <head>
     <meta charset="utf-8" />
-    <title>Darco</title>
+    <title>DARDESIGN</title>
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -33,6 +40,15 @@
     <link id="themefile" rel="stylesheet" href="/theme/dark.css"/>
     <link rel="icon" type="image/x-icon" href="/website_assets/images/dark.ico">
     <style>
+    .single-content p {
+        color:#fff;
+    }
+    .single-content ol li {
+        color:#fff;
+    }
+    .single-content ul li {
+        color:#fff;
+    }
     .form-group select {
         background: #212529;
         border: 1px solid #ececec;
@@ -129,22 +145,9 @@ li.sub-mega-menu.sub-mega-menu-width-22 {
   background-color: #374151;
 }
 
-.toggle-button {
-  transform: translate(3.75em, 4px);
-  position: absolute;
-  height: 2em;
-  width: 2em;
-  border-radius: 50%;
-  background-color: #ffeccf;
-  box-shadow: inset 0px 0px 0px 5px #ffbb52;
-  transition: background-color 250ms, border-color 250ms, transform 500ms cubic-bezier(.26,2,.46,.71);
-}
 
-.toggle-checkbox:checked ~ .toggle-slot .toggle-button {
-  background-color: #485367;
-  box-shadow: inset 0px 0px 0px 5px white;
-  transform: translate(6px, 4px);
-}
+
+
 
 .sun-icon {
   position: absolute;
@@ -153,15 +156,7 @@ li.sub-mega-menu.sub-mega-menu-width-22 {
   color: #ffbb52;
 }
 
-.sun-icon-wrapper {
-  position: absolute;
-  height: 2em;
-  width: 2em;
-  opacity: 1;
-  transform: translate(6px, 4px) rotate(15deg);
-  transform-origin: 50% 50%;
-  transition: opacity 150ms, transform 500ms cubic-bezier(.26,2,.46,.71);
-}
+
 
 .toggle-checkbox:checked ~ .toggle-slot .sun-icon-wrapper {
   opacity: 0;
@@ -185,10 +180,7 @@ li.sub-mega-menu.sub-mega-menu-width-22 {
   transition: opacity 150ms, transform 500ms cubic-bezier(.26,2.5,.46,.71);
 }
 
-.toggle-checkbox:checked ~ .toggle-slot .moon-icon-wrapper {
-  opacity: 1;
-  transform: translate(4em, 4px) rotate(-15deg);
-}
+
 
 .garage-title {
     /* clear: both;
@@ -612,8 +604,92 @@ body {
 	text-decoration: underline;
 }
 
+.goog-te-banner-frame.skiptranslate {
+    display: none !important;
+} 
+
 </style>
-<body id="spinner_body">
+@if(session()->get('lang') == 'arabic')
+<style>
+    .sun-icon-wrapper {
+      position: absolute;
+      height: 2em;
+      width: 2em;
+      opacity: 1;
+      transform: translate(-50px, 4px) rotate(15deg);
+      transform-origin: 50% 50%;
+      transition: opacity 150ms, transform 500ms cubic-bezier(.26,2,.46,.71);
+    }
+    .toggle-button {
+  transform: translate(-0.25em, 4px);
+  position: absolute;
+  height: 2em;
+  width: 2em;
+  border-radius: 50%;
+  background-color: #ffeccf;
+  box-shadow: inset 0px 0px 0px 5px #ffbb52;
+  transition: background-color 250ms, border-color 250ms, transform 500ms cubic-bezier(.26,2,.46,.71);
+}
+.toggle-checkbox:checked ~ .toggle-slot .toggle-button {
+  background-color: #485367;
+  box-shadow: inset 0px 0px 0px 5px white;
+  transform: translate(-50px, 4px);
+}
+.toggle-checkbox:checked ~ .toggle-slot .moon-icon-wrapper {
+  opacity: 1;
+  transform: translate(0em, 4px) rotate(-15deg);
+}
+.logo.logo-width-1 {
+    padding-left: 50px;
+}
+.search-style-2 form input {
+    background-position: left !important;
+}
+.cart-dropdown-wrap.cart-dropdown-hm2 {
+    right: -200px;;
+}
+
+.hero-slider-1 .slider-content form input {
+    border: 0;
+    border-radius: 50px 0 0 50px;
+    padding-left: 58px;
+    /* background: url(/frontend/assets/imgs/theme/icons/icon-plane.png) no-repeat 25px center; */
+}
+
+</style>
+@else
+<style>
+.sun-icon-wrapper {
+    position: absolute;
+    height: 2em;
+    width: 2em;
+    opacity: 1;
+    transform: translate(6px, 4px) rotate(15deg);
+    transform-origin: 50% 50%;
+    transition: opacity 150ms, transform 500ms cubic-bezier(.26,2,.46,.71);
+}
+.toggle-button {
+  transform: translate(3.75em, 4px);
+  position: absolute;
+  height: 2em;
+  width: 2em;
+  border-radius: 50%;
+  background-color: #ffeccf;
+  box-shadow: inset 0px 0px 0px 5px #ffbb52;
+  transition: background-color 250ms, border-color 250ms, transform 500ms cubic-bezier(.26,2,.46,.71);
+}
+.toggle-checkbox:checked ~ .toggle-slot .toggle-button {
+  background-color: #485367;
+  box-shadow: inset 0px 0px 0px 5px white;
+  transform: translate(6px, 4px);
+}
+.toggle-checkbox:checked ~ .toggle-slot .moon-icon-wrapper {
+  opacity: 1;
+  transform: translate(4em, 4px) rotate(-15deg);
+}
+</style>
+@endif
+<body class="notranslate" id="spinner_body">
     <!-- Quick view -->
     <div class="modal fade custom-modal" id="quickViewModal" tabindex="-1" aria-labelledby="quickViewModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -713,9 +789,9 @@ body {
                     <div class="col-xl-3 col-lg-4">
                         <div class="header-info">
                             <ul>
-                                <li><a href="/about-us">About Us</a></li>
-                                <li><a href="/customer/profile">My Account</a></li>
-                                <li><a href="/contact-us">Contact Us</a></li>
+                                <li><a href="/about-us">{{$language[118][session()->get('lang')]}}</a></li>
+                                <li><a href="/customer/profile">{{$language[119][session()->get('lang')]}}</a></li>
+                                <li><a href="/contact-us">{{$language[120][session()->get('lang')]}}</a></li>
                             </ul>
                         </div>
                     </div>
@@ -733,40 +809,38 @@ body {
                     <div class="col-xl-3 col-lg-4">
                         <div class="header-info header-info-right">
                             <ul>
-                              <li>
-                                <label>
-                                @if(session()->get('theme') == 'dark')
-                                <input class='toggle-checkbox' type='checkbox' id='light_dark' checked></input>
-                                @else
-                                <input class='toggle-checkbox' type='checkbox' id='light_dark'></input>
-
-                                @endif
-                                <div class='toggle-slot'>
-                                    <div class='sun-icon-wrapper'>
-                                    <div class="iconify sun-icon" data-icon="feather-sun" data-inline="false"></div>
-                                    </div>
-                                    <div class='toggle-button'></div>
-                                    <div class='moon-icon-wrapper'>
-                                    <div class="iconify moon-icon" data-icon="feather-moon" data-inline="false"></div>
-                                    </div>
-                                </div>
-                                </label>
-                                </li>
-                                <li>Need help? Email Us: <strong class="text-brand"> Info@darco.com</strong></li>
-                                <!-- <li>
-                                    <a class="language-dropdown-active" href="#">English <i class="fi-rs-angle-small-down"></i></a>
+                            <div id="google_translate_element" style="display: none;"></div>
+                                <li>
+                                    <a class="language-dropdown-active" href="#">{{$language[121][session()->get('lang')]}} <i class="fi-rs-angle-small-down"></i></a>
                                     <ul class="language-dropdown">
                                         <li>
-                                            <a href="#"><img src="/frontend/assets/imgs/theme/flag-fr.png" alt="" />Français</a>
+                                            <a onclick="translateLanguage('English');" href="#">English</a>
                                         </li>
                                         <li>
-                                            <a href="#"><img src="/frontend/assets/imgs/theme/flag-dt.png" alt="" />Deutsch</a>
-                                        </li>
-                                        <li>
-                                            <a href="#"><img src="/frontend/assets/imgs/theme/flag-ru.png" alt="" />Pусский</a>
+                                            <a onclick="translateLanguage('Arabic');" href="#">Arabic</a>
                                         </li>
                                     </ul>
-                                </li> -->
+                                </li>
+                                <li>
+                                    <label>
+                                    @if(session()->get('theme') == 'dark')
+                                    <input class='toggle-checkbox' type='checkbox' id='light_dark' checked></input>
+                                    @else
+                                    <input class='toggle-checkbox' type='checkbox' id='light_dark'></input>
+
+                                    @endif
+                                    <div class='toggle-slot'>
+                                        <div class='sun-icon-wrapper'>
+                                        <div class="iconify sun-icon" data-icon="feather-sun" data-inline="false"></div>
+                                        </div>
+                                        <div class='toggle-button'></div>
+                                        <div class='moon-icon-wrapper'>
+                                        <div class="iconify moon-icon" data-icon="feather-moon" data-inline="false"></div>
+                                        </div>
+                                    </div>
+                                    </label>
+                                </li>
+                                <!-- <li>Need help? Email Us: <strong class="text-brand"> Info@DARDESIGN.com</strong></li> -->
                                 <!-- <li>
                                     <a class="language-dropdown-active" href="#">USD <i class="fi-rs-angle-small-down"></i></a>
                                     <ul class="language-dropdown">
@@ -801,12 +875,12 @@ body {
                         <div class="search-style-2">
                             <form action="#">
                                 <select name="category_type" id="category_type" class="select-active">
-                                    <option value="">All Categories</option>
-                                    <option value="1">Get Ideas</option>
-                                    <option value="2">Find Professionals</option>
-                                    <option value="3">Shop</option>
+                                    <option value="">{{$language[122][session()->get('lang')]}}</option>
+                                    <option value="1">{{$language[123][session()->get('lang')]}}</option>
+                                    <option value="2">{{$language[124][session()->get('lang')]}}</option>
+                                    <option value="3">{{$language[125][session()->get('lang')]}}</option>
                                 </select>
-                                <input id="search_text" name="search_text" type="text" placeholder="Search for items..." />
+                                <input id="search_text" name="search_text" type="text" placeholder="{{$language[135][session()->get('lang')]}}" />
                             </form>
                         </div>
                         <div class="header-action-right">
@@ -836,13 +910,13 @@ body {
                                         <img class="svgInject" src="/frontend/assets/imgs/theme/icons/icon-heart.svg" />
                                         <span class="pro-count blue">{{$wishlist_count}}</span>
                                     </a>
-                                    <a href="/customer/favourites"><span class="lable">Wishlist</span></a>
+                                    <a href="/customer/favourites"><span class="lable">{{$language[126][session()->get('lang')]}}</span></a>
                                     @else 
                                     <a href="/login">
                                         <img class="svgInject" src="/frontend/assets/imgs/theme/icons/icon-heart.svg" />
                                         <span class="pro-count blue">{{$wishlist_count}}</span>
                                     </a>
-                                    <a href="/login"><span class="lable">Wishlist</span></a>
+                                    <a href="/login"><span class="lable">{{$language[126][session()->get('lang')]}}</span></a>
                                     @endif
                                 </div>
                                 <div class="header-action-icon-2">
@@ -856,7 +930,7 @@ body {
                                         {{$cartCollection->count()}}
                                         </span>
                                     </a>
-                                    <a href="/cart"><span class="lable">Cart</span></a>
+                                    <a href="/cart"><span class="lable">{{$language[127][session()->get('lang')]}}</span></a>
                                     <div class="cart-dropdown-wrap cart-dropdown-hm2">
                                         <ul>
                                             @php 
@@ -884,11 +958,11 @@ body {
                                         </ul>
                                         <div class="shopping-cart-footer">
                                             <div class="shopping-cart-total">
-                                                <h4>Total <span>KWD {{$cart_header_total}}</span></h4>
+                                                <h4>{{$language[129][session()->get('lang')]}} <span>KWD {{$cart_header_total}}</span></h4>
                                             </div>
                                             <div class="shopping-cart-button">
-                                                <a href="/cart" class="outline">View cart</a>
-                                                <a href="/checkout">Checkout</a>
+                                                <a href="/cart" class="outline">{{$language[130][session()->get('lang')]}}</a>
+                                                <a href="/checkout">{{$language[131][session()->get('lang')]}}</a>
                                             </div>
                                         </div>
                                     </div>
@@ -898,26 +972,26 @@ body {
                                     <a href="page-account.html">
                                         <img class="svgInject" src="/frontend/assets/imgs/theme/icons/icon-user.svg" />
                                     </a>
-                                    <a href="#"><span class="lable ml-0">Account</span></a>
+                                    <a href="#"><span class="lable ml-0">{{$language[136][session()->get('lang')]}}</span></a>
                                     <div class="cart-dropdown-wrap cart-dropdown-hm2 account-dropdown">
                                         <ul>
                                             <li>
-                                                <a href="/customer/profile"><i class="fi fi-rs-user mr-10"></i>My Account</a>
+                                                <a href="/customer/profile"><i class="fi fi-rs-user mr-10"></i>{{$language[137][session()->get('lang')]}}</a>
                                             </li>
                                             <li>
-                                                <a href="/customer/orders"><i class="fi fi-rs-location-alt mr-10"></i>My Orders</a>
+                                                <a href="/customer/orders"><i class="fi fi-rs-location-alt mr-10"></i>{{$language[138][session()->get('lang')]}}</a>
                                             </li>
                                             <li>
-                                                <a href="/customer/enquiry"><i class="fi fi-rs-heart mr-10"></i>My Enquiries</a>
+                                                <a href="/customer/enquiry"><i class="fi fi-rs-heart mr-10"></i>{{$language[139][session()->get('lang')]}}</a>
                                             </li>
                                             <li>
-                                                <a href="/customer/manage-address"><i class="fi fi-rs-location-alt mr-10"></i>My Address</a>
+                                                <a href="/customer/manage-address"><i class="fi fi-rs-location-alt mr-10"></i>{{$language[140][session()->get('lang')]}}</a>
                                             </li>
                                             <li>
-                                                <a href="/customer/change-password"><i class="fi fi-rs-settings-sliders mr-10"></i>Change Password</a>
+                                                <a href="/customer/change-password"><i class="fi fi-rs-settings-sliders mr-10"></i>{{$language[141][session()->get('lang')]}}</a>
                                             </li>
                                             <li>
-                                                <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fi fi-rs-sign-out mr-10"></i>Sign out</a>
+                                                <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fi fi-rs-sign-out mr-10"></i>{{$language[142][session()->get('lang')]}}</a>
                                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                                 @csrf
                                                 </form>
@@ -928,7 +1002,7 @@ body {
                                     <a href="/login">
                                         <img class="svgInject" src="/frontend/assets/imgs/theme/icons/icon-user.svg" />
                                     </a>
-                                    <a href="/login"><span class="lable ml-0">Login</span></a>                                    
+                                    <a href="/login"><span class="lable ml-0">{{$language[128][session()->get('lang')]}}</span></a>                                    
                                     @endif
                                 </div>
                             </div>
@@ -970,7 +1044,7 @@ body {
                             <div class="header-action-icon-2">
                                 <a href="shop-wishlist.html">
                                     <img src="/frontend/assets/imgs/theme/icons/icon-heart.svg" />
-                                    <span class="pro-count white">4</span>
+                                    <span class="pro-count white">{{$wishlist_count}}</span>
                                 </a>
                             </div>
                             <div class="header-action-icon-2">
@@ -1009,11 +1083,11 @@ body {
                                     </ul>
                                     <div class="shopping-cart-footer">
                                         <div class="shopping-cart-total">
-                                            <h4>Total <span>KWD {{$cart_header_total}}</span></h4>
+                                            <h4>{{$language[129][session()->get('lang')]}} <span>KWD {{$cart_header_total}}</span></h4>
                                         </div>
                                         <div class="shopping-cart-button">
-                                            <a href="/cart">View cart</a>
-                                            <!-- <a href="/checkout">Checkout</a> -->
+                                            <a href="/cart">{{$language[130][session()->get('lang')]}}</a>
+                                            <a href="/checkout">{{$language[131][session()->get('lang')]}}</a>
                                         </div>
                                     </div>
                                 </div>
@@ -1041,7 +1115,7 @@ body {
             <div class="mobile-header-content-area">
                 <div class="mobile-search search-style-3 mobile-header-border">
                     <form action="#">
-                        <input type="text" placeholder="Search for items…" />
+                        <input type="text" placeholder="{{$language[135][session()->get('lang')]}}" />
                         <button type="submit"><i class="fi-rs-search"></i></button>
                     </form>
                 </div>
@@ -1050,24 +1124,29 @@ body {
                     <nav>
                         <ul class="mobile-menu font-heading">
                             <li class="menu-item-has-children">
-                                <a href="#">GET IDEAS</a>
-                                <ul class="dropdown">
-                                    <li><a href="#">Vendors Grid</a></li>
-                                    <li><a href="#">Vendors List</a></li>
+                                <a href="#">{{$language[132][session()->get('lang')]}}</a>
+                                <ul class="translate dropdown">
+                                    {{\App\Http\Controllers\HomeController::viewmobileideacategory()}}
+                                    <!-- <li><a href="#">Vendors List</a></li> -->
                                 </ul>
                             </li>
                             <li class="menu-item-has-children">
-                                <a href="#">FIND PROFESSIONALS</a>
-                                <ul class="dropdown">
-                                    <li><a href="#">Vendors Grid</a></li>
-                                    <li><a href="#">Vendors List</a></li>
+                                <a href="#">{{$language[133][session()->get('lang')]}}</a>
+                                <ul class="translate dropdown">
+                                    {{\App\Http\Controllers\HomeController::viewmobileprofessionalcategory()}}
                                 </ul>
                             </li>
                             <li class="menu-item-has-children">
-                                <a href="#">SHOP BY DEPARTMENT</a>
+                                <a href="#">{{$language[134][session()->get('lang')]}}</a>
+                                <ul class="translate dropdown">
+                                    {{\App\Http\Controllers\HomeController::viewmoileshopcategory()}}
+                                </ul>
+                            </li>
+                            <li class="menu-item-has-children">
+                                <a href="#">Language</a>
                                 <ul class="dropdown">
-                                    <li><a href="#">Vendors Grid</a></li>
-                                    <li><a href="#">Vendors List</a></li>
+                                    <li><a onclick="translateLanguage('English');" href="#">English</a></li>
+                                    <li><a onclick="translateLanguage('Arabic');" href="#">Arabic</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -1076,24 +1155,25 @@ body {
                 </div>
                 <div class="mobile-header-info-wrap">
                     <div class="single-mobile-header-info">
-                        <a href="page-contact.html"><i class="fi-rs-marker"></i> Our location </a>
+                        <a href="#"><i class="fi-rs-marker"></i> {{$language[143][session()->get('lang')]}} </a>
+                    </div>
+
+                    <div class="single-mobile-header-info">
+                        <a href="#"><i class="fi-rs-user"></i>{{$language[144][session()->get('lang')]}} </a>
                     </div>
                     <div class="single-mobile-header-info">
-                        <a href="page-login.html"><i class="fi-rs-user"></i>Log In / Sign Up </a>
-                    </div>
-                    <div class="single-mobile-header-info">
-                        <a href="#"><i class="fi-rs-headphones"></i>(+01) - 2345 - 6789 </a>
+                        <a href="#"><i class="fi-rs-headphones"></i>{{$language[145][session()->get('lang')]}} </a>
                     </div>
                 </div>
                 <div class="mobile-social-icon mb-50">
-                    <h6 class="mb-15">Follow Us</h6>
+                    <h6 class="mb-15">{{$language[146][session()->get('lang')]}}</h6>
                     <a href="#"><img src="/frontend/assets/imgs/theme/icons/icon-facebook-white.svg" alt="" /></a>
                     <a href="#"><img src="/frontend/assets/imgs/theme/icons/icon-twitter-white.svg" alt="" /></a>
                     <a href="#"><img src="/frontend/assets/imgs/theme/icons/icon-instagram-white.svg" alt="" /></a>
                     <a href="#"><img src="/frontend/assets/imgs/theme/icons/icon-pinterest-white.svg" alt="" /></a>
                     <a href="#"><img src="/frontend/assets/imgs/theme/icons/icon-youtube-white.svg" alt="" /></a>
                 </div>
-                <div class="site-copyright">Copyright 2022 © DAR. All rights reserved. Developed By LRBINFOTECHs.</div>
+                <div class="site-copyright">{{$language[147][session()->get('lang')]}}</div>
             </div>
         </div>
     </div>
@@ -1114,8 +1194,8 @@ body {
                                 <img src="/frontend/assets/imgs/theme/icons/icon-1.svg" alt="" />
                             </div>
                             <div class="banner-text">
-                                <h3 class="icon-box-title">Best prices & offers</h3>
-                                <p>Orders $50 or more</p>
+                                <h3 class="icon-box-title">{{$language[148][session()->get('lang')]}}</h3>
+                                <p>{{$language[149][session()->get('lang')]}}</p>
                             </div>
                         </div>
                     </div>
@@ -1125,8 +1205,8 @@ body {
                                 <img src="/frontend/assets/imgs/theme/icons/icon-2.svg" alt="" />
                             </div>
                             <div class="banner-text">
-                                <h3 class="icon-box-title">Free delivery</h3>
-                                <p>24/7 amazing services</p>
+                                <h3 class="icon-box-title">{{$language[150][session()->get('lang')]}}</h3>
+                                <p>{{$language[151][session()->get('lang')]}}</p>
                             </div>
                         </div>
                     </div>
@@ -1136,8 +1216,8 @@ body {
                                 <img src="/frontend/assets/imgs/theme/icons/icon-3.svg" alt="" />
                             </div>
                             <div class="banner-text">
-                                <h3 class="icon-box-title">Great daily deal</h3>
-                                <p>When you sign up</p>
+                                <h3 class="icon-box-title">{{$language[152][session()->get('lang')]}}</h3>
+                                <p>{{$language[153][session()->get('lang')]}}</p>
                             </div>
                         </div>
                     </div>
@@ -1147,8 +1227,8 @@ body {
                                 <img src="/frontend/assets/imgs/theme/icons/icon-4.svg" alt="" />
                             </div>
                             <div class="banner-text">
-                                <h3 class="icon-box-title">Wide assortment</h3>
-                                <p>Mega Discounts</p>
+                                <h3 class="icon-box-title">{{$language[154][session()->get('lang')]}}</h3>
+                                <p>{{$language[155][session()->get('lang')]}}</p>
                             </div>
                         </div>
                     </div>
@@ -1158,8 +1238,8 @@ body {
                                 <img src="/frontend/assets/imgs/theme/icons/icon-5.svg" alt="" />
                             </div>
                             <div class="banner-text">
-                                <h3 class="icon-box-title">Easy returns</h3>
-                                <p>Within 30 days</p>
+                                <h3 class="icon-box-title">{{$language[156][session()->get('lang')]}}</h3>
+                                <p>{{$language[157][session()->get('lang')]}}</p>
                             </div>
                         </div>
                     </div>
@@ -1169,8 +1249,8 @@ body {
                                 <img src="/frontend/assets/imgs/theme/icons/icon-6.svg" alt="" />
                             </div>
                             <div class="banner-text">
-                                <h3 class="icon-box-title">Safe delivery</h3>
-                                <p>Within 30 days</p>
+                                <h3 class="icon-box-title">{{$language[158][session()->get('lang')]}}</h3>
+                                <p>{{$language[159][session()->get('lang')]}}</p>
                             </div>
                         </div>
                     </div>
@@ -1188,25 +1268,25 @@ body {
                                  @else
                                  <a href="index.html" class="mb-15"><img src="/website_assets/images/logo-light.png" alt="logo" /></a>
                                 @endif
-                                <p class="font-lg text-heading">Perfect Home Service Partner</p>
+                                <p class="font-lg text-heading">{{$language[160][session()->get('lang')]}}</p>
                             </div>
                             <ul class="contact-infor">
-                                <li><img src="/frontend/assets/imgs/theme/icons/icon-location.svg" alt="" /><strong>Address: </strong> <span>Darco kuwait</span></li>
-                                <li><img src="/frontend/assets/imgs/theme/icons/icon-contact.svg" alt="" /><strong>Call Us:</strong><span>(+965) - 540-025-124553</span></li>
-                                <li><img src="/frontend/assets/imgs/theme/icons/icon-email-2.svg" alt="" /><strong>Email:</strong><span><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="fb889a979ebbb59e888fd5989496">[email&#160;protected]</a></span></li>
+                                <li><img src="/frontend/assets/imgs/theme/icons/icon-location.svg" alt="" /><strong>{{$language[161][session()->get('lang')]}}: </strong> <span>{{$language[162][session()->get('lang')]}}</span></li>
+                                <li><img src="/frontend/assets/imgs/theme/icons/icon-contact.svg" alt="" /><strong>{{$language[163][session()->get('lang')]}}:</strong><span>{{$language[164][session()->get('lang')]}}</span></li>
+                                <li><img src="/frontend/assets/imgs/theme/icons/icon-email-2.svg" alt="" /><strong>{{$language[165][session()->get('lang')]}}:</strong><span><a href="mailto:{{$language[166][session()->get('lang')]}}" class="__cf_email__">{{$language[166][session()->get('lang')]}}</a></span></li>
                                
                             </ul>
                         </div>
                     </div>
-                    <div class="footer-link-widget col wow animate__animated animate__fadeInUp" data-wow-delay=".1s>
-                        <h4 class=" widget-title">Company</h4>
+                    <div class="footer-link-widget col wow animate__animated animate__fadeInUp" data-wow-delay=".1s">
+                        <h4 class="widget-title">{{$language[167][session()->get('lang')]}}</h4>
                         <ul class="footer-list mb-sm-5 mb-md-0">
-                            <li><a href="/about-us">About Us</a></li>
-                            <li><a href="/pages/delivery-information">Delivery Information</a></li>
-                            <li><a href="/pages/privacy-policy">Privacy Policy</a></li>
-                            <li><a href="/pages/terms-condition">Terms &amp; Conditions</a></li>
-                            <li><a href="/contact-us">Contact Us</a></li>
-                            <li><a href="/pages/purchase-guide">Purchase Guide</a></li>
+                            <li><a href="/about-us">{{$language[168][session()->get('lang')]}}</a></li>
+                            <li><a href="/pages/delivery-information">{{$language[169][session()->get('lang')]}}</a></li>
+                            <li><a href="/pages/privacy-policy">{{$language[170][session()->get('lang')]}}</a></li>
+                            <li><a href="/pages/terms-condition">{{$language[171][session()->get('lang')]}}</a></li>
+                            <li><a href="/contact-us">{{$language[172][session()->get('lang')]}}</a></li>
+                            <li><a href="/pages/purchase-guide">{{$language[173][session()->get('lang')]}}</a></li>
                       
                         </ul>
                     </div>
@@ -1223,13 +1303,13 @@ body {
                         </ul>
                     </div> -->
                     <div class="footer-link-widget col wow animate__animated animate__fadeInUp" data-wow-delay=".3s">
-                        <h4 class="widget-title">Corporate</h4>
+                        <h4 class="widget-title">{{$language[174][session()->get('lang')]}}</h4>
                         <ul class="footer-list mb-sm-5 mb-md-0">
-                            <li><a href="/professional-register?email=">Become a Vendor or Professional</a></li>
-                            <li><a href="/vendor/login">Vendor Login</a></li>
-                            <li><a href="/pages/vendor-guide">Vendor Guide</a></li>
-                            <li><a href="/professional/login">Professional Login</a></li>
-                            <li><a href="/pages/professional-guide">Professional Guide</a></li>                         
+                            <li><a href="/professional-register?email=">{{$language[175][session()->get('lang')]}}</a></li>
+                            <li><a href="/vendor/login">{{$language[176][session()->get('lang')]}}</a></li>
+                            <li><a href="/pages/vendor-guide">{{$language[177][session()->get('lang')]}}</a></li>
+                            <li><a href="/professional/login">{{$language[178][session()->get('lang')]}}</a></li>
+                            <li><a href="/pages/professional-guide">{{$language[179][session()->get('lang')]}}</a></li>                         
                         </ul>
                     </div>
                     <!-- <div class="footer-link-widget col wow animate__animated animate__fadeInUp" data-wow-delay=".4s">
@@ -1245,13 +1325,13 @@ body {
                         </ul>
                     </div> -->
                     <div class="footer-link-widget widget-install-app col wow animate__animated animate__fadeInUp" data-wow-delay=".5s">
-                        <h4 class="widget-title">Install App</h4>
-                        <p class="">From App Store or Google Play</p>
+                        <h4 class="widget-title">{{$language[180][session()->get('lang')]}}</h4>
+                        <p class="">{{$language[181][session()->get('lang')]}}</p>
                         <div class="download-app">
                             <a href="#" class="hover-up mb-sm-2 mb-lg-0"><img class="active" src="/frontend/assets/imgs/theme/app-store.jpg" alt="" /></a>
                             <a href="#" class="hover-up mb-sm-2"><img src="/frontend/assets/imgs/theme/google-play.jpg" alt="" /></a>
                         </div>
-                        <p class="mb-20">Secured Payment Gateways</p>
+                        <p class="mb-20">{{$language[182][session()->get('lang')]}}</p>
                         <img class="" src="/frontend/assets/imgs/theme/payment-method.png" alt="" />
                     </div>
                 </div>
@@ -1262,7 +1342,7 @@ body {
                     <div class="footer-bottom"></div>
                 </div>
                 <div class="col-xl-6 col-lg-6 col-md-6">
-                    <p class="font-sm mb-0">&copy; 2022, <strong class="text-brand">DARCO</strong> -  All rights reserved<br /> Developed By LRBINFOTECH</p>
+                    <p class="font-sm mb-0"><?php echo $language[183][session()->get('lang')]; ?></p>
                 </div>
                 <!-- <div class="col-xl-4 col-lg-6 text-center d-none d-xl-block">
                     <div class="hotline d-lg-inline-flex mr-30">
@@ -1276,7 +1356,7 @@ body {
                 </div> -->
                 <div class="col-xl-6 col-lg-6 col-md-6 text-end d-none d-md-block">
                     <div class="mobile-social-icon">
-                        <h6>Follow Us</h6>
+                        <h6>{{$language[184][session()->get('lang')]}}</h6>
                         <a href="#"><img src="/frontend/assets/imgs/theme/icons/icon-facebook-white.svg" alt="" /></a>
                         <a href="#"><img src="/frontend/assets/imgs/theme/icons/icon-twitter-white.svg" alt="" /></a>
                         <a href="#"><img src="/frontend/assets/imgs/theme/icons/icon-instagram-white.svg" alt="" /></a>
@@ -1302,7 +1382,8 @@ body {
             <div class="preloader-inner position-relative">
                 <div class="text-center">
                     @if(session()->get('theme') == 'dark')
-                    <img src="/frontend/assets/imgs/theme/dark.gif" alt="" />
+                    <!-- <img src="/frontend/assets/imgs/theme/dark.gif" alt="" /> -->
+                    <img src="/frontend/assets/imgs/theme/light.gif" alt="" />
                     @else
                     <img src="/frontend/assets/imgs/theme/light.gif" alt="" />
                     @endif
@@ -1537,6 +1618,46 @@ function cookies(){
     });
 }
 </script>
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" type="text/javascript"></script>
+<script>
+function googleTranslateElementInit() {
+    new google.translate.TranslateElement({ pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE, autoDisplay: false }, 'google_translate_element');
+}
+function translateLanguage(lang) {
+    googleTranslateElementInit();
+    // if(lang == 'Arabic'){
+    //     $("html").children().css("direction","rtl");
+    // }
+    // else{
+    //     $("html").children().css("direction","ltr");
+    //     location.reload();
+    // }
+    var lang1;
+    if(lang == 'English'){
+        lang1='english';
+    }
+    else{
+        lang1='arabic';
+    }
+    $.ajax({
+        url : '/update-language/'+lang1,
+        type: "GET",
+        success: function(data)
+        {
+            googleTranslateElementInit();
+            location.reload();
+        }
+    });
+    var $frame = $('.goog-te-menu-frame:first');
+    // if (!$frame.size()) {
+    //     //alert("Error: Could not find Google translate frame.");
+    //     return false;
+    // }
+    $frame.contents().find('.goog-te-menu2-item span.text:contains(' + lang + ')').get(0).click();
+    return false;
+}
+</script>
+
 </body>
 
 </html>

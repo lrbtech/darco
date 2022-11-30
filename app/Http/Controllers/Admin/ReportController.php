@@ -12,6 +12,7 @@ use App\Models\order_items;
 use App\Models\product;
 use App\Models\shipping_address;
 use App\Models\roles;
+use App\Models\language;
 use Hash;
 use DB;
 use Mail;
@@ -29,7 +30,8 @@ class ReportController extends Controller
     }
 
     public function paymentsoutreport(){
-        return view('admin.payments_out_report');
+        $language = language::all();
+        return view('admin.payments_out_report',compact('language'));
     }
 
     public function changestatuspaymentsout($id,$status){

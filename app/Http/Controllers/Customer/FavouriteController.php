@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\favourites;
 use App\Models\favourites_idea;
+use App\Models\language;
 use Auth;
 use DB;
 use Mail;
@@ -53,7 +54,8 @@ class FavouriteController extends Controller
         ->select('idea_books.*','favourites_ideas.id as favourite_id')
         ->get();
 
-        return view('customer.favourites',compact('idea_book','products'));
+        $language = language::all();
+        return view('customer.favourites',compact('idea_book','products','language'));
     }
 
     public static function viewfavourites($id) {

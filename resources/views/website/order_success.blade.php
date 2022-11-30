@@ -4,7 +4,7 @@
 @endsection
 @section('content')
 
-<div class="container mt-5 mb-5" id="orderSum">
+<div class="translate container mt-5 mb-5" id="orderSum">
    <div class="text-center p-5">
         <div class="row">
         <div class="col-sm-12">

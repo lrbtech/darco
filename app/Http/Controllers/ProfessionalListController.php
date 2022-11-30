@@ -22,6 +22,7 @@ use App\Models\User;
 use App\Models\orders;
 use App\Models\vendor_enquiry;
 use App\Models\shipping_address;
+use App\Models\language;
 use Hash;
 use DB;
 use Mail;
@@ -84,7 +85,8 @@ class ProfessionalListController extends Controller
         $category_id = $category;
         $subcategory_id = $subcategory;
 
-        return view('website.process.professional_list',compact('category_all','subcategory_all','category_data','subcategory_data','project','category_id','subcategory_id'));
+        $language = language::all();
+        return view('website.process.professional_list',compact('category_all','subcategory_all','category_data','subcategory_data','project','category_id','subcategory_id','language'));
     }
 
     public function professionaldetails($id){
@@ -96,7 +98,8 @@ class ProfessionalListController extends Controller
         $idea_book = idea_book::where('vendor_id',$project->vendor_id)->get();
         $idea_book_count = idea_book::where('vendor_id',$project->vendor_id)->count();
 
-        return view('website.process.professional_details',compact('project','project_images','vendor','related_projects','related_projects_count','idea_book','idea_book_count'));
+        $language = language::all();
+        return view('website.process.professional_details',compact('project','project_images','vendor','related_projects','related_projects_count','idea_book','idea_book_count','language'));
     }
 
 }

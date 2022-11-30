@@ -25,6 +25,7 @@ use App\Models\shipping_address;
 use App\Models\settings;
 use App\Models\return_item;
 use App\Models\return_reason;
+use App\Models\language;
 use Yajra\DataTables\Facades\DataTables;
 use Auth;
 use DB;
@@ -43,27 +44,32 @@ class HomeController extends Controller
 
     public function profile(){
         $profile = User::find(Auth::user()->id);
-        return view('customer.profile',compact('profile'));
+        $language = language::all();
+        return view('customer.profile',compact('profile','language'));
     }
 
     public function changepassword(){
         $profile = User::find(Auth::user()->id);
-        return view('customer.change_password',compact('profile'));
+        $language = language::all();
+        return view('customer.change_password',compact('profile','language'));
     }
 
     public function enquiry(){
         $enquiry = vendor_enquiry::where('customer_id',Auth::user()->id)->orderBy('id','DESC')->get();
-        return view('customer.enquiry',compact('enquiry'));
+        $language = language::all();
+        return view('customer.enquiry',compact('enquiry','language'));
     }
 
     public function returnitem(){
         $return_item = return_item::where('customer_id',Auth::user()->id)->orderBy('id','DESC')->get();
-        return view('customer.return_item',compact('return_item'));
+        $language = language::all();
+        return view('customer.return_item',compact('return_item','language'));
     }
 
     public function orders(){
         $orders = orders::where('customer_id',Auth::user()->id)->where('payment_status',1)->orderBy('id','DESC')->get();
-        return view('customer.orders',compact('orders'));
+        $language = language::all();
+        return view('customer.orders',compact('orders','language'));
     }
 
     public function ordercancel($id){
@@ -141,8 +147,8 @@ class HomeController extends Controller
         $billing_address = shipping_address::find($orders->billing_address_id);
         $vendor = vendor::find($orders->vendor_id);
         $customer = User::find($orders->customer_id);
-
-        return view('customer.view_orders',compact('orders','billing_address','vendor','customer','order_items','return_reason'));
+        $language = language::all();
+        return view('customer.view_orders',compact('orders','billing_address','vendor','customer','order_items','return_reason','language'));
     }
 
     public function updateprofile(Request $request){

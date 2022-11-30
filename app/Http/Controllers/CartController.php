@@ -18,6 +18,7 @@ use App\Models\attributes;
 use App\Models\attribute_fields;
 use App\Models\product_group;
 use App\Models\coupon;
+use App\Models\language;
 use Hash;
 use DB;
 use Mail;
@@ -31,7 +32,8 @@ class CartController extends Controller
     {
         $cart_items = Cart::getContent();
         // dd($cartItems);
-        return view('website.cart', compact('cart_items'));
+        $language = language::all();
+        return view('website.cart', compact('cart_items','language'));
     }
 
 

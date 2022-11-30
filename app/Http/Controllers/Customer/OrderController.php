@@ -9,6 +9,7 @@ use App\Models\vendor;
 use App\Models\shipping_address;
 use App\Models\customer;
 use App\Models\orders;
+use App\Models\language;
 use Yajra\DataTables\Facades\DataTables;
 use Auth;
 use DB;
@@ -31,7 +32,8 @@ class OrderController extends Controller
         $vendor = vendor::find($orders->vendor_id);
         $customer = User::find($orders->customer_id);
 
-        return view('customer.order_track',compact('orders','billing_address','vendor','customer'));
+        $language = language::all();
+        return view('customer.order_track',compact('orders','billing_address','vendor','customer','language'));
     }
 
 }

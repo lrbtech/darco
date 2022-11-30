@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\admin;
 use App\Models\product;
 use App\Models\roles;
+use App\Models\language;
 use Hash;
 use DB;
 use Mail;
@@ -29,6 +30,7 @@ class ReviewsController extends Controller
     public function productreviews(){
         $product_reviews = reviews::where('vendor_id',Auth::guard('vendor')->user()->id)->orderBy('id','DESC')->get();
         $product = product::where('vendor_id',Auth::guard('vendor')->user()->id)->get();
-        return view('vendor.product_reviews',compact('product_reviews','product'));
+        $language = language::all();
+        return view('vendor.product_reviews',compact('product_reviews','product','language'));
     }
 }

@@ -4,7 +4,7 @@
 @endsection
 @section('content')
 
-<main class="main pages">
+<main class="translate main pages">
     <div class="page-header breadcrumb-wrap">
         <div class="container">
             <div class="breadcrumb">

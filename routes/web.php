@@ -22,16 +22,27 @@ use Illuminate\Support\Facades\Session;
 
 session(
 	['theme' => 'light'],
-	['cookies' => '0']
+	['cookies' => '0'],
+	['lang' => 'english']
 );
+Session::put('lang', 'english');
 
+Route::get('/update-language/{lang}', [App\Http\Controllers\HomeController::class, 'updatelanguage']);
 Route::get('/update-theme/{theme}', [App\Http\Controllers\HomeController::class, 'updatetheme']);
 Route::get('/update-cookies/{cookies}', [App\Http\Controllers\HomeController::class, 'updatecookies']);
 
+Route::get('/customer-login/{id}', [App\Http\Controllers\PageController::class, 'customerlogin']);
+Route::get('/vendor-login/{id}', [App\Http\Controllers\PageController::class, 'vendorlogin']);
+
+Route::get('/viewattributefilter', [App\Http\Controllers\HomeController::class, 'viewattributefilter']);
 
 Route::get('/', [App\Http\Controllers\PageController::class, 'home']);
 Route::get('/home', [App\Http\Controllers\PageController::class, 'home']);
 Route::get('/get-home-sub-category/{id}', [App\Http\Controllers\HomeController::class, 'gethomesubcategory']);
+
+Route::get('/get-ideas-category', [App\Http\Controllers\HomeController::class, 'getideascategory']);
+Route::get('/professional-category', [App\Http\Controllers\HomeController::class, 'professionalcategory']);
+Route::get('/shop-category', [App\Http\Controllers\HomeController::class, 'shopcategory']);
 
 
 Route::get('/about-us', [App\Http\Controllers\PageController::class, 'about']);
@@ -41,6 +52,11 @@ Route::get('/professional-register', [App\Http\Controllers\PageController::class
 
 Route::post('/save-individual-register', [App\Http\Controllers\PageController::class, 'saveindividualregister']);
 Route::post('/save-professional-register', [App\Http\Controllers\PageController::class, 'saveprofessionalregister']);
+
+// Route::get('/send-verify-mail/{id}', [App\Http\Controllers\PageController::class, 'sendverifymail']);
+Route::get('/verify-account/{id}', [App\Http\Controllers\PageController::class, 'verifyaccount']);
+Route::get('/verify-vendor-account/{id}', [App\Http\Controllers\PageController::class, 'verifyvendoraccount']);
+
 
 Route::post('/send-vendor-enquiry', [App\Http\Controllers\PageController::class, 'sendvendorenquiry']);
 Route::post('/save-vendor-enquiry', [App\Http\Controllers\PageController::class, 'savevendorenquiry']);
@@ -58,9 +74,10 @@ Route::post('/save-shipping-address', [App\Http\Controllers\CheckoutController::
 
 Route::post('/save-order', [App\Http\Controllers\CheckoutController::class, 'saveorder']);
 
-Route::get('/online-pay', [App\Http\Controllers\CheckoutController::class, 'onlinepay']);
+Route::get('/online-pay/{order_id}/{invoice_id}', [App\Http\Controllers\CheckoutController::class, 'onlinepay']);
 
-Route::get('/order-success', [App\Http\Controllers\CheckoutController::class, 'ordersuccess']);
+Route::get('/payment-success', [App\Http\Controllers\CheckoutController::class, 'paymentsuccess']);
+Route::get('/payment-failed', [App\Http\Controllers\CheckoutController::class, 'paymentfailed']);
 
 Route::get('/print-invoice/{id}', [App\Http\Controllers\PageController::class, 'printinvoice']);
 
@@ -303,6 +320,13 @@ Route::group(['prefix' => 'admin'],function(){
 
 	Route::get('/change-status-paymentsout/{id}/{status}', [App\Http\Controllers\Admin\ReportController::class, 'changestatuspaymentsout']);
 
+	Route::get('/languages', [App\Http\Controllers\Admin\SettingsController::class, 'languageTable']);
+    Route::get('/fetch_language', [App\Http\Controllers\Admin\SettingsController::class, 'fetchLanguage']);
+    Route::POST('/insert_language', [App\Http\Controllers\Admin\SettingsController::class, 'insertLanguage']);
+    Route::POST('/update_language', [App\Http\Controllers\Admin\SettingsController::class, 'updateLanguage']);
+    Route::POST('/delete_language', [App\Http\Controllers\Admin\SettingsController::class, 'deleteLanguage']);
+
+    Route::get('/change-language/{language}', [App\Http\Controllers\Admin\SettingsController::class, 'changelanguage']);
 
 });
 

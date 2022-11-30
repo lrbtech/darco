@@ -136,8 +136,13 @@
                 <input type="hidden" value="{{$parent_id}}" name="parent_id" id="parent_id">
 
                 <div class="form-group">
-                    <label class="col-form-label">SubCategory Name</label>
+                    <label class="col-form-label">SubCategory Name English</label>
                     <input autocomplete="off" type="text" id="category" name="category" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label class="col-form-label">SubCategory Name Arabic</label>
+                    <input autocomplete="off" type="text" id="category_arabic" name="category_arabic" class="form-control">
                 </div>
 
                 <div class="form-group">
@@ -252,6 +257,7 @@ function Edit(id){
         $('#modal-title').text('Update Idea SubCategory');
         $('#save').text('Save Change');
         $('input[name=category]').val(data.category);
+        $('input[name=category_arabic]').val(data.category_arabic);
         $('input[name=id]').val(id);
         $('#popup_modal').modal({
             backdrop: 'static',

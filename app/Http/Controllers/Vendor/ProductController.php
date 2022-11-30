@@ -12,6 +12,7 @@ use App\Models\attribute_fields;
 use App\Models\product_group;
 use App\Models\product_images;
 use App\Models\brand;
+use App\Models\language;
 use Yajra\DataTables\Facades\DataTables;
 use Auth;
 use DB;
@@ -34,7 +35,8 @@ class ProductController extends Controller
         $brand = brand::where('status',0)->orderBy('brand','ASC')->get();
         $attributes = attributes::where('status',0)->orderBy('id','DESC')->get();
         $product_group = product_group::where('vendor_id',Auth::guard('vendor')->user()->id)->orderBy('id','DESC')->get();
-        return view('vendor.add_product',compact('category','attributes','product_group','brand'));
+        $language = language::all();
+        return view('vendor.add_product',compact('category','attributes','product_group','brand','language'));
     }
 
     public static function viewproductAttr($id){
@@ -401,7 +403,8 @@ class ProductController extends Controller
     public function product(){
         $product = product::where('vendor_id',Auth::guard('vendor')->user()->id)->orderBy('id','DESC')->get();
         $category = category::where('status',0)->where('parent_id',0)->get();
-        return view('vendor.product',compact('product','category'));
+        $language = language::all();
+        return view('vendor.product',compact('product','category','language'));
     }
 
     public function editproduct($id){
@@ -412,8 +415,8 @@ class ProductController extends Controller
         $category = category::where('status',0)->where('parent_id',0)->get();
         $product_images = product_images::where('product_id',$id)->get();
         $product_attributes = product_attributes::where('product_id',$id)->get();
-
-        return view('vendor.edit_product',compact('product','category','product_images','attributes','product_group','product_attributes','brand'));
+        $language = language::all();
+        return view('vendor.edit_product',compact('product','category','product_images','attributes','product_group','product_attributes','brand','language'));
     }
     
     public function deleteproduct($id,$status){
@@ -454,7 +457,8 @@ class ProductController extends Controller
 
     public function attributes(){
         $attributes = attributes::where('vendor_id',Auth::guard('vendor')->user()->id)->orderBy('id','DESC')->get();
-        return view('vendor.attributes',compact('attributes'));
+        $language = language::all();
+        return view('vendor.attributes',compact('attributes','language'));
     }
 
     public function editattributes($id){
@@ -502,7 +506,8 @@ class ProductController extends Controller
     public function attributefields($id){
         $attribute_fields = attribute_fields::where('vendor_id',Auth::guard('vendor')->user()->id)->where('attribute_id',$id)->orderBy('id','DESC')->get();
         $attribute_id = $id;
-        return view('vendor.attribute_fields',compact('attribute_fields','attribute_id'));
+        $language = language::all();
+        return view('vendor.attribute_fields',compact('attribute_fields','attribute_id','language'));
     }
 
     public function editattributefields($id){
@@ -544,7 +549,8 @@ class ProductController extends Controller
 
     public function productgroup(){
         $product_group = product_group::where('vendor_id',Auth::guard('vendor')->user()->id)->orderBy('id','DESC')->get();
-        return view('vendor.product_group',compact('product_group'));
+        $language = language::all();
+        return view('vendor.product_group',compact('product_group','language'));
     }
 
     public function editproductgroup($id){

@@ -8,13 +8,13 @@
     <div class="content-wrapper">
       <div class="content-header row">
         <div class="content-header-left col-md-6 col-12 mb-2 breadcrumb-new">
-          <h3 class="content-header-title mb-0 d-inline-block">Admin</h3>
+          <h3 class="content-header-title mb-0 d-inline-block">{{$language[96][Auth::guard('admin')->user()->lang]}}</h3>
           <div class="row breadcrumbs-top d-inline-block">
             <div class="breadcrumb-wrapper col-12">
               <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a>
                 </li>
-                <li class="breadcrumb-item"><a href="#">Settlement Report</a>
+                <li class="breadcrumb-item"><a href="#">{{$language[96][Auth::guard('admin')->user()->lang]}}</a>
                 </li>
               </ol>
             </div>
@@ -39,7 +39,7 @@
             <div class="col-12">
               <div class="card">
                 <div class="card-header">
-                  <h4 class="card-title">Settlement Report</h4>
+                  <h4 class="card-title">{{$language[96][Auth::guard('admin')->user()->lang]}}</h4>
                   <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                   <div class="heading-elements">
                     <ul class="list-inline mb-0">
@@ -56,14 +56,14 @@
                       <thead>
                         <tr>
                           <th>#</th>
-                          <th>Date</th>
-                          <th>Vendors</th>
-                          <th>Total</th>
-                          <th>Service Charge</th>
-                          <th>Commission</th>
-                          <th>Payable Amount</th>
-                          <th>Status</th>
-                          <th>Action</th>
+                          <th>{{$language[97][Auth::guard('admin')->user()->lang]}}</th>
+                          <th>{{$language[98][Auth::guard('admin')->user()->lang]}}</th>
+                          <th>{{$language[99][Auth::guard('admin')->user()->lang]}}</th>
+                          <th>{{$language[100][Auth::guard('admin')->user()->lang]}}</th>
+                          <th>{{$language[101][Auth::guard('admin')->user()->lang]}}</th>
+                          <th>{{$language[102][Auth::guard('admin')->user()->lang]}}</th>
+                          <th>{{$language[103][Auth::guard('admin')->user()->lang]}}</th>
+                          <th>{{$language[104][Auth::guard('admin')->user()->lang]}}</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -71,14 +71,14 @@
                       <tfoot>
                         <tr>
                           <th>#</th>
-                          <th>Date</th>
-                          <th>Vendors</th>
-                          <th>Total</th>
-                          <th>Service Charge</th>
-                          <th>Commission</th>
-                          <th>Payable Amount</th>
-                          <th>Status</th>
-                          <th>Action</th>
+                          <th>{{$language[97][Auth::guard('admin')->user()->lang]}}</th>
+                          <th>{{$language[98][Auth::guard('admin')->user()->lang]}}</th>
+                          <th>{{$language[99][Auth::guard('admin')->user()->lang]}}</th>
+                          <th>{{$language[100][Auth::guard('admin')->user()->lang]}}</th>
+                          <th>{{$language[101][Auth::guard('admin')->user()->lang]}}</th>
+                          <th>{{$language[102][Auth::guard('admin')->user()->lang]}}</th>
+                          <th>{{$language[103][Auth::guard('admin')->user()->lang]}}</th>
+                          <th>{{$language[104][Auth::guard('admin')->user()->lang]}}</th>
                         </tr>
                       </tfoot>
                     </table>

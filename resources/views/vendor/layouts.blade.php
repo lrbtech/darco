@@ -4,7 +4,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-  <title>Darco Vendor</title>
+  <title>DARDESIGN Vendor</title>
 
   <link rel="icon" type="image/x-icon" href="/website_assets/images/ico.ico">
 @if(session()->get('theme') == 'dark')
@@ -128,135 +128,143 @@
   <!-- END Custom CSS-->
 <script src="/spinner/jquery-spinner.min.js" type="text/javascript"></script>
 <style>
-  .jquery-spinner-wrap{position:absolute;top:0;z-index:100;width:100%;height:100%;display:none;}.jquery-spinner-wrap .jquery-spinner-circle{height:100%;display:flex;justify-content:center;align-items:center}.jquery-spinner-wrap .jquery-spinner-circle .jquery-spinner-bar{width:40px;height:40px;border:4px solid #ddd;border-top-color:#a40034;border-radius:50%;animation:sp-anime .8s linear infinite}@keyframes sp-anime{to{transform:rotate(1turn)}}
-  .text-danger{
-    color:red;
-  }
-  .has-error label {
-    color: #cc0033;
-  }
-  .has-error{
-    color:red !important;
-  }
-  .has-error input {
-    border: 1px solid red !important;
-  }
-  .has-error select {
-    border: 1px solid red !important;
-  }
-  .form-group .has-error{
-    /* background-color: #fce4e4; */
-    border: 1px solid red;
-    outline: none;
-  }
-  .header-navbar .navbar-header .navbar-brand .brand-logo {
-    width: 88px;
+.jquery-spinner-wrap{position:absolute;top:0;z-index:100;width:100%;height:100%;display:none;}.jquery-spinner-wrap .jquery-spinner-circle{height:100%;display:flex;justify-content:center;align-items:center}.jquery-spinner-wrap .jquery-spinner-circle .jquery-spinner-bar{width:40px;height:40px;border:4px solid #ddd;border-top-color:#a40034;border-radius:50%;animation:sp-anime .8s linear infinite}@keyframes sp-anime{to{transform:rotate(1turn)}}
+.text-danger{
+  color:red;
+}
+.has-error label {
+  color: #cc0033;
+}
+.has-error{
+  color:red !important;
+}
+.has-error input {
+  border: 1px solid red !important;
+}
+.has-error select {
+  border: 1px solid red !important;
+}
+.form-group .has-error{
+  /* background-color: #fce4e4; */
+  border: 1px solid red;
+  outline: none;
+}
+.header-navbar .navbar-header .navbar-brand .brand-logo {
+  width: 88px;
 }
 </style>
 @if(session()->get('theme') == 'light')
 <style>
 .navbar-dark.navbar-horizontal {
-    background: #250a78;
+  background: #250a78;
 }
-
 .btn-danger {
-    background-color: #250a78 !important;
-    color: #FFFFFF;
+  background-color: #250a78 !important;
+  color: #FFFFFF;
 }
 .btn-danger:hover {
-    background-color: #250a78 !important;
+  background-color: #250a78 !important;
 }
 .app-content .wizard.wizard-notification > .steps > ul > li.current .step {
-    border: 2px solid #250a78;
-    color: #250a78;
-    line-height: 36px;
+  border: 2px solid #250a78;
+  color: #250a78;
+  line-height: 36px;
 }
 .app-content .wizard.wizard-notification > .steps > ul > li.current .step:after {
-    border-top-color: #250a78;
+  border-top-color: #250a78;
 }
 .app-content .wizard > .steps > ul > li.done .step {
-    background-color: #250a78;
-    border-color: #250a78;
-    color: #fff;
+  background-color: #250a78;
+  border-color: #250a78;
+  color: #fff;
 }
 .app-content .wizard.wizard-notification > .steps > ul > li:before, .app-content .wizard.wizard-notification > .steps > ul > li:after {
-    top: 39px;
-    width: 50%;
-    height: 2px;
-    background-color: #250a78;
+  top: 39px;
+  width: 50%;
+  height: 2px;
+  background-color: #250a78;
 }
 .app-content .wizard.wizard-notification > .steps > ul > li.done .step:after {
-    border-top-color: #250a78;
+  border-top-color: #250a78;
 }
 </style>
 @else
 <style>
-  h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
-    margin-bottom: 0.5rem;
-    font-family: "Quicksand", Georgia, "Times New Roman", Times, serif;
-    font-weight: 400;
-    line-height: 1.2;
-    color: #b0bec5;
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+  margin-bottom: 0.5rem;
+  font-family: "Quicksand", Georgia, "Times New Roman", Times, serif;
+  font-weight: 400;
+  line-height: 1.2;
+  color: #b0bec5;
 }
-  .navbar-dark .navbar-nav .nav-link {
-    color: #333;
+.navbar-dark .navbar-nav .nav-link {
+  color: #333;
 }
-  .navbar-dark.navbar-horizontal {
-    background: #41eafc;
+.navbar-dark.navbar-horizontal {
+  background: #41eafc;
 }
 .btn-danger.btn-glow {
-    box-shadow: 0px 1px 20px 1px rgb(255 255 255 / 50%);
+  box-shadow: 0px 1px 20px 1px rgb(255 255 255 / 50%);
 }
 .btn-danger {
-    border-color: #6b6f82 !important;
-    background-color: #41eafc !important;
-    color: #FFFFFF;
+  border-color: #6b6f82 !important;
+  background-color: #41eafc !important;
+  color: #FFFFFF;
 }
 .btn-danger:hover {
-    border-color: #6b6f82 !important;
-    background-color: #202125 !important;
-    color: #FFFFFF;
+  border-color: #6b6f82 !important;
+  background-color: #202125 !important;
+  color: #FFFFFF;
 }
-  form label {
-    color: #40e7f8 !important;
+form label {
+  color: #40e7f8 !important;
 }
 .app-content .wizard > .steps > ul > li.current > a {
-    color: #fff;
-    cursor: default;
+  color: #fff;
+  cursor: default;
 }
 form .form-control {
-    border: 1px solid #cacfe7;
-    color: #40e7f8;
+  border: 1px solid #cacfe7;
+  color: #40e7f8;
 }
 .card-header {
-    background-color: #2c303b !important;
+  background-color: #2c303b !important;
 }
 .navbar-light {
-    background: #0e0e0f !important;
+  background: #0e0e0f !important;
 }
 .form-control {
-    background-color: #37474f;
+  background-color: #37474f;
 }
 .mce-panel {
-    background-color: #0e0e0f !important;
+  background-color: #0e0e0f !important;
 }
 .mce-menubar .mce-menubtn button span {
-    color: #ddd !important;
+  color: #ddd !important;
 }
 .modal-content {
-    background-color: #14151c;
+  background-color: #14151c;
 }
+
 .form-input {
-    width: 150px;
-    /* padding: 3px; */
-    background: #21252a;
-    /* border: 2px dashed dodgerblue; */
+  width: 150px;
+  /* padding: 3px; */
+  background: #21252a;
+  /* border: 2px dashed dodgerblue; */
 }
+
+.goog-te-banner-frame.skiptranslate {
+  display: none !important;
+} 
 </style>
  @endif
-
+<style>
+ .goog-te-banner-frame.skiptranslate {
+  display: none !important;
+} 
+</style>
 </head>
-<body id="spinner_body" class="horizontal-layout horizontal-menu 2-columns   menu-expanded" data-open="hover"
+<body id="spinner_body" class="translate horizontal-layout horizontal-menu 2-columns   menu-expanded" data-open="hover"
 data-menu="horizontal-menu" data-col="2-columns">
   <!-- fixed-top-->
   <nav class="header-navbar navbar-expand-md navbar navbar-with-menu navbar-without-dd-arrow navbar-static-top navbar-light navbar-brand-center">
@@ -272,7 +280,7 @@ data-menu="horizontal-menu" data-col="2-columns">
               <img class="brand-logo" alt="modern admin logo" src="/website_assets/images/logo-dark.png">
 
               @endif
-              <!-- <h3 class="brand-text">Darco</h3> -->
+              <!-- <h3 class="brand-text">DARDESIGN</h3> -->
             </a>
           </li>
           <li class="nav-item d-md-none">
@@ -289,25 +297,41 @@ data-menu="horizontal-menu" data-col="2-columns">
           </ul>
           
           <ul class="nav navbar-nav float-right">
+            <div id="google_translate_element" style="display: none;"></div>
+            <li class="dropdown dropdown-language nav-item">
+              <a class="dropdown-toggle nav-link" id="dropdown-flag" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                @if(session()->get('lang') == 'english')
+                <i class="flag-icon flag-icon-gb"></i>
+                <span class="selected-language">English</span>
+                @else 
+                <i class="flag-icon flag-icon-ar"></i>
+                <span class="selected-language">Arabic</span>
+                @endif
+              </a>
+              <div class="dropdown-menu" aria-labelledby="dropdown-flag">
+                <a onclick="translateLanguage('English');" class="dropdown-item" href="#"><i class="flag-icon flag-icon-gb"></i> English</a>
+                <a onclick="translateLanguage('Arabic');" class="dropdown-item" href="#"><i class="flag-icon flag-icon-ar"></i> Arabic</a>
+              </div>
+            </li>
             <li class="dropdown dropdown-notification nav-item">
-                 <label>
-                                @if(session()->get('theme') == 'light')
-                                <input class='toggle-checkbox' type='checkbox' id='light_dark'></input>
-                                @else
-                                <input class='toggle-checkbox' type='checkbox' id='light_dark' checked></input>
+              <label>
+                @if(session()->get('theme') == 'light')
+                <input class='toggle-checkbox' type='checkbox' id='light_dark'></input>
+                @else
+                <input class='toggle-checkbox' type='checkbox' id='light_dark' checked></input>
 
-                                @endif
-                                <div class='toggle-slot'>
-                                    <div class='sun-icon-wrapper'>
-                                    <div class="iconify sun-icon" data-icon="feather-sun" data-inline="false"></div>
-                                    </div>
-                                    <div class='toggle-button'></div>
-                                    <div class='moon-icon-wrapper'>
-                                    <div class="iconify moon-icon" data-icon="feather-moon" data-inline="false"></div>
-                                    </div>
-                                </div>
-                                </label>              
-              </li>
+                @endif
+                <div class='toggle-slot'>
+                    <div class='sun-icon-wrapper'>
+                    <div class="iconify sun-icon" data-icon="feather-sun" data-inline="false"></div>
+                    </div>
+                    <div class='toggle-button'></div>
+                    <div class='moon-icon-wrapper'>
+                    <div class="iconify moon-icon" data-icon="feather-moon" data-inline="false"></div>
+                    </div>
+                </div>
+              </label>              
+            </li>
             <li class="dropdown dropdown-user nav-item">
               <a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">
                 <span class="mr-1">Hello,
@@ -371,31 +395,62 @@ data-menu="horizontal-menu" data-col="2-columns">
   <!-- BEGIN PAGE LEVEL JS-->
   <script type="text/javascript" src="/app-assets/js/scripts/ui/breadcrumbs-with-stats.js"></script>
 
-  <script>
-  var spinner_body = new jQuerySpinner({
-    parentId: 'spinner_body'
-  });
-
- $("#light_dark").change(function(){
-    var themedata;
-if($(this).prop('checked')){
-    themedata = "dark"
-}else{
-   themedata = "light"
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" type="text/javascript"></script>
+<script>
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({ pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE, autoDisplay: false }, 'google_translate_element');
 }
-$.ajax({
-      url : '/update-theme/'+themedata,
-      type: "GET",
-      success: function(data)
-      {
+function translateLanguage(lang) {
+  googleTranslateElementInit();
+  var lang1;
+  if(lang == 'English'){
+    lang1='english';
+  }
+  else{
+    lang1='arabic';
+  }
+  $.ajax({
+    url : '/update-language/'+lang1,
+    type: "GET",
+    success: function(data)
+    {
+        googleTranslateElementInit();
         location.reload();
-      }
-    });
-});
+    }
+  });
+  var $frame = $('.goog-te-menu-frame:first');
+  // if (!$frame.size()) {
+  //   //alert("Error: Could not find Google translate frame.");
+  //   return false;
+  // }
+  $frame.contents().find('.goog-te-menu2-item span.text:contains(' + lang + ')').get(0).click();
+  return false;
+} 
 
-  </script>
-  @yield('extra-js')
-  
-  <!-- END PAGE LEVEL JS-->
+
+
+var spinner_body = new jQuerySpinner({
+  parentId: 'spinner_body'
+});
+$("#light_dark").change(function(){
+  var themedata;
+  if($(this).prop('checked')){
+    themedata = "dark"
+  }else{
+    themedata = "light"
+  }
+  $.ajax({
+    url : '/update-theme/'+themedata,
+    type: "GET",
+    success: function(data)
+    {
+      location.reload();
+    }
+  });
+});
+</script>
+
+@yield('extra-js')
+<!-- END PAGE LEVEL JS-->
 </body>
 </html>

@@ -8,13 +8,13 @@
     <div class="content-wrapper">
       <div class="content-header row">
         <div class="content-header-left col-md-6 col-12 mb-2 breadcrumb-new">
-          <h3 class="content-header-title mb-0 d-inline-block">Professional Category</h3>
+          <h3 class="content-header-title mb-0 d-inline-block">{{$language[46][Auth::guard('admin')->user()->lang]}}</h3>
           <div class="row breadcrumbs-top d-inline-block">
             <div class="breadcrumb-wrapper col-12">
               <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a>
                 </li>
-                <li class="breadcrumb-item"><a href="#">All Professional Category</a>
+                <li class="breadcrumb-item"><a href="#">{{$language[47][Auth::guard('admin')->user()->lang]}}</a>
                 </li>
               </ol>
             </div>
@@ -22,7 +22,7 @@
         </div>
         <div class="content-header-right col-md-6 col-12">
             @if($role_get->professional_category_create == 'on')
-            <button id="add_new" class="float-md-right btn btn-danger round btn-glow px-2" type="button">Add New</button>
+            <button id="add_new" class="float-md-right btn btn-danger round btn-glow px-2" type="button">{{$language[52][Auth::guard('admin')->user()->lang]}}</button>
             @endif 
           <!-- <div class="dropdown float-md-right">
             <button class="btn btn-danger dropdown-toggle round btn-glow px-2" id="dropdownBreadcrumbButton"
@@ -42,7 +42,7 @@
             <div class="col-12">
               <div class="card">
                 <div class="card-header">
-                  <h4 class="card-title">All Professional Category</h4>
+                  <h4 class="card-title">{{$language[47][Auth::guard('admin')->user()->lang]}}</h4>
                   <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                   <div class="heading-elements">
                     <ul class="list-inline mb-0">
@@ -59,10 +59,10 @@
                       <thead>
                         <tr>
                             <th>#</th>
-                            <th>Category</th>
-                            <th>Image</th>
-                            <th>Status</th>
-                            <th>Action</th>
+                            <th>{{$language[48][Auth::guard('admin')->user()->lang]}}</th>
+                            <th>{{$language[49][Auth::guard('admin')->user()->lang]}}</th>
+                            <th>{{$language[50][Auth::guard('admin')->user()->lang]}}</th>
+                            <th>{{$language[51][Auth::guard('admin')->user()->lang]}}</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -141,8 +141,13 @@
                 <input type="hidden" name="id" id="id">
 
                 <div class="form-group">
-                    <label class="col-form-label">Category Name</label>
+                    <label class="col-form-label">Category Name English</label>
                     <input autocomplete="off" type="text" id="category" name="category" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label class="col-form-label">Category Name Arabic</label>
+                    <input autocomplete="off" type="text" id="category_arabic" name="category_arabic" class="form-control">
                 </div>
 
                 <div class="form-group">
@@ -257,6 +262,7 @@ function Edit(id){
       $('#modal-title').text('Update Professional Category');
       $('#save').text('Save Change');
       $('input[name=category]').val(data.category);
+      $('input[name=category_arabic]').val(data.category_arabic);
       $('input[name=id]').val(id);
       $('#popup_modal').modal({
         backdrop: 'static',

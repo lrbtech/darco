@@ -6,10 +6,13 @@
         direction:rtl;margin-bottom:25px;text-align:center}.star-rating input{display:none}.star-rating input:checked ~ label::after{opacity:1}.star-rating label{display:inline-block;position:relative;cursor:pointer;margin:0px 8px}.star-rating label:hover::after{opacity:1}.star-rating label:hover:hover ~ label::after{opacity:1}.star-rating label::before{content:"\f005";font-family:'Font Awesome 5 Free';font-weight:900;font-size:35px;display:block;color:#bbbbbb}.star-rating label::after{content:"\f005";font-family:'Font Awesome 5 Free';font-weight:900;font-size:35px;position:absolute;display:block;top:0px;left:0px;color:#ffcc23;opacity:0}@media (max-width: 575px){.star-rating label{margin:0px 3px}
     }
 </style>
-<link href="/lightboxed/lightboxed.css" rel="stylesheet" />
+<!-- <link href="/lightboxed/lightboxed.css" rel="stylesheet" /> -->
+<link rel="stylesheet" href="https://unpkg.com/photoswipe@beta/dist/photoswipe.css">
+<link rel="stylesheet" type="text/css" href="/slider/slideshow.css">
+<script src="/slider/gallery.js"></script>
 @endsection
 @section('content')
-<main class="main">
+<main class="translate main">
     <div class="page-header breadcrumb-wrap">
         <div class="container">
             <div class="breadcrumb">
@@ -31,7 +34,7 @@
         {{csrf_field()}}
         <div class="row mb-50 mt-30">
             <div class="col-md-6 col-sm-12 col-xs-12 mb-md-0 mb-sm-5">
-                <div class="detail-gallery">
+                {{--<div class="detail-gallery">
                     <span class="zoom-icon"><i class="fi-rs-search"></i></span>
                     <!-- MAIN SLIDES -->
                     <div class="product-image-slider">
@@ -53,6 +56,48 @@
                         <div>
                             <img class="lightboxed" rel="group1" src="/product_image/{{$row->image}}" data-link="/product_image/{{$row->image}}" data-caption=""  />
                         </div>
+                        @endforeach
+                    </div>
+                </div>--}}
+
+                <div class="detail-gallery pswp-gallery" id="gallery">
+                    <div class="carousel carousel-main" data-flickity='{"pageDots": false }'>
+                        <div class="carousel-cell pswp-gallery__item">
+                        <a  href="/product_image/{{$product->image}}"
+                            data-pswp-width="1700"
+                            data-pswp-height="1285"
+                            data-pswp-tile-url="/product_image/{z}/{x}_{y}.jpeg"
+                            data-pswp-tile-size="254"
+                            data-pswp-tile-overlap="1"
+                            data-pswp-max-width="5832"
+                            data-pswp-max-height="4409"
+                            target="_blank">
+                            <img src="/product_image/{{$product->image}}" alt="" />
+                        </a>
+                        <!-- <img src="/product_image/{{$product->image}}"/> -->
+                        </div>
+                        @foreach($product_images as $key => $row)
+                        <div class="carousel-cell pswp-gallery__item">
+                            <!-- <img src="/product_image/{{$row->image}}"/> -->
+                        <a  href="/product_image/{{$row->image}}"
+                            data-pswp-width="1700"
+                            data-pswp-height="1285"
+                            data-pswp-tile-url="/product_image/{z}/{x}_{y}.jpeg"
+                            data-pswp-tile-size="254"
+                            data-pswp-tile-overlap="1"
+                            data-pswp-max-width="5832"
+                            data-pswp-max-height="4409"
+                            target="_blank">
+                            <img src="/product_image/{{$row->image}}" alt="" />
+                        </a>
+                        </div>
+                        @endforeach
+                    </div>
+                    <div class="carousel carousel-nav"
+                    data-flickity='{ "asNavFor": ".carousel-main", "contain": true, "pageDots": false }'>
+                        <div class="carousel-cell"><img src="/product_image/{{$product->image}}"/></div>
+                        @foreach($product_images as $key => $row)
+                        <div class="carousel-cell"><img src="/product_image/{{$row->image}}"/></div>
                         @endforeach
                     </div>
                 </div>
@@ -560,7 +605,56 @@
 </main>
 @endsection
 @section('extra-js')
-<script src="/lightboxed/lightboxed.js"></script>
+<!-- <script src="/lightboxed/lightboxed.js"></script> -->
+<script>
+/* debug stuff */
+window.pswpDebug = {
+display_layer_borders: false,
+};
+for(let key in window.pswpDebug) {
+document.querySelector('#' + key).checked = window.pswpDebug[key];
+}
+[...document.querySelectorAll('.pswp-test input')].forEach((checkbox) => {
+checkbox.addEventListener('change', (e) => {
+    if (e.currentTarget.checked) {
+    window.pswpDebug[e.currentTarget.name] = true;
+    } else {
+    window.pswpDebug[e.currentTarget.name] = false;
+    }
+});
+});
+</script>
+
+<script type="module">
+import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@beta/dist/photoswipe-lightbox.esm.js';
+
+let deepZoomPlugin;
+const lightbox = new PhotoSwipeLightbox({
+gallery: '#gallery',
+children: '.pswp-gallery__item > a',
+
+pswpModule: () => import('https://unpkg.com/photoswipe@beta/dist/photoswipe.esm.js'),
+
+// dynamically load deep zoom plugin
+openPromise: () => {
+    // make sure it's initialized only once per lightbox
+    if (!deepZoomPlugin) {
+    return import('/slider/zoomimg.js').then((deepZoomPluginModule) => {
+        deepZoomPlugin = new deepZoomPluginModule.default(lightbox, {
+        // deep zoom plugin options
+        });
+    })
+    }
+},
+
+// Recommended PhotoSwipe options for this plugin
+allowPanToNext: false, // prevent swiping to the next slide when image is zoomed
+allowMouseDrag: true, // display dragging cursor at max zoom level
+wheelToZoom: true, // enable wheel-based zoom
+zoom: false // disable default zoom button
+});
+lightbox.init();
+</script>
 <script>
 function ProductOpen(id){
     window.location.href="/product-details/"+id;

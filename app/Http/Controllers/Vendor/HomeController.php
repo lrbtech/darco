@@ -19,6 +19,7 @@ use App\Models\product_images;
 use App\Models\brand;
 use App\Models\orders;
 use App\Models\order_items;
+use App\Models\language;
 use Yajra\DataTables\Facades\DataTables;
 use Auth;
 use DB;
@@ -37,7 +38,8 @@ class HomeController extends Controller
 
     public function enquiry(){
         $enquiry = vendor_enquiry::where('vendor_id',Auth::guard('vendor')->user()->id)->orderBy('id','DESC')->get();
-        return view('vendor.enquiry',compact('enquiry'));
+        $language = language::all();
+        return view('vendor.enquiry',compact('enquiry','language'));
     }
 
     public function dashboard(){
@@ -58,13 +60,14 @@ class HomeController extends Controller
         $total_projects = vendor_project::where('vendor_id',Auth::guard('vendor')->user()->id)->count();
         $total_idea_books = idea_book::where('vendor_id',Auth::guard('vendor')->user()->id)->count();
         $total_enquiries = vendor_enquiry::where('vendor_id',Auth::guard('vendor')->user()->id)->count();
-
-        return view('vendor.dashboard',compact('order_in_process','total_orders','total_products','orders','enquiry','total_projects','total_idea_books','total_enquiries'));
+        $language = language::all();
+        return view('vendor.dashboard',compact('order_in_process','total_orders','total_products','orders','enquiry','total_projects','total_idea_books','total_enquiries','language'));
     }
 
     public function changepassword(){
         $profile = vendor::find(Auth::guard('vendor')->user()->id);
-        return view('vendor.change_password',compact('profile'));
+        $language = language::all();
+        return view('vendor.change_password',compact('profile','language'));
     }
 
     public function updatepassword(Request $request){

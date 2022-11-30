@@ -22,6 +22,7 @@ use App\Models\vendor_enquiry;
 use App\Models\shipping_address;
 use App\Models\settings;
 use App\Models\package;
+use App\Models\language;
 use Hash;
 use DB;
 use Mail;
@@ -30,6 +31,18 @@ use PDF;
 
 class PageController extends Controller
 {
+
+    public function customerlogin($id){
+        Auth::loginUsingId($id);
+        return redirect('/customer/profile');
+    }
+
+    public function vendorlogin($id){
+        Auth::guard('vendor')->loginUsingId($id);
+        return redirect('/vendor/dashboard');
+    }
+
+
     public function printinvoice($id){
         $orders = orders::find($id);
         $order_items = order_items::where('order_id',$id)->get();
@@ -166,7 +179,8 @@ class PageController extends Controller
 
     public function professionallogin()
     {       
-        return view('professional-login.login');
+        $language = language::all();
+        return view('professional-login.login',compact('language'));
     }
 
     public function home()
@@ -176,18 +190,19 @@ class PageController extends Controller
         $idea_category = idea_category::where('status',0)->where('parent_id',0)->orderBy('id','DESC')->get()->take('6');
         $professional_category_footer = professional_category::where('status',0)->where('parent_id',0)->orderBy('id','DESC')->get()->take('6');
        
-        return view('website.home',compact('category','professional_category','idea_category','professional_category_footer'));
+        $language = language::all();
+        return view('website.home',compact('category','professional_category','idea_category','professional_category_footer','language'));
     }
 
     public function getMenu(){
        $home = category::where('status',0)->where('parent_id',0)->get();
        $professional = professional_category::where('status',0)->where('parent_id',0)->get(); 
        $ideas = idea_category::where('status',0)->where('parent_id',0)->get(); 
-
+       $language = language::all();
        $html='<li style="width:375px"></li>';
-        $html.=' <li class="position-static"><a href="#">GET IDEAS <i class="fi-rs-angle-down"></i></a><ul class="mega-menu">';
+        $html.=' <li class="position-static"><a href="/get-ideas-category">'.$language[132][session()->get('lang')].' <i class="fi-rs-angle-down"></i></a><ul class="mega-menu">';
         foreach($ideas as $row){
-            $html .='<li class="sub-mega-menu sub-mega-menu-width-22"><a class="menu-title" href="/get-ideas/'.$row->id.'/0/0">'.$row->category.'</a><ul>';
+            $html .='<li class="translate sub-mega-menu sub-mega-menu-width-22"><a class="menu-title" href="/get-ideas/'.$row->id.'/0/0">'.$row->category.'</a><ul>';
             $child = idea_category::where('status',0)->where('parent_id',$row->id)->get();
             foreach($child as $row1){
                 $html.='<li><a href="/get-ideas/'.$row->id.'/'.$row1->id.'/0">'.$row1->category.'</a></li>';
@@ -195,9 +210,9 @@ class PageController extends Controller
             $html .='</ul></li>';
         }
         $html .='</ul> </li>';
-        $html.=' <li class="position-static"><a href="#">FIND PROFESSIONALS <i class="fi-rs-angle-down"></i></a><ul class="mega-menu">';
+        $html.=' <li class="position-static"><a href="/professional-category">'.$language[133][session()->get('lang')].' <i class="fi-rs-angle-down"></i></a><ul class="mega-menu">';
         foreach($professional as $row){
-            $html .='<li class="sub-mega-menu sub-mega-menu-width-22"><a class="menu-title" href="/professional-list/'.$row->id.'/0/0">'.$row->category.'</a><ul>';
+            $html .='<li class="translate sub-mega-menu sub-mega-menu-width-22"><a class="menu-title" href="/professional-list/'.$row->id.'/0/0">'.$row->category.'</a><ul>';
             $child = professional_category::where('status',0)->where('parent_id',$row->id)->get();
             foreach($child as $row1){
                  $html.='<li><a href="/professional-list/'.$row->id.'/'.$row1->id.'/0">'.$row1->category.'</a></li>';
@@ -205,9 +220,9 @@ class PageController extends Controller
             $html .='</ul></li>';
         }
         $html .='</ul> </li>';
-        $html.=' <li class="position-static"><a href="#">SHOP BY DEPARTMENT <i class="fi-rs-angle-down"></i></a><ul class="mega-menu">';
+        $html.=' <li class="position-static"><a href="/shop-category">'.$language[134][session()->get('lang')].' <i class="fi-rs-angle-down"></i></a><ul class="mega-menu">';
         foreach($home as $row){
-            $html .='<li class="sub-mega-menu sub-mega-menu-width-22"><a class="menu-title" href="/product-list/'.$row->id.'/0/0/0">'.$row->category.'</a><ul>';
+            $html .='<li class="translate sub-mega-menu sub-mega-menu-width-22"><a class="menu-title" href="/product-list/'.$row->id.'/0/0/0">'.$row->category.'</a><ul>';
             $child = category::where('status',0)->where('parent_id',$row->id)->get();
             foreach($child as $row1){
                  $html.='<li><a href="/product-list/'.$row->id.'/'.$row1->id.'/0/0">'.$row1->category.'</a></li>';
@@ -221,25 +236,31 @@ class PageController extends Controller
 
     public function about()
     {
-        return view('website.about_us');
+        $language = language::all();
+        return view('website.about_us',compact('language'));
     }
 
     public function contact()
     {
-        return view('website.contact_us');
+        $language = language::all();
+        return view('website.contact_us',compact('language'));
     }
 
     public function individualregister()
     {
         $city = city::where('parent_id',0)->where('status',0)->orderBy('id','ASC')->get();
-        return view('website.individual_register',compact('city'));
+        $settings = settings::find(1);
+        $language = language::all();
+        return view('website.individual_register',compact('city','settings','language'));
     }
 
     public function professionalregister()
     {
         $city = city::where('parent_id',0)->where('status',0)->orderBy('id','ASC')->get();
         $package = package::where('status',0)->orderBy('id','ASC')->get();
-        return view('website.professional_register',compact('city','package'));
+        $settings = settings::find(1);
+        $language = language::all();
+        return view('website.professional_register',compact('city','package','settings','language'));
     }
 
 
@@ -272,14 +293,16 @@ class PageController extends Controller
     public function professionalslist()
     {
         $vendor = vendor::where('role_id','admin')->where('business_type',1)->get();
-        return view('professionals.lists',compact('vendor'));
+        $language = language::all();
+        return view('professionals.lists',compact('vendor','language'));
     }
 
     public function overview($id)
     {
         $vendor = vendor::find($id);
         $vendor_project = vendor_project::where('vendor_id',$id)->get();
-        return view('professionals.overview',compact('vendor','vendor_project'));
+        $language = language::all();
+        return view('professionals.overview',compact('vendor','vendor_project','language'));
     }
 
     public function saveindividualregister(Request $request)
@@ -305,12 +328,18 @@ class PageController extends Controller
         $user->password =  Hash::make ( $request->password );
         $user->remember_token = $request->_token;
         $user->country = $request->country;
+        // $user->country_code = $request->country_code;
         $user->city = $request->city;
         $user->area = $request->area;
         $user->zipcode = $request->zipcode;
         $user->status = 1;
         $user->save();
 
+        $all = User::find($user->id);
+        Mail::send('mail.verify_mail',compact('all'),function($message) use($all){
+            $message->to($all['email'])->subject('Verify your DARDESIGN Account');
+            $message->from('mail.lrbinfotech@gmail.com','DARDESIGN');
+        });
         
         return response()->json('save successfully'); 
     }
@@ -358,6 +387,7 @@ class PageController extends Controller
         $vendor->password =  Hash::make ( $request->password );
         $vendor->remember_token = $request->_token;
         $vendor->country = $request->country;
+        //$user->country_code = $request->country_code;
         $vendor->city = $request->city;
         $vendor->area = $request->area;
         $vendor->trade_license_no = $request->trade_license_no;
@@ -404,9 +434,29 @@ class PageController extends Controller
         }
 
         $vendor->save();
-
         
+        $all = vendor::find($vendor->id);
+        Mail::send('mail.verify_vendor_mail',compact('all'),function($message) use($all){
+            $message->to($all['email'])->subject('Verify your DARDESIGN Account');
+            $message->from('mail.lrbinfotech@gmail.com','DARDESIGN');
+        });
+
         return response()->json('save successfully'); 
+    }
+
+    public function verifyaccount($id){
+        $user = User::find($id);
+        $user->status = 1;
+        $user->save();
+        $language = language::all();
+        return view('auth.login',compact('user','language'));
+    }
+
+    public function verifyvendoraccount($id){
+        $vendor = vendor::find($id);
+        $vendor->status = 1;
+        $vendor->save();
+        return view('vendor-login.login',compact('vendor','language'));
     }
 
     public function sendvendorenquiry(Request $request){
@@ -432,20 +482,22 @@ class PageController extends Controller
         // $all = $request->all();
         // $vendor = vendor::find($request->vendor_id);
         // Mail::send('mail.vendor_enquiry',compact('all'),function($message) use($all,$vendor){
-        //      $message->to($vendor->email)->subject('Enquiry from Darco');
+        //      $message->to($vendor->email)->subject('Enquiry from DARDESIGN');
         //      $message->from('info@lrbtech.com',$all['name']);
         // });
         return response()->json(['message'=>'Successfully Send'],200); 
     }
     
     public function orderTrack(){
-        return view('website.order_track');
+        $language = language::all();
+        return view('website.order_track',compact('language'));
     }
 
     public function shopCategory($id){
         $name = category::find($id);
         $category = category::where("parent_id",$id)->get();
-        return view('website.shop_category',compact('category','name'));
+        $language = language::all();
+        return view('website.shop_category',compact('category','name','language'));
     }
 
     public function infoPages($id){
@@ -477,7 +529,9 @@ class PageController extends Controller
             $title='Delivery Information';
             $content=$page->delivery_information;
         }
-        return view('website.pages',compact('title','content'));
+
+        $language = language::all();
+        return view('website.pages',compact('title','content','language'));
         
     }
 

@@ -22,6 +22,7 @@ use App\Models\User;
 use App\Models\orders;
 use App\Models\vendor_enquiry;
 use App\Models\shipping_address;
+use App\Models\language;
 use Hash;
 use DB;
 use Mail;
@@ -84,7 +85,8 @@ class IdeasListController extends Controller
         $category_id = $category;
         $subcategory_id = $subcategory;
 
-        return view('website.process.get_ideas',compact('category_all','subcategory_all','category_data','subcategory_data','get_ideas','category_id','subcategory_id'));
+        $language = language::all();
+        return view('website.process.get_ideas',compact('category_all','subcategory_all','category_data','subcategory_data','get_ideas','category_id','subcategory_id','language'));
     }
 
     public function getideadetails($id){
@@ -94,7 +96,8 @@ class IdeasListController extends Controller
 
         $related_idea_book = idea_book::where('vendor_id',$idea_book->vendor_id)->where('id','!=',$id)->get();
 
-        return view('website.process.get_idea_details',compact('idea_book','idea_book_images','vendor','related_idea_book'));
+        $language = language::all();
+        return view('website.process.get_idea_details',compact('idea_book','idea_book_images','vendor','related_idea_book','language'));
         
     }
 }

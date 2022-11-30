@@ -17,6 +17,7 @@ use App\Models\attribute_fields;
 use App\Models\product_group;
 use App\Models\roles;
 use App\Models\product_images;
+use App\Models\language;
 use Hash;
 use DB;
 use Mail;
@@ -57,11 +58,13 @@ class BusinessController extends Controller
         $orders = orders::where('vendor_id',$id)->orderBy('id','DESC')->get();
         $product = product::where('vendor_id',$id)->orderBy('id','DESC')->get();
         $category = category::where('status',0)->where('parent_id',0)->get();
-        return view('admin.vendor_details',compact('vendor','orders','vendor_all','product','category'));
+        $language = language::all();
+        return view('admin.vendor_details',compact('vendor','orders','vendor_all','product','category','language'));
     }
 
     public function vendor(){
-        return view('admin.vendor');
+        $language = language::all();
+        return view('admin.vendor',compact('language'));
     }
 
     public function deletevendor($id,$status){
@@ -135,8 +138,8 @@ class BusinessController extends Controller
                         '.$output.'
                         <a onclick="EditCommission('.$vendor->id.')" href="#" class="dropdown-item" type="button">Edit Commission</a>
                         <a href="/admin/vendor-details/'.$vendor->id.'" class="dropdown-item" type="button">View Details</a>
-                        <!--<div class="dropdown-divider"></div>
-                        <a target="_private" href="/vendor-login/'.$vendor->id.'" class="dropdown-item" type="button">Business Login</a>-->
+                        <div class="dropdown-divider"></div>
+                        <a target="_private" href="/vendor-login/'.$vendor->id.'" class="dropdown-item" type="button">Business Login</a>
                     </div>
                 </div>
                 </td>';

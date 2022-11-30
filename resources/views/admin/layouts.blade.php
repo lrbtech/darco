@@ -1,11 +1,17 @@
 
 <!DOCTYPE html>
+<!-- <html class="loading" lang="en" data-textdirection="ltr"> -->
+@if(Auth::guard('admin')->user()->lang == 'english')
 <html class="loading" lang="en" data-textdirection="ltr">
+@else
+<html class="loading" lang="en" data-textdirection="rtl">
+@endif
+
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-  <title>Darco Admin</title>
+  <title>DARDESIGN Admin</title>
   <link rel="icon" type="image/x-icon" href="/website_assets/images/ico.ico">
 
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Quicksand:300,400,500,700"
@@ -87,6 +93,21 @@ data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
             
           </ul>
           <ul class="nav navbar-nav float-right">
+            <li class="dropdown dropdown-language nav-item">
+              <a class="dropdown-toggle nav-link" id="dropdown-flag" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                @if(Auth::guard('admin')->user()->lang == 'english')
+                <i class="flag-icon flag-icon-gb"></i>
+                <span class="selected-language">English</span>
+                @else 
+                <i class="flag-icon flag-icon-ar"></i>
+                <span class="selected-language">Arabic</span>
+                @endif
+              </a>
+              <div class="dropdown-menu" aria-labelledby="dropdown-flag">
+                <a onclick="changelanguage('english')" class="dropdown-item" href="#"><i class="flag-icon flag-icon-gb"></i> English</a>
+                <a onclick="changelanguage('arabic')" class="dropdown-item" href="#"><i class="flag-icon flag-icon-ar"></i> Arabic</a>
+              </div>
+            </li>
             <li class="dropdown dropdown-user nav-item">
               <a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">
                 <span class="mr-1">Hello,
@@ -104,13 +125,7 @@ data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
                 </form>
               </div>
             </li>
-            <!-- <li class="dropdown dropdown-language nav-item"><a class="dropdown-toggle nav-link" id="dropdown-flag" href="#" data-toggle="dropdown"
-              aria-haspopup="true" aria-expanded="false"><i class="flag-icon flag-icon-gb"></i><span class="selected-language"></span></a>
-              <div class="dropdown-menu" aria-labelledby="dropdown-flag">
-                <a class="dropdown-item" href="#"><i class="flag-icon flag-icon-gb"></i> English</a>
-                <a class="dropdown-item" href="#"><i class="flag-icon flag-icon-fr"></i> Arabic</a>
-              </div>
-            </li> -->
+            
             <!-- <li class="dropdown dropdown-notification nav-item">
               <a class="nav-link nav-link-label" href="#" data-toggle="dropdown"><i class="ficon ft-bell"></i>
                 <span class="badge badge-pill badge-default badge-danger badge-default badge-up badge-glow">5</span>
@@ -264,6 +279,18 @@ data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
   var spinner_body = new jQuerySpinner({
     parentId: 'spinner_body'
   });
+
+
+  function changelanguage(lang){
+    $.ajax({
+      url : '/admin/change-language/'+lang,
+      type: "GET",
+      success: function(data)
+      {
+        location.reload();
+      }
+    });
+  }
 
   </script>
   @yield('extra-js')

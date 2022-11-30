@@ -4,7 +4,7 @@
 @endsection
 @section('content')
 
-<main class="main">
+<main class="translate main">
     <div class="page-header mt-30 mb-50">
         <div class="container">
             @if(!empty($category_data))

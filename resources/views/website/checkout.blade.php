@@ -182,7 +182,7 @@
 </style>
 @endsection
 @section('content')
-<main class="main">
+<main class="translate main">
     <div class="page-header breadcrumb-wrap">
         <div class="container">
             <div class="breadcrumb">
@@ -268,7 +268,7 @@
 
                         <div id="create_address">
                         <div class="row">
-                            <div class="form-group col-lg-6">
+                            <!-- <div class="form-group col-lg-6">
                               <label>Address Type <span class="asterisk">*</span></label>
                               <div class="custome-radio">
                                   <input value="0" class="form-check-input" type="radio" name="address_type" id="address_type1"/>
@@ -278,18 +278,30 @@
                                   <input value="1"  class="form-check-input" type="radio" name="address_type" id="address_type2" />
                                   <label class="form-check-label" for="address_type2">Office (9am-6pm, Weekdays)</label>
                               </div>
-                          </div>
+                          </div> -->
                           <div class="form-group col-lg-6">
                             <label>Contact Person <span class="asterisk">*</span></label>
                             <input type="text" id="contact_person" name="contact_person" placeholder="Contact Person *">
                           </div>
-                        </div>
-                        <div class="row">
-                          <div class="form-group col-lg-6">
+                          <!-- <div class="form-group col-lg-6">
                             <label>Contact Mobile <span class="asterisk">*</span></label>
                             <input type="text" id="contact_mobile" name="contact_mobile" placeholder="Contact Mobile">
-                          </div>
+                          </div> -->
                           <div class="form-group col-lg-6">
+                            <label>Contact Mobile</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <select  name="country_code" id="country_code">
+                                    <option value="+965">+965</option>
+                                    <!-- <option value="+971">+971</option> -->
+                                  </select>
+                                </div>
+                                <input type="number" class="form-control" name="contact_mobile" id="contact_mobile" placeholder="Contact Mobile">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="form-group col-lg-12">
                             <label>Landmark <span class="asterisk">*</span></label>
                             <input type="text" id="landmark" name="landmark" placeholder="Landmark">
                           </div>
@@ -313,9 +325,16 @@
                           </div>
                         </div>
                         <div class="row">
-                          <div class="form-group col-lg-12">
-                            <label>Pincode <span class="asterisk">*</span></label>
-                            <input type="text" id="pincode" name="pincode" placeholder="Pincode">
+                          <div class="form-group col-lg-6">
+                            <label>Country <span class="asterisk">*</span></label>
+                            <select id="country" name="country" class="form-control">
+                              <option value="">SELECT</option>
+                              <option value="1">kuwait</option>
+                            </select>
+                          </div>
+                          <div class="form-group col-lg-6">
+                            <label>Zipcode <span class="asterisk">*</span></label>
+                            <input type="text" id="zipcode" name="zipcode" placeholder="Zipcode">
                           </div>
                         </div>
                         <div class="col-sm-12">
@@ -339,7 +358,7 @@
                             <div id="shippingaddress" class="different_address collapse in">
 
                               <div class="row">
-                                <div class="form-group col-lg-6">
+                                <!-- <div class="form-group col-lg-6">
                                     <label>Address Type <span class="asterisk">*</span></label>
                                     <div class="custome-radio">
                                         <input value="0" class="form-check-input" type="radio" name="new_address_type" id="new_address_type1"/>
@@ -349,18 +368,31 @@
                                         <input value="1"  class="form-check-input" type="radio" name="new_address_type" id="new_address_type2" />
                                         <label class="form-check-label" for="new_address_type2">Office (9am-6pm, Weekdays)</label>
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="form-group col-lg-6">
                                   <label>Contact Person <span class="asterisk">*</span></label>
                                   <input type="text" id="new_contact_person" name="new_contact_person" placeholder="Contact Person *">
                                 </div>
-                              </div>
-                              <div class="row">
-                                <div class="form-group col-lg-6">
+                                <!-- <div class="form-group col-lg-6">
                                   <label>Contact Mobile <span class="asterisk">*</span></label>
                                   <input type="text" id="new_contact_mobile" name="new_contact_mobile" placeholder="Contact Mobile">
-                                </div>
+                                </div> -->
                                 <div class="form-group col-lg-6">
+                                  <label>Contact Mobile</label>
+                                  <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                      <select  name="new_country_code" id="new_country_code">
+                                        <option value="+965">+965</option>
+                                        <!-- <option value="+971">+971</option> -->
+                                      </select>
+                                    </div>
+                                    <input type="number" class="form-control" name="new_contact_mobile" id="new_contact_mobile" placeholder="Contact Mobile">
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row">
+                                
+                                <div class="form-group col-lg-12">
                                   <label>Landmark <span class="asterisk">*</span></label>
                                   <input type="text" id="new_landmark" name="new_landmark" placeholder="Landmark">
                                 </div>
@@ -384,9 +416,16 @@
                                 </div>
                               </div>
                               <div class="row">
-                                <div class="form-group col-lg-12">
-                                  <label>Pincode <span class="asterisk">*</span></label>
-                                  <input type="text" id="new_pincode" name="new_pincode" placeholder="Pincode">
+                                <div class="form-group col-lg-6">
+                                  <label>Country <span class="asterisk">*</span></label>
+                                  <select id="new_country" name="new_country" class="form-control">
+                                    <option value="">SELECT</option>
+                                    <option value="1">kuwait</option>
+                                  </select>
+                                </div>
+                                <div class="form-group col-lg-6">
+                                  <label>Zipcode <span class="asterisk">*</span></label>
+                                  <input type="text" id="new_zipcode" name="new_zipcode" placeholder="Zipcode">
                                 </div>
                               </div>
 
@@ -677,7 +716,7 @@ function SaveOrder(){
               
               if(data.IsSuccess == 'true'){
                 $("#form")[0].reset();
-                location.href=data.Data.invoiceURL;
+                location.href=data.Data.paymentURL;
               }
               else if(data.IsSuccess == 'false'){
                 warningMsg(data.message);

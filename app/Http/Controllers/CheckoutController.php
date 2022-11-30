@@ -18,6 +18,7 @@ use App\Models\attributes;
 use App\Models\attribute_fields;
 use App\Models\product_group;
 use App\Models\coupon;
+use App\Models\language;
 use Hash;
 use DB;
 use Mail;
@@ -41,8 +42,8 @@ class CheckoutController extends Controller
     public function checkout()
     {
         $cart_items = Cart::getContent();
-
-        return view('website.checkout', compact('cart_items'));
+        $language = language::all();
+        return view('website.checkout', compact('cart_items','language'));
     }
 
 
@@ -53,22 +54,26 @@ class CheckoutController extends Controller
             'contact_mobile'=>'required',
             'address_line1'=>'required',
             'city'=>'required',
-            'pincode'=>'required',
+            'zipcode'=>'required',
+            'country'=>'required',
+            'country_code'=>'required',
           ],[
             // 'profile_image.required' => 'Profile Image Field is Required',
         ]);
 
         $shipping_address = new shipping_address;
         $shipping_address->customer_id = Auth::user()->id;
-        $shipping_address->address_type = $request->address_type;
+        //$shipping_address->address_type = $request->address_type;
         $shipping_address->landmark = $request->landmark;
         $shipping_address->contact_person= $request->contact_person;
         $shipping_address->contact_mobile= $request->contact_mobile;
         $shipping_address->address_line1= $request->address_line1;
         $shipping_address->address_line2= $request->address_line2;
+        $shipping_address->country= $request->country;
+        $shipping_address->country_code= $request->country_code;
         $shipping_address->city= $request->city;
         $shipping_address->area= $request->area;
-        $shipping_address->pincode= $request->pincode;
+        $shipping_address->zipcode= $request->zipcode;
         $shipping_address->is_active= 1;
         $shipping_address->save();
 
@@ -85,12 +90,12 @@ class CheckoutController extends Controller
             <label class="plan basic-plan" for="billing_address_id'.$key.'">
             <input value="'.$value->id.'" checked type="radio" name="billing_address_id" id="billing_address_id'.$key.'" />
             <div class="plan-content">';
-                if($value->address_type == 0){
+                //if($value->address_type == 0){
                     $output.='<img loading="lazy" src="/website_assets/images/home.png" alt="" />';
-                }
-                else{
-                    $output.='<img loading="lazy" src="/website_assets/images/office-building.png" alt="" />';
-                }
+                // }
+                // else{
+                //     $output.='<img loading="lazy" src="/website_assets/images/office-building.png" alt="" />';
+                // }
                 $output.='<div class="plan-details">
                 <span>'.$value->contact_person.' , '.$value->contact_mobile.'</span>
                 <p>'.$value->address_line1.' , '.$value->address_line2.' </p>
@@ -104,12 +109,12 @@ class CheckoutController extends Controller
             <label class="plan basic-plan" for="billing_address_id'.$key.'">
             <input value="'.$value->id.'" type="radio" name="billing_address_id" id="billing_address_id'.$key.'" />
             <div class="plan-content">';
-                if($value->address_type == 0){
+                //if($value->address_type == 0){
                     $output.='<img loading="lazy" src="/website_assets/images/home.png" alt="" />';
-                }
-                else{
-                    $output.='<img loading="lazy" src="/website_assets/images/office-building.png" alt="" />';
-                }
+                // }
+                // else{
+                //     $output.='<img loading="lazy" src="/website_assets/images/office-building.png" alt="" />';
+                // }
                 $output.='<div class="plan-details">
                 <span>'.$value->contact_person.' , '.$value->contact_mobile.'</span>
                 <p>'.$value->address_line1.' , '.$value->address_line2.' </p>
@@ -136,7 +141,9 @@ class CheckoutController extends Controller
                 'new_contact_mobile'=>'required',
                 'new_address_line1'=>'required',
                 'new_city'=>'required',
-                'new_pincode'=>'required',
+                'new_zipcode'=>'required',
+                'new_country'=>'required',
+                'new_country_code'=>'required',
             ]);
         }
 
@@ -155,15 +162,17 @@ class CheckoutController extends Controller
         if($request->shipping_address == 'on'){
             $shipping_address = new shipping_address;
             $shipping_address->customer_id = Auth::user()->id;
-            $shipping_address->address_type = $request->new_address_type;
+            //$shipping_address->address_type = $request->new_address_type;
             $shipping_address->landmark = $request->new_landmark;
             $shipping_address->contact_person= $request->new_contact_person;
             $shipping_address->contact_mobile= $request->new_contact_mobile;
             $shipping_address->address_line1= $request->new_address_line1;
             $shipping_address->address_line2= $request->new_address_line2;
+            $shipping_address->country= $request->new_country;
+            $shipping_address->country_code= $request->new_country_code;
             $shipping_address->city= $request->new_city;
             $shipping_address->area= $request->new_area;
-            $shipping_address->pincode= $request->new_pincode;
+            $shipping_address->zipcode= $request->new_zipcode;
             $shipping_address->is_active= 0;
             $shipping_address->save();
         }
@@ -303,26 +312,40 @@ class CheckoutController extends Controller
 
             $onlinepayorderid[] = $orders->id;
 
-
-
         }
 
         $orderids = implode('.', $onlinepayorderid);
 
-        Cart::clear();
+        //Cart::clear();
 
+        // try {
+        //     $paymentMethodId = 0; // 0 for MyFatoorah invoice or 1 for Knet in test mode
+
+        //     $curlData = $this->getPayLoadData($orderids);
+        //     $data     = $this->mfObj->getInvoiceURL($curlData, $paymentMethodId);
+
+        //     $response = ['IsSuccess'=>'true','message'=>'Your Order is Save Successfully','Data'=>$data,'status'=>0];
+
+        //     foreach(explode('.', $orderids) as $ids){
+        //         $invoice_update = orders::find($ids);
+        //         $invoice_update->invoiceid = $data['invoiceId'];
+        //         $invoice_update->invoiceurl = $data['invoiceURL'];
+        //         $invoice_update->save();
+        //     }
+
+        // } catch (\Exception $e) {
+        //     $response = ['IsSuccess'=>'false','message'=> $e->getMessage(),'status'=>0];
+        // }
         try {
-            $paymentMethodId = 0; // 0 for MyFatoorah invoice or 1 for Knet in test mode
-
-            $curlData = $this->getPayLoadData($orderids);
-            $data     = $this->mfObj->getInvoiceURL($curlData, $paymentMethodId);
+            $invoice_id = time();
+            $data = $this->onlinepay($orderids,$invoice_id);
 
             $response = ['IsSuccess'=>'true','message'=>'Your Order is Save Successfully','Data'=>$data,'status'=>0];
-
+            
             foreach(explode('.', $orderids) as $ids){
                 $invoice_update = orders::find($ids);
-                $invoice_update->invoiceid = $data['invoiceId'];
-                $invoice_update->invoiceurl = $data['invoiceURL'];
+                $invoice_update->invoiceid = $invoice_id;
+                $invoice_update->invoiceurl = $data['paymentURL'];
                 $invoice_update->save();
             }
 
@@ -331,6 +354,199 @@ class CheckoutController extends Controller
         }
         return response()->json($response);
 
+    }
+
+
+    public function onlinepay($orderId,$invoice_id) {
+        $total = 0;
+        foreach(explode('.', $orderId) as $ids){
+            $orders = orders::find($ids);
+            $total = $total + $orders->total;
+        }
+        $name = Auth::user()->first_name.' '.Auth::user()->last_name;
+
+        $request_data=array(
+            //real account
+            'merchant_id'=>'27772',
+            'username' =>'abdulrahman',
+            'password'=>stripslashes('GSSWj0DHhjms'),
+            'api_key' =>password_hash('e766116092e3efc2f2f60a02d8353924ceaa3022',PASSWORD_BCRYPT),
+            'test_mode'=>0,
+
+            //sand box
+            // 'merchant_id'=>'1201',
+            // 'username' =>'test',
+            // 'password'=>stripslashes('test'),
+            // 'api_key'=>'jtest123', // in sandbox request
+            // 'test_mode'=>1,
+
+            'order_id'=>$invoice_id,
+            'CurrencyCode'=>'KWD',//'KWD','SAR','USD','BHD','EUR','OMR','QAR','AED' and others,Please ask our support to activate
+            'total_price'=>0.01,
+            'CstFName'=>$name,			
+            'CstEmail'=>Auth::user()->email,
+            'CstMobile'=>Auth::user()->mobile,
+            'customer_unq_token'=>Auth::user()->user_unique_id,
+            'success_url'=>"http://92.99.113.69:5600/payment-success",
+            'error_url'=>'http://92.99.113.69:5600/payment-failed',
+            'notifyURL'=>'http://92.99.113.69:5600/webhook-testing',
+        );
+    
+        $fields_string = http_build_query($request_data);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_URL,"https://api.upayments.com/payment-request");// Production Request URL
+        //curl_setopt($ch, CURLOPT_URL,"https://api.upayments.com/test-payment"); //Test Request URL
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS,$fields_string);
+        // receive server response ...
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $server_output = curl_exec($ch);
+        curl_close ($ch);
+    
+        return $server_output = json_decode($server_output,true);
+
+        // echo "<pre>";
+        // print_r($server_output);
+        // exit;
+    }
+
+    public function paymentsuccess() {
+        try {
+            $paymentId = $_GET['PaymentID'];
+            $Result = $_GET['Result'];
+            $TranID = $_GET['TranID'];
+            $Ref = $_GET['Ref'];
+            $TrackID = $_GET['TrackID'];
+            $OrderID = $_GET['OrderID'];
+
+            $total = 0;
+            $getorders = orders::where('invoiceid',$OrderID)->get();
+            foreach($getorders as $row){
+                $orders = orders::find($row->id);
+                $total = $total + $orders->total;
+
+                $orders->payment_id = $paymentId;
+                $orders->invoicestatus = $Result;
+                $orders->invoicereference = $Ref;
+                $orders->payment_status = 1;
+                $orders->save();
+            }
+
+            $this->htmloutput('Transcation Success',$paymentId,$total);
+
+            $msg = 'Invoice is paid.';
+
+            //$response = ['IsSuccess' => 'true', 'Message' => $msg, 'Data' => $data];
+        } catch (\Exception $e) {
+            $response = ['IsSuccess' => 'false', 'Message' => $e->getMessage()];
+        }
+        // return response()->json($response);
+    }
+
+    public function paymentfailed() {
+        try {
+            $paymentId = $_GET['PaymentID'];
+            $Result = $_GET['Result'];
+            $TranID = $_GET['TranID'];
+            $Ref = $_GET['Ref'];
+            $TrackID = $_GET['TrackID'];
+            $OrderID = $_GET['OrderID'];
+
+            $total = 0;
+            $getorders = orders::where('invoiceid',$OrderID)->get();
+            foreach($getorders as $row){
+                $orders = orders::find($row->id);
+                $total = $total + $orders->total;
+
+                $orders->payment_id = $paymentId;
+                $orders->invoicestatus = $Result;
+                $orders->invoicereference = $Ref;
+                $orders->payment_status = 0;
+                $orders->save();
+
+                $order_items = order_items::where('order_id',$row->id)->where('status',0)->get();
+                foreach($order_items as $row){
+                    $qty = $row->qty;
+                    $pro_id = $row->product_id;
+                    
+                    $product = product::find($pro_id);
+                    $product->stock = $product->stock + $qty;
+                    $product->save();
+                }
+            }
+
+            $this->htmloutput('Payment Failed',$paymentId,$total);
+
+            $msg = 'Invoice is expired.';
+
+            //$response = ['IsSuccess' => 'true', 'Message' => $msg, 'Data' => $data];
+        } catch (\Exception $e) {
+            $response = ['IsSuccess' => 'false', 'Message' => $e->getMessage()];
+        }
+        // return response()->json($response);
+    }
+
+    public function htmloutput($message,$paymentid,$total) {
+        $html_output='
+        <html>
+        <head>
+            <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,400i,700,900&display=swap" rel="stylesheet">
+        </head>
+            <style>
+            body {
+                text-align: center;
+                padding: 40px 0;
+                background: #EBF0F5;
+            }
+            h1 {
+                color: #88B04B;
+                font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
+                font-weight: 900;
+                font-size: 40px;
+                margin-bottom: 10px;
+            }
+            p {
+                color: #404F5E;
+                font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
+                font-size:20px;
+                margin: 0;
+                }
+            i {
+                color: #9ABC66;
+                font-size: 100px;
+                line-height: 200px;
+                margin-left:-15px;
+            }
+            .card {
+                background: white;
+                padding: 60px;
+                border-radius: 4px;
+                box-shadow: 0 2px 3px #C8D0D8;
+                display: inline-block;
+                margin: 0 auto;
+            }
+            </style>
+            <body>
+            <div class="card">';
+            if($message == 'Transcation Success'){
+                $html_output.='<div style="border-radius:200px; height:200px; width:200px; background: #F8FAF5; margin:0 auto;">
+                    <i class="checkmark">✓</i>
+                </div>';
+            }
+            else{
+                $html_output.='<div style="border-radius:200px; height:200px; width:200px; background:red; margin:0 auto;">
+                    <i class="checkmark">X</i>
+                </div>';
+            }
+
+            $html_output.='<h1>'.$message.'</h1> 
+                <p>Transaction ID : '.$paymentid.';<br/>Amount Paid : KWD '.$total.'</p>
+                <p><a href="/customer/orders">Click to Return Dashboard</a></p>
+            </div>
+            </body>
+        </html>';
+        echo $html_output;
     }
 
 
@@ -361,7 +577,8 @@ class CheckoutController extends Controller
 
 
     public function ordersuccess(){
-        return view('website.order_success');
+        $language = language::all();
+        return view('website.order_success',compact('language'));
     }
 
     public function applyCoupon(Request $request){

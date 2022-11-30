@@ -12,6 +12,7 @@ use App\Models\order_items;
 use App\Models\product;
 use App\Models\shipping_address;
 use App\Models\roles;
+use App\Models\language;
 use Hash;
 use DB;
 use Mail;
@@ -28,7 +29,8 @@ class ReportController extends Controller
     }
 
     public function paymentsinreport(){
-        return view('vendor.payments_in_report');
+        $language = language::all();
+        return view('vendor.payments_in_report',compact('language'));
     }
 
     public function getpaymentsinreport(Request $request){

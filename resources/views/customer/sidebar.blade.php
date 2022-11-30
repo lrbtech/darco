@@ -1,4 +1,4 @@
-<div class="dashboard-menu">
+<div class="translate dashboard-menu">
     <ul class="nav flex-column" role="tablist">
         <!-- <li class="nav-item">
             <a class="nav-link active" id="dashboard-tab" data-bs-toggle="tab" href="#dashboard" role="tab" aria-controls="dashboard" aria-selected="false"><i class="fi-rs-settings-sliders mr-10"></i>Dashboard</a>

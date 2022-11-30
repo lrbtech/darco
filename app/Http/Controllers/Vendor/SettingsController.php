@@ -12,6 +12,7 @@ use App\Models\project_images;
 use App\Models\idea_book;
 use App\Models\idea_book_images;
 use App\Models\city;
+use App\Models\language;
 use Yajra\DataTables\Facades\DataTables;
 use Auth;
 use DB;
@@ -228,12 +229,14 @@ class SettingsController extends Controller
 
     public function project(){
         $project = vendor_project::where('vendor_id',Auth::guard('vendor')->user()->id)->orderBy('id','DESC')->get();
-        return view('vendor.project',compact('project'));
+        $language = language::all();
+        return view('vendor.project',compact('project','language'));
     }
 
     public function addproject(){
         $category = professional_category::where('status',0)->where('parent_id',0)->orderBy('id','DESC')->get();
-        return view('vendor.add_project',compact('category'));
+        $language = language::all();
+        return view('vendor.add_project',compact('category','language'));
     }
 
     public function editproject($id){
@@ -241,7 +244,8 @@ class SettingsController extends Controller
         $category = professional_category::where('status',0)->where('parent_id',0)->orderBy('id','DESC')->get();
         $project_images = project_images::where('project_id',$id)->get();
         //return response()->json($project); 
-        return view('vendor.edit_project',compact('category','project','project_images'));
+        $language = language::all();
+        return view('vendor.edit_project',compact('category','project','project_images','language'));
     }
     
     public function deleteproject($id){
@@ -266,7 +270,8 @@ class SettingsController extends Controller
 
     public function aboutus(){
         $profile = vendor::find(Auth::guard('vendor')->user()->id);
-        return view('vendor.about_us',compact('profile'));
+        $language = language::all();
+        return view('vendor.about_us',compact('profile','language'));
     }
 
     public function updateaboutus(Request $request){
@@ -281,7 +286,8 @@ class SettingsController extends Controller
     public function profile(){
         $profile = vendor::find(Auth::guard('vendor')->user()->id);
         $city = city::where('parent_id',0)->where('status',0)->orderBy('id','ASC')->get();
-        return view('vendor.profile',compact('profile','city'));
+        $language = language::all();
+        return view('vendor.profile',compact('profile','city','language'));
     }
 
     public function updateprofile(Request $request){
@@ -359,7 +365,8 @@ class SettingsController extends Controller
 
     public function ideabook(){
         $idea_book = idea_book::where('vendor_id',Auth::guard('vendor')->user()->id)->orderBy('id','DESC')->get();
-        return view('vendor.idea_book',compact('idea_book'));
+        $language = language::all();
+        return view('vendor.idea_book',compact('idea_book','language'));
     }
 
     public function editideabook($id){
@@ -376,7 +383,8 @@ class SettingsController extends Controller
     public function ideabookimages($id){
         $idea_book_images = idea_book_images::where('idea_book_id',$id)->orderBy('id','DESC')->get();
         $parent_id = $id;
-        return view('vendor.idea_book_images',compact('idea_book_images','parent_id'));
+        $language = language::all();
+        return view('vendor.idea_book_images',compact('idea_book_images','parent_id','language'));
     }
 
     public function saveideabookimages(Request $request){

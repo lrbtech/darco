@@ -23,13 +23,16 @@ p.mb-65 {
                         <div class="single-hero-slider single-animation-wrap" style="background-image: url(/assets/images/banner.jpg)">
                             <div class="slider-content">
                                 <h1 class="display-2 mb-40">
-                                    Make your dream <br />
-                                    home a reality
+                                    {{$language[185][session()->get('lang')]}}<br />
+                                    {{$language[186][session()->get('lang')]}}
                                 </h1>
-                                <p class="mb-65">Find inspiration, products and the pros to make it happen <br /> all in one place</p>
+                                <p class="mb-65">
+                                {{$language[187][session()->get('lang')]}} <br /> 
+                                {{$language[188][session()->get('lang')]}}
+                                </p>
                                 <form action="/individual-register" class="form-subcriber d-flex">
                                     <input autocomplete="off" required name="email" id="email" type="email" placeholder="Your emaill address" />
-                                    <button class="btn" type="submit">SignUp</button>
+                                    <button class="btn" type="submit">{{$language[189][session()->get('lang')]}}</button>
                                 </form>
                             </div>
                         </div>
@@ -54,12 +57,12 @@ p.mb-65 {
                 <div class="banner-img style-3 animated animated" style="background-image: url(/assets/images/banner2.gif)">
                     <div class="banner-text mt-50">
                         <h2 class="mb-50 mt-120">
-                            Join of Home 
-                            <span class="text-brand">Professionals</span>
+                        {{$language[190][session()->get('lang')]}} 
+                            <span class="text-brand">{{$language[191][session()->get('lang')]}}</span>
                         </h2>
                         <form action="/professional-register" class="form-subcriber d-flex">
                             <input autocomplete="off" required name="email" id="email" type="email" placeholder="Your emaill address" />
-                            <button class="btn" type="submit">Join</button>
+                            <button class="btn" type="submit">{{$language[192][session()->get('lang')]}}</button>
                         </form>
                     </div>
                 </div>
@@ -71,10 +74,10 @@ p.mb-65 {
     <div class="container">
         <div class="section-title">
             <div class="title">
-                <h3>SHOP BY DEPARTMENT</h3>
-                <ul class="list-inline nav nav-tabs links">
+                <h3>{{$language[193][session()->get('lang')]}}</h3>
+                <ul class="translate list-inline nav nav-tabs links">
                     @foreach($category as $row)
-                    <li class="list-inline-item nav-item">
+                    <li class="translate list-inline-item nav-item">
                         <a class="nav-link home-category{{$row->id}}" href="javascript:void(0)" onclick="gethomesubcategory({{$row->id}})">{{$row->category}}</a>
                     </li>
                     @endforeach
@@ -82,7 +85,7 @@ p.mb-65 {
             </div>
             <div class="slider-arrow slider-arrow-2 flex-right carausel-8-columns-arrow" id="carausel-8-columns-arrows"></div>
         </div>
-        <div class="shopBycat"></div>
+        <div class="translate shopBycat"></div>
         
     </div>
 </section>
@@ -93,16 +96,16 @@ p.mb-65 {
     <div class="container">
         <div class="row">
         <div class="col-sm-12 col-md-4"><br>
-            <h1 class="">Do you love decorating the space around you?</h1><br>
-            <h4><em>Every room needs a touch of colours just as it needs one antique piece.</em></h4><br>
-            <p>Be it a corporate house or residential space, the need for Interior Designers has grown manifolds today, and therefore it has become a promising career option. With creative thinking and imaginative skills, Interior Designers can transform ordinary offices spaces, houses, hotels, etc. into masterpieces.</p>
+            <h1 class="">{{$language[194][session()->get('lang')]}}</h1><br>
+            <h4><em>{{$language[195][session()->get('lang')]}}</em></h4><br>
+            <p>{{$language[196][session()->get('lang')]}}</p>
 
             <br>
         <div class="text-center">
-            <a href="/professional-list/0/0/0" class="btn btn-dark view-text">View all</a>
+            <a href="/professional-list/0/0/0" class="btn btn-dark view-text">{{$language[197][session()->get('lang')]}}</a>
         </div>
         </div>
-        <div class="col-sm-12 col-md-8">
+        <div class="translate col-sm-12 col-md-8">
             <div class="row">
             @foreach($professional_category as $key => $row)
             <div class="col-6 col-md-6">
@@ -138,10 +141,10 @@ p.mb-65 {
 
 <section class="featured-products-section bg_lite" id="section3">
     <div class="container">
-        <h2 class="section-title heading-border ls-20 border-0">Browse ideas by Room</h2>
+        <h2 class="section-title heading-border ls-20 border-0">{{$language[198][session()->get('lang')]}}</h2>
         <div class="row">
             @foreach($idea_category as $row)
-            <div class="col-4 col-md-3 col-lg-4">
+            <div class="translate col-4 col-md-3 col-lg-4">
                 <a href="/get-ideas/{{$row->id}}/0/0" class="style2"><div class="card">
                     <div class="card-title">{{$row->category}}</div>
                     <img src="/upload_files/{{$row->image}}" class="img-responsive" height="">
@@ -181,7 +184,7 @@ p.mb-65 {
         </div>
         <br>
         <div class="text-center">
-            <a href="/get-ideas/0/0/0" class="btn btn-dark btn-lg view-text">View your ideas</a>
+            <a href="/get-ideas/0/0/0" class="btn btn-dark btn-lg view-text">{{$language[199][session()->get('lang')]}}</a>
         </div>
     </div>
 </section>
@@ -190,8 +193,8 @@ p.mb-65 {
     <div class="container">
         <div class="row text-center">
             <div class="col-sm-12 col-md-12"><br>
-                <h1 class="text_brown">Good ideas beget great designs</h1><br>
-                <h3 class="sub-title">But design is nothing without details and finesse. We bring the experience and dedication to deliver your dream.</h3>
+                <h1 class="text_brown">{{$language[200][session()->get('lang')]}}</h1><br>
+                <h3 class="sub-title">{{$language[201][session()->get('lang')]}}</h3>
             </div>
         </div>
     </div>
@@ -199,8 +202,8 @@ p.mb-65 {
 
 <section class="featured-products-section">
     <div class="container">
-        <h2 class="section-title heading-border ls-20 border-0">Contact the professional</h2>
-        <div class="row">
+        <h2 class="section-title heading-border ls-20 border-0">{{$language[202][session()->get('lang')]}}</h2>
+        <div class="row translate">
             @foreach($professional_category_footer as $key => $row)
             <div class="col-6 col-sm-4 col-md-4 col-lg-2">
                 <a href="/professional-list/{{$row->id}}/0/0" class="style2"><div class="card">
@@ -212,7 +215,7 @@ p.mb-65 {
              @endforeach
         </div><br>
         <div class="text-center">
-            <a href="/professional-list/0/0/0" class="btn btn-dark">View all</a>
+            <a href="/professional-list/0/0/0" class="btn btn-dark">{{$language[203][session()->get('lang')]}}</a>
         </div>
     </div>
 </section>

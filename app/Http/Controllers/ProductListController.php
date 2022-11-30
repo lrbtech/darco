@@ -25,6 +25,7 @@ use App\Models\order_items;
 use App\Models\vendor_enquiry;
 use App\Models\shipping_address;
 use App\Models\reviews;
+use App\Models\language;
 use Hash;
 use DB;
 use Mail;
@@ -124,7 +125,8 @@ class ProductListController extends Controller
         $city_all = city::where('status',0)->where('parent_id',0)->get();
         $brand_all = brand::where('status',0)->get();
 
-        return view('website.process.product_list',compact('category_all','subcategory_all','category_data','subcategory_data','subsubcategory_data','product','category_id','subcategory_id','subsubcategory_id','search_id','brand_all','city_all'));
+        $language = language::all();
+        return view('website.process.product_list',compact('category_all','subcategory_all','category_data','subcategory_data','subsubcategory_data','product','category_id','subcategory_id','subsubcategory_id','search_id','brand_all','city_all','language'));
     }
 
     public function searchproductlist($category,$subcategory,$subsubcategory,$search, Request $request)
@@ -174,7 +176,8 @@ class ProductListController extends Controller
         $city_all = city::where('status',0)->where('parent_id',0)->get();
         $brand_all = brand::where('status',0)->get();
 
-        return view('website.process.product_list',compact('category_all','subcategory_all','category_data','subcategory_data','subsubcategory_data','product','category_id','subcategory_id','subsubcategory_id','search_id','brand_all','city_all'));
+        $language = language::all();
+        return view('website.process.product_list',compact('category_all','subcategory_all','category_data','subcategory_data','subsubcategory_data','product','category_id','subcategory_id','subsubcategory_id','search_id','brand_all','city_all','language'));
     }
 
     public function productdetails($id)
@@ -210,8 +213,9 @@ class ProductListController extends Controller
         $reviews_5 = reviews::where('product_id',$id)->where('rating',5)->count();
 
 
+        $language = language::all();
 
-        return view('website.process.product_details',compact('product','product_images','vendor','related_products','category_all','reviews','buy_product','reviews_count','all_reviews','reviews_1','reviews_2','reviews_3','reviews_4','reviews_5'));
+        return view('website.process.product_details',compact('product','product_images','vendor','related_products','category_all','reviews','buy_product','reviews_count','all_reviews','reviews_1','reviews_2','reviews_3','reviews_4','reviews_5','language'));
     }
 
     public static function viewratingpercentage($id) {
@@ -317,6 +321,20 @@ class ProductListController extends Controller
                     $i->join('vendors as v', 'v.id', '=', 'p.vendor_id');
                     $i->whereIn('v.city', $request->city);
                 }
+                // $attributes = attributes::where('status',0)->get();
+                // foreach($attributes as $row){
+                //     $att_field = $attributes.$row->id;
+                //     if ($request->$att_field && !empty($request->$att_field) )
+                //     {
+                //         $i->join('product_attributes as pa', 'pa.product_id', '=', 'p.id');
+                //         $i->whereIn('pa.attribute_value', $request->$att_field);
+                //     }
+                // }
+                if ($request->get('attributes') && !empty($request->get('attributes')) )
+                {
+                    $i->join('product_attributes as pa', 'pa.product_id', '=', 'p.id');
+                    $i->whereIn('pa.attribute_value',$request->get('attributes'));
+                }
                 $i->select('p.*');
                 $i->where('p.status',0);
                 $i->whereNotIn('p.id' , $iddata);
@@ -349,6 +367,20 @@ class ProductListController extends Controller
                 {
                     $i->join('vendors as v', 'v.id', '=', 'p.vendor_id');
                     $i->whereIn('v.city', $request->city);
+                }
+                // $attributes = attributes::where('status',0)->get();
+                // foreach($attributes as $row){
+                //     $att_field = $attributes.$row->id;
+                //     if ($request->$att_field && !empty($request->$att_field) )
+                //     {
+                //         $i->join('product_attributes as pa', 'pa.product_id', '=', 'p.id');
+                //         $i->whereIn('pa.attribute_value', $request->$att_field);
+                //     }
+                // }
+                if ($request->get('attributes') && !empty($request->get('attributes')) )
+                {
+                    $i->join('product_attributes as pa', 'pa.product_id', '=', 'p.id');
+                    $i->whereIn('pa.attribute_value',$request->get('attributes'));
                 }
                 $i->select('p.*');
                 $i->where('p.status',0);
@@ -431,7 +463,8 @@ else
     ';
     // }
 }
-        echo $output;
+        print_r($output);
+    
         }
     }
 

@@ -12,6 +12,7 @@ use App\Models\order_items;
 use App\Models\product;
 use App\Models\shipping_address;
 use App\Models\roles;
+use App\Models\language;
 use Hash;
 use DB;
 use Mail;
@@ -28,7 +29,8 @@ class OrderController extends Controller
     }
 
     public function orders(){
-        return view('admin.orders');
+        $language = language::all();
+        return view('admin.orders',compact('language'));
     }
 
     public function changeorderstatus($id,$status){
@@ -44,8 +46,8 @@ class OrderController extends Controller
         $billing_address = shipping_address::find($orders->billing_address_id);
         $vendor = vendor::find($orders->vendor_id);
         $customer = User::find($orders->customer_id);
-
-        return view('admin.view_order',compact('orders','billing_address','vendor','customer','order_items'));
+        $language = language::all();
+        return view('admin.view_order',compact('orders','billing_address','vendor','customer','order_items','language'));
     }
 
     public function getorders(Request $request){

@@ -42,6 +42,7 @@ class CreateVendorsTable extends Migration
             $table->string('website')->nullable();
             $table->string('landline')->nullable();
             $table->TEXT('about_us')->nullable();
+            $table->string('country_code')->nullable();
             $table->string('country')->nullable();
             $table->string('cover_image')->nullable();
             $table->string('profile_image')->nullable();

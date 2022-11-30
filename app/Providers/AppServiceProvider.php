@@ -3,10 +3,12 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Session;
 use Cart;
 use App\Models\favourites;
 use App\Models\favourites_idea;
 use App\Models\roles;
+use App\Models\language;
 use Auth;
 
 class AppServiceProvider extends ServiceProvider
@@ -31,7 +33,8 @@ class AppServiceProvider extends ServiceProvider
         view()->composer('admin.sidebar', function($view) {
             $role_get = roles::find(Auth::guard('admin')->user()->role_id);
 
-            $view->with(compact('role_get'));
+            $language = language::all();
+            $view->with(compact('role_get','language'));
         });
 
         view()->composer('website.layouts', function($view) {
@@ -43,7 +46,13 @@ class AppServiceProvider extends ServiceProvider
             }else{
                 $wishlist_count = 0;
             }
-            $view->with(compact('cart_items','wishlist_count'));
+            $language = language::all();
+            $view->with(compact('cart_items','wishlist_count','language'));
+        });
+
+        view()->composer('vendor.layouts', function($view) {
+            $language = language::all();
+            $view->with(compact('language'));
         });
     }
 }

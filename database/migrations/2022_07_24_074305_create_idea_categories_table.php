@@ -18,6 +18,7 @@ class CreateIdeaCategoriesTable extends Migration
             $table->string('date')->nullable();
             $table->string('parent_id')->nullable();
             $table->string('category')->nullable();
+            $table->string('category_arabic')->nullable();
             $table->string('image')->nullable();
             $table->string('icon')->nullable();
             $table->string('status')->default('0');

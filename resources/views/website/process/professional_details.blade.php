@@ -33,7 +33,7 @@ min-height:150px;
 @endsection
 @section('content')
 
-<main class="main">
+<main class="translate main">
     <div class="page-header breadcrumb-wrap">
         <div class="container">
             <div class="breadcrumb">

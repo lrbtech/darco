@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\language;
 use Auth;
 class ChatController extends Controller
 {
@@ -14,6 +15,7 @@ class ChatController extends Controller
         date_default_timezone_get();
     }
     public function chat(){
-        return view("customer.chat");
+        $language = language::all();
+        return view("customer.chat",compact('language'));
     }
 }

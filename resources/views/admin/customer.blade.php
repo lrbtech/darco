@@ -8,13 +8,13 @@
     <div class="content-wrapper">
       <div class="content-header row">
         <div class="content-header-left col-md-6 col-12 mb-2 breadcrumb-new">
-          <h3 class="content-header-title mb-0 d-inline-block">Customers</h3>
+          <h3 class="content-header-title mb-0 d-inline-block">{{$language[13][Auth::guard('admin')->user()->lang]}}</h3>
           <div class="row breadcrumbs-top d-inline-block">
             <div class="breadcrumb-wrapper col-12">
               <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a>
                 </li>
-                <li class="breadcrumb-item"><a href="#">All Customers</a>
+                <li class="breadcrumb-item"><a href="#">{{$language[14][Auth::guard('admin')->user()->lang]}}</a>
                 </li>
               </ol>
             </div>
@@ -39,7 +39,7 @@
             <div class="col-12">
               <div class="card">
                 <div class="card-header">
-                  <h4 class="card-title">All Customers</h4>
+                  <h4 class="card-title">{{$language[14][Auth::guard('admin')->user()->lang]}}</h4>
                   <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                   <div class="heading-elements">
                     <ul class="list-inline mb-0">
@@ -56,12 +56,12 @@
                       <thead>
                         <tr>
                           <th>#</th>
-                          <th>Date</th>
-                          <th>Name</th>
-                          <th>Mobile</th>
-                          <th>E-mail</th>
-                          <th>Status</th>
-                          <th>Action</th>
+                          <th>{{$language[15][Auth::guard('admin')->user()->lang]}}</th>
+                          <th>{{$language[16][Auth::guard('admin')->user()->lang]}}</th>
+                          <th>{{$language[17][Auth::guard('admin')->user()->lang]}}</th>
+                          <th>{{$language[18][Auth::guard('admin')->user()->lang]}}</th>
+                          <th>{{$language[19][Auth::guard('admin')->user()->lang]}}</th>
+                          <th>{{$language[20][Auth::guard('admin')->user()->lang]}}</th>
                         </tr>
                       </thead>
                       <tbody>

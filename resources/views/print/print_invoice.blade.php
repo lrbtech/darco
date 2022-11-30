@@ -6,7 +6,9 @@
   vertical-align: middle;
 }
 </style>
-
+<?php
+$url = asset('');
+?>
 <html style="border: 0; margin: 0; padding: 0;">
 <head>
   <title>Invoice</title>
@@ -22,7 +24,10 @@
               <td valign="top">
                 <div style="height:180px; overflow: hidden;">
                   <div style="padding-top:40px; padding-left: 40px; float: left; width: 30%">
-                    <h2 style="font-weight:bold; font-size: 32px; color: #2d87ba; max-width: 85%; line-height: 1.1; margin: 10px 0 0; padding: 0; float: left">Invoice</h2>
+                    <!-- <h2 style="font-weight:bold; font-size: 32px; color: #2d87ba; max-width: 85%; line-height: 1.1; margin: 10px 0 0; padding: 0; float: left">
+                    Invoice
+                    </h2> -->
+                    <img style="width:100px;" src="{{ public_path('website_assets/images/logo-light.png') }}">
                   </div>
                   <div style="color:black; text-align: right; padding-top:40px; padding-right: 40px; float: right;">
                     <span style="color:black;font-weight:bold;">
@@ -148,20 +153,27 @@
 <style media="screen">
     #invoice-footer { 
         position: fixed;
-        margin-top: -5em; /* negative value of footer height */
+        margin-top: -5em;
         height: 5em;
         clear: both;
         margin-left: 30px;
         margin-right: 20px;
     }
 </style>
-                <!-- <div id="invoice-footer" style="margin-top: 60px; padding: 0 0 0 20px; overflow: hidden;border-top:1px solid #dadada; page-break-inside: avoid;">
-                  <div style="color:gray;padding: 0px 0px 0 0px; float: left; width: 60%;">
-                    <h3 style="margin: 0 0 0px; font-size: 13px; color: #2d87ba;"><label id="tmp_terms_label">Terms and Conditions</label></h3>
-                    <pre style="color:#000; padding: 0px 20px 0 0; display: block; font-size: 12px; font-family: Verdana, Helvetica, Arial, sans-serif;" wrap="soft">1.Goods once Sold wil not be taken back</pre>
-                    <pre style="color:#000; padding: 0px 20px 0 0; display: block; font-size: 12px; font-family: Verdana, Helvetica, Arial, sans-serif;" wrap="soft">2.Manufacturer warranty only.</pre>
+                <div id="invoice-footer" style="margin-top: 200px; padding: 0 0 0 20px; border-top:1px solid #dadada; page-break-inside: avoid;">
+                  <div style="color:gray;padding: 0px 0px 0 0px;">
+                    <!-- <h3 style="margin: 0 0 0px; font-size: 13px; color: #2d87ba;"><label id="tmp_terms_label">Terms and Conditions</label></h3> -->
+                    <p style="color:#000;font-size: 12px; font-family: Verdana, Helvetica, Arial, sans-serif;" wrap="soft">
+                    All information in the Service is provided "as is", with no guarantee of completeness, accuracy, timeliness or of the results obtained from the use of this information, and without warranty of any kind, express or implied, including, but not limited to warranties of performance, merchantability and fitness for a particular purpose.
+                    <br>
+                    The Company will not be liable to You or anyone else for any decision made or action taken in reliance on the information given by the Service or for any consequenti
+                    <br>
+                    If you have any questions about this Disclaimer, You can contact Us:
+                    <br>
+                    By email: info@darstore.org</p>
+                    <!-- <pre style="color:#000; padding: 0px 20px 0 0; display: block; font-size: 12px; font-family: Verdana, Helvetica, Arial, sans-serif;" wrap="soft">2.Manufacturer warranty only.</pre> -->
                   </div>
-                </div> -->
+                </div>
                 
               </td>
             </tr>

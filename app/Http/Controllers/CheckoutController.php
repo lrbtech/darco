@@ -19,6 +19,7 @@ use App\Models\attribute_fields;
 use App\Models\product_group;
 use App\Models\coupon;
 use App\Models\language;
+use App\Models\settings;
 use Hash;
 use DB;
 use Mail;
@@ -248,7 +249,7 @@ class CheckoutController extends Controller
                 $commission_amount = ($vendor_commission->vendor_commission / 100) * $total;
 
                 $orders->commission_percentage = $vendor_commission->vendor_commission;
-                $orders->commission_amount = $request->commission_amount;
+                $orders->commission_amount = $commission_amount;
                 $orders->save();
 
 
@@ -421,7 +422,11 @@ class CheckoutController extends Controller
             $OrderID = $_GET['OrderID'];
 
             $total = 0;
+            $sub_total = 0;
+            $shipping_charge = 0;
+            $service_charge = 0;
             $getorders = orders::where('invoiceid',$OrderID)->get();
+            $order_count = 0;
             foreach($getorders as $row){
                 $orders = orders::find($row->id);
                 $total = $total + $orders->total;
@@ -431,7 +436,35 @@ class CheckoutController extends Controller
                 $orders->invoicereference = $Ref;
                 $orders->payment_status = 1;
                 $orders->save();
+
+                $order_items = order_items::where('order_id',$row->id)->get();
+                $order_items_count = order_items::where('order_id',$row->id)->count();
+                $billing_address = shipping_address::find($orders->billing_address_id);
+                $vendor = vendor::find($orders->vendor_id);
+                $customer = User::find($orders->customer_id);
+                $settings = settings::find(1);
+
+                $sub_total = $sub_total + $orders->sub_total;
+                $service_charge = $service_charge + $orders->service_charge;
+                $shipping_charge = $shipping_charge + $orders->shipping_charge;
+                $order_count = $order_count + $order_items_count;
+
+                Mail::send('mail.order_confirm',compact('orders','billing_address','vendor','customer','order_items','settings','order_count','sub_total','total','shipping_charge','service_charge'),function($message) use($customer){
+                    $message->to($customer->email)->subject('DARDESIGN Confirm your Order');
+                    $message->from('mail.lrbinfotech@gmail.com','DARDESIGN');
+                });
+
+                Mail::send('mail.order_confirm_admin',compact('orders','billing_address','vendor','customer','order_items','settings','order_count','sub_total','total','shipping_charge','service_charge'),function($message) use($customer){
+                    $message->to('sales@darstore.me')->subject('DARDESIGN New Order');
+                    $message->from('mail.lrbinfotech@gmail.com','DARDESIGN');
+                });
+    
             }
+
+
+
+            $pdf = PDF::loadView('print.print_invoice',compact('orders','billing_address','vendor','customer','order_items','settings'));
+            $pdf->setPaper('A4');
 
             $this->htmloutput('Transcation Success',$paymentId,$total);
 

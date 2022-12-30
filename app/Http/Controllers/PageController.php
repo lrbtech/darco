@@ -49,8 +49,9 @@ class PageController extends Controller
         $billing_address = shipping_address::find($orders->billing_address_id);
         $vendor = vendor::find($orders->vendor_id);
         $customer = User::find($orders->customer_id);
+        $settings = settings::find(1);
 
-        $pdf = PDF::loadView('print.print_invoice',compact('orders','billing_address','vendor','customer','order_items'));
+        $pdf = PDF::loadView('print.print_invoice',compact('orders','billing_address','vendor','customer','order_items','settings'));
         $pdf->setPaper('A4');
         return $pdf->stream('invoice.pdf');
     }

@@ -281,4 +281,20 @@ class SettingsController extends Controller
     }
 
 
+    public function settings(){
+        $settings = settings::find(1);
+        $language = language::all();
+        return view('admin.settings',compact('settings','language'));
+    }
+
+    public function updatesettings(Request $request){
+        $settings = settings::find($request->id);
+        $settings->invoice_footer = $request->invoice_footer;
+        $settings->save();
+
+        return back();
+        //return response()->json('successfully update'); 
+    }
+
+
 }

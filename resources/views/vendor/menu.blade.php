@@ -12,8 +12,8 @@
           <li class="dropdown nav-item" data-menu="dropdown"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown"><i class="la la-shopping-cart"></i><span>Products</span></a>
           <ul class="dropdown-menu">
             <!-- <li class="dropdown"><a class="dropdown-item" href="/vendor/attributes">Attributes</a></li> -->
-            <li class="dropdown"><a class="dropdown-item" href="/vendor/product-group">Product Groups</a></li>
-            <li class="dropdown"><a class="dropdown-item" href="/vendor/product">Product</a></li>
+            <li class="dropdown"><a class="dropdown-item" href="/vendor/product-group">Product Name</a></li>
+            <li class="dropdown"><a class="dropdown-item" href="/vendor/product">Product Varients</a></li>
           </ul>
         </li>
         <!-- <li class="product nav-item">

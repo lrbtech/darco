@@ -35,6 +35,7 @@ class CreateSettingsTable extends Migration
             $table->text('vendor_guide')->nullable();
             $table->text('professional_guide')->nullable();
             $table->text('delivery_information')->nullable();
+            $table->text('invoice_footer')->nullable();
             $table->timestamps();
         });
     }

@@ -134,6 +134,7 @@ class ProductController extends Controller
         $product->vendor_id = Auth::guard('vendor')->user()->id;
         $product->product_group = $request->product_group;
         $product->product_name = $request->product_name;
+        $product->product_name_arabic = $request->product_name_arabic;
         $product->category = $request->category;
         $product->subcategory = $request->subcategory;
         $product->subsubcategory = $request->subsubcategory;
@@ -143,6 +144,8 @@ class ProductController extends Controller
         $product->stock = $request->stock;
         $product->description = $request->description;
         $product->specifications = $request->specifications;
+        $product->description_arabic = $request->description_arabic;
+        $product->specifications_arabic = $request->specifications_arabic;
         $product->height_weight_size = $request->height_weight_size;
         $product->shipping_charge = $request->shipping_charge;
         $product->shipping_description = $request->shipping_description;
@@ -250,6 +253,7 @@ class ProductController extends Controller
         $product = product::find($request->id);
         $product->product_group = $request->product_group;
         $product->product_name = $request->product_name;
+        $product->product_name_arabic = $request->product_name_arabic;
         $product->category = $request->category;
         $product->subcategory = $request->subcategory;
         $product->subsubcategory = $request->subsubcategory;
@@ -259,6 +263,8 @@ class ProductController extends Controller
         $product->stock = $request->stock;
         $product->description = $request->description;
         $product->specifications = $request->specifications;
+        $product->description_arabic = $request->description_arabic;
+        $product->specifications_arabic = $request->specifications_arabic;
         $product->height_weight_size = $request->height_weight_size;
         $product->shipping_charge = $request->shipping_charge;
         $product->shipping_description = $request->shipping_description;

@@ -153,8 +153,8 @@ $url = asset('');
 <style media="screen">
     #invoice-footer { 
         position: fixed;
-        margin-top: -5em;
-        height: 5em;
+        /* margin-top: -5em; */
+        /* height: 5em; */
         clear: both;
         margin-left: 30px;
         margin-right: 20px;
@@ -164,13 +164,8 @@ $url = asset('');
                   <div style="color:gray;padding: 0px 0px 0 0px;">
                     <!-- <h3 style="margin: 0 0 0px; font-size: 13px; color: #2d87ba;"><label id="tmp_terms_label">Terms and Conditions</label></h3> -->
                     <p style="color:#000;font-size: 12px; font-family: Verdana, Helvetica, Arial, sans-serif;" wrap="soft">
-                    All information in the Service is provided "as is", with no guarantee of completeness, accuracy, timeliness or of the results obtained from the use of this information, and without warranty of any kind, express or implied, including, but not limited to warranties of performance, merchantability and fitness for a particular purpose.
-                    <br>
-                    The Company will not be liable to You or anyone else for any decision made or action taken in reliance on the information given by the Service or for any consequenti
-                    <br>
-                    If you have any questions about this Disclaimer, You can contact Us:
-                    <br>
-                    By email: info@darstore.org</p>
+                    <?php echo $settings->invoice_footer; ?>
+                    </p>
                     <!-- <pre style="color:#000; padding: 0px 20px 0 0; display: block; font-size: 12px; font-family: Verdana, Helvetica, Arial, sans-serif;" wrap="soft">2.Manufacturer warranty only.</pre> -->
                   </div>
                 </div>

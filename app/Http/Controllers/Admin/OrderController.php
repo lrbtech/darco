@@ -13,6 +13,7 @@ use App\Models\product;
 use App\Models\shipping_address;
 use App\Models\roles;
 use App\Models\language;
+use App\Models\return_item;
 use Hash;
 use DB;
 use Mail;
@@ -126,5 +127,96 @@ class OrderController extends Controller
         ->make(true);
 
         //return Datatables::of($orders) ->addIndexColumn()->make(true);
+    }
+
+    public function getreturnitem(Request $request){
+        $return_item = return_item::orderBy('id','DESC')->get();
+        
+        return Datatables::of($return_item)
+            ->addColumn('date', function ($return_item) {
+                return '<td>
+                <p>'.date('d-m-Y',strtotime($return_item->date)).'</p>
+                </td>';
+            })
+
+            ->addColumn('customer', function ($return_item) {
+                $customer = User::find($return_item->customer_id);
+                return '<td>
+                <p>'.$customer->first_name.' '.$customer->last_name.'</p>
+                <p>Mobile : '.$customer->mobile.'</p>
+                </td>';
+            })
+
+            ->addColumn('product', function ($return_item) {
+                $product = product::find($return_item->product_id);
+                return '<td>
+                <p>'.$product->product_name.'</p>
+                </td>';
+            })
+
+            ->addColumn('image', function ($return_item) {
+                return '<td>
+                <img style="width:200px;" src="/return_image/'.$return_item->image.'">
+                </td>';
+            })
+
+            ->addColumn('return_pickup_description', function ($return_item) {
+                return '<td>'.$return_item->return_pickup_description.'</td>';
+            })
+
+            ->addColumn('return_reason', function ($return_item) {
+                return '<td>'.$return_item->return_reason.'</td>';
+            })
+
+            ->addColumn('description', function ($return_item) {
+                return '<td>'.$return_item->description.'</td>';
+            })
+
+            ->addColumn('total', function ($return_item) {
+                return '<td>'.$return_item->total.'</td>';
+            })
+
+            ->addColumn('status', function ($return_item) {
+                if($return_item->status == 0){
+                    return 'Waiting for Pickup';
+                }
+                elseif($return_item->status == 1){
+                    return 'Item Returned';
+                }
+                elseif($return_item->status == 2){
+                    return 'Request Canceled';
+                }
+            })
+
+            ->addColumn('action', function ($return_item) {
+                $output='';
+                if($return_item->status == 0){
+                    $output.='<button onclick="ChangeStatus('.$return_item->id.',1)"class="dropdown-item" type="button">Item Returned</button>';
+                    $output.='<button onclick="ChangeStatus('.$return_item->id.',2)"class="dropdown-item" type="button">Request Canceled</button>';
+                }
+                return '<td>
+                <div class="btn-group mr-1 mb-1">
+                    <button type="button" class="btn btn-danger btn-block dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Action</button>
+                    <div class="dropdown-menu open-left arrow" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 40px, 0px); top: 0px; left: 0px; will-change: transform;">
+                        
+                        <!--<div class="dropdown-divider"></div>-->
+                        '.$output.'
+                        
+                    </div>
+                </div>
+                </td>';
+            })
+           
+            
+        ->rawColumns(['date','customer', 'product', 'return_reason','total','status','description','action','return_pickup_description','image'])
+        ->addIndexColumn()
+        ->make(true);
+
+        //return Datatables::of($orders) ->addIndexColumn()->make(true);
+    }
+
+    public function returnitem(){
+        $language = language::all();
+        return view('admin.return_item',compact('language'));
     }
 }

@@ -140,6 +140,14 @@
                               <input value="{{$product->product_name}}" type="text" class="form-control required" id="product_name" name="product_name">
                             </div>
                           </div>
+                          <div class="col-md-6 arabic_content">
+                            <div class="form-group">
+                              <label for="product_name_arabic">
+                                Product Name Arabic: <span class="danger">*</span>
+                              </label>
+                              <input value="{{$product->product_name_arabic}}" type="text" class="form-control required" id="product_name_arabic" name="product_name_arabic">
+                            </div>
+                          </div>
                           <div class="col-md-6">
                             <div class="row">
                               <div class="col-md-4">
@@ -252,6 +260,21 @@
                             </div>
                           </div>
                         </div>
+
+                        <div class="row arabic_content">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="description_arabic">Product Description Arabic</label>
+                                <textarea name="description_arabic" id="description_arabic" rows="8" class="tinymce"><?php echo $product->description_arabic; ?></textarea>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="specifications_arabic">Product Specifications Arabic</label>
+                                <textarea name="specifications_arabic" id="specifications_arabic" rows="8" class="tinymce"><?php echo $product->specifications_arabic; ?></textarea>
+                            </div>
+                          </div>
+                        </div>
                        
                       </fieldset>
                       <!-- Step 2 -->
@@ -278,9 +301,9 @@
                           </div>
                           <div class="col-md-6">
                               <div class="form-group">
-                                <label class="product_group">Select Product Group</label>
+                                <label class="product_group">Select Product Name</label>
                                 <select required id="product_group" name="product_group" class="form-control">
-                                    <option value="">SELECT Product Group</option>
+                                    <option value="">SELECT Product Name</option>
                                     @foreach($product_group as $product_group1)
                                     @if($product_group1->id == $product->product_group)
                                     <option selected value="{{$product_group1->id}}" >{{$product_group1->group_name}}</option>

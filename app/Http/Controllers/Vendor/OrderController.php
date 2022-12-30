@@ -13,6 +13,7 @@ use App\Models\order_items;
 use App\Models\product;
 use App\Models\return_item;
 use App\Models\language;
+use App\Models\settings;
 use Hash;
 use DB;
 use Mail;
@@ -40,7 +41,20 @@ class OrderController extends Controller
             $orders->delivery_date = date('Y-m-d');
         }
         $orders->save();
-        return response()->json(['message'=>'Successfully Delete'],200); 
+
+        $order_items = order_items::where('order_id',$id)->get();
+        $order_count = order_items::where('order_id',$id)->count();
+        $billing_address = shipping_address::find($orders->billing_address_id);
+        $vendor = vendor::find($orders->vendor_id);
+        $customer = User::find($orders->customer_id);
+        $settings = settings::find(1);
+
+
+        Mail::send('mail.order_status',compact('orders','billing_address','vendor','customer','order_items','settings','order_count'),function($message) use($customer){
+            $message->to($customer->email)->subject('DARDESIGN Order Satatus');
+            $message->from('mail.lrbinfotech@gmail.com','DARDESIGN');
+        });
+        return response()->json(['message'=>'Successfully Update'],200); 
     }
 
     public function vieworder($id){

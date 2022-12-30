@@ -52,6 +52,7 @@
                 </div>
                 <div class="card-content collapse show">
                   <div class="card-body card-dashboard">
+                  <div class="table-responsive">
                     <table id="datatable" class="table table-striped table-bordered">
                       <thead>
                         <tr>
@@ -84,6 +85,7 @@
                         </tr>
                       </tfoot>
                     </table>
+                    </div>
                   </div>
                 </div>
               </div>

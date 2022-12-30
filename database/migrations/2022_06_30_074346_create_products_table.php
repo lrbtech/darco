@@ -20,6 +20,7 @@ class CreateProductsTable extends Migration
             $table->string('product_code',50)->nullable();
             $table->string('hsn_code',50)->nullable();
             $table->string('product_name')->nullable();
+            $table->string('product_name_arabic')->nullable();
             $table->string('category',20)->nullable();
             $table->string('subcategory',20)->nullable();
             $table->string('subsubcategory',20)->nullable();
@@ -29,6 +30,8 @@ class CreateProductsTable extends Migration
             $table->string('stock',20)->default('0');
             $table->TEXT('description')->nullable();
             $table->TEXT('specifications')->nullable();
+            $table->TEXT('description_arabic')->nullable();
+            $table->TEXT('specifications_arabic')->nullable();
             $table->string('height_weight_size')->nullable();
             $table->string('shipping_enable',11)->default('0');
             $table->string('shipping_charge',20)->nullable();

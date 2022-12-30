@@ -8,13 +8,13 @@
     <div class="content-wrapper">
       <div class="content-header row">
         <div class="content-header-left col-md-6 col-12 mb-2 breadcrumb-new">
-          <h3 class="content-header-title mb-0 d-inline-block">{{$language[96][Auth::guard('admin')->user()->lang]}}</h3>
+          <h3 class="content-header-title mb-0 d-inline-block">{{$language[88][Auth::guard('admin')->user()->lang]}}</h3>
           <div class="row breadcrumbs-top d-inline-block">
             <div class="breadcrumb-wrapper col-12">
               <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a>
                 </li>
-                <li class="breadcrumb-item"><a href="#">{{$language[96][Auth::guard('admin')->user()->lang]}}</a>
+                <li class="breadcrumb-item"><a href="#">Return Item</a>
                 </li>
               </ol>
             </div>
@@ -39,7 +39,7 @@
             <div class="col-12">
               <div class="card">
                 <div class="card-header">
-                  <h4 class="card-title">{{$language[96][Auth::guard('admin')->user()->lang]}}</h4>
+                  <h4 class="card-title">Return Item</h4>
                   <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                   <div class="heading-elements">
                     <ul class="list-inline mb-0">
@@ -52,38 +52,38 @@
                 </div>
                 <div class="card-content collapse show">
                   <div class="card-body card-dashboard">
-                  <div class="table-responsive">
+                    <div class="table-responsive">
                     <table id="datatable" class="table table-striped table-bordered">
                       <thead>
                         <tr>
-                          <th>#</th>
-                          <th>{{$language[97][Auth::guard('admin')->user()->lang]}}</th>
-                          <th>{{$language[98][Auth::guard('admin')->user()->lang]}}</th>
-                          <th>{{$language[99][Auth::guard('admin')->user()->lang]}}</th>
-                          <th>{{$language[100][Auth::guard('admin')->user()->lang]}}</th>
-                          <th>{{$language[101][Auth::guard('admin')->user()->lang]}}</th>
-                          <th>{{$language[102][Auth::guard('admin')->user()->lang]}}</th>
-                          <th>{{$language[103][Auth::guard('admin')->user()->lang]}}</th>
-                          <th>{{$language[104][Auth::guard('admin')->user()->lang]}}</th>
+                            <th>#</th>
+                            <th>Date</th>
+                            <th>Customer</th>
+                            <th>Product</th>
+                            <th>Return Reason</th>
+                            <th>Description</th>
+                            <th>Total</th>
+                            <th>Image</th>
+                            <th>Status</th>                        
                         </tr>
                       </thead>
                       <tbody>
                       </tbody>
                       <tfoot>
                         <tr>
-                          <th>#</th>
-                          <th>{{$language[97][Auth::guard('admin')->user()->lang]}}</th>
-                          <th>{{$language[98][Auth::guard('admin')->user()->lang]}}</th>
-                          <th>{{$language[99][Auth::guard('admin')->user()->lang]}}</th>
-                          <th>{{$language[100][Auth::guard('admin')->user()->lang]}}</th>
-                          <th>{{$language[101][Auth::guard('admin')->user()->lang]}}</th>
-                          <th>{{$language[102][Auth::guard('admin')->user()->lang]}}</th>
-                          <th>{{$language[103][Auth::guard('admin')->user()->lang]}}</th>
-                          <th>{{$language[104][Auth::guard('admin')->user()->lang]}}</th>
+                            <th>#</th>
+                            <th>Date</th>
+                            <th>Customer</th>
+                            <th>Product</th>
+                            <th>Return Reason</th>
+                            <th>Description</th>
+                            <th>Total</th>
+                            <th>Image</th>
+                            <th>Status</th>                        
                         </tr>
                       </tfoot>
                     </table>
-                  </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -101,14 +101,14 @@
 <script src="/app-assets/js/scripts/tables/datatables/datatable-basic.js" type="text/javascript"></script>
 
 <script>
-$('.payments-out-report').addClass('active');
+$('.return-item').addClass('active');
 
 var orderPageTable = $('#datatable').DataTable({
   "processing": true,
   "serverSide": true,
   //"pageLength": 50,
   "ajax":{
-      "url": "/admin/get-payments-out-report",
+      "url": "/admin/get-return-item",
       "dataType": "json",
       "type": "POST",
       "data":{ _token: "{{csrf_token()}}"}
@@ -116,32 +116,16 @@ var orderPageTable = $('#datatable').DataTable({
   "columns": [
     { data: 'DT_RowIndex', name: 'DT_RowIndex'},
     { data: 'date', date: 'name'},
-    { data: 'vendor', type: 'vendor'},
-    { data: 'total', type: 'total'},
-    { data: 'service_charge', name: 'service_charge' },
-    { data: 'commission', name: 'commission' },
-    { data: 'payable_amount', name: 'payable_amount' },
-    { data: 'paid_status', name: 'paid_status' },
-    { data: 'action', name: 'action' },
+    { data: 'customer', type: 'customer'},
+    { data: 'product', name: 'product'},
+    { data: 'return_reason', name: 'return_reason' },
+    { data: 'description', name: 'description' },
+    { data: 'total', name: 'total' },
+    { data: 'image', name: 'image' },
+    { data: 'status', name: 'status' },
+    // { data: 'action', name: 'action' },
   ]
 });
 
-function ChangeStatus(id,status){
-  var r = confirm("Are you sure");
-  if (r == true) {
-    $.ajax({
-      url : '/admin/change-status-paymentsout/'+id+'/'+status,
-      type: "GET",
-      dataType: "JSON",
-      success: function(data)
-      {
-        toastr.success(data, 'Successfully Update');
-        // location.reload();
-        var new_url = '/admin/get-payments-out-report';
-        orderPageTable.ajax.url(new_url).load(null, false);
-      }
-    });
-  } 
-}
 </script>
 @endsection

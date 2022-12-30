@@ -78,6 +78,10 @@
         </li>
         @endif
 
+        <li class="return-item nav-item">
+          <a href="/admin/return-item"><i class="la la-money"></i><span class="menu-title" data-i18n="nav.dash.main">Return Item</span></a>
+        </li>
+
         @if($role_get->settlement_report == 'on')
         <li class="payments-out-report nav-item">
           <a href="/admin/payments-out-report"><i class="la la-money"></i><span class="menu-title" data-i18n="nav.dash.main">{{$language[96][Auth::guard('admin')->user()->lang]}}</span></a>
@@ -122,6 +126,10 @@
 
         <li class="delivery-information nav-item">
             <a href="/admin/delivery-information"><i class="la la-wrench"></i><span class="menu-title" data-i18n="nav.dash.main">{{$language[113][Auth::guard('admin')->user()->lang]}}</span></a>
+        </li>
+
+        <li class="settings nav-item">
+            <a href="/admin/settings"><i class="la la-wrench"></i><span class="menu-title" data-i18n="nav.dash.main">Settings</span></a>
         </li>
 
         @if($role_get->terms_and_conditions == 'on')

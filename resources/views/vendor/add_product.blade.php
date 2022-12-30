@@ -127,6 +127,33 @@
                   <div class="card-body">
                     <form id="form" method="POST" action="#" class="steps-validation wizard-notification">
                     {{csrf_field()}}
+                      <!-- Step 0 -->
+                      <h6>Select Language</h6>
+                      <fieldset>
+                        <div class="row">
+                          
+                          <div class="col-md-3"></div>
+
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <br><br><br>
+                              <label for="assured_seller">Do you want Arabic Language?</label>
+                              <br>
+                              <div class="custom-control custom-radio custom-control-inline">  
+                                <input value="1" type="radio" id="language1" name="language" class="custom-control-input">  
+                                <label class="custom-control-label" for="language1"> No </label>  
+                              </div>  
+                              <div class="custom-control custom-radio custom-control-inline">  
+                                <input value="0" type="radio" id="language2" name="language" class="custom-control-input">  
+                                <label class="custom-control-label" for="language2"> Yes </label>  
+                              </div>  
+                            </div>
+                          </div>
+
+                          <div class="col-md-3"></div>
+                          
+                        </div>
+                      </fieldset>
                       <!-- Step 1 -->
                       <h6>Basic Details</h6>
                       <fieldset>
@@ -137,6 +164,14 @@
                                 Product Name : <span class="danger">*</span>
                               </label>
                               <input type="text" class="form-control required" id="product_name" name="product_name">
+                            </div>
+                          </div>
+                          <div class="col-md-6 arabic_content">
+                            <div class="form-group">
+                              <label for="product_name_arabic">
+                                Product Name Arabic: <span class="danger">*</span>
+                              </label>
+                              <input type="text" class="form-control required" id="product_name_arabic" name="product_name_arabic">
                             </div>
                           </div>
                           <div class="col-md-6">
@@ -244,6 +279,21 @@
                             </div>
                           </div>
                         </div>
+
+                        <div class="row arabic_content">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="description_arabic">Product Description Arabic</label>
+                                <textarea name="description_arabic" id="description_arabic" rows="8" class="tinymce"></textarea>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="specifications_arabic">Product Specifications Arabic</label>
+                                <textarea name="specifications_arabic" id="specifications_arabic" rows="8" class="tinymce"></textarea>
+                            </div>
+                          </div>
+                        </div>
                        
                       </fieldset>
                       <!-- Step 2 -->
@@ -263,9 +313,9 @@
                           </div>
                           <div class="col-md-6">
                               <div class="form-group">
-                                <label class="product_group">Select Product Group</label>
+                                <label class="product_group">Select Product Name</label>
                                 <select required id="product_group" name="product_group" class="form-control">
-                                  <option value="">SELECT Product Group</option>
+                                  <option value="">SELECT Product Name</option>
                                   @foreach($product_group as $row)
                                   <option value="{{$row->id}}">{{$row->group_name}}</option>
                                   @endforeach
@@ -468,6 +518,8 @@
 <script>
 // $('.product').addClass('active');
 
+$('.arabic_content').hide();
+
 $(document).ready(function () {
   $('input:radio[name="stock_status"]').click(function(){
     if ($(this).val() == '0') {
@@ -491,6 +543,14 @@ $(document).ready(function () {
     }
     else{
       $('.view_return_policy').hide();
+    }
+  });
+  $('input:radio[name="language"]').click(function(){
+    if ($(this).val() == '0') {
+      $('.arabic_content').show();
+    }
+    else{
+      $('.arabic_content').hide();
     }
   });
 });

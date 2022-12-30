@@ -20,6 +20,7 @@ use App\Models\orders;
 use App\Models\vendor_enquiry;
 use App\Models\shipping_address;
 use App\Models\language;
+use App\Models\settings;
 use Hash;
 use DB;
 use Mail;

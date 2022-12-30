@@ -152,6 +152,11 @@ Route::group(['prefix' => 'admin'],function(){
 	Route::get('/view-order/{id}', [App\Http\Controllers\Admin\OrderController::class, 'vieworder']);
 
 
+	Route::get('/return-item', [App\Http\Controllers\Admin\OrderController::class, 'returnitem']);
+    Route::POST('/get-return-item', [App\Http\Controllers\Admin\OrderController::class, 'getreturnitem']);
+
+
+
 
 	Route::get('/customer', [App\Http\Controllers\Admin\CustomerController::class, 'customer']);
     Route::POST('/get-customer', [App\Http\Controllers\Admin\CustomerController::class, 'getcustomer']);
@@ -314,6 +319,9 @@ Route::group(['prefix' => 'admin'],function(){
 
 	Route::get('/change-password', [App\Http\Controllers\Admin\HomeController::class, 'changepassword']);
 	Route::POST('/update-password', [App\Http\Controllers\Admin\HomeController::class, 'updatepassword']);
+
+	Route::get('/settings', [App\Http\Controllers\Admin\SettingsController::class, 'settings']);
+    Route::POST('/update-settings', [App\Http\Controllers\Admin\SettingsController::class, 'updatesettings']);
 
 	Route::get('/payments-out-report', [App\Http\Controllers\Admin\ReportController::class, 'paymentsoutreport']);
 	Route::POST('/get-payments-out-report', [App\Http\Controllers\Admin\ReportController::class, 'getpaymentsoutreport']);

@@ -234,9 +234,14 @@
                     <li class="nav-item">
                         <a class="nav-link" id="Additional-info-tab" data-bs-toggle="tab" href="#Additional-info">Additional info</a>
                     </li>
+                    @if($product->shipping_enable == '0')
+                    <li class="nav-item">
+                        <a class="nav-link" id="shipping-description-tab" data-bs-toggle="tab" href="#shipping-description">Shipping Description</a>
+                    </li>
+                    @endif
                     @if($product->return_policy == '0')
                     <li class="nav-item">
-                        <a class="nav-link" id="Vendor-info-tab" data-bs-toggle="tab" href="#Vendor-info">Return Policy</a>
+                        <a class="nav-link" id="return-policy-tab" data-bs-toggle="tab" href="#return-policy">Return Policy</a>
                     </li>
                     @endif
                     <li class="nav-item">
@@ -254,8 +259,17 @@
                             <?php echo $product->specifications; ?>
                         </div>
                     </div>
+                    @if($product->shipping_enable == '0')
+                    <div class="tab-pane fade" id="shipping-description">
+                        <h4 class="mb-30">Shipping Description</h4>
+                        <p>
+                            {{$product->shipping_description}}
+                        </p>
+                    </div>
+                    @endif
                     @if($product->return_policy == '0')
-                    <div class="tab-pane fade" id="Vendor-info">
+                    <div class="tab-pane fade" id="return-policy">
+                        <h4 class="mb-30">Return Policy</h4>
                         <p>
                             {{$product->return_description}}
                         </p>
@@ -521,8 +535,14 @@
             </div>
         </div>
         <ul class="contact-infor">
-            <li><img src="assets/imgs/theme/icons/icon-location.svg" alt="" /><strong>Address: </strong> <span>{{$vendor->address}}</span></li>
-            <li><img src="assets/imgs/theme/icons/icon-contact.svg" alt="" /><strong>Contact Seller:</strong><span>{{$vendor->mobile}}</span></li>
+            <li>
+                <img src="assets/imgs/theme/icons/icon-location.svg" alt="" /><strong>Address: </strong> <span>{{$vendor->address}}</span>
+            </li>
+            <!-- <li>
+                <img src="assets/imgs/theme/icons/icon-contact.svg" alt="" />
+                <strong>Contact Seller:</strong>
+                <span>{{$vendor->mobile}}</span>
+            </li> -->
             <li class="hr"><span></span></li>
         </ul>
         <h5 class="section-title style-3 mb-20">Return & Warranty</h5>

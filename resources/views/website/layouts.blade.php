@@ -880,7 +880,7 @@ body {
                                     <option value="2">{{$language[124][session()->get('lang')]}}</option>
                                     <option value="3">{{$language[125][session()->get('lang')]}}</option>
                                 </select>
-                                <input id="search_text" name="search_text" type="text" placeholder="{{$language[135][session()->get('lang')]}}" />
+                                <input autocomplete="off" id="search_text" name="search_text" type="text" placeholder="{{$language[135][session()->get('lang')]}}" />
                             </form>
                         </div>
                         <div class="header-action-right">
@@ -1115,7 +1115,7 @@ body {
             <div class="mobile-header-content-area">
                 <div class="mobile-search search-style-3 mobile-header-border">
                     <form action="#">
-                        <input type="text" placeholder="{{$language[135][session()->get('lang')]}}" />
+                        <input autocomplete="off" type="text" placeholder="{{$language[135][session()->get('lang')]}}" />
                         <button type="submit"><i class="fi-rs-search"></i></button>
                     </form>
                 </div>

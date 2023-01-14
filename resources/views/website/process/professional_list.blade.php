@@ -142,7 +142,7 @@
                         <div class="product-img-action-wrap">
                             <div class="product-img product-img-zoom">
                                 <div class="product-img-inner">
-                                    <a href="shop-product-right.html">
+                                    <a href="/professional-details/{{$row->id}}">
                                         <img class="default-img" src="/project_image/{{$row->image}}" alt="" />
                                         <img class="hover-img" src="/project_image/{{$row->image}}" alt="" />
                                     </a>
@@ -154,7 +154,7 @@
                             <div class="product-category">
                                 <a href="#">{{\App\Http\Controllers\PageController::viewvendorname($row->vendor_id)}}</a>
                             </div>
-                            <h2><a href="shop-product-right.html">{{$row->project_name}}</a></h2>
+                            <h2><a href="/professional-details/{{$row->id}}">{{$row->project_name}}</a></h2>
                             <!-- <div class="product-rate-cover">
                                 <div class="product-rate d-inline-block">
                                     <div class="product-rating" style="width: 90%"></div>
@@ -162,11 +162,14 @@
                                 <span class="font-small ml-5 text-muted"> (4.0)</span>
                                 <span class="ml-30">5 Reviews</span>
                             </div> -->
-                            <p class="mt-15 mb-15">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nam beatae consectetur, atque inventore aliquam adipisci perspiciatis nostrum qui consequatur praesentium?</p>
+                            <p class="mt-15 mb-15">
+                                <?php //echo $row->description; ?>
+                                <?php echo Str::limit($row->description, 300); ?>
+                            </p>
                             
                             <div class="mt-30 d-flex align-items-center">
+                                <br>
                                 <a aria-label="Buy now" class="btn" href="/professional-details/{{$row->id}}"><i class="fi-rs-envelope mr-5"></i>Contact Us</a>
-                                
                             </div>
                         </div>
                     </div>

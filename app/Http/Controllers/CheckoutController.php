@@ -388,9 +388,9 @@ class CheckoutController extends Controller
             'CstEmail'=>Auth::user()->email,
             'CstMobile'=>Auth::user()->mobile,
             'customer_unq_token'=>Auth::user()->user_unique_id,
-            'success_url'=>"http://92.99.113.69:5600/payment-success",
-            'error_url'=>'http://92.99.113.69:5600/payment-failed',
-            'notifyURL'=>'http://92.99.113.69:5600/webhook-testing',
+            'success_url'=>"http://darco.lrbinfotech.com/payment-success",
+            'error_url'=>'http://darco.lrbinfotech.com/payment-failed',
+            'notifyURL'=>'http://darco.lrbinfotech.com/webhook-testing',
         );
     
         $fields_string = http_build_query($request_data);

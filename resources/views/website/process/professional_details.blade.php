@@ -30,6 +30,9 @@ textarea {
 min-height:150px;
 }
 </style>
+<link rel="stylesheet" href="https://unpkg.com/photoswipe@beta/dist/photoswipe.css">
+<link rel="stylesheet" type="text/css" href="/slider/slideshow.css">
+<script src="/slider/gallery.js"></script>
 @endsection
 @section('content')
 
@@ -48,15 +51,14 @@ min-height:150px;
                 <div class="row">
                     <div class="col-xl-9">
                         <div class="product-detail accordion-detail">
-                                <h2 class="title-detail mb-50 mt-30">{{$project->project_name}}</h2>
-
+                            <h2 class="title-detail mb-50 mt-30">{{$project->project_name}}</h2>
                             <div class="row mb-50 mt-30">
                                 
                                 <div class="col-md-2 col-sm-12 col-xs-12 mb-md-0 mb-sm-5">
                                 </div>
                                 <div class="col-md-6 col-sm-12 col-xs-12 mb-md-0 mb-sm-5">       
 
-                                    <div class="detail-gallery">
+                                    {{--<div class="detail-gallery">
                                         <span class="zoom-icon"><i class="fi-rs-search"></i></span>
                                         <!-- MAIN SLIDES -->
                                         <div class="product-image-slider">
@@ -68,12 +70,53 @@ min-height:150px;
                                                 <img src="/project_image/{{$img->image}}" />
                                             </figure>
                                             @endforeach
-                                                                                                                                </div>
+                                        </div>
                                         <!-- THUMBNAILS -->
                                         <div class="slider-nav-thumbnails">
                                             <div><img src="/project_image/{{$project->image}}" /></div>
                                             @foreach($project_images as $img)
                                             <div><img src="/project_image/{{$img->image}}" /></div>
+                                            @endforeach
+                                        </div>
+                                    </div>--}}
+                                    <div class="detail-gallery pswp-gallery" id="gallery">
+                                        <div class="carousel carousel-main" data-flickity='{"pageDots": false }'>
+                                            <div class="carousel-cell pswp-gallery__item">
+                                            <a  href="/project_image/{{$project->image}}"
+                                                data-pswp-width="1700"
+                                                data-pswp-height="1285"
+                                                data-pswp-tile-url="/project_image/{z}/{x}_{y}.jpeg"
+                                                data-pswp-tile-size="254"
+                                                data-pswp-tile-overlap="1"
+                                                data-pswp-max-width="5832"
+                                                data-pswp-max-height="4409"
+                                                target="_blank">
+                                                <img src="/project_image/{{$project->image}}" alt="" />
+                                            </a>
+                                            <!-- <img src="/project_image/{{$project->image}}"/> -->
+                                            </div>
+                                            @foreach($project_images as $key => $row)
+                                            <div class="carousel-cell pswp-gallery__item">
+                                                <!-- <img src="/project_image/{{$row->image}}"/> -->
+                                            <a  href="/project_image/{{$row->image}}"
+                                                data-pswp-width="1700"
+                                                data-pswp-height="1285"
+                                                data-pswp-tile-url="/project_image/{z}/{x}_{y}.jpeg"
+                                                data-pswp-tile-size="254"
+                                                data-pswp-tile-overlap="1"
+                                                data-pswp-max-width="5832"
+                                                data-pswp-max-height="4409"
+                                                target="_blank">
+                                                <img src="/project_image/{{$row->image}}" alt="" />
+                                            </a>
+                                            </div>
+                                            @endforeach
+                                        </div>
+                                        <div class="carousel carousel-nav"
+                                        data-flickity='{ "asNavFor": ".carousel-main", "contain": true, "pageDots": false }'>
+                                            <div class="carousel-cell"><img src="/project_image/{{$project->image}}"/></div>
+                                            @foreach($project_images as $key => $row)
+                                            <div class="carousel-cell"><img src="/project_image/{{$row->image}}"/></div>
                                             @endforeach
                                         </div>
                                     </div>
@@ -92,9 +135,6 @@ min-height:150px;
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" id="Vendor-info-tab" data-bs-toggle="tab" href="#Vendor-info">Ideabook</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" id="Reviews-tab" data-bs-toggle="tab" href="#Reviews">Reviews (3)</a>
                                         </li>
                                     </ul>
                                     <div class="tab-content shop_info_tab entry-main-content">
@@ -115,8 +155,8 @@ min-height:150px;
                                                             <div class="product-img-action-wrap">
                                                                 <div class="product-img product-img-zoom">
                                                                     <a href="/professional-details/{{$row->id}}" tabindex="0">
-                                                                        <img class="default-img" src="/project_image/{{$row->image}}" alt="" />
-                                                                        <img class="hover-img" src="/project_image/{{$row->image}}" alt="" />
+                                                                        <img style="height:250px;" class="default-img" src="/project_image/{{$row->image}}" alt="" />
+                                                                        <img style="height:250px;" class="hover-img" src="/project_image/{{$row->image}}" alt="" />
                                                                     </a>
                                                                 </div>
                                                                 
@@ -152,8 +192,8 @@ min-height:150px;
                                                             <div class="product-img-action-wrap">
                                                                 <div class="product-img product-img-zoom">
                                                                     <a href="/get-idea-details/{{$row->id}}" tabindex="0">
-                                                                        <img class="default-img" src="/project_image/{{$row->image}}" alt="" />
-                                                                        <img class="hover-img" src="/project_image/{{$row->image}}" alt="" />
+                                                                        <img style="height:250px;" class="default-img" src="/project_image/{{$row->image}}" alt="" />
+                                                                        <img style="height:250px;" class="hover-img" src="/project_image/{{$row->image}}" alt="" />
                                                                     </a>
                                                                 </div>
                                                             </div>
@@ -168,141 +208,6 @@ min-height:150px;
                                                     @endforeach
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="tab-pane fade" id="Reviews">
-<!--Comments-->
-<div class="comments-area">
-    <div class="row">
-        <div class="col-lg-8">
-            <h4 class="mb-30">Customer questions & answers</h4>
-            <div class="comment-list">
-                <div class="single-comment justify-content-between d-flex mb-30">
-                    <div class="user justify-content-between d-flex">
-                        <div class="thumb text-center">
-                            <img src="assets/imgs/blog/author-2.png" alt="" />
-                            <a href="#" class="font-heading text-brand">Sienna</a>
-                        </div>
-                        <div class="desc">
-                            <div class="d-flex justify-content-between mb-10">
-                                <div class="d-flex align-items-center">
-                                    <span class="font-xs text-muted">December 4, 2021 at 3:12 pm </span>
-                                </div>
-                                <div class="product-rate d-inline-block">
-                                                                                                                        <div class="product-rating" style="width: 100%"></div>
-                                </div>
-                            </div>
-                            <p class="mb-10">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus, suscipit exercitationem accusantium obcaecati quos voluptate nesciunt facilis itaque modi commodi dignissimos sequi repudiandae minus ab deleniti totam officia id incidunt? <a href="#" class="reply">Reply</a></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="single-comment justify-content-between d-flex mb-30 ml-30">
-                    <div class="user justify-content-between d-flex">
-                        <div class="thumb text-center">
-                            <img src="assets/imgs/blog/author-3.png" alt="" />
-                            <a href="#" class="font-heading text-brand">Brenna</a>
-                        </div>
-                        <div class="desc">
-                            <div class="d-flex justify-content-between mb-10">
-                                <div class="d-flex align-items-center">
-                                    <span class="font-xs text-muted">December 4, 2021 at 3:12 pm </span>
-                                </div>
-                                <div class="product-rate d-inline-block">
-                                    <div class="product-rating" style="width: 80%"></div>
-                                </div>
-                            </div>
-                            <p class="mb-10">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus, suscipit exercitationem accusantium obcaecati quos voluptate nesciunt facilis itaque modi commodi dignissimos sequi repudiandae minus ab deleniti totam officia id incidunt? <a href="#" class="reply">Reply</a></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="single-comment justify-content-between d-flex">
-                    <div class="user justify-content-between d-flex">
-                        <div class="thumb text-center">
-                            <img src="assets/imgs/blog/author-4.png" alt="" />
-                            <a href="#" class="font-heading text-brand">Gemma</a>
-                        </div>
-                        <div class="desc">
-                            <div class="d-flex justify-content-between mb-10">
-                                <div class="d-flex align-items-center">
-                                    <span class="font-xs text-muted">December 4, 2021 at 3:12 pm </span>
-                                </div>
-                                <div class="product-rate d-inline-block">
-                                    <div class="product-rating" style="width: 80%"></div>
-                                </div>
-                            </div>
-                            <p class="mb-10">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus, suscipit exercitationem accusantium obcaecati quos voluptate nesciunt facilis itaque modi commodi dignissimos sequi repudiandae minus ab deleniti totam officia id incidunt? <a href="#" class="reply">Reply</a></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4">
-            <h4 class="mb-30">Customer reviews</h4>
-            <div class="d-flex mb-30">
-                <div class="product-rate d-inline-block mr-15">
-                    <div class="product-rating" style="width: 90%"></div>
-                </div>
-                <h6>4.8 out of 5</h6>
-            </div>
-            <div class="progress">
-                <span>5 star</span>
-                <div class="progress-bar" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%</div>
-            </div>
-            <div class="progress">
-                <span>4 star</span>
-                <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
-            </div>
-            <div class="progress">
-                <span>3 star</span>
-                <div class="progress-bar" role="progressbar" style="width: 45%" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100">45%</div>
-            </div>
-            <div class="progress">
-                <span>2 star</span>
-                <div class="progress-bar" role="progressbar" style="width: 65%" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">65%</div>
-            </div>
-            <div class="progress mb-30">
-                <span>1 star</span>
-                <div class="progress-bar" role="progressbar" style="width: 85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">85%</div>
-            </div>
-            <a href="#" class="font-xs text-muted">How are ratings calculated?</a>
-        </div>
-    </div>
-</div>
-<!--comment form-->
-<div class="comment-form">
-    <h4 class="mb-15">Add a review</h4>
-    <div class="product-rate d-inline-block mb-30"></div>
-    <div class="row">
-        <div class="col-lg-8 col-md-12">
-            <form class="form-contact comment_form" action="#" id="commentForm">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="form-group">
-                            <textarea class="form-control w-100" name="comment" id="comment" cols="30" rows="9" placeholder="Write Comment"></textarea>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <input class="form-control" name="name" id="name" type="text" placeholder="Name" />
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <input class="form-control" name="email" id="email" type="email" placeholder="Email" />
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="form-group">
-                            <input class="form-control" name="website" id="website" type="text" placeholder="Website" />
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="button button-contactForm">Submit Review</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
                                         </div>
                                     </div>
                                 </div>
@@ -338,7 +243,7 @@ min-height:150px;
                                 <li><img src="assets/imgs/theme/icons/icon-contact.svg" alt="" /><strong>Contact Seller:</strong><span>{{$vendor->mobile}}</span></li>
                                 <li class="hr"><span></span></li>
                             </ul>
-                            <div class="d-flex justify-content-between">
+                            <!-- <div class="d-flex justify-content-between">
                                 <div>
                                     <p class="text-brand font-xs">Rating</p>
                                     <h4 class="mb-0">92%</h4>
@@ -351,7 +256,7 @@ min-height:150px;
                                     <p class="text-brand font-xs">Chat response</p>
                                     <h4 class="mb-0">89%</h4>
                                 </div>
-                            </div>
+                            </div> -->
                             <ul>
                                 <li class="hr"><span></span></li>
                             </ul>
@@ -414,6 +319,55 @@ min-height:150px;
 
 @endsection
 @section('extra-js')
+<script>
+/* debug stuff */
+window.pswpDebug = {
+display_layer_borders: false,
+};
+for(let key in window.pswpDebug) {
+document.querySelector('#' + key).checked = window.pswpDebug[key];
+}
+[...document.querySelectorAll('.pswp-test input')].forEach((checkbox) => {
+checkbox.addEventListener('change', (e) => {
+    if (e.currentTarget.checked) {
+    window.pswpDebug[e.currentTarget.name] = true;
+    } else {
+    window.pswpDebug[e.currentTarget.name] = false;
+    }
+});
+});
+</script>
+
+<script type="module">
+import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@beta/dist/photoswipe-lightbox.esm.js';
+
+let deepZoomPlugin;
+const lightbox = new PhotoSwipeLightbox({
+gallery: '#gallery',
+children: '.pswp-gallery__item > a',
+
+pswpModule: () => import('https://unpkg.com/photoswipe@beta/dist/photoswipe.esm.js'),
+
+// dynamically load deep zoom plugin
+openPromise: () => {
+    // make sure it's initialized only once per lightbox
+    if (!deepZoomPlugin) {
+    return import('/slider/zoomimg.js').then((deepZoomPluginModule) => {
+        deepZoomPlugin = new deepZoomPluginModule.default(lightbox, {
+        // deep zoom plugin options
+        });
+    })
+    }
+},
+
+// Recommended PhotoSwipe options for this plugin
+allowPanToNext: false, // prevent swiping to the next slide when image is zoomed
+allowMouseDrag: true, // display dragging cursor at max zoom level
+wheelToZoom: true, // enable wheel-based zoom
+zoom: false // disable default zoom button
+});
+lightbox.init();
+</script>
 <script>
 function Send(){
   spinner_body.show();

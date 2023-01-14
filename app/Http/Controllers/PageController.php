@@ -28,9 +28,16 @@ use DB;
 use Mail;
 use Auth;
 use PDF;
+use Session;
 
 class PageController extends Controller
 {
+    public function __construct()
+    {
+        date_default_timezone_set("Asia/Kuwait");
+        date_default_timezone_get();
+        Session::put('lang', 'english');
+    }
 
     public function customerlogin($id){
         Auth::loginUsingId($id);

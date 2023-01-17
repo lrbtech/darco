@@ -304,7 +304,7 @@ button#chat-submit {
                   <a href="/customer/track-order/{{$row->id}}" class="btn-small d-block"><i class="fa fa-truck" aria-hidden="true"></i> Track Order</a>
                   @endif
                   <a href="/customer/view-orders/{{$row->id}}" class="btn-small d-block"><i class="fa fa-eye" aria-hidden="true"></i> View</a>
-                  <a href="javascript:void(null)" class="btn-small d-block chat-circle"><i class="fa fa-comments-o" aria-hidden="true"></i> Chat</a>
+                  <!-- <a href="javascript:void(null)" class="btn-small d-block chat-circle"><i class="fa fa-comments-o" aria-hidden="true"></i> Chat</a> -->
                 @endif
                 </td>
             </tr>

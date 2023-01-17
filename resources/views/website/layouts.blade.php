@@ -691,7 +691,7 @@ body {
 @endif
 <body class="notranslate" id="spinner_body">
     <!-- Quick view -->
-    <div class="modal fade custom-modal" id="quickViewModal" tabindex="-1" aria-labelledby="quickViewModalLabel" aria-hidden="true">
+    {{--<div class="modal fade custom-modal" id="quickViewModal" tabindex="-1" aria-labelledby="quickViewModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -781,7 +781,7 @@ body {
                 </div>
             </div>
         </div>
-    </div>
+    </div>--}}
     <header class="header-area header-style-1 header-style-5 header-height-2">
         <div class="header-top header-top-ptb-1 d-none d-lg-block">
             <div class="container">
@@ -1015,7 +1015,11 @@ body {
             <div class="container">
                 <div class="header-wrap header-space-between position-relative">
                     <div class="logo logo-width-1 d-block d-lg-none">
-                        <a href="/"><img src="/website_assets/images/logo-light.png" alt="logo" /></a>
+                        @if(session()->get('theme') == 'dark')
+                        <a href="/"><img style="margin-top:10px;padding:10px !important;" src="/website_assets/images/logo-dark.png" alt="logo" /></a>
+                        @else
+                        <a href="/"><img style="margin-top:10px;padding:10px !important;" src="/website_assets/images/logo-light.png" alt="logo" /></a>
+                        @endif
                     </div>
                     <div class="header-nav d-none d-lg-flex">
                       

@@ -395,7 +395,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      @foreach($orders as $row)
+                      @foreach($orders as $key => $row)
                       <tr>
                         <td class="text-truncate"><a href="#">#{{$row->id}}</a></td>
                         <td class="text-truncate"><a href="#">{{$row->date}}</a></td>
@@ -451,7 +451,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      @foreach($enquiry as $row)
+                      @foreach($enquiry as $key => $row)
                       <tr>
                         <td class="text-truncate">{{$key + 1}}</td>
                         <td class="text-truncate">{{$row->date}}</td>

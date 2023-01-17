@@ -611,33 +611,33 @@ body {
 </style>
 @if(session()->get('lang') == 'arabic')
 <style>
-    .sun-icon-wrapper {
-      position: absolute;
-      height: 2em;
-      width: 2em;
-      opacity: 1;
-      transform: translate(-50px, 4px) rotate(15deg);
-      transform-origin: 50% 50%;
-      transition: opacity 150ms, transform 500ms cubic-bezier(.26,2,.46,.71);
-    }
-    .toggle-button {
-  transform: translate(-0.25em, 4px);
-  position: absolute;
-  height: 2em;
-  width: 2em;
-  border-radius: 50%;
-  background-color: #ffeccf;
-  box-shadow: inset 0px 0px 0px 5px #ffbb52;
-  transition: background-color 250ms, border-color 250ms, transform 500ms cubic-bezier(.26,2,.46,.71);
+.sun-icon-wrapper {
+    position: absolute;
+    height: 2em;
+    width: 2em;
+    opacity: 1;
+    transform: translate(-50px, 4px) rotate(15deg);
+    transform-origin: 50% 50%;
+    transition: opacity 150ms, transform 500ms cubic-bezier(.26,2,.46,.71);
+}
+.toggle-button {
+    transform: translate(-0.25em, 4px);
+    position: absolute;
+    height: 2em;
+    width: 2em;
+    border-radius: 50%;
+    background-color: #ffeccf;
+    box-shadow: inset 0px 0px 0px 5px #ffbb52;
+    transition: background-color 250ms, border-color 250ms, transform 500ms cubic-bezier(.26,2,.46,.71);
 }
 .toggle-checkbox:checked ~ .toggle-slot .toggle-button {
-  background-color: #485367;
-  box-shadow: inset 0px 0px 0px 5px white;
-  transform: translate(-50px, 4px);
+    background-color: #485367;
+    box-shadow: inset 0px 0px 0px 5px white;
+    transform: translate(-50px, 4px);
 }
 .toggle-checkbox:checked ~ .toggle-slot .moon-icon-wrapper {
-  opacity: 1;
-  transform: translate(0em, 4px) rotate(-15deg);
+    opacity: 1;
+    transform: translate(0em, 4px) rotate(-15deg);
 }
 .logo.logo-width-1 {
     padding-left: 50px;

@@ -34,12 +34,25 @@
     .form-group input {
         color:#000 !important;
     }
+    .btn-heading, button.btn-heading[type="submit"] {
+    background-color: #260c7a;
+    border-color: #253D4E;
+    font-weight: 700;
+    border: 0;
+}
+   
     </style>
     @elseif(session()->get('theme') == 'dark')
     <link rel="stylesheet" href="/frontend/assets/css/dark.css?v=5.2" />
     <link id="themefile" rel="stylesheet" href="/theme/dark.css"/>
     <link rel="icon" type="image/x-icon" href="/website_assets/images/dark.ico">
     <style>
+         .btn-heading, button.btn-heading[type="submit"] {
+    background-color: #41eafc;
+    border-color: #253D4E;
+    font-weight: 700;
+    border: 0;
+}
     .single-content p {
         color:#fff;
     }
@@ -67,6 +80,12 @@
     <link rel="icon" type="image/x-icon" href="/website_assets/images/light.ico">
     <link id="themefile" rel="stylesheet" href="/frontend/assets/css/main.css?v=5.2" />
     <style>
+           .btn-heading, button.btn-heading[type="submit"] {
+    background-color: #260c7a;
+    border-color: #253D4E;
+    font-weight: 700;
+    border: 0;
+}
     .form-group select {
         background: #fff;
         border: 1px solid #ececec;
@@ -1387,9 +1406,10 @@ body {
                 <div class="text-center">
                     @if(session()->get('theme') == 'dark')
                     <!-- <img src="/frontend/assets/imgs/theme/dark.gif" alt="" /> -->
-                    <img src="/frontend/assets/imgs/theme/light.gif" alt="" />
+                   
+                    <img src="/images/light-loader.gif" alt="" width="200px"/>
                     @else
-                    <img src="/frontend/assets/imgs/theme/light.gif" alt="" />
+                    <img src="/images/dark-loader.gif" alt="" width="200px"/>
                     @endif
                 </div>
             </div>

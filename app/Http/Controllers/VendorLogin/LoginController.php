@@ -21,7 +21,6 @@ class LoginController extends Controller
 
     public function showLoginForm()
     {
-     
       return view('vendor-login.login');
     }
 
@@ -50,10 +49,7 @@ class LoginController extends Controller
           
     }
 
-    public function logout(){
-      Auth::guard('vendor')->logout();
-      return redirect('/vendor/login');
-    }
+    
 
 
 }

@@ -61,6 +61,8 @@ Route::get('/verify-vendor-account/{id}', [App\Http\Controllers\PageController::
 Route::post('/send-vendor-enquiry', [App\Http\Controllers\PageController::class, 'sendvendorenquiry']);
 Route::post('/save-vendor-enquiry', [App\Http\Controllers\PageController::class, 'savevendorenquiry']);
 
+Route::get('qrcode-add-to-card/{id}', [App\Http\Controllers\CartController::class, 'qrcodeaddtocard']);
+
 Route::get('cart', [App\Http\Controllers\CartController::class, 'cartlist']);
 Route::post('add-cart', [App\Http\Controllers\CartController::class, 'addtocart']);
 Route::get('update-cart/{product_id}/{qty}', [App\Http\Controllers\CartController::class, 'updatecart']);
@@ -78,6 +80,11 @@ Route::get('/online-pay/{order_id}/{invoice_id}', [App\Http\Controllers\Checkout
 
 Route::get('/payment-success', [App\Http\Controllers\CheckoutController::class, 'paymentsuccess']);
 Route::get('/payment-failed', [App\Http\Controllers\CheckoutController::class, 'paymentfailed']);
+
+Route::get('/mobile-payment-success', [App\Http\Controllers\HomeController::class, 'mobilepaymentsuccess']);
+Route::get('/mobile-payment-failed', [App\Http\Controllers\HomeController::class, 'mobilepaymentfailed']);
+
+Route::get('/mobile-loader', [App\Http\Controllers\HomeController::class, 'mobileloader']);
 
 Route::get('/print-invoice/{id}', [App\Http\Controllers\PageController::class, 'printinvoice']);
 
@@ -137,7 +144,7 @@ Route::group(['prefix' => 'admin'],function(){
 
 	Route::get('/login', [App\Http\Controllers\AdminLogin\LoginController::class, 'showLoginForm'])->name('admin.login');
 	Route::post('/login', [App\Http\Controllers\AdminLogin\LoginController::class, 'login'])->name('admin.login.submit');
-	Route::post('/logout', [App\Http\Controllers\AdminLogin\LoginController::class, 'logout'])->name('admin.logout');
+	Route::post('/logout', [App\Http\Controllers\HomeController::class, 'adminlogout'])->name('admin.logout');
 
 	Route::post('/password/email', [App\Http\Controllers\AdminLogin\ForgotPasswordController::class, 'sendResetLinkEmail'])->name('admin.password.email');
 	Route::get('/password/reset', [App\Http\Controllers\AdminLogin\ForgotPasswordController::class, 'showLinkRequestForm'])->name('admin.password.request');
@@ -232,6 +239,12 @@ Route::group(['prefix' => 'admin'],function(){
 	Route::POST('/update-area', [App\Http\Controllers\Admin\SettingsController::class, 'updatearea']);
 	Route::get('/edit-area/{id}', [App\Http\Controllers\Admin\SettingsController::class, 'editarea']);
 	Route::get('/delete-area/{id}/{status}', [App\Http\Controllers\Admin\SettingsController::class, 'deletearea']);
+
+	Route::get('/mobile-ad', [App\Http\Controllers\Admin\SettingsController::class, 'mobilead']);
+	Route::POST('/save-mobile-ad', [App\Http\Controllers\Admin\SettingsController::class, 'savemobilead']);
+	Route::POST('/update-mobile-ad', [App\Http\Controllers\Admin\SettingsController::class, 'updatemobilead']);
+	Route::get('/edit-mobile-ad/{id}', [App\Http\Controllers\Admin\SettingsController::class, 'editmobilead']);
+	Route::get('/delete-mobile-ad/{id}/{status}', [App\Http\Controllers\Admin\SettingsController::class, 'deletemobilead']);
 
 
 	//package
@@ -342,7 +355,7 @@ Route::group(['prefix' => 'vendor'],function(){
 
 	Route::get('/login', [App\Http\Controllers\VendorLogin\LoginController::class, 'showLoginForm'])->name('vendor.login');
 	Route::post('/login', [App\Http\Controllers\VendorLogin\LoginController::class, 'login'])->name('vendor.login.submit');
-	Route::post('/logout', [App\Http\Controllers\VendorLogin\LoginController::class, 'logout'])->name('vendor.logout');
+	Route::post('/logout', [App\Http\Controllers\HomeController::class, 'vendorlogout'])->name('vendor.logout');
 
 	Route::post('/password/email', [App\Http\Controllers\VendorLogin\ForgotPasswordController::class, 'sendResetLinkEmail'])->name('vendor.password.email');
 	Route::get('/password/reset', [App\Http\Controllers\VendorLogin\ForgotPasswordController::class, 'showLinkRequestForm'])->name('vendor.password.request');
@@ -464,6 +477,14 @@ Route::group(['prefix' => 'vendor'],function(){
 	Route::get('/change-password', [App\Http\Controllers\Vendor\HomeController::class, 'changepassword']);
 	Route::POST('/update-password', [App\Http\Controllers\Vendor\HomeController::class, 'updatepassword']);
 
+	Route::get('/chat-to-customer/{id}', [App\Http\Controllers\Vendor\ChatController::class, 'chatToCustomer']);
+	Route::get('/get-customer-chat/{id}', [App\Http\Controllers\Vendor\ChatController::class, 'getCustomerChat']);
+	Route::POST('/save-customer-chat', [App\Http\Controllers\Vendor\ChatController::class, 'saveCustomerChat']);
+
+	Route::get('/get-admin-chat/{id}', [App\Http\Controllers\Vendor\ChatController::class, 'getAdminChat']);
+	Route::POST('/save-admin-chat', [App\Http\Controllers\Vendor\ChatController::class, 'saveAdminChat']);
+
+
 });
 
 Route::group(['prefix' => 'professional'],function(){
@@ -484,6 +505,8 @@ Route::group(['prefix' => 'professional'],function(){
 
 
 Route::group(['prefix' => 'customer'],function(){
+	Route::post('/logout', [App\Http\Controllers\HomeController::class, 'customerlogout'])->name('customer.logout');
+
 	Route::get('/profile', [App\Http\Controllers\Customer\HomeController::class, 'profile']);
 	Route::get('/change-password', [App\Http\Controllers\Customer\HomeController::class, 'changepassword']);
     Route::get('/return-item', [App\Http\Controllers\Customer\HomeController::class, 'returnitem']);

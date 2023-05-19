@@ -9,7 +9,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>DARDESIGN</title>
+    <title>DARSTORE</title>
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -859,7 +859,7 @@ body {
                                     </div>
                                     </label>
                                 </li>
-                                <!-- <li>Need help? Email Us: <strong class="text-brand"> Info@DARDESIGN.com</strong></li> -->
+                                <!-- <li>Need help? Email Us: <strong class="text-brand"> Info@DARSTORE.com</strong></li> -->
                                 <!-- <li>
                                     <a class="language-dropdown-active" href="#">USD <i class="fi-rs-angle-small-down"></i></a>
                                     <ul class="language-dropdown">
@@ -958,12 +958,12 @@ body {
                                             @foreach($cart_items as $key => $row)
                                             <li>
                                                 <div class="shopping-cart-img">
-                                                    <a href="/product_drtails/{{$row->id}}">
+                                                    <a href="/product-details/{{$row->id}}">
                                                         <img src="/product_image/{{$row->attributes->product_image}}" />
                                                     </a>
                                                 </div>
                                                 <div class="shopping-cart-title">
-                                                    <h4><a href="/product_drtails/{{$row->id}}">{{$row->name}}</a></h4>
+                                                    <h4><a href="/product-details/{{$row->id}}">{{$row->name}}</a></h4>
                                                     <h3><span>{{$row->quantity}} × </span>KWD {{$row->price}}</h3>
                                                 </div>
                                                 <div class="shopping-cart-delete">
@@ -1010,8 +1010,8 @@ body {
                                                 <a href="/customer/change-password"><i class="fi fi-rs-settings-sliders mr-10"></i>{{$language[141][session()->get('lang')]}}</a>
                                             </li>
                                             <li>
-                                                <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fi fi-rs-sign-out mr-10"></i>{{$language[142][session()->get('lang')]}}</a>
-                                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                                <a href="{{ route('customer.logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fi fi-rs-sign-out mr-10"></i>{{$language[142][session()->get('lang')]}}</a>
+                                                <form id="logout-form" action="{{ route('customer.logout') }}" method="POST" style="display: none;">
                                                 @csrf
                                                 </form>
                                             </li>
@@ -1089,7 +1089,7 @@ body {
                                         @foreach($cart_items as $key => $row)
                                         <li>
                                             <div class="shopping-cart-img">
-                                                <a href="/product_drtails/{{$row->id}}"><img src="/product_image/{{$row->attributes->product_image}}" /></a>
+                                                <a href="/product-details/{{$row->id}}"><img src="/product_image/{{$row->attributes->product_image}}" /></a>
                                             </div>
                                             <div class="shopping-cart-title">
                                                 <h4><a href="shop-product-right.html">{{$row->name}}</a></h4>

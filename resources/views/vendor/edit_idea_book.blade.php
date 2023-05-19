@@ -382,6 +382,7 @@ var tr =
    '<img id="file-ip-'+count+'-preview" src="/upload_files/preview.png">'+
    '<button type="button" class="imgRemove" onclick="removeImageRows('+count+')"></button>'+
    '</label>'+
+   '<input type="hidden" name="image_id[]">'+
    '<input type="file" name="images[]" id="file-ip-'+count+'" accept=".png,.jpg,.jpeg" onchange="showPreview(event, '+count+');">'+
 '</div>';
 if(tableLength > 0) {	

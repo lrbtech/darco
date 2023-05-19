@@ -28,8 +28,8 @@
             <a class="nav-link change-password" href="/customer/change-password"><i class="fi-rs-user mr-10"></i>Change Password</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fi-rs-sign-out mr-10"></i>Logout</a>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            <a class="nav-link" href="{{ route('customer.logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fi-rs-sign-out mr-10"></i>Logout</a>
+            <form id="logout-form" action="{{ route('customer.logout') }}" method="POST" style="display: none;">
             @csrf
             </form>
         </li>

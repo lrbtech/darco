@@ -5,6 +5,11 @@ namespace App\Http\Controllers\VendorLogin;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Password;
+use Auth;
+use App\Models\User;
+use App\Models\admin;
+use DB;
+use Mail;
 
 class ForgotPasswordController extends Controller
 {
@@ -40,4 +45,6 @@ class ForgotPasswordController extends Controller
     {
         return view('vendor-login.passwords.email');
     }
+
+    
 }

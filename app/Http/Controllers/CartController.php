@@ -24,9 +24,16 @@ use DB;
 use Mail;
 use Auth;
 use Cart;
+use Session;
 
 class CartController extends Controller
 {
+    public function __construct()
+    {
+        date_default_timezone_set("Asia/Kuwait");
+        date_default_timezone_get();
+        Session::put('lang', 'english');
+    }
    
     public function cartlist()
     {
@@ -36,6 +43,26 @@ class CartController extends Controller
         return view('website.cart', compact('cart_items','language'));
     }
 
+    public function qrcodeaddtocard($sku_value){
+        $product = product::where('sku_value',$sku_value)->first();
+        Cart::add([
+            'id' => $product->id,
+            'name' => $product->product_name,
+            'quantity' => 1,
+            'price' => $product->sales_price,
+            'attributes' => array(
+                'product_image' => $product->image,
+                'vendor_id' => $product->vendor_id,
+                'shipping_charge' => $product->shipping_charge,
+                'tax_type' => $product->tax_type,
+                'tax_percentage' => 5,
+            )
+        ]);
+
+        $cart_items = Cart::getContent();
+        $language = language::all();
+        return view('website.cart', compact('cart_items','language'));
+    }
 
     public function addtocart(Request $request)
     {

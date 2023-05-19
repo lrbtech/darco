@@ -51,8 +51,8 @@ class OrderController extends Controller
 
 
         Mail::send('mail.order_status',compact('orders','billing_address','vendor','customer','order_items','settings','order_count'),function($message) use($customer){
-            $message->to($customer->email)->subject('DARDESIGN Order Satatus');
-            $message->from('mail.lrbinfotech@gmail.com','DARDESIGN');
+            $message->to($customer->email)->subject('DARSTORE Order Satatus');
+            $message->from('mail.lrbinfotech@gmail.com','DARSTORE');
         });
         return response()->json(['message'=>'Successfully Update'],200); 
     }

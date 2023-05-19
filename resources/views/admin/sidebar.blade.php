@@ -71,7 +71,6 @@
           data-placement="right" data-original-title="Layouts"></i>
         </li>
 
-
         @if($role_get->orders == 'on')
         <li class="orders nav-item">
           <a href="/admin/orders"><i class="la la-money"></i><span class="menu-title" data-i18n="nav.dash.main">{{$language[88][Auth::guard('admin')->user()->lang]}}</span></a>
@@ -103,6 +102,10 @@
             <a href="/admin/roles"><i class="la la-wrench"></i><span class="menu-title" data-i18n="nav.dash.main">{{$language[107][Auth::guard('admin')->user()->lang]}}</span></a>
         </li>
         @endif
+
+        <li class="mobile-ad nav-item">
+            <a href="/admin/mobile-ad"><i class="la la-wrench"></i><span class="menu-title" data-i18n="nav.dash.main">Mobile Ad</span></a>
+        </li>
 
         <li class="return-reason nav-item">
             <a href="/admin/return-reason"><i class="la la-wrench"></i><span class="menu-title" data-i18n="nav.dash.main">{{$language[108][Auth::guard('admin')->user()->lang]}}</span></a>
@@ -155,8 +158,6 @@
             @csrf
             </form>
         </li>
-
-
 
         <!-- <li class=" navigation-header">
           <span data-i18n="nav.category.support">Support</span><i class="la la-ellipsis-h ft-minus" data-toggle="tooltip"

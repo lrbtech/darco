@@ -12,6 +12,7 @@ use App\Models\settings;
 use App\Models\city;
 use App\Models\roles;
 use App\Models\language;
+use App\Models\app_slider;
 use Hash;
 use DB;
 use Mail;
@@ -294,6 +295,79 @@ class SettingsController extends Controller
 
         return back();
         //return response()->json('successfully update'); 
+    }
+
+    public function savemobilead(Request $request){
+        $this->validate($request, [
+            'category'=>'required',
+            'image' => 'required|mimes:jpeg,jpg,png|max:3000', // max 1000kb
+          ],[
+            'image.mimes' => 'Only jpeg, png and jpg images are allowed',
+            'image.max' => 'Sorry! Maximum allowed size for an image is 1MB',
+            'image.required' => 'Category Image Field is Required',
+        ]);
+
+        $app_slider = new app_slider;
+        $app_slider->category = $request->category;
+
+        if($request->image!=""){
+            if($request->file('image')!=""){
+            $image = $request->file('image');
+            $upload_image = rand().time().'.'.$image->getClientOriginalExtension();
+            $image->move(public_path('upload_files/'), $upload_image);
+            $app_slider->image = $upload_image;
+            }
+        }
+
+        $app_slider->save();
+
+        return response()->json('successfully save'); 
+    }
+    public function updatemobilead(Request $request){
+        $this->validate($request, [
+            'category'=>'required',
+            'image' => 'mimes:jpeg,jpg,png|max:3000', // max 1000kb
+          ],[
+            'image.mimes' => 'Only jpeg, png and jpg images are allowed',
+            'image.max' => 'Sorry! Maximum allowed size for an image is 1MB',
+        ]);
+        
+        $app_slider = app_slider::find($request->id);
+        $app_slider->category = $request->category;
+        if($request->image!=""){
+            $old_image = "upload_files/".$app_slider->image;
+            if (file_exists($old_image)) {
+                @unlink($old_image);
+            }
+            if($request->file('image')!=""){
+            $image = $request->file('image');
+            $upload_image = rand().time().'.'.$image->getClientOriginalExtension();
+            $image->move(public_path('upload_files/'), $upload_image);
+            $app_slider->image = $upload_image;
+            }
+        }
+        $app_slider->save();
+
+        return response()->json('successfully update'); 
+    }
+
+    public function mobilead(){
+        $app_slider = app_slider::all();
+        $role_get = roles::find(Auth::guard('admin')->user()->role_id);
+        $language = language::all();
+        return view('admin.mobile_ad',compact('app_slider','role_get','language'));
+    }
+
+    public function editmobilead($id){
+        $app_slider = app_slider::find($id);
+        return response()->json($app_slider); 
+    }
+    
+    public function deletemobilead($id,$status){
+        $app_slider = app_slider::find($id);
+        $app_slider->status = $status;
+        $app_slider->save();
+        return response()->json(['message'=>'Successfully Delete'],200); 
     }
 
 

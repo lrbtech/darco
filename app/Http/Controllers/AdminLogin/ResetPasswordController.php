@@ -7,6 +7,10 @@ use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
 use Password;
 use Auth;
+use App\Models\User;
+use App\Models\admin;
+use DB;
+use Mail;
 
 class ResetPasswordController extends Controller
 {

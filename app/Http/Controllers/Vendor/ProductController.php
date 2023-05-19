@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\product;
 use App\Models\product_attributes;
+use App\Models\product_specifications;
 use App\Models\category;
 use App\Models\attributes;
 use App\Models\attribute_fields;
@@ -29,6 +30,17 @@ class ProductController extends Controller
         date_default_timezone_set("Asia/Kuwait");
         date_default_timezone_get();
     }
+
+    private function generateSkuValue(){
+        $sku_value = mt_rand( 1000000000, 9999999999);
+        if(DB::table( 'products' )->where( 'sku_value', $sku_value )->exists()){
+            $this->generateSkuValue();
+        }
+        else{
+            return $sku_value;
+        }
+    }
+
 
     public function addproduct(){
         $category = category::where('status',0)->where('parent_id',0)->get();
@@ -131,6 +143,8 @@ class ProductController extends Controller
         }
 
         $product = new product;
+        $sku_value =  $this->generateSkuValue();
+        $product->sku_value = $sku_value;
         $product->vendor_id = Auth::guard('vendor')->user()->id;
         $product->product_group = $request->product_group;
         $product->product_name = $request->product_name;
@@ -144,8 +158,10 @@ class ProductController extends Controller
         $product->stock = $request->stock;
         $product->description = $request->description;
         $product->specifications = $request->specifications;
-        $product->description_arabic = $request->description_arabic;
-        $product->specifications_arabic = $request->specifications_arabic;
+        // $product->description_arabic = $request->description_arabic;
+        // $product->specifications_arabic = $request->specifications_arabic;
+        $product->mobile_description = $request->mobile_description;
+        $product->mobile_specifications = $request->mobile_specifications;
         $product->height_weight_size = $request->height_weight_size;
         $product->shipping_charge = $request->shipping_charge;
         $product->shipping_description = $request->shipping_description;
@@ -220,6 +236,18 @@ class ProductController extends Controller
     	    }
         }
 
+        for ($x=0; $x<count($_POST['value']); $x++) 
+    	{
+    		$product_specifications = new product_specifications;
+            $product_specifications->product_id = $product->id;
+	        $product_specifications->label = $_POST['label'][$x];
+            $product_specifications->value = $_POST['value'][$x];
+
+	        if($_POST['value'][$x]!=""){
+	        	$product_specifications->save();
+	    	}
+    	}
+
         return response()->json(['message'=>'Your Product is Save Successfully','status'=>0], 200); 
     }
 
@@ -263,8 +291,10 @@ class ProductController extends Controller
         $product->stock = $request->stock;
         $product->description = $request->description;
         $product->specifications = $request->specifications;
-        $product->description_arabic = $request->description_arabic;
-        $product->specifications_arabic = $request->specifications_arabic;
+        // $product->description_arabic = $request->description_arabic;
+        // $product->specifications_arabic = $request->specifications_arabic;
+        $product->mobile_description = $request->mobile_description;
+        $product->mobile_specifications = $request->mobile_specifications;
         $product->height_weight_size = $request->height_weight_size;
         $product->shipping_charge = $request->shipping_charge;
         $product->shipping_description = $request->shipping_description;
@@ -339,7 +369,7 @@ class ProductController extends Controller
                 if($_POST['image_id'][$x]!=""){
                     $product_images = product_images::find($_POST['image_id'][$x]);
                     if($name_array[$x] != ""){
-                        $old_image = "product_image/".$post_ad_image->image;
+                        $old_image = "product_image/".$product_images->image;
                         if (file_exists($old_image)) {
                             @unlink($old_image);
                         }
@@ -386,6 +416,19 @@ class ProductController extends Controller
             }
         }
 
+        $old_product_specifications = product_specifications::where('product_id',$product->id)->delete();
+        for ($x=0; $x<count($_POST['value']); $x++) 
+    	{
+    		$product_specifications = new product_specifications;
+            $product_specifications->product_id = $product->id;
+	        $product_specifications->label = $_POST['label'][$x];
+            $product_specifications->value = $_POST['value'][$x];
+
+	        if($_POST['value'][$x]!=""){
+	        	$product_specifications->save();
+	    	}
+    	}
+
         return response()->json(['message'=>'Your Product is Update Successfully','status'=>0], 200);  
     }
 
@@ -422,7 +465,8 @@ class ProductController extends Controller
         $product_images = product_images::where('product_id',$id)->get();
         $product_attributes = product_attributes::where('product_id',$id)->get();
         $language = language::all();
-        return view('vendor.edit_product',compact('product','category','product_images','attributes','product_group','product_attributes','brand','language'));
+        $product_specifications = product_specifications::where('product_id',$id)->get();
+        return view('vendor.edit_product',compact('product','category','product_images','attributes','product_group','product_attributes','brand','language','product_specifications'));
     }
     
     public function deleteproduct($id,$status){

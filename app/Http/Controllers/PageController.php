@@ -345,8 +345,8 @@ class PageController extends Controller
 
         $all = User::find($user->id);
         Mail::send('mail.verify_mail',compact('all'),function($message) use($all){
-            $message->to($all['email'])->subject('Verify your DARDESIGN Account');
-            $message->from('mail.lrbinfotech@gmail.com','DARDESIGN');
+            $message->to($all['email'])->subject('Verify your DARSTORE Account');
+            $message->from('mail.lrbinfotech@gmail.com','DARSTORE');
         });
         
         return response()->json('save successfully'); 
@@ -384,7 +384,8 @@ class PageController extends Controller
  
         $vendor = new vendor;
         $vendor->date = date('Y-m-d');
-        $vendor->user_unique_id = rand().time();
+        $vendor->vendor_commission = 3;
+        $vendor->vendor_unique_id = rand().time();
         $vendor->business_name = $request->business_name;
         $vendor->business_type = $request->business_type;
         $vendor->package_id = $request->package_id;
@@ -395,14 +396,14 @@ class PageController extends Controller
         $vendor->password =  Hash::make ( $request->password );
         $vendor->remember_token = $request->_token;
         $vendor->country = $request->country;
-        //$user->country_code = $request->country_code;
+        //$vendor->country_code = $request->country_code;
         $vendor->city = $request->city;
         $vendor->area = $request->area;
         $vendor->trade_license_no = $request->trade_license_no;
         $vendor->vat_certificate_no = $request->vat_certificate_no;
         $vendor->civi_id_or_passport = $request->civi_id_or_passport;
         $vendor->commercial_license_no = $request->commercial_license_no;
-        $user->zipcode = $request->zipcode;
+        $vendor->zipcode = $request->zipcode;
         $vendor->status = 1;
 
         if($request->id_proof!=""){
@@ -445,8 +446,8 @@ class PageController extends Controller
         
         $all = vendor::find($vendor->id);
         Mail::send('mail.verify_vendor_mail',compact('all'),function($message) use($all){
-            $message->to($all['email'])->subject('Verify your DARDESIGN Account');
-            $message->from('mail.lrbinfotech@gmail.com','DARDESIGN');
+            $message->to($all['email'])->subject('Verify your DARSTORE Account');
+            $message->from('mail.lrbinfotech@gmail.com','DARSTORE');
         });
 
         return response()->json('save successfully'); 
@@ -490,7 +491,7 @@ class PageController extends Controller
         // $all = $request->all();
         // $vendor = vendor::find($request->vendor_id);
         // Mail::send('mail.vendor_enquiry',compact('all'),function($message) use($all,$vendor){
-        //      $message->to($vendor->email)->subject('Enquiry from DARDESIGN');
+        //      $message->to($vendor->email)->subject('Enquiry from DARSTORE');
         //      $message->from('info@lrbtech.com',$all['name']);
         // });
         return response()->json(['message'=>'Successfully Send'],200); 

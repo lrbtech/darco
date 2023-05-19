@@ -56,58 +56,68 @@
                     <table id="datatable" class="table table-striped table-bordered zero-configuration">
                       <thead>
                         <tr>
-                            <th>#</th>
-                            <th style="width:400px;">Product Name</th>
-                            <th>Sales Price</th>
-                            <th>Stock</th>
-                            <th>Image</th>
-                            <th>Status</th>
-                            <th>Action</th>
+                          <th>#</th>
+                          <th style="width:400px;">Product Name</th>
+                          <th>Sales Price</th>
+                          <th>Stock</th>
+                          <th>Image</th>
+                          <th>Qr Code</th>
+                          <th>Status</th>
+                          <th>Action</th>
                         </tr>
                       </thead>
                       <tbody>
                       @foreach($product as $key => $row)
+                      <?php $url = asset('').'qrcode-add-to-card/'.$row->sku_value; ?>
                         <tr>
-                            <td>{{$key + 1}}</td>
-                            <td>{{$row->product_name}}</td>
-                            <td>{{$row->sales_price}}</td>
-                            <td>{{$row->stock}}</td>
-                            <td>
-                                <img style="height: 100px;" src="/product_image/{{$row->image}}">
-                            </td>
-                            <td>
-                            @if($row->status == 0)
-                            Active
-                            @else 
-                            DeActive
-                            @endif
-                            </td>
-                            <td>
-                                <div class="btn-group mr-1 mb-1">
-                                    <button type="button" class="btn btn-danger btn-block dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Action</button>
-                                    <div class="dropdown-menu open-left arrow" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 40px, 0px); top: 0px; left: 0px; will-change: transform;">
-                                        <button onclick="Edit({{$row->id}})"class="dropdown-item" type="button">Edit</button>
-                                        <div class="dropdown-divider"></div>
-                                        @if($row->status == 0)
-                                        <button onclick="Delete({{$row->id}},1)"class="dropdown-item" type="button">DeActive</button>
-                                        @else 
-                                        <button onclick="Delete({{$row->id}},0)"class="dropdown-item" type="button">Active</button>
-                                        @endif
-                                    </div>
-                                </div>
-                            </td>
+                          <td>{{$key + 1}}</td>
+                          <td>{{$row->product_name}}</td>
+                          <td>{{$row->sales_price}}</td>
+                          <td>{{$row->stock}}</td>
+                          <td>
+                            <img style="height: 100px;" src="/product_image/{{$row->image}}">
+                          </td>
+                          <td>
+                            <div id="qr_image{{$row->id}}">
+                            <img src="data:image/png;base64,{{DNS2D::getBarcodePNG($url, 'QRCODE')}}" alt="barcode"   />
+                            <!-- {!! DNS2D::getBarcodeHTML("$url", 'QRCODE') !!} -->
+                            </div>
+                          </td>
+                          <td>
+                          @if($row->status == 0)
+                          Active
+                          @else 
+                          DeActive
+                          @endif
+                          </td>
+                          <td>
+                            <div class="btn-group mr-1 mb-1">
+                              <button type="button" class="btn btn-danger btn-block dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Action</button>
+                              <div class="dropdown-menu open-left arrow" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 40px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                <button onclick="downloadqrcode({{$row->id}})" class="dropdown-item" type="button">Download Qrcode</button>
+                                <button onclick="Edit({{$row->id}})" class="dropdown-item" type="button">Edit</button>
+                                <div class="dropdown-divider"></div>
+                                @if($row->status == 0)
+                                <button onclick="Delete({{$row->id}},1)"class="dropdown-item" type="button">DeActive</button>
+                                @else 
+                                <button onclick="Delete({{$row->id}},0)"class="dropdown-item" type="button">Active</button>
+                                @endif
+                              </div>
+                            </div>
+                          </td>
                         </tr>
                         @endforeach
                       </tbody>
                       <tfoot>
                         <tr>
-                            <th>#</th>
-                            <th>Product Name</th>
-                            <th>Sales Price</th>
-                            <th>Stock</th>
-                            <th>Image</th>
-                            <th>Status</th>
-                            <th>Action</th>
+                          <th>#</th>
+                          <th>Product Name</th>
+                          <th>Sales Price</th>
+                          <th>Stock</th>
+                          <th>Image</th>
+                          <th>Qr Code</th>
+                          <th>Status</th>
+                          <th>Action</th>
                         </tr>
                       </tfoot>
                     </table>
@@ -225,10 +235,45 @@
 @section('extra-js')
 <script src="/app-assets/vendors/js/tables/datatable/datatables.min.js" type="text/javascript"></script>
 <script src="/app-assets/js/scripts/tables/datatables/datatable-basic.js" type="text/javascript"></script>
-
+<script type="text/javascript" src="/html2canvas/html2canvas.min.js"></script>
+<script type="text/javascript" src="/html2canvas/html2canvas.esm.js"></script>
+<script type="text/javascript" src="/html2canvas/html2canvas.js"></script>
 
 <script>
 $('.product').addClass('active');
+
+function downloadqrcode(id){
+  spinner_body.show();   
+  html2canvas(document.getElementById("qr_image"+id)).then(function(canvas){
+    downloadImage(canvas.toDataURL(),"qr_code_"+id+".png");
+    spinner_body.hide();   
+    // $('#image_profile').html('');
+    // $('#image_profile').hide();
+  });
+}
+
+function downloadImage(uri, filename){
+  var link = document.createElement('a');
+  if(typeof link.download !== 'string'){
+    window.open(uri);
+  }
+  else{
+    link.href = uri;
+    link.download = filename;
+    accountForFirefox(clickLink, link);
+  }
+}
+
+function clickLink(link){
+  link.click();
+}
+
+function accountForFirefox(click){
+  var link = arguments[1];
+  document.body.appendChild(link);
+  click(link);
+  document.body.removeChild(link);
+}
 
 var action_type;
 $('#add_new').click(function(){

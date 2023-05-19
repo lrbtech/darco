@@ -145,7 +145,7 @@
                               <label for="product_name_arabic">
                                 Product Name Arabic: <span class="danger">*</span>
                               </label>
-                              <input value="{{$product->product_name_arabic}}" type="text" class="form-control required" id="product_name_arabic" name="product_name_arabic">
+                              <input value="{{$product->product_name_arabic}}" type="text" class="form-control" id="product_name_arabic" name="product_name_arabic">
                             </div>
                           </div>
                           <div class="col-md-6">
@@ -188,8 +188,8 @@
                           
                           <div class="col-md-3">
                             <div class="form-group">
-                              <label class="branch">Brand</label>
-                              <select required id="branch" name="branch" class="form-control">
+                              <label class="brand">Brand</label>
+                              <select required id="brand" name="brand" class="form-control">
                                 <option value="">SELECT</option>
                                 @foreach($brand as $brand1)
                                 @if($brand1->id == $product->brand)
@@ -246,6 +246,10 @@
                             </div>
                           </div>
                         </div>
+                       
+                      </fieldset>
+                      <h6>Description</h6>
+                      <fieldset>
                         <div class="row">
                           <div class="col-md-6">
                             <div class="form-group">
@@ -261,18 +265,71 @@
                           </div>
                         </div>
 
-                        <div class="row arabic_content">
+                        <!-- <div class="row arabic_content">
                           <div class="col-md-6">
                             <div class="form-group">
                               <label for="description_arabic">Product Description Arabic</label>
-                                <textarea name="description_arabic" id="description_arabic" rows="8" class="tinymce"><?php echo $product->description_arabic; ?></textarea>
+                                <textarea name="description_arabic" id="description_arabic" rows="8" class="tinymce"><?php //echo $product->description_arabic; ?></textarea>
                             </div>
                           </div>
                           <div class="col-md-6">
                             <div class="form-group">
                               <label for="specifications_arabic">Product Specifications Arabic</label>
-                                <textarea name="specifications_arabic" id="specifications_arabic" rows="8" class="tinymce"><?php echo $product->specifications_arabic; ?></textarea>
+                                <textarea name="specifications_arabic" id="specifications_arabic" rows="8" class="tinymce"><?php //echo $product->specifications_arabic; ?></textarea>
                             </div>
+                          </div>
+                        </div> -->
+
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="mobile_description">Mobile App View Product Description</label>
+                                <textarea name="mobile_description" id="mobile_description" rows="10" class="form-control"><?php echo $product->mobile_description; ?></textarea>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <!-- <div class="form-group">
+                              <label for="mobile_specifications">Mobile App View Product Specifications</label>
+                                <textarea name="mobile_specifications" id="mobile_specifications" rows="4" class="form-control"><?php //echo $product->mobile_specifications; ?></textarea>
+                            </div> -->
+                            <table id="featuresTable" class="table">
+                              <thead class="thead-primary">
+                                  <tr style="text-align: center;">
+                                    <th colspan="3" style="width:100%;">Mobile App View Product Specifications</th>
+                                  </tr>
+                                  <tr style="text-align: center;">
+                                    <th style="width: 40%;">Label</th>
+                                    <th style="width: 40%;">Value</th>
+                                    <th style="width: 20%;padding: .0rem !important;">
+                                      <button type="button" class="btn" onclick="addRow()" id="addRowBtn"> <i class="la la-plus"></i></button>
+                                    </th>
+                                  </tr>
+                              </thead>
+                              <tbody id="featuresTabletbody">
+                              @foreach($product_specifications as $key => $row)
+                              <tr value="{{$key+1}}" id="row{{$key+1}}">
+                                <td>
+                                  <input value="{{$row->label}}" class="form-control" type="text" name="label[]" id="label{{$key+1}}" autocomplete="off"  />
+                                </td>
+                                <td>
+                                  <input value="{{$row->value}}" class="form-control" type="text" name="value[]" id="value{{$key+1}}" autocomplete="off"  />
+                                </td>
+                                <td align="center">
+                                  <button class="btn btn-default" type="button" onclick="removefeaturesrow({{$key+1}})"><i class="la la-trash"></i></button>
+                                </td>
+                              </tr>
+                              @endforeach
+                              </tbody>
+                              <tfoot>
+                                <tr>
+                                  <td>
+                                    <button type="button" onclick="addRow()" class="btn"><span class="icon-label"><i class="la la-plus"></i> </span><span class="btn-text">Add</span></button>
+                                  </td>
+                                  <td></td>
+                                  <td></td>
+                                </tr>
+                              </tfoot>
+                            </table>
                           </div>
                         </div>
                        
@@ -829,6 +886,7 @@ var tr =
    '<img id="file-ip-'+count+'-preview" src="/upload_files/preview.png">'+
    '<button type="button" class="imgRemove" onclick="removeImageRows('+count+')"></button>'+
    '</label>'+
+   '<input type="hidden" name="image_id[]">'+
    '<input type="file" name="images[]" id="file-ip-'+count+'" accept=".png,.jpg,.jpeg" onchange="showPreview(event, '+count+');">'+
 '</div>';
 if(tableLength > 0) {	
@@ -845,5 +903,54 @@ function removeImageRows(row)
    }
 }
 
+
+addRow();
+function addRow() {
+	var tableLength = $("#featuresTable tbody tr").length;
+	var count;
+	if(tableLength > 0) {		
+		count = $("#featuresTable tbody tr:last").attr('value');
+		count = Number(count) + 1;
+	} else {
+		count = 1;
+	}
+
+
+var tr = '<tr value="'+count+'" id="row'+count+'">'+
+  '<td>'+
+		'<input class="form-control" type="text" name="label[]" id="label'+count+'" autocomplete="off"  />'+
+	'</td>'+
+  '<td>'+
+		'<input class="form-control" type="text" name="value[]" id="value'+count+'" autocomplete="off"  />'+
+	'</td>'+
+	'<td align="center">'+
+		'<button class="btn" type="button" onclick="removefeaturesrow('+count+')"><i class="la la-trash"></i></button>'+
+	'</td>'+
+'</tr>';
+
+if(tableLength > 0) {							
+	$("#featuresTable tbody tr:last").after(tr);
+} else {				
+	$("#featuresTable tbody").append(tr);
+}		
+// $("#features"+count).focus();
+
+} // /add row
+
+
+function removefeaturesrow(row = null)
+{
+	if(confirm('Are you sure delete this row?'))
+	{
+	   var tableFeaturesLength = $("#featuresTable tbody tr").length;
+		if(tableFeaturesLength > '1') {
+			$("#row"+row).remove();
+			var previous_row = row - 1;
+			var next_row = row + 1;
+			$("#features"+previous_row).focus();		
+			$("#features"+next_row).focus();		
+		}
+	}
+}
 </script>
 @endsection

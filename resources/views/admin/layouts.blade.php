@@ -11,7 +11,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-  <title>DARDESIGN Admin</title>
+  <title>DARSTORE Admin</title>
   <link rel="icon" type="image/x-icon" href="/website_assets/images/ico.ico">
 
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Quicksand:300,400,500,700"
@@ -119,8 +119,8 @@ data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
               <div class="dropdown-menu dropdown-menu-right">
                 <a class="dropdown-item" href="/admin/change-password"><i class="ft-user"></i> Change Password</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="ft-power"></i> Logout</a>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                <a class="dropdown-item" href="{{ route('admin.logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="ft-power"></i> Logout</a>
+                <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" style="display: none;">
                 @csrf
                 </form>
               </div>

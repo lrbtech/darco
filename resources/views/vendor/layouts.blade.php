@@ -4,12 +4,12 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-  <title>DARDESIGN Vendor</title>
+  <title>DARSTORE Vendor</title>
 
   <link rel="icon" type="image/x-icon" href="/website_assets/images/ico.ico">
-@if(session()->get('theme') == 'dark')
-   <link id="themefile" rel="stylesheet" href="/theme/dark.css"/>
- @endif
+  @if(session()->get('theme') == 'dark')
+  <link id="themefile" rel="stylesheet" href="/theme/dark.css"/>
+  @endif
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Quicksand:300,400,500,700"
   rel="stylesheet">
   <link href="https://maxcdn.icons8.com/fonts/line-awesome/1.1/css/line-awesome.min.css"
@@ -280,7 +280,7 @@ data-menu="horizontal-menu" data-col="2-columns">
               <img class="brand-logo" alt="modern admin logo" src="/website_assets/images/logo-dark.png">
 
               @endif
-              <!-- <h3 class="brand-text">DARDESIGN</h3> -->
+              <!-- <h3 class="brand-text">DARSTORE</h3> -->
             </a>
           </li>
           <li class="nav-item d-md-none">
@@ -298,7 +298,7 @@ data-menu="horizontal-menu" data-col="2-columns">
           
           <ul class="nav navbar-nav float-right">
             <div id="google_translate_element" style="display: none;"></div>
-            <li class="dropdown dropdown-language nav-item">
+            <!-- <li class="dropdown dropdown-language nav-item">
               <a class="dropdown-toggle nav-link" id="dropdown-flag" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 @if(session()->get('lang') == 'english')
                 <i class="flag-icon flag-icon-gb"></i>
@@ -312,7 +312,7 @@ data-menu="horizontal-menu" data-col="2-columns">
                 <a onclick="translateLanguage('English');" class="dropdown-item" href="#"><i class="flag-icon flag-icon-gb"></i> English</a>
                 <a onclick="translateLanguage('Arabic');" class="dropdown-item" href="#"><i class="flag-icon flag-icon-ar"></i> Arabic</a>
               </div>
-            </li>
+            </li> -->
             <li class="dropdown dropdown-notification nav-item">
               <label>
                 @if(session()->get('theme') == 'light')
@@ -342,8 +342,8 @@ data-menu="horizontal-menu" data-col="2-columns">
               </a>
               <div class="dropdown-menu dropdown-menu-right">
                 <a class="dropdown-item" href="/vendor/change-password"><i class="ft-user"></i> Change Pasword</a>
-                <div class="dropdown-divider"></div><a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="ft-power"></i> Logout</a>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                <div class="dropdown-divider"></div><a class="dropdown-item" href="{{ route('vendor.logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="ft-power"></i> Logout</a>
+                <form id="logout-form" action="{{ route('vendor.logout') }}" method="POST" style="display: none;">
                 @csrf
                 </form>
               </div>

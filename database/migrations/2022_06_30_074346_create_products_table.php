@@ -15,6 +15,7 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
+            $table->string('sku_value')->nullable();
             $table->string('vendor_id',20)->nullable();
             $table->string('product_group',20)->nullable();
             $table->string('product_code',50)->nullable();
@@ -28,10 +29,12 @@ class CreateProductsTable extends Migration
             $table->string('sales_price',20)->nullable();
             $table->string('stock_status',20)->default('0');
             $table->string('stock',20)->default('0');
-            $table->TEXT('description')->nullable();
-            $table->TEXT('specifications')->nullable();
-            $table->TEXT('description_arabic')->nullable();
-            $table->TEXT('specifications_arabic')->nullable();
+            $table->LONGTEXT('description')->nullable();
+            $table->LONGTEXT('specifications')->nullable();
+            $table->LONGTEXT('description_arabic')->nullable();
+            $table->LONGTEXT('specifications_arabic')->nullable();
+            $table->TEXT('mobile_description')->nullable();
+            $table->TEXT('mobile_specifications')->nullable();
             $table->string('height_weight_size')->nullable();
             $table->string('shipping_enable',11)->default('0');
             $table->string('shipping_charge',20)->nullable();

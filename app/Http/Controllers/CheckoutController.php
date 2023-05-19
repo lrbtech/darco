@@ -278,8 +278,8 @@ class CheckoutController extends Controller
                             $qty = $cart_item1->quantity;
                             $pro_id = $cart_item1->id;
                             
-                            $product = product::find($pro_id);
-                            $product->stock = $product->stock - $qty;
+                            // $product = product::find($pro_id);
+                            // $product->stock = $product->stock - $qty;
                             
                             $today = date('Y-m-d');
                             $order_items->return_policy = $product->return_policy;
@@ -388,9 +388,9 @@ class CheckoutController extends Controller
             'CstEmail'=>Auth::user()->email,
             'CstMobile'=>Auth::user()->mobile,
             'customer_unq_token'=>Auth::user()->user_unique_id,
-            'success_url'=>"https://darstore.me//payment-success",
-            'error_url'=>'https://darstore.me//payment-failed',
-            'notifyURL'=>'https://darstore.me//webhook-testing',
+            'success_url'=>"https://darstore.me/payment-success",
+            'error_url'=>'https://darstore.me/payment-failed',
+            'notifyURL'=>'https://darstore.me/payment-success',
         );
     
         $fields_string = http_build_query($request_data);
@@ -438,6 +438,14 @@ class CheckoutController extends Controller
                 $orders->save();
 
                 $order_items = order_items::where('order_id',$row->id)->get();
+                foreach($order_items as $items){
+                    $qty = $items->qty;
+                    $pro_id = $items->product_id;
+                    
+                    $product = product::find($pro_id);
+                    $product->stock = $product->stock - $qty;
+                    $product->save();
+                }
                 $order_items_count = order_items::where('order_id',$row->id)->count();
                 $billing_address = shipping_address::find($orders->billing_address_id);
                 $vendor = vendor::find($orders->vendor_id);
@@ -450,13 +458,13 @@ class CheckoutController extends Controller
                 $order_count = $order_count + $order_items_count;
 
                 Mail::send('mail.order_confirm',compact('orders','billing_address','vendor','customer','order_items','settings','order_count','sub_total','total','shipping_charge','service_charge'),function($message) use($customer){
-                    $message->to($customer->email)->subject('DARDESIGN Confirm your Order');
-                    $message->from('mail.lrbinfotech@gmail.com','DARDESIGN');
+                    $message->to($customer->email)->subject('DARSTORE Confirm your Order');
+                    $message->from('mail.lrbinfotech@gmail.com','DARSTORE');
                 });
 
                 Mail::send('mail.order_confirm_admin',compact('orders','billing_address','vendor','customer','order_items','settings','order_count','sub_total','total','shipping_charge','service_charge'),function($message) use($customer){
-                    $message->to('sales@darstore.me')->subject('DARDESIGN New Order');
-                    $message->from('mail.lrbinfotech@gmail.com','DARDESIGN');
+                    $message->to('sales@darstore.me')->subject('DARSTORE New Order');
+                    $message->from('mail.lrbinfotech@gmail.com','DARSTORE');
                 });
     
             }
@@ -503,9 +511,9 @@ class CheckoutController extends Controller
                     $qty = $row->qty;
                     $pro_id = $row->product_id;
                     
-                    $product = product::find($pro_id);
-                    $product->stock = $product->stock + $qty;
-                    $product->save();
+                    // $product = product::find($pro_id);
+                    // $product->stock = $product->stock + $qty;
+                    // $product->save();
                 }
             }
 
@@ -617,7 +625,7 @@ class CheckoutController extends Controller
     public function applyCoupon(Request $request){
         $data = array();
         $today=date('Y-m-d');
-        $coupon = coupon::where("status",0)->where('start_date','<=',$today)->where('end_date','>=',$today)->where("coupon_code",$request->coupon_code_value)->first();
+        $coupon = coupon::where('status',0)->where('start_date','<=',$today)->where('end_date','>=',$today)->where('coupon_code',$request->coupon_code_value)->first();
         if(!empty($coupon)){
             $cart_items = Cart::getContent();
             $product_total=0;
@@ -627,9 +635,9 @@ class CheckoutController extends Controller
             foreach($cart_items as $product){
                 $product_data = product::where("vendor_id",$coupon->vendor_id)->where('id',$product->id)->first();
                 if(!empty($product_data)){
-                    $product_total+=$product->quantity * $product->price;
+                    $product_total += $product->quantity * $product->price;
                 }
-                $all_product+= $product->quantity * $product->price;
+                $all_product += $product->quantity * $product->price;
                 $shipping_charge += $product->attributes->shipping_charge;
             }
             if($product_total !=0){

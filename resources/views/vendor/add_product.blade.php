@@ -140,7 +140,7 @@
                               <label for="assured_seller">Do you want Arabic Language?</label>
                               <br>
                               <div class="custom-control custom-radio custom-control-inline">  
-                                <input value="1" type="radio" id="language1" name="language" class="custom-control-input">  
+                                <input checked value="1" type="radio" id="language1" name="language" class="custom-control-input">  
                                 <label class="custom-control-label" for="language1"> No </label>  
                               </div>  
                               <div class="custom-control custom-radio custom-control-inline">  
@@ -171,7 +171,7 @@
                               <label for="product_name_arabic">
                                 Product Name Arabic: <span class="danger">*</span>
                               </label>
-                              <input type="text" class="form-control required" id="product_name_arabic" name="product_name_arabic">
+                              <input type="text" class="form-control" id="product_name_arabic" name="product_name_arabic">
                             </div>
                           </div>
                           <div class="col-md-6">
@@ -210,8 +210,8 @@
                           
                           <div class="col-md-3">
                             <div class="form-group">
-                              <label class="branch">Brand</label>
-                              <select required id="branch" name="branch" class="form-control">
+                              <label class="brand">Brand</label>
+                              <select required id="brand" name="brand" class="form-control">
                                 <option value="">SELECT</option>
                                 @foreach($brand as $brand1)
                                 <option value="{{$brand1->id}}" >{{$brand1->brand}}</option>
@@ -264,7 +264,11 @@
                             </div>
                           </div>
 
-                        </div>
+                        </div>                       
+                      </fieldset>
+                      <!-- Step 1 -->
+                      <h6>Description</h6>
+                      <fieldset>
                         <div class="row">
                           <div class="col-md-6">
                             <div class="form-group">
@@ -280,7 +284,7 @@
                           </div>
                         </div>
 
-                        <div class="row arabic_content">
+                        <!-- <div class="row arabic_content">
                           <div class="col-md-6">
                             <div class="form-group">
                               <label for="description_arabic">Product Description Arabic</label>
@@ -292,6 +296,47 @@
                               <label for="specifications_arabic">Product Specifications Arabic</label>
                                 <textarea name="specifications_arabic" id="specifications_arabic" rows="8" class="tinymce"></textarea>
                             </div>
+                          </div>
+                        </div> -->
+
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="mobile_description">Mobile App View Product Description</label>
+                                <textarea name="mobile_description" id="mobile_description" rows="10" class="form-control"></textarea>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <!-- <div class="form-group">
+                              <label for="mobile_specifications">Mobile App View Product Specifications</label>
+                                <textarea name="mobile_specifications" id="mobile_specifications" rows="4" class="form-control"></textarea>
+                            </div> -->
+                            <table id="featuresTable" class="table">
+                              <thead class="thead-primary">
+                                  <tr style="text-align: center;">
+                                    <th colspan="3" style="width:100%;">Mobile App View Product Specifications</th>
+                                  </tr>
+                                  <tr style="text-align: center;">
+                                    <th style="width: 40%;">Label</th>
+                                    <th style="width: 40%;">Value</th>
+                                    <th style="width: 20%;padding: .0rem !important;">
+                                      <button type="button" class="btn" onclick="addRow()" id="addRowBtn"> <i class="la la-plus"></i></button>
+                                    </th>
+                                  </tr>
+                              </thead>
+                              <tbody id="featuresTabletbody">
+
+                              </tbody>
+                              <tfoot>
+                                <tr>
+                                  <td>
+                                    <button type="button" onclick="addRow()" class="btn"><span class="icon-label"><i class="la la-plus"></i> </span><span class="btn-text">Add</span></button>
+                                  </td>
+                                  <td></td>
+                                  <td></td>
+                                </tr>
+                              </tfoot>
+                            </table>
                           </div>
                         </div>
                        
@@ -499,10 +544,6 @@
         </section>
 
 
-          </div>
-        </section>
-        <!-- Basic Editor end -->
-
       </div>
     </div>
 </div>
@@ -555,9 +596,6 @@ $(document).ready(function () {
   });
 });
 
-
-
-
 // $('#category').change(function(){
 function changecategory(){
   var id = $('#category').val();
@@ -599,7 +637,7 @@ function changeattributes(){
     var filterdat = attrdata.filter(function (entry) {
     return entry === id;
   });
-  console.log(filterdat);
+  //console.log(filterdat);
   if(filterdat.length ==0){
     attrdata.push(id);
     $.ajax({
@@ -619,162 +657,205 @@ function changeattributes(){
 var form = $(".steps-validation").show();
 
 $(".steps-validation").steps({
-    headerTag: "h6",
-    bodyTag: "fieldset",
-    transitionEffect: "fade",
-    titleTemplate: '<span class="step">#index#</span> #title#',
-    labels: {
-        finish: 'Submit'
-    },
-    onStepChanging: function (event, currentIndex, newIndex)
+  headerTag: "h6",
+  bodyTag: "fieldset",
+  transitionEffect: "fade",
+  titleTemplate: '<span class="step">#index#</span> #title#',
+  labels: {
+    finish: 'Submit'
+  },
+  onStepChanging: function (event, currentIndex, newIndex)
+  {
+    // Allways allow previous action even if the current form is not valid!
+    if (currentIndex > newIndex)
     {
-        // Allways allow previous action even if the current form is not valid!
-        if (currentIndex > newIndex)
-        {
-            return true;
-        }
-        // Forbid next action on "Warning" step if the user is to young
-        if (newIndex === 3 && Number($("#age-2").val()) < 18)
-        {
-            return false;
-        }
-        // Needed in some cases if the user went back (clean up)
-        if (currentIndex < newIndex)
-        {
-            // To remove error styles
-            form.find(".body:eq(" + newIndex + ") label.error").remove();
-            form.find(".body:eq(" + newIndex + ") .error").removeClass("error");
-        }
-        form.validate().settings.ignore = ":disabled,:hidden";
-        return form.valid();
-    },
-    onFinishing: function (event, currentIndex)
-    {
-        form.validate().settings.ignore = ":disabled";
-        return form.valid();
-    },
-    onFinished: function (event, currentIndex)
-    {
-      Save();
+      return true;
     }
+    // Forbid next action on "Warning" step if the user is to young
+    // if (newIndex === 3 && Number($("#age-2").val()) < 18)
+    // {
+    //   return false;
+    // }
+    // Needed in some cases if the user went back (clean up)
+    if (currentIndex < newIndex)
+    {
+      // To remove error styles
+      form.find(".body:eq(" + newIndex + ") label.error").remove();
+      form.find(".body:eq(" + newIndex + ") .error").removeClass("error");
+    }
+    form.validate().settings.ignore = ":disabled,:hidden";
+    return form.valid();
+  },
+  onFinishing: function (event, currentIndex)
+  {
+    form.validate().settings.ignore = ":disabled";
+    return form.valid();
+  },
+  onFinished: function (event, currentIndex)
+  {
+    Save();
+  }
 });
 
 // Initialize validation
 $(".steps-validation").validate({
-    ignore: 'input[type=hidden]', // ignore hidden fields
-    errorClass: 'danger',
-    successClass: 'success',
-    highlight: function(element, errorClass) {
-        $(element).removeClass(errorClass);
-    },
-    unhighlight: function(element, errorClass) {
-        $(element).removeClass(errorClass);
-    },
-    errorPlacement: function(error, element) {
-        error.insertAfter(element);
-    },
-    rules: {
-        email: {
-            email: true
-        }
+  ignore: 'input[type=hidden]', // ignore hidden fields
+  errorClass: 'danger',
+  successClass: 'success',
+  highlight: function(element, errorClass) {
+    $(element).removeClass(errorClass);
+  },
+  unhighlight: function(element, errorClass) {
+    $(element).removeClass(errorClass);
+  },
+  errorPlacement: function(error, element) {
+    error.insertAfter(element);
+  },
+  rules: {
+    email: {
+      email: true
     }
+  }
 });
 
-
 function Save(){
-    spinner_body.show();
-    $(".text-danger").remove();
-    $('.form-group').removeClass('has-error').removeClass('has-success');
-    var formData = new FormData($('#form')[0]);
-    var description = tinyMCE.get('description').getContent();
-    var specifications = tinyMCE.get('specifications').getContent();
-    formData.append('attrdata', attrdata);
-    formData.append('description', description);
-    formData.append('specifications', specifications);
-    $.ajax({
-        url : '/vendor/save-product',
-        type: "POST",
-        data: formData,
-        contentType: false,
-        processData: false,
-        dataType: "JSON",
-        success: function(data)
-        {                
-            if(data.status == 0){
-              Swal.fire({
-                  title: data.message,
-                  icon: "success",
-               }).then(function() {
-                  window.location = "/vendor/product";
-                  spinner_body.hide();
-               });
-            }
-            else if(data.status == 2){
-               toastr.error(data.message);
-               spinner_body.hide();
-            }  
-        },error: function (data) {
-            spinner_body.hide();
-            var errorData = data.responseJSON.errors;
-            $.each(errorData, function(i, obj) {
-              //  if(i == 'mobile'){
-              //     $("#mobile_error").after('<p class="text-danger">'+obj[0]+'</p>');
-              //     $('#mobile').closest('.form-group').addClass('has-error');
-              //  }
-              //  else{
-                  toastr.error(obj[0]);
-                  $("#"+i).after('<p class="text-danger">'+obj[0]+'</p>');
-                  $('#'+i).closest('.form-group').addClass('has-error');
-                //}
-            });
-         }
-    });
+  spinner_body.show();
+  $(".text-danger").remove();
+  $('.form-group').removeClass('has-error').removeClass('has-success');
+  var formData = new FormData($('#form')[0]);
+  var description = tinyMCE.get('description').getContent();
+  var specifications = tinyMCE.get('specifications').getContent();
+  formData.append('attrdata', attrdata);
+  formData.append('description', description);
+  formData.append('specifications', specifications);
+  $.ajax({
+    url : '/vendor/save-product',
+    type: "POST",
+    data: formData,
+    contentType: false,
+    processData: false,
+    dataType: "JSON",
+    success: function(data)
+    {                
+      if(data.status == 0){
+        Swal.fire({
+          title: data.message,
+          icon: "success",
+        }).then(function() {
+          window.location = "/vendor/product";
+          spinner_body.hide();
+        });
+      }
+      else if(data.status == 2){
+        toastr.error(data.message);
+        spinner_body.hide();
+      }  
+    },error: function (data) {
+      spinner_body.hide();
+      var errorData = data.responseJSON.errors;
+      $.each(errorData, function(i, obj) {
+        toastr.error(obj[0]);
+        $("#"+i).after('<p class="text-danger">'+obj[0]+'</p>');
+        $('#'+i).closest('.form-group').addClass('has-error');
+      });
+    }
+  });
 }
 
 
 
 function showPreview(event, number){
-   if(event.target.files.length > 0){
-      let src = URL.createObjectURL(event.target.files[0]);
-      let preview = document.getElementById("file-ip-"+number+"-preview");
-      preview.src = src;
-      preview.style.display = "block";
-   } 
+  if(event.target.files.length > 0){
+    let src = URL.createObjectURL(event.target.files[0]);
+    let preview = document.getElementById("file-ip-"+number+"-preview");
+    preview.src = src;
+    preview.style.display = "block";
+  } 
 }
 // function myImgRemove(number) {
 //    document.getElementById("file-ip-"+number+"-preview").src = "/upload_files/preview.png";
 //    document.getElementById("file-ip-"+number).value = null;
 // }
 function AddImages() {
-var tableLength = $("#image_view .panel_image").length;
-var count;
-if(tableLength > 0) {		
-   count = $("#image_view .panel_image:last").attr('value');
-   count = Number(count) + 1;
-} else {
-   count = 1;
-}
-var tr =
-'<div value="'+count+'" id="imagerows'+count+'" class="center form-input panel_image">'+
-   '<label for="file-ip-'+count+'">'+
-   '<img id="file-ip-'+count+'-preview" src="/upload_files/preview.png">'+
-   '<button type="button" class="imgRemove" onclick="removeImageRows('+count+')"></button>'+
-   '</label>'+
-   '<input type="file" name="images[]" id="file-ip-'+count+'" accept=".png,.jpg,.jpeg" onchange="showPreview(event, '+count+');">'+
-'</div>';
-if(tableLength > 0) {	
-   $("#image_view .panel_image:last").after(tr);
-} else {	
-   $("#image_view .panel_image").append(tr);
-}	 
+  var tableLength = $("#image_view .panel_image").length;
+  var count;
+  if(tableLength > 0) {		
+    count = $("#image_view .panel_image:last").attr('value');
+    count = Number(count) + 1;
+  } else {
+    count = 1;
+  }
+  var tr =
+  '<div value="'+count+'" id="imagerows'+count+'" class="center form-input panel_image">'+
+    '<label for="file-ip-'+count+'">'+
+    '<img id="file-ip-'+count+'-preview" src="/upload_files/preview.png">'+
+    '<button type="button" class="imgRemove" onclick="removeImageRows('+count+')"></button>'+
+    '</label>'+
+    '<input type="file" name="images[]" id="file-ip-'+count+'" accept=".png,.jpg,.jpeg" onchange="showPreview(event, '+count+');">'+
+  '</div>';
+  if(tableLength > 0) {	
+    $("#image_view .panel_image:last").after(tr);
+  } else {	
+    $("#image_view .panel_image").append(tr);
+  }	 
 } // /add row
 function removeImageRows(row)
 {
-   if(confirm('Are you sure delete this row?'))
-   {
-      $("#imagerows"+row).remove();
-   }
+  if(confirm('Are you sure delete this row?'))
+  {
+    $("#imagerows"+row).remove();
+  }
 }
 
+
+
+addRow();
+function addRow() {
+	var tableLength = $("#featuresTable tbody tr").length;
+	var count;
+	if(tableLength > 0) {		
+		count = $("#featuresTable tbody tr:last").attr('value');
+		count = Number(count) + 1;
+	} else {
+		count = 1;
+	}
+
+
+var tr = '<tr value="'+count+'" id="row'+count+'">'+
+  '<td>'+
+		'<input class="form-control" type="text" name="label[]" id="label'+count+'" autocomplete="off"  />'+
+	'</td>'+
+  '<td>'+
+		'<input class="form-control" type="text" name="value[]" id="value'+count+'" autocomplete="off"  />'+
+	'</td>'+
+	'<td align="center">'+
+		'<button class="btn" type="button" onclick="removefeaturesrow('+count+')"><i class="la la-trash"></i></button>'+
+	'</td>'+
+'</tr>';
+
+if(tableLength > 0) {							
+	$("#featuresTable tbody tr:last").after(tr);
+} else {				
+	$("#featuresTable tbody").append(tr);
+}		
+// $("#features"+count).focus();
+
+} // /add row
+
+
+function removefeaturesrow(row = null)
+{
+	if(confirm('Are you sure delete this row?'))
+	{
+	   var tableFeaturesLength = $("#featuresTable tbody tr").length;
+		if(tableFeaturesLength > '1') {
+			$("#row"+row).remove();
+			var previous_row = row - 1;
+			var next_row = row + 1;
+			$("#features"+previous_row).focus();		
+			$("#features"+next_row).focus();		
+		}
+	}
+}
 </script>
 @endsection

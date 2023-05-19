@@ -243,7 +243,7 @@ button#chat-submit {
                                                         <th>Vendor</th>
                                                         <th>Comments</th>
                                                         <th>Status</th>
-                                                        <th>Actions</th>
+                                                        <!-- <th>Actions</th> -->
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -257,9 +257,9 @@ button#chat-submit {
                                                         <td>{{$row->comments}}</td>
                                                         <td>
                                                         </td>
-                                                        <td width="15%">
+                                                        <!-- <td width="15%">
                                                           <a href="javascript:void(null)" class="btn-small d-block chat-circle"><i class="fa fa-comments-o" aria-hidden="true"></i> Chat</a>
-                                                        </td>
+                                                        </td> -->
                                                     </tr>
                                                     @endforeach
                                                 </tbody>

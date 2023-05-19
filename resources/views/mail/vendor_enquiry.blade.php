@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>DARDESIGN</title>
+<title>DARSTORE</title>
 <!--
     An email present from your friends at Litmus (@litmusapp)
     Email is surprisingly hard. While this has been thoroughly tested, your mileage may vary.

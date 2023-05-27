@@ -11,6 +11,7 @@ use App\Models\admin;
 use App\Models\settings;
 use App\Models\city;
 use App\Models\roles;
+use App\Models\language;
 use Hash;
 use DB;
 use Mail;

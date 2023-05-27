@@ -20,6 +20,16 @@ class CreateShippingAddressesTable extends Migration
             $table->string('contact_person')->nullable();
             $table->string('contact_mobile')->nullable();
             $table->string('alternative_mobile')->nullable();
+
+            $table->string('street_name')->nullable();
+            $table->string('block')->nullable();
+            $table->string('street')->nullable();
+            $table->string('avenue')->nullable();
+            $table->string('building_no')->nullable();
+            $table->string('floor_no')->nullable();
+            $table->string('apartment_no')->nullable();
+            $table->text('additional_description')->nullable();
+
             $table->string('address_line1')->nullable();
             $table->string('address_line2')->nullable();
             $table->string('landmark')->nullable();

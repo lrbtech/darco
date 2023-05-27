@@ -26,6 +26,7 @@ Route::group(['prefix' => 'customer'],function(){
     Route::post('/create-customer', [App\Http\Controllers\Api\CustomerApiController::class, 'createcustomer']);
 
     Route::get('/get-app-slider', [App\Http\Controllers\Api\CustomerApiController::class, 'getappslider']);
+    Route::get('/get-terms', [App\Http\Controllers\Api\CustomerApiController::class, 'getterms']);
 
     Route::get('/get-city', [App\Http\Controllers\Api\CustomerApiController::class, 'getcity']);
     Route::get('/get-area/{id}', [App\Http\Controllers\Api\CustomerApiController::class, 'getarea']);

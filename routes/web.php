@@ -18,7 +18,10 @@ use Illuminate\Support\Facades\Session;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-
+Route::get('/optimize', function() {
+    $exitCode = Artisan::call('optimize');
+    return 'optimize cleared';
+});
 
 session(
 	['theme' => 'light'],

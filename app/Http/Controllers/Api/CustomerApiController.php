@@ -188,6 +188,16 @@ class CustomerApiController extends Controller
         return response()->json($datas); 
     }
 
+    public function getterms(){
+        $settings = settings::first();
+        $data =array();
+        $data = array(
+            'terms_and_conditions' => $settings->terms_and_conditions,
+            'privacy_policy' => $settings->privacy_policy,
+        );
+        return response()->json($data); 
+    }
+
     public function getcity(){
         $city = city::all();
         $data =array();
@@ -1451,6 +1461,15 @@ class CustomerApiController extends Controller
                 'contact_mobile' => $value->contact_mobile,
                 'address_line1' => $value->address_line1,
                 'address_line2' => $value->address_line2,
+                'address_type' => $value->address_type,
+                'street_name' => $value->street_name,
+                'block' => $value->block,
+                'street' => $value->street,
+                'avenue' => $value->avenue,
+                'building_no' => $value->building_no,
+                'floor_no' => $value->floor_no,
+                'apartment_no' => $value->apartment_no,
+                'additional_description' => $value->additional_description,
                 'country' => $value->country,
                 'country_code' => $value->country_code,
                 'city' => $value->city,
@@ -1472,6 +1491,15 @@ class CustomerApiController extends Controller
                 'contact_mobile' => $list->contact_mobile,
                 'address_line1' => $list->address_line1,
                 'address_line2' => $list->address_line2,
+                'address_type' => $list->address_type,
+                'street_name' => $list->street_name,
+                'block' => $list->block,
+                'street' => $list->street,
+                'avenue' => $list->avenue,
+                'building_no' => $list->building_no,
+                'floor_no' => $list->floor_no,
+                'apartment_no' => $list->apartment_no,
+                'additional_description' => $list->additional_description,
                 'country' => $list->country,
                 'country_code' => $list->country_code,
                 'city' => $list->city,
@@ -1490,8 +1518,18 @@ class CustomerApiController extends Controller
             $shipping_address->landmark = $request->landmark;
             $shipping_address->contact_person= $request->contact_person;
             $shipping_address->contact_mobile= $request->contact_mobile;
-            $shipping_address->address_line1= $request->address_line1;
-            $shipping_address->address_line2= $request->address_line2;
+            // $shipping_address->address_line1= $request->address_line1;
+            // $shipping_address->address_line2= $request->address_line2;
+            $shipping_address->address_type = $request->address_type;
+            $shipping_address->street_name = $request->street_name;
+            $shipping_address->block = $request->block;
+            $shipping_address->street = $request->street;
+            $shipping_address->avenue = $request->avenue;
+            $shipping_address->building_no = $request->building_no;
+            $shipping_address->floor_no = $request->floor_no;
+            $shipping_address->apartment_no = $request->apartment_no;
+            $shipping_address->additional_description = $request->additional_description;
+
             $shipping_address->country= $request->country;
             $shipping_address->country_code= $request->country_code;
             $shipping_address->city= $request->city;
@@ -1517,8 +1555,17 @@ class CustomerApiController extends Controller
             $shipping_address->landmark = $request->landmark;
             $shipping_address->contact_person= $request->contact_person;
             $shipping_address->contact_mobile= $request->contact_mobile;
-            $shipping_address->address_line1= $request->address_line1;
-            $shipping_address->address_line2= $request->address_line2;
+            // $shipping_address->address_line1= $request->address_line1;
+            // $shipping_address->address_line2= $request->address_line2;
+            $shipping_address->address_type = $request->address_type;
+            $shipping_address->street_name = $request->street_name;
+            $shipping_address->block = $request->block;
+            $shipping_address->street = $request->street;
+            $shipping_address->avenue = $request->avenue;
+            $shipping_address->building_no = $request->building_no;
+            $shipping_address->floor_no = $request->floor_no;
+            $shipping_address->apartment_no = $request->apartment_no;
+            $shipping_address->additional_description = $request->additional_description;
             $shipping_address->country= $request->country;
             $shipping_address->country_code= $request->country_code;
             $shipping_address->city= $request->city;

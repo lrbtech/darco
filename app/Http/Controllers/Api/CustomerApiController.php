@@ -2128,7 +2128,7 @@ class CustomerApiController extends Controller
                 $realImage = base64_decode($image_parts[1]);
                 //file_put_contents(public_path().'/profile_image/'.$fileName, $realImage);
                 $img = Image::make($realImage);
-                $img->save(public_path('return_image/'.$fileName));    
+                $img->save(public_path('return_image/'.$request->return_image_name));    
     
                 $return_item->image =  $fileName;
             }

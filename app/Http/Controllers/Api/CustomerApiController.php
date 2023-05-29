@@ -2116,22 +2116,34 @@ class CustomerApiController extends Controller
             $return_item->total = $order_items->total;
             $return_item->return_pickup_description = $return_pickup_description;
 
-            if($request->return_image != ''){
-                $img = $request->return_image;
-    
-                $image_parts = explode(";base64,", $img);
-                $image_type_aux = explode("image/", $image_parts[0]);
-                $image_type = $image_type_aux[1];
-    
-                $fileName = rand().time().'.'.$image_type;
-    
-                $realImage = base64_decode($image_parts[1]);
-                //file_put_contents(public_path().'/profile_image/'.$fileName, $realImage);
-                $img = Image::make($realImage);
-                $img->save(public_path('return_image/'.$request->return_image_name));    
-    
+            if(isset($request->return_image)){
+                $return_image = $request->return_image;
+                $return_image_name = $request->return_image_name;
+                $filename1='';
+                foreach(explode('.', $return_image_name) as $info){
+                    $filename1 = $info;
+                }
+                $fileName = rand() . '.' . $filename1;
+                $realImage = base64_decode($return_image);
+                file_put_contents(public_path().'/profile_image/'.$fileName, $realImage);    
                 $return_item->image =  $fileName;
             }
+            // if($request->return_image != ''){
+            //     $img = $request->return_image;
+    
+            //     $image_parts = explode(";base64,", $img);
+            //     $image_type_aux = explode("image/", $image_parts[0]);
+            //     $image_type = $image_type_aux[1];
+    
+            //     $fileName = rand().time().'.'.$image_type;
+    
+            //     $realImage = base64_decode($image_parts[1]);
+            //     //file_put_contents(public_path().'/profile_image/'.$fileName, $realImage);
+            //     $img = Image::make($realImage);
+            //     $img->save(public_path('return_image/'.$fileName));    
+    
+            //     $return_item->image =  $fileName;
+            // }
 
             $return_item->save();
 

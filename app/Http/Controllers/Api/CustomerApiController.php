@@ -2084,14 +2084,17 @@ class CustomerApiController extends Controller
     }
 
     public function savereturnitem(Request $request){
-
-
-        foreach ($request->item as $value) {
-            $item_id = $value['item_id'];
-            $return_reason = $value['return_reason'];
+        // return response()->json($request); 
+        //foreach ($request->item as $value) {
+            $item_id = $request->item_id;
+           // $item_id = $value['item_id'];
+            $return_reason = $request->return_reason;
+            //$return_reason = $value['return_reason'];
             //$description = $value['description'];
-            $return_pickup_description = $value['return_pickup_description'];
-            $return_image = $value['return_image'];
+            $return_pickup_description = $request->return_pickup_description;
+            //$return_pickup_description = $value['return_pickup_description'];
+            $return_image = $request->return_image;
+            //$return_image = $value['return_image'];
 
 
             $order_items = order_items::find($item_id);
@@ -2136,7 +2139,7 @@ class CustomerApiController extends Controller
             $order_items_update->is_return = 1;
             $order_items_update->save();
 
-        }
+       // }
 
         return response()->json(['message'=>'Successfully Return'],200); 
     }

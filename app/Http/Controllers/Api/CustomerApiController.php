@@ -1456,11 +1456,9 @@ class CustomerApiController extends Controller
         foreach ($list as $key => $value) {
             $data = array(
                 'id' => $value->id,
-                'landmark' => $value->landmark,
+                //'landmark' => $value->landmark,
                 'contact_person' => $value->contact_person,
                 'contact_mobile' => $value->contact_mobile,
-                'address_line1' => $value->address_line1,
-                'address_line2' => $value->address_line2,
                 'address_type' => $value->address_type,
                 'street_name' => $value->street_name,
                 'block' => $value->block,
@@ -1470,11 +1468,11 @@ class CustomerApiController extends Controller
                 'floor_no' => $value->floor_no,
                 'apartment_no' => $value->apartment_no,
                 'additional_description' => $value->additional_description,
-                'country' => $value->country,
-                'country_code' => $value->country_code,
-                'city' => $value->city,
+                //'country' => $value->country,
+                //'country_code' => $value->country_code,
+                //'city' => $value->city,
                 'area' => $value->area,
-                'zipcode' => $value->zipcode,
+                //'zipcode' => $value->zipcode,
                 'is_active' => $value->is_active,
             );
             $datas[] = $data;
@@ -1486,11 +1484,9 @@ class CustomerApiController extends Controller
         $list = shipping_address::find($id);
          $data = array(
                 'id' => $list->id,
-                'landmark' => $list->landmark,
+                //'landmark' => $list->landmark,
                 'contact_person' => $list->contact_person,
                 'contact_mobile' => $list->contact_mobile,
-                'address_line1' => $list->address_line1,
-                'address_line2' => $list->address_line2,
                 'address_type' => $list->address_type,
                 'street_name' => $list->street_name,
                 'block' => $list->block,
@@ -1500,11 +1496,11 @@ class CustomerApiController extends Controller
                 'floor_no' => $list->floor_no,
                 'apartment_no' => $list->apartment_no,
                 'additional_description' => $list->additional_description,
-                'country' => $list->country,
-                'country_code' => $list->country_code,
-                'city' => $list->city,
+                //'country' => $list->country,
+                //'country_code' => $list->country_code,
+                //'city' => $list->city,
                 'area' => $list->area,
-                'zipcode' => $list->zipcode,
+                //'zipcode' => $list->zipcode,
                 'is_active' => $list->is_active,
             );
             return response()->json($data); 
@@ -1515,7 +1511,7 @@ class CustomerApiController extends Controller
             $shipping_address = new shipping_address;
             $shipping_address->customer_id = $request->customer_id;
             //$shipping_address->address_type = $request->address_type;
-            $shipping_address->landmark = $request->landmark;
+            //$shipping_address->landmark = $request->landmark;
             $shipping_address->contact_person= $request->contact_person;
             $shipping_address->contact_mobile= $request->contact_mobile;
             // $shipping_address->address_line1= $request->address_line1;
@@ -1530,11 +1526,11 @@ class CustomerApiController extends Controller
             $shipping_address->apartment_no = $request->apartment_no;
             $shipping_address->additional_description = $request->additional_description;
 
-            $shipping_address->country= $request->country;
-            $shipping_address->country_code= $request->country_code;
+            //$shipping_address->country= $request->country;
+            //$shipping_address->country_code= $request->country_code;
             $shipping_address->city= $request->city;
             $shipping_address->area= $request->area;
-            $shipping_address->zipcode= $request->zipcode;
+            //$shipping_address->zipcode= $request->zipcode;
             $shipping_address->is_active= 1;
             $shipping_address->save();
 
@@ -1552,7 +1548,7 @@ class CustomerApiController extends Controller
             $shipping_address = shipping_address::find($request->id);
             $shipping_address->customer_id = $request->customer_id;
             //$shipping_address->address_type = $request->address_type;
-            $shipping_address->landmark = $request->landmark;
+            //$shipping_address->landmark = $request->landmark;
             $shipping_address->contact_person= $request->contact_person;
             $shipping_address->contact_mobile= $request->contact_mobile;
             // $shipping_address->address_line1= $request->address_line1;
@@ -1566,11 +1562,11 @@ class CustomerApiController extends Controller
             $shipping_address->floor_no = $request->floor_no;
             $shipping_address->apartment_no = $request->apartment_no;
             $shipping_address->additional_description = $request->additional_description;
-            $shipping_address->country= $request->country;
-            $shipping_address->country_code= $request->country_code;
-            $shipping_address->city= $request->city;
+            //$shipping_address->country= $request->country;
+            //$shipping_address->country_code= $request->country_code;
+            //$shipping_address->city= $request->city;
             $shipping_address->area= $request->area;
-            $shipping_address->zipcode= $request->zipcode;
+            //$shipping_address->zipcode= $request->zipcode;
             $shipping_address->is_active= 1;
             $shipping_address->save();
 
@@ -2173,7 +2169,18 @@ class CustomerApiController extends Controller
                     'return_pickup_description' => $value->return_pickup_description,
                     //image path return_image
                     'return_image' => $value->image,
+                    'status' => $value->status,
+                    'return_status' => '',
                 );
+                if($value->status == 0){
+                    $data['return_status'] = 'Waiting for Pickup';
+                }
+                elseif($value->status == 1){
+                    $data['return_status'] = 'Item Returned';
+                }
+                elseif($value->status == 2){
+                    $data['return_status'] = 'Request Canceled';
+                }
                 $datas[] = $data;
             }
         }else{

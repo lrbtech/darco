@@ -1470,10 +1470,10 @@ class CustomerApiController extends Controller
                 'additional_description' => $value->additional_description,
                 //'country' => $value->country,
                 //'country_code' => $value->country_code,
-                //'city' => $value->city,
+                'city' => $value->city,
                 'area' => $value->area,
                 //'zipcode' => $value->zipcode,
-                'is_active' => $value->is_active,
+                'is_active' => (int)$value->is_active,
             );
             $datas[] = $data;
         }   

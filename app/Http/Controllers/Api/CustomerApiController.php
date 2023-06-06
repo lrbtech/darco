@@ -1439,7 +1439,8 @@ class CustomerApiController extends Controller
     public function deleteshippingaddress(Request $request){
         try{
             $shipping_address = shipping_address::find($request->id);
-            $shipping_address->delete();
+            $shipping_address->status = 1;
+            $shipping_address->save();
 
             return response()->json(
             ['message' => 'Remove Successfully',
@@ -1450,7 +1451,7 @@ class CustomerApiController extends Controller
     }
 
     public function getshippingaddress($id){
-        $list = shipping_address::where('customer_id',$id)->get();
+        $list = shipping_address::where('customer_id',$id)->where('status',0)->get();
         $data =array();
         $datas =array();
         foreach ($list as $key => $value) {

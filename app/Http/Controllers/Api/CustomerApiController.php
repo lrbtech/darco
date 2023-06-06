@@ -1546,7 +1546,7 @@ class CustomerApiController extends Controller
     public function updateshippingaddress(Request $request){
         try{
             $shipping_address = shipping_address::find($request->id);
-            $shipping_address->customer_id = $request->customer_id;
+            //$shipping_address->customer_id = $request->customer_id;
             //$shipping_address->address_type = $request->address_type;
             //$shipping_address->landmark = $request->landmark;
             $shipping_address->contact_person= $request->contact_person;
@@ -1564,7 +1564,7 @@ class CustomerApiController extends Controller
             $shipping_address->additional_description = $request->additional_description;
             //$shipping_address->country= $request->country;
             //$shipping_address->country_code= $request->country_code;
-            //$shipping_address->city= $request->city;
+            $shipping_address->city= $request->city;
             $shipping_address->area= $request->area;
             //$shipping_address->zipcode= $request->zipcode;
             $shipping_address->is_active= 1;

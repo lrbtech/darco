@@ -2290,7 +2290,7 @@ class CustomerApiController extends Controller
             $reviews->save();
 
         return response()->json(
-            ['message' => 'Register Successfully',
+            ['message' => 'Review & Rating Submit Successful!',
             'review_id'=>$reviews->id],
              200);
         }catch (\Exception $e) {

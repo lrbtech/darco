@@ -1972,6 +1972,7 @@ class CustomerApiController extends Controller
                     'id' => $value->id,
                     'order_id' => $value->order_id,
                     'product_name' => $value->product_name,
+                    'product_id' => $value->product_id,
                     'product_attributes' => $value->product_attributes,
                     'qty' => $value->qty,
                     'total' => $value->total,

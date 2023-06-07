@@ -1500,7 +1500,7 @@ class CustomerApiController extends Controller
                 'additional_description' => $list->additional_description,
                 //'country' => $list->country,
                 //'country_code' => $list->country_code,
-                //'city' => $list->city,
+                'city' => $list->city,
                 'area' => $list->area,
                 //'zipcode' => $list->zipcode,
                 'is_active' => $list->is_active,

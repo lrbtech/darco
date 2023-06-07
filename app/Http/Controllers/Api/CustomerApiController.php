@@ -1833,7 +1833,7 @@ class CustomerApiController extends Controller
             $invoice_id = time();
             $data = $this->onlinepay($orderids,$invoice_id,$request->customer_id);
 
-            $response = ['IsSuccess'=>'true','message'=>'Your Order is Save Successfully','data'=>$data,'success_url'=>'http://darco.lrbinfotech.com/mobile-payment-success','error_url'=>'http://darco.lrbinfotech.com/mobile-payment-failed','status'=>0];
+            $response = ['IsSuccess'=>'true','message'=>'Your Order is Save Successfully','data'=>$data,'success_url'=>'http://darco.lrbinfotech.com/mobile-payment-success','error_url'=>'http://darco.lrbinfotech.com/mobile-payment-failed','status'=>0,'order_id'=>(int)$orderids];
             
             foreach(explode('.', $orderids) as $ids){
                 $invoice_update = orders::find($ids);

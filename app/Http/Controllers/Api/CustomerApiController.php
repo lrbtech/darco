@@ -2195,7 +2195,7 @@ class CustomerApiController extends Controller
     public function returnitemcancel($return_item_id){
         $return_item = return_item::find($return_item_id);
 
-        $order_items_update = order_items::find($order_item_id);
+        $order_items_update = order_items::find($return_item->order_item_id);
         $order_items_update->is_return = 0;
         $order_items_update->save();
 

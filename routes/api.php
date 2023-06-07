@@ -102,6 +102,7 @@ Route::group(['prefix' => 'customer'],function(){
     Route::post('/apply-coupon', [App\Http\Controllers\Api\CustomerApiController::class, 'applycoupon']);
 
     Route::post('/create-order', [App\Http\Controllers\Api\CustomerApiController::class, 'saveorder']);
+    Route::post('/update-payemnt', [App\Http\Controllers\Api\CustomerApiController::class, 'updatePayment']);
 
     Route::get('/view-orders/{customer_id}', [App\Http\Controllers\Api\CustomerApiController::class, 'vieworders']);
     Route::get('/view-order-item/{id}', [App\Http\Controllers\Api\CustomerApiController::class, 'vieworderitem']);

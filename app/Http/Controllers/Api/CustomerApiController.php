@@ -1644,6 +1644,13 @@ class CustomerApiController extends Controller
     }
 
 
+    public function updatePayment(Request $request){
+        $order = orders::find($request->id);
+        $order->payment_status=1;
+        $order->save();
+        return response()->json(["message"=>"Payment Update Successful!"],200); 
+    }
+
 
 
     public function saveorder(Request $request){

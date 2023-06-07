@@ -1655,6 +1655,7 @@ class CustomerApiController extends Controller
 
     public function saveorder(Request $request){
         $cart = app_cart::where('customer_id',$request->customer_id)->get();
+        $order_id;
         foreach($cart as $pro_item){
             $pro_id = $pro_item->product_id;
             $qty = $pro_item->qty;
@@ -1766,7 +1767,7 @@ class CustomerApiController extends Controller
                 $orders->commission_amount = $commission_amount;
                 $orders->save();
 
-
+                $order_id =$orders->id;
                 foreach($cart as $cart_item1){
                     if($current_vendor == $cart_item1->vendor_id){
                         $getproduct = product::find($cart_item1->product_id);
@@ -1833,7 +1834,7 @@ class CustomerApiController extends Controller
             $invoice_id = time();
             $data = $this->onlinepay($orderids,$invoice_id,$request->customer_id);
 
-            $response = ['IsSuccess'=>'true','message'=>'Your Order is Save Successfully','data'=>$data,'success_url'=>'http://darco.lrbinfotech.com/mobile-payment-success','error_url'=>'http://darco.lrbinfotech.com/mobile-payment-failed','status'=>0,'order_id'=>(int)$orderids];
+            $response = ['IsSuccess'=>'true','message'=>'Your Order is Save Successfully','data'=>$data,'success_url'=>'http://darco.lrbinfotech.com/mobile-payment-success','error_url'=>'http://darco.lrbinfotech.com/mobile-payment-failed','status'=>0,'order_id'=>(int)$order_id];
             
             foreach(explode('.', $orderids) as $ids){
                 $invoice_update = orders::find($ids);

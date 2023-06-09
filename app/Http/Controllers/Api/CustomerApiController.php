@@ -65,11 +65,29 @@ class CustomerApiController extends Controller
                 }else{
                     return response()->json(['message' => 'Records Does not Match','status'=>403], 403);
                 }
-            }else{
+            }
+            else if($exist[0]->status == 2){
+                return response()->json(['message' => 'Deactivate Your Account','status'=>401,'user_id'=>$exist[0]->id], 401);
+            }
+            else{
                 return response()->json(['message' => 'Verify Your Account','status'=>401,'user_id'=>$exist[0]->id], 401);
             }
         }else{
             return response()->json(['message' => 'This Email Address Not Registered','status'=>404], 404);
+        }
+    }
+
+    public function deactivateaccount(Request $request){
+        $customer = User::find($request->customer_id);
+        $hashedPassword = $customer->password;
+ 
+        if (\Hash::check($request->password , $hashedPassword )) {
+            $customer->status = 2;
+            $customer->save();
+            return response()->json(['message' => 'Successfully Update'], 200);
+        }
+        else{
+            return response()->json(['message' => 'invalid password','status'=>400], 400);
         }
     }
 
@@ -158,6 +176,7 @@ class CustomerApiController extends Controller
     public function getprofile($id){
         $user = User::find($id);
         $city = city::find($user->city);
+        return response()->json($city); 
         $area = city::find($user->area);
         $data =array();
         $data = array(

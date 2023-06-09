@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => 'customer'],function(){
 
     Route::post('/login', [App\Http\Controllers\Api\CustomerApiController::class, 'login']);
+    Route::post('/deactivate-account', [App\Http\Controllers\Api\CustomerApiController::class, 'deactivateaccount']);
 
     Route::post('/create-customer', [App\Http\Controllers\Api\CustomerApiController::class, 'createcustomer']);
 

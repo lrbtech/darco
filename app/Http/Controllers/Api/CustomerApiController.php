@@ -84,7 +84,7 @@ class CustomerApiController extends Controller
         if (\Hash::check($request->password , $hashedPassword )) {
             $customer->status = 2;
             $customer->save();
-            return response()->json(['message' => 'Successfully Update'], 200);
+            return response()->json(['message' => 'Account Deleted Successfully'], 200);
         }
         else{
             return response()->json(['message' => 'invalid password','status'=>400], 400);

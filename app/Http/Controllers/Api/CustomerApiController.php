@@ -67,7 +67,7 @@ class CustomerApiController extends Controller
                 }
             }
             else if($exist[0]->status == 2){
-                return response()->json(['message' => 'Deactivate Your Account','status'=>401,'user_id'=>$exist[0]->id], 401);
+                return response()->json(['message' => 'Account not Found','status'=>401,'user_id'=>$exist[0]->id], 401);
             }
             else{
                 return response()->json(['message' => 'Verify Your Account','status'=>401,'user_id'=>$exist[0]->id], 401);

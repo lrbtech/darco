@@ -245,7 +245,8 @@ class PageController extends Controller
     public function about()
     {
         $language = language::all();
-        return view('website.about_us',compact('language'));
+        $setting = settings::select('about_us')->first();
+        return view('website.about_us',compact('language','setting'));
     }
 
     public function contact()

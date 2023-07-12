@@ -14,7 +14,8 @@
             </div>
         </div>
     </div>
-    <div class="page-content pt-50">
+    {!!html_entity_decode($setting->about_us)!!}
+    <!-- <div class="page-content pt-50">
         <div class="container">
             <div class="row">
                 <div class="col-xl-10 col-lg-12 m-auto">
@@ -116,10 +117,11 @@
         </div>
     
     
-    </div>
+    </div> -->
 </main>
 
 
+<!-- {!!html_entity_decode($setting->about_us)!!} -->
 @endsection
 @section('extra-js')
 @endsection

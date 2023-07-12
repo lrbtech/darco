@@ -1455,6 +1455,29 @@ class CustomerApiController extends Controller
         } 
     }
 
+    public function getqrcodedata(Request $request){
+        //$customer = User::find($request->customer_id);
+        $data = $request->qrcode_data;
+
+        $url = asset('').'qrcode-add-to-card/';
+        // $sku_value=0;
+        // foreach(explode($url, $data) as $sku) {
+        //     $sku_value = $sku;
+        // }
+
+        $sku_value = explode($url, $data);
+
+
+        $product = product::where('sku_value',$sku_value)->first();
+ 
+        if (!empty($product)) {
+            return response()->json(['product_id'=>$product_id->id,'message'=>'Add to cart Successfully'], 200);
+        }
+        else{
+            return response()->json(['message'=>'Qrcode Invalid','status'=>400], 400);
+        }
+    }
+
 
     public function deleteshippingaddress(Request $request){
         try{

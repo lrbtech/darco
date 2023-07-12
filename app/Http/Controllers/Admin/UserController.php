@@ -46,6 +46,7 @@ class UserController extends Controller
         $user->username = $request->username;
         $user->mobile = $request->mobile;
         $user->role_id = $request->role_id;
+        $user->lang = 'english';
         $user->password = Hash::make($request->password);
         $user->save();
         return response()->json('Successfully Save'); 
@@ -61,6 +62,7 @@ class UserController extends Controller
         $user->email = $request->email;
         $user->mobile = $request->mobile;
         $user->role_id = $request->role_id;
+        $user->lang = 'english';
         if($request->password != ''){
         $user->password = Hash::make($request->password);
         }

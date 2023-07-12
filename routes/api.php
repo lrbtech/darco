@@ -133,5 +133,8 @@ Route::group(['prefix' => 'customer'],function(){
     Route::POST('/save-review', [App\Http\Controllers\Api\CustomerApiController::class, 'savereview']);
     Route::get('/get-review/{product_id}', [App\Http\Controllers\Api\CustomerApiController::class, 'getreview']);
 
+
+    Route::post('/get-qrcode-data', [App\Http\Controllers\Api\CustomerApiController::class, 'getqrcodedata']);
+
 });
 

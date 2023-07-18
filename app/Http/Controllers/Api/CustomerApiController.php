@@ -1462,7 +1462,7 @@ class CustomerApiController extends Controller
             $sku_value = $sku;
         }
 
-        $product = product::where('sku_value',$sku_value)->first();
+        $product = product::where('sku_value',$sku_value)->where('status',1)->first();
  
         if (!empty($product)) {
             return response()->json(['product_id'=>$product->id,'message'=>'Add to cart Successfully'], 200);

@@ -1,4 +1,4 @@
-@extends('vendor.layouts')
+@extends('admin.layouts')
 @section('extra-css')
 <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/tables/datatable/datatables.min.css">
 
@@ -8,29 +8,20 @@
     <div class="content-wrapper">
       <div class="content-header row">
         <div class="content-header-left col-md-6 col-12 mb-2 breadcrumb-new">
-          <h3 class="content-header-title mb-0 d-inline-block">Project</h3>
+          <h3 class="content-header-title mb-0 d-inline-block">idea-book</h3>
           <div class="row breadcrumbs-top d-inline-block">
             <div class="breadcrumb-wrapper col-12">
               <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/vendor/dashboard">Home</a>
+                <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a>
                 </li>
-                <li class="breadcrumb-item"><a href="#">All Projects</a>
+                <li class="breadcrumb-item"><a href="#">All idea-books</a>
                 </li>
               </ol>
             </div>
           </div>
         </div>
         <div class="content-header-right col-md-6 col-12">
-            <a href="/vendor/add-project" id="add_new" class="float-md-right btn btn-danger round btn-glow px-2" type="button">Add New</a>
-          <!-- <div class="dropdown float-md-right">
-            <button class="btn btn-danger dropdown-toggle round btn-glow px-2" id="dropdownBreadcrumbButton"
-            type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</button>
-            <div class="dropdown-menu" aria-labelledby="dropdownBreadcrumbButton"><a class="dropdown-item" href="#"><i class="la la-calendar-check-o"></i> Calender</a>
-              <a class="dropdown-item" href="#"><i class="la la-cart-plus"></i> Cart</a>
-              <a class="dropdown-item" href="#"><i class="la la-life-ring"></i> Support</a>
-              <div class="dropdown-divider"></div><a class="dropdown-item" href="#"><i class="la la-cog"></i> Settings</a>
-            </div>
-          </div> -->
+          <!-- <a href="/admin/add-idea-book" id="add_new" class="float-md-right btn btn-danger round btn-glow px-2" type="button">Add New</a> -->
         </div>
       </div>
       <div class="content-body">
@@ -40,7 +31,7 @@
             <div class="col-12">
               <div class="card">
                 <div class="card-header">
-                  <h4 class="card-title">All Projects</h4>
+                  <h4 class="card-title">All idea books</h4>
                   <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                   <div class="heading-elements">
                     <ul class="list-inline mb-0">
@@ -57,17 +48,17 @@
                       <thead>
                         <tr>
                             <th>#</th>
-                            <th style="width:400px;">Project Name</th>
+                            <th style="width:400px;">Title</th>
                             <th>Image</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
                       </thead>
                       <tbody>
-                      @foreach($project as $key => $row)
+                      @foreach($idea_book as $key => $row)
                         <tr>
                             <td>{{$key + 1}}</td>
-                            <td>{{$row->project_name}}</td>
+                            <td>{{$row->title}}</td>
                             <td>
                               <img style="height: 100px;" src="/project_image/{{$row->image}}">
                             </td>
@@ -85,8 +76,14 @@
                                     <button type="button" class="btn btn-danger btn-block dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Action</button>
                                     <div class="dropdown-menu open-left arrow" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 40px, 0px); top: 0px; left: 0px; will-change: transform;">
                                         <button onclick="Edit({{$row->id}})"class="dropdown-item" type="button">Edit</button>
-                                        <!-- <div class="dropdown-divider"></div> -->
-                                        <!-- <button onclick="Delete({{$row->id}})"class="dropdown-item" type="button">Delete</button> -->
+                                        <div class="dropdown-divider"></div>
+                                        @if($row->status == 0)
+                                        <button onclick="Delete({{$row->id}},1)"class="dropdown-item" type="button">Active</button>
+                                        @elseif($row->status == 1)
+                                        <button onclick="Delete({{$row->id}},2)"class="dropdown-item" type="button">DeActive</button>
+                                        @else 
+                                        <button onclick="Delete({{$row->id}},2)"class="dropdown-item" type="button">Active</button>
+                                        @endif
                                     </div>
                                 </div>
                             </td>
@@ -96,7 +93,7 @@
                       <tfoot>
                         <tr>
                             <th>#</th>
-                            <th>Project Name</th>
+                            <th>Title</th>
                             <th>Image</th>
                             <th>Status</th>
                             <th>Action</th>
@@ -124,17 +121,17 @@
 
 
 <script>
-$('.project').addClass('active');
+$('.idea-book').addClass('active');
 
 function Edit(id){
-  window.location.href="/vendor/edit-project/"+id;
+  window.location.href="/admin/edit-idea-book/"+id;
 }
-function Delete(id){
+function Delete(id,status){
     var r = confirm("Are you sure");
     if (r == true) {
       spinner_body.show();   
       $.ajax({
-        url : '/vendor/delete-project/'+id,
+        url : '/admin/delete-idea-book/'+id+'/'+status,
         type: "GET",
         dataType: "JSON",
         success: function(data)

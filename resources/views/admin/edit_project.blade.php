@@ -1,4 +1,4 @@
-@extends('vendor.layouts')
+@extends('admin.layouts')
 @section('extra-css')
 <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/editors/tinymce/tinymce.min.css">
 
@@ -98,15 +98,12 @@
           <div class="row breadcrumbs-top d-inline-block">
             <div class="breadcrumb-wrapper col-12">
               <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/vendor/dashboard">Home</a>
+                <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a>
                 </li>
-                <li class="breadcrumb-item active">Edit Idea Book</li>
+                <li class="breadcrumb-item active">Edit Project</li>
               </ol>
             </div>
           </div>
-        </div>
-        <div class="content-header-right col-md-6 col-12">
-          <!-- <a onclick="Delete({{$idea_book->id}})" href="#" class="float-md-right btn btn-danger round btn-glow px-2" type="button">Delete Idea Book</a> -->
         </div>
       </div>
       <div class="content-body">
@@ -115,7 +112,7 @@
             <div class="col-12">
               <div class="card">
                 <div class="card-header">
-                  <h4 class="card-title">Edit Idea Book</h4>
+                  <h4 class="card-title">Edit Project</h4>
                   <a class="heading-elements-toggle"><i class="la la-ellipsis-h font-medium-3"></i></a>
                   <div class="heading-elements">
                     <ul class="list-inline mb-0">
@@ -130,17 +127,18 @@
                   <div class="card-body">
                     <form id="form" method="POST" action="#" class="steps-validation wizard-notification">
                     {{csrf_field()}}
-                    <input type="hidden" name="id" value="{{$idea_book->id}}">
+                    <input type="hidden" name="id" value="{{$project->id}}">
+                    <input type="hidden" name="vendor_id" value="{{$project->vendor_id}}">
                       <!-- Step 1 -->
                       <h6>Basic Details</h6>
                       <fieldset>
                         <div class="row">
                           <div class="col-md-6">
                             <div class="form-group">
-                              <label for="title">
-                                Title : <span class="danger">*</span>
+                              <label for="project_name">
+                                Project Name : <span class="danger">*</span>
                               </label>
-                              <input value="{{$idea_book->title}}" type="text" class="form-control required" id="title" name="title">
+                              <input value="{{$project->project_name}}" type="text" class="form-control required" id="project_name" name="project_name">
                             </div>
                           </div>
                           <div class="col-md-6">
@@ -151,7 +149,7 @@
                                   <select onchange="changecategory()" id="category" name="category" class="form-control">
                                     <option value="">SELECT</option>
                                     @foreach($category as $category1)
-                                    @if($category1->id == $idea_book->category)
+                                    @if($category1->id == $project->category)
                                     <option selected value="{{$category1->id}}" >{{$category1->category}}</option>
                                     @else
                                     <option value="{{$category1->id}}" >{{$category1->category}}</option>
@@ -174,21 +172,21 @@
                         <div class="row">
                           <div class="col-md-6">
                             <div class="form-group">
-                              <label for="description">Description</label>
-                                <textarea name="description" id="description" rows="8" class="tinymce"><?php echo $idea_book->description; ?></textarea>
+                              <label for="description">Project Description</label>
+                                <textarea name="description" id="description" rows="8" class="tinymce"><?php echo $project->description; ?></textarea>
                             </div>
                           </div>
                           <div class="col-md-6">
                             <div id="image_view" class="row">
                                 <div value="1" class="center form-input panel_image">
                                   <label for="file-ip-1">
-                                  <img id="file-ip-1-preview" src="/project_image/{{$idea_book->image}}">
+                                  <img id="file-ip-1-preview" src="/project_image/{{$project->image}}">
                                   <!-- <button type="button" class="imgRemove" onclick="myImgRemove(1)"></button> -->
                                   </label>
                                   <input type="file" name="profile_image" id="file-ip-1" accept=".png,.jpg,.jpeg" onchange="showPreview(event, 1);">
                                   <p class="primary-img">Primary Image</p>
                                 </div>
-                                @foreach($idea_book_images as $key => $row)
+                                @foreach($project_images as $key => $row)
                                 <div value="{{$key+2}}" class="center form-input panel_image">
                                   <label for="file-ip-{{$key+2}}">
                                   <img id="file-ip-{{$key+2}}-preview" src="/project_image/{{$row->image}}">
@@ -245,17 +243,17 @@
 <!-- <script src="/app-assets/js/scripts/forms/wizard-steps.js" type="text/javascript"></script> -->
 
 <script>
-// $('.idea-book').addClass('active');
+// $('.project').addClass('active');
 
 getsubcategory();
 function getsubcategory(){
   $.ajax({
-      url : '/get-idea-book-sub-category/'+<?php echo $idea_book->category; ?>,
+      url : '/get-professional-sub-category/'+<?php echo $project->category; ?>,
       type: "GET",
       success: function(data)
       {
         $('#subcategory').html(data);
-        $('select[name=subcategory]').val(<?php echo $idea_book->subcategory; ?>);
+        $('select[name=subcategory]').val(<?php echo $project->subcategory; ?>);
       }
   });
 }
@@ -264,7 +262,7 @@ function changecategory(){
   var id = $('#category').val();
   // alert(id);
   $.ajax({
-    url : '/get-idea-book-sub-category/'+id,
+    url : '/get-professional-sub-category/'+id,
     type: "GET",
     success: function(data)
     {
@@ -274,27 +272,11 @@ function changecategory(){
 }
 
 
-function Delete(id){
-    var r = confirm("Are you sure Completely delete from our site");
-    if (r == true) {
-      $.ajax({
-        url : '/vendor/delete-idea-book/'+id,
-        type: "GET",
-        dataType: "JSON",
-        success: function(data)
-        {
-          toastr.success('Successfully Delete');
-          window.location = "/vendor/idea-book";
-        }
-      });
-    } 
-}
-
 function DeleteImage(id){
     var r = confirm("Are you sure Completely delete from our site");
     if (r == true) {
       $.ajax({
-        url : '/vendor/delete-idea-book-image/'+id,
+        url : '/admin/delete-project-image/'+id,
         type: "GET",
         dataType: "JSON",
         success: function(data)
@@ -314,7 +296,7 @@ function Save(){
     var description = tinyMCE.get('description').getContent();
     formData.append('description', description);
     $.ajax({
-        url : '/vendor/update-idea-book',
+        url : '/admin/update-project',
         type: "POST",
         data: formData,
         contentType: false,
@@ -327,7 +309,7 @@ function Save(){
                   title: data.message,
                   icon: "success",
                }).then(function() {
-                  window.location = "/vendor/idea-book";
+                  window.location = "/admin/project";
                   spinner_body.hide();
                });
             }

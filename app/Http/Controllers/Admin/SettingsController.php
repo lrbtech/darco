@@ -142,6 +142,7 @@ class SettingsController extends Controller
 
         $city = new city;
         $city->city = $request->city;
+        $city->country_id = $request->country_id;
         $city->parent_id = 0;
 
         $city->save();
@@ -156,17 +157,19 @@ class SettingsController extends Controller
         
         $city = city::find($request->id);
         $city->city = $request->city;
+        $city->country_id = $request->country_id;
         $city->parent_id = 0;
         $city->save();
 
         return response()->json('successfully update'); 
     }
 
-    public function city(){
-        $city = city::where('parent_id',0)->get();
+    public function city($id){
+        $city = city::where('country_id',$id)->where('parent_id',0)->get();
         $role_get = roles::find(Auth::guard('admin')->user()->role_id);
         $language = language::all();
-        return view('admin.city',compact('city','role_get','language'));
+        $country_id = $id;
+        return view('admin.city',compact('city','role_get','language','country_id'));
     }
 
     public function editcity($id){

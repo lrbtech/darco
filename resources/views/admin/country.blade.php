@@ -7,13 +7,13 @@
     <div class="content-wrapper">
       <div class="content-header row">
         <div class="content-header-left col-md-6 col-12 mb-2 breadcrumb-new">
-          <h3 class="content-header-title mb-0 d-inline-block">{{$language[73][Auth::guard('admin')->user()->lang]}}</h3>
+          <h3 class="content-header-title mb-0 d-inline-block">Country</h3>
           <div class="row breadcrumbs-top d-inline-block">
             <div class="breadcrumb-wrapper col-12">
               <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a>
                 </li>
-                <li class="breadcrumb-item"><a href="#">{{$language[74][Auth::guard('admin')->user()->lang]}}</a>
+                <li class="breadcrumb-item"><a href="#">All Country</a>
                 </li>
               </ol>
             </div>
@@ -21,7 +21,7 @@
         </div>
         <div class="content-header-right col-md-6 col-12">
             @if($role_get->city_create == 'on')
-            <button id="add_new" class="float-md-right btn btn-danger round btn-glow px-2" type="button">{{$language[75][Auth::guard('admin')->user()->lang]}}</button>
+            <button id="add_new" class="float-md-right btn btn-danger round btn-glow px-2" type="button">Add New</button>
             @endif
           <!-- <div class="dropdown float-md-right">
             <button class="btn btn-danger dropdown-toggle round btn-glow px-2" id="dropdownBreadcrumbButton"
@@ -40,35 +40,34 @@
           <div class="row">
             <div class="col-12">
               <div class="card">
-                <div class="card-header">
-                  <h4 class="card-title">{{$language[74][Auth::guard('admin')->user()->lang]}}</h4>
-                  <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
-                  <div class="heading-elements">
-                    <ul class="list-inline mb-0">
-                      <!-- <li><a data-action="collapse"><i class="ft-minus"></i></a></li> -->
-                      <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
-                      <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
-                      <!-- <li><a data-action="close"><i class="ft-x"></i></a></li> -->
-                    </ul>
-                  </div>
-                </div>
                 <div class="card-content collapse show">
                   <div class="card-body card-dashboard">
                     <table id="datatable" class="table table-striped table-bordered zero-configuration">
                       <thead>
                         <tr>
                             <th>#</th>
-                            <th>{{$language[76][Auth::guard('admin')->user()->lang]}}</th>
-                            <th>{{$language[77][Auth::guard('admin')->user()->lang]}}</th>
-                            <th>{{$language[78][Auth::guard('admin')->user()->lang]}}</th>
+                            <th>Country Code</th>
+                            <th>Country Name</th>
+                            <th>Image</th>
+                            <th>Status</th>
+                            <th>Action</th>
                         </tr>
                       </thead>
                       <tbody>
-                      @foreach($city as $key => $row)
+                      @foreach($country as $key => $row)
                         <tr>
                             <td>{{$key + 1}}</td>
+                            <td>{{$row->country_code}}</td>
                             <td>
-                              <a href="/admin/area/{{$row->id}}">{{$row->city}}</a>
+                            @if($role_get->city_create == 'on')
+                            <a href="/admin/city/{{$row->id}}">{{$row->country_name_english}}</a>
+                            @else 
+                            {{$row->country_name_english}}
+                            @endif
+                            </td>
+                            <!-- <td>{{$row->country_name_arabic}}</td> -->
+                            <td>
+                                <img style="width: 100px;height: 100px;" src="/upload_files/{{$row->image}}">
                             </td>
                             <td>
                             @if($row->status == 0)
@@ -101,7 +100,9 @@
                       <tfoot>
                         <tr>
                             <th>#</th>
-                            <th>City</th>
+                            <th>Country Code</th>
+                            <th>Country Name</th>
+                            <th>Image</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -130,17 +131,26 @@
                 <form id="form" method="POST" enctype="multipart/form-data">
                 {{ csrf_field() }}
                 <input type="hidden" name="id" id="id">
-                <input type="hidden" value="{{$country_id}}" name="country_id" id="country_id">
 
                 <div class="form-group">
-                    <label class="col-form-label">City Name</label>
-                    <input autocomplete="off" type="text" id="city" name="city" class="form-control">
+                    <label class="col-form-label">country code</label>
+                    <input autocomplete="off" type="text" id="country_code" name="country_code" class="form-control">
                 </div>
 
-                <!-- <div class="form-group">
+                <div class="form-group">
+                    <label class="col-form-label">country name</label>
+                    <input autocomplete="off" type="text" id="country_name_english" name="country_name_english" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label class="col-form-label">Phone Count</label>
+                    <input autocomplete="off" type="text" id="phone_count" name="phone_count" class="form-control">
+                </div>
+
+                <div class="form-group">
                     <label class="col-form-label">Image</label>
                     <input autocomplete="off" type="file" id="image" name="image" class="form-control">
-                </div> -->
+                </div>
 
                 </form>
             </div>
@@ -158,7 +168,7 @@
 <script src="/app-assets/js/scripts/tables/datatables/datatable-basic.js" type="text/javascript"></script>
 
 <script>
-$('.city').addClass('active');
+$('.country').addClass('active');
 
 var action_type;
 $('#add_new').click(function(){
@@ -169,7 +179,7 @@ $('#add_new').click(function(){
   $("#form")[0].reset();
   action_type = 1;
   $('#saveButton').text('Save');
-  $('#modal-title').text('Add City');
+  $('#modal-title').text('Add country');
   $(".text-danger").remove();
   $('.form-group').removeClass('has-error').removeClass('has-success');
 });
@@ -181,7 +191,7 @@ function Save(){
   var formData = new FormData($('#form')[0]);
   if(action_type == 1){
     $.ajax({
-      url : '/admin/save-city',
+      url : '/admin/save-country',
       type: "POST",
       data: formData,
       contentType: false,
@@ -206,7 +216,7 @@ function Save(){
     });
   }else{
     $.ajax({
-      url : '/admin/update-city',
+      url : '/admin/update-country',
       type: "POST",
       data: formData,
       contentType: false,
@@ -235,16 +245,18 @@ function Save(){
 function Edit(id){
   spinner_body.show();   
   $.ajax({
-    url : '/admin/edit-city/'+id,
+    url : '/admin/edit-country/'+id,
     type: "GET",
     dataType: "JSON",
     success: function(data)
     {
       spinner_body.hide();   
-      $('#modal-title').text('Update City');
+      $('#modal-title').text('Update country');
       $('#save').text('Save Change');
-      $('input[name=city]').val(data.city);
-      $('input[name=country_id]').val(data.country_id);
+      //$('input[name=country_name_arabic]').val(data.country_name_arabic);
+      $('input[name=country_name_english]').val(data.country_name_english);
+      $('input[name=phone_count]').val(data.phone_count);
+      $('input[name=country_code]').val(data.country_code);
       $('input[name=id]').val(id);
       $('#popup_modal').modal({
         backdrop: 'static',
@@ -259,7 +271,7 @@ function Delete(id,status){
     if (r == true) {
       spinner_body.show();   
       $.ajax({
-        url : '/admin/delete-city/'+id+'/'+status,
+        url : '/admin/delete-country/'+id+'/'+status,
         type: "GET",
         dataType: "JSON",
         success: function(data)

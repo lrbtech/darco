@@ -267,82 +267,98 @@
                         <br>
 
                         <div id="create_address">
-                        <div class="row">
-                            <!-- <div class="form-group col-lg-6">
+                          <div class="row">
+                            <div class="form-group col-lg-4">
                               <label>Address Type <span class="asterisk">*</span></label>
-                              <div class="custome-radio">
-                                  <input value="0" class="form-check-input" type="radio" name="address_type" id="address_type1"/>
-                                  <label class="form-check-label" for="address_type1" >Home (7am-9pm, all days)</label>
-                              </div>
-                              <div class="custome-radio">
-                                  <input value="1"  class="form-check-input" type="radio" name="address_type" id="address_type2" />
-                                  <label class="form-check-label" for="address_type2">Office (9am-6pm, Weekdays)</label>
-                              </div>
-                          </div> -->
-                          <div class="form-group col-lg-6">
-                            <label>Contact Person <span class="asterisk">*</span></label>
-                            <input type="text" id="contact_person" name="contact_person" placeholder="Contact Person *">
-                          </div>
-                          <!-- <div class="form-group col-lg-6">
-                            <label>Contact Mobile <span class="asterisk">*</span></label>
-                            <input type="text" id="contact_mobile" name="contact_mobile" placeholder="Contact Mobile">
-                          </div> -->
-                          <div class="form-group col-lg-6">
-                            <label>Contact Mobile</label>
-                            <div class="input-group mb-3">
+                              <select id="address_type" name="address_type" class="form-control">
+                                <option value="">SELECT</option>
+                                <option value="House">House</option>
+                                <option value="Apartment">Apartment</option>
+                                <option value="Office">Office</option>
+                              </select>
+                            </div>
+                            <div class="form-group col-lg-4">
+                              <label>Contact Person <span class="asterisk">*</span></label>
+                              <input type="text" id="contact_person" name="contact_person" placeholder="Contact Person *">
+                            </div>
+                            <div class="form-group col-lg-4">
+                              <label>Contact Mobile <span class="asterisk">*</span></label>
+                              <input type="text" id="contact_mobile" name="contact_mobile" placeholder="Contact Mobile">
+                            </div>
+                            <!-- <div class="form-group col-lg-6">
+                              <label>Contact Mobile</label>
+                              <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                   <select  name="country_code" id="country_code">
                                     <option value="+965">+965</option>
-                                    <!-- <option value="+971">+971</option> -->
                                   </select>
                                 </div>
                                 <input type="number" class="form-control" name="contact_mobile" id="contact_mobile" placeholder="Contact Mobile">
+                              </div>
+                            </div> -->
+                          </div>
+                          <!-- <div class="row">
+                            <div class="form-group col-lg-12">
+                              <label>Street address <span class="asterisk">*</span></label>
+                              <input type="text" id="address_line1" name="address_line1" placeholder="Door No., Street address">
+                              <br>
+                              <input type="text" id="address_line2" name="address_line2" placeholder="Apartment, suite (optional)">
+                            </div>
+                          </div> -->
+                          <div class="row">
+                            <div class="form-group col-lg-6">
+                              <label>Street <span class="asterisk">*</span></label>
+                              <input type="text" id="street" name="street" placeholder="Street">
+                            </div>
+                            <div class="form-group col-lg-6">
+                              <label>Street Name </label>
+                              <input type="text" id="street_name" name="street_name" placeholder="Street Name">
+                            </div>
+                            <div class="form-group col-lg-6">
+                              <label>Block </label>
+                              <input type="text" id="block" name="block" placeholder="Block">
+                            </div>
+                            <div class="form-group col-lg-6">
+                              <label>Avenue </label>
+                              <input type="text" id="avenue" name="avenue" placeholder="Avenue">
+                            </div>
+                            <div class="form-group col-lg-6">
+                              <label>Building No </label>
+                              <input type="text" id="building_no" name="building_no" placeholder="Building No">
+                            </div>
+                            <div class="form-group col-lg-6">
+                              <label>Floor No </label>
+                              <input type="text" id="floor_no" name="floor_no" placeholder="Floor No">
+                            </div>
+                            <div class="form-group col-lg-6">
+                              <label>Apartment No </label>
+                              <input type="text" id="apartment_no" name="apartment_no" placeholder="Apartment No">
+                            </div>
+                            <div class="form-group col-lg-6">
+                              <label>Country <span class="asterisk">*</span></label>
+                              <select id="country" name="country" class="form-control">
+                                <option value="">SELECT</option>
+                                <option value="kuwait">kuwait</option>
+                              </select>
+                            </div>
+                            <div class="form-group col-lg-6">
+                              <label>City <span class="asterisk">*</span></label>
+                              <input type="text" id="city" name="city" placeholder="City">
+                            </div>
+                            <div class="form-group col-lg-6">
+                              <label>Area <span class="asterisk">*</span></label>
+                              <input type="text" id="area" name="area" placeholder="Area">
+                            </div>
+                            <div class="form-group col-lg-12">
+                              <textarea name="additional_information" id="additional_information" rows="2" placeholder="Additional information"></textarea>
                             </div>
                           </div>
-                        </div>
-                        <div class="row">
-                          <div class="form-group col-lg-12">
-                            <label>Landmark <span class="asterisk">*</span></label>
-                            <input type="text" id="landmark" name="landmark" placeholder="Landmark">
+                          <div class="col-sm-12">
+                            <div class="form-group">
+                              <button onclick="SaveAddress()" type="button" class="btn btn-dark">Save Address</button>
+                              <button onclick="HideAddress()" type="button" class="btn">Cancel</button>
+                            </div>
                           </div>
-                        </div>
-                        <div class="row">
-                          <div class="form-group col-lg-12">
-                            <label>Street address <span class="asterisk">*</span></label>
-                            <input type="text" id="address_line1" name="address_line1" placeholder="Door No., Street address">
-                            <br>
-                            <input type="text" id="address_line2" name="address_line2" placeholder="Apartment, suite (optional)">
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="form-group col-lg-6">
-                            <label>City <span class="asterisk">*</span></label>
-                            <input type="text" id="city" name="city" placeholder="City">
-                          </div>
-                          <div class="form-group col-lg-6">
-                            <label>Area <span class="asterisk">*</span></label>
-                            <input type="text" id="area" name="area" placeholder="Area">
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="form-group col-lg-6">
-                            <label>Country <span class="asterisk">*</span></label>
-                            <select id="country" name="country" class="form-control">
-                              <option value="">SELECT</option>
-                              <option value="1">kuwait</option>
-                            </select>
-                          </div>
-                          <div class="form-group col-lg-6">
-                            <label>Zipcode <span class="asterisk">*</span></label>
-                            <input type="text" id="zipcode" name="zipcode" placeholder="Zipcode">
-                          </div>
-                        </div>
-                        <div class="col-sm-12">
-                          <div class="form-group">
-                            <button onclick="SaveAddress()" type="button" class="btn btn-dark">Save Address</button>
-                            <button onclick="HideAddress()" type="button" class="btn">Cancel</button>
-                          </div>
-                        </div>
                         </div>
                         
                         <br>
@@ -369,43 +385,79 @@
                                         <label class="form-check-label" for="new_address_type2">Office (9am-6pm, Weekdays)</label>
                                     </div>
                                 </div> -->
-                                <div class="form-group col-lg-6">
+                                <div class="form-group col-lg-4">
+                                  <label>Address Type <span class="asterisk">*</span></label>
+                                  <select id="new_address_type" name="new_address_type" class="form-control">
+                                    <option value="">SELECT</option>
+                                    <option value="House">House</option>
+                                    <option value="Apartment">Apartment</option>
+                                    <option value="Office">Office</option>
+                                  </select>
+                                </div>
+                                <div class="form-group col-lg-4">
                                   <label>Contact Person <span class="asterisk">*</span></label>
                                   <input type="text" id="new_contact_person" name="new_contact_person" placeholder="Contact Person *">
                                 </div>
-                                <!-- <div class="form-group col-lg-6">
+                                <div class="form-group col-lg-4">
                                   <label>Contact Mobile <span class="asterisk">*</span></label>
                                   <input type="text" id="new_contact_mobile" name="new_contact_mobile" placeholder="Contact Mobile">
-                                </div> -->
-                                <div class="form-group col-lg-6">
+                                </div>
+                                <!-- <div class="form-group col-lg-6">
                                   <label>Contact Mobile</label>
                                   <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                       <select  name="new_country_code" id="new_country_code">
                                         <option value="+965">+965</option>
-                                        <!-- <option value="+971">+971</option> -->
                                       </select>
                                     </div>
                                     <input type="number" class="form-control" name="new_contact_mobile" id="new_contact_mobile" placeholder="Contact Mobile">
                                   </div>
-                                </div>
+                                </div> -->
                               </div>
-                              <div class="row">
-                                
-                                <div class="form-group col-lg-12">
-                                  <label>Landmark <span class="asterisk">*</span></label>
-                                  <input type="text" id="new_landmark" name="new_landmark" placeholder="Landmark">
-                                </div>
-                              </div>
-                              <div class="row">
+                              <!-- <div class="row">
                                 <div class="form-group col-lg-12">
                                   <label>Street address <span class="asterisk">*</span></label>
                                   <input type="text" id="new_address_line1" name="new_address_line1" placeholder="Door No., Street address">
                                   <br>
                                   <input type="text" id="new_address_line2" name="new_address_line2" placeholder="Apartment, suite (optional)">
                                 </div>
-                              </div>
+                              </div> -->
                               <div class="row">
+                                <div class="form-group col-lg-6">
+                                  <label>Street <span class="asterisk">*</span></label>
+                                  <input type="text" id="new_street" name="new_street" placeholder="Street">
+                                </div>
+                                <div class="form-group col-lg-6">
+                                  <label>Street Name </label>
+                                  <input type="text" id="new_street_name" name="new_street_name" placeholder="Street Name">
+                                </div>
+                                <div class="form-group col-lg-6">
+                                  <label>Block </label>
+                                  <input type="text" id="new_block" name="new_block" placeholder="Block">
+                                </div>
+                                <div class="form-group col-lg-6">
+                                  <label>Avenue </label>
+                                  <input type="text" id="new_avenue" name="new_avenue" placeholder="Avenue">
+                                </div>
+                                <div class="form-group col-lg-6">
+                                  <label>Building No </label>
+                                  <input type="text" id="new_building_no" name="new_building_no" placeholder="Building No">
+                                </div>
+                                <div class="form-group col-lg-6">
+                                  <label>Floor No </label>
+                                  <input type="text" id="new_floor_no" name="new_floor_no" placeholder="Floor No">
+                                </div>
+                                <div class="form-group col-lg-6">
+                                  <label>Apartment No </label>
+                                  <input type="text" id="new_apartment_no" name="new_apartment_no" placeholder="Apartment No">
+                                </div>
+                                <div class="form-group col-lg-6">
+                                  <label>Country <span class="asterisk">*</span></label>
+                                  <select id="new_country" name="new_country" class="form-control">
+                                    <option value="">SELECT</option>
+                                    <option value="kuwait">kuwait</option>
+                                  </select>
+                                </div>
                                 <div class="form-group col-lg-6">
                                   <label>City <span class="asterisk">*</span></label>
                                   <input type="text" id="new_city" name="new_city" placeholder="City">
@@ -414,18 +466,8 @@
                                   <label>Area <span class="asterisk">*</span></label>
                                   <input type="text" id="new_area" name="new_area" placeholder="Area">
                                 </div>
-                              </div>
-                              <div class="row">
-                                <div class="form-group col-lg-6">
-                                  <label>Country <span class="asterisk">*</span></label>
-                                  <select id="new_country" name="new_country" class="form-control">
-                                    <option value="">SELECT</option>
-                                    <option value="1">kuwait</option>
-                                  </select>
-                                </div>
-                                <div class="form-group col-lg-6">
-                                  <label>Zipcode <span class="asterisk">*</span></label>
-                                  <input type="text" id="new_zipcode" name="new_zipcode" placeholder="Zipcode">
+                                <div class="form-group col-lg-12">
+                                  <textarea name="new_additional_information" id="new_additional_information" rows="2" placeholder="Additional information"></textarea>
                                 </div>
                               </div>
 
@@ -433,9 +475,9 @@
                             </div>
                         </div>
 
-                        <div class="form-group mb-30">
+                        <!-- <div class="form-group mb-30">
                             <textarea name="order_message" id="order_message" rows="3" placeholder="Additional information"></textarea>
-                        </div>
+                        </div> -->
                     
                 </div>
             </div>

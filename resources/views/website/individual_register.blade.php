@@ -74,28 +74,27 @@
                                         
 
                                       <div class="row">
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                           <div class="form-group mb-3">
                                             <label>Country</label>
                                             <select id="country" name="country" class="form-control">
                                               <option value="">SELECT</option>
-                                              <option value="1">kuwait</option>
+                                              <option value="kuwait">kuwait</option>
                                             </select>
                                           </div>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                           <div class="form-group mb-3">
                                             <label>City</label>
                                             <select onchange="changecity()" id="city" name="city" class="form-control">
                                               <option value="">SELECT</option>
                                               @foreach($city as $row)
-                                              <option value="{{$row->id}}">{{$row->city}}</option>
+                                              <option value="{{$row->city}}">{{$row->city}}</option>
                                               @endforeach
                                             </select>
-                                            <input type="hidden" value="kuwait" name="country" id="country">
                                           </div>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                           <div class="form-group mb-3">
                                             <label>Area</label>
                                             <select id="area" name="area" class="form-control">
@@ -103,12 +102,12 @@
                                             </select>
                                           </div>
                                         </div>
-                                        <div class="col-md-3">
+                                        <!-- <div class="col-md-3">
                                             <label>Zipcode</label>
                                             <div class="form-group">
                                                 <input autocomplete="off" id="zipcode" name="zipcode" type="text" placeholder="" class="form-control">
                                             </div>
-                                        </div>
+                                        </div> -->
                                       </div>
                                         <!-- <div class="payment_option mb-50">
                                             <div class="custome-radio">

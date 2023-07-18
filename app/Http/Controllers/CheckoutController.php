@@ -50,31 +50,35 @@ class CheckoutController extends Controller
 
     public function saveshippingaddress(Request $request){
         $this->validate($request, [
-            //'country'=> 'required',
             'contact_person'=>'required',
             'contact_mobile'=>'required',
             'address_line1'=>'required',
             'city'=>'required',
-            'zipcode'=>'required',
+            'street'=>'required',
+            'street_name'=>'required',
             'country'=>'required',
-            'country_code'=>'required',
+            'city'=>'required',
           ],[
             // 'profile_image.required' => 'Profile Image Field is Required',
         ]);
 
         $shipping_address = new shipping_address;
         $shipping_address->customer_id = Auth::user()->id;
-        //$shipping_address->address_type = $request->address_type;
-        $shipping_address->landmark = $request->landmark;
+        $shipping_address->address_type = $request->address_type;
+        //$shipping_address->landmark = $request->landmark;
         $shipping_address->contact_person= $request->contact_person;
         $shipping_address->contact_mobile= $request->contact_mobile;
-        $shipping_address->address_line1= $request->address_line1;
-        $shipping_address->address_line2= $request->address_line2;
+        $shipping_address->street= $request->street;
+        $shipping_address->street_name= $request->street_name;
+        $shipping_address->block= $request->block;
+        $shipping_address->avenue= $request->avenue;
+        $shipping_address->building_no= $request->building_no;
+        $shipping_address->floor_no= $request->floor_no;
+        $shipping_address->apartment_no= $request->apartment_no;
+        $shipping_address->additional_description= $request->additional_description;
         $shipping_address->country= $request->country;
-        $shipping_address->country_code= $request->country_code;
         $shipping_address->city= $request->city;
         $shipping_address->area= $request->area;
-        $shipping_address->zipcode= $request->zipcode;
         $shipping_address->is_active= 1;
         $shipping_address->save();
 
@@ -137,14 +141,14 @@ class CheckoutController extends Controller
         ]);
         if($request->shipping_address == 'on'){
             $this->validate($request, [
-                //'country'=> 'required',
                 'new_contact_person'=>'required',
                 'new_contact_mobile'=>'required',
                 'new_address_line1'=>'required',
                 'new_city'=>'required',
-                'new_zipcode'=>'required',
+                'new_street'=>'required',
+                'new_street_name'=>'required',
                 'new_country'=>'required',
-                'new_country_code'=>'required',
+                'new_city'=>'required',
             ]);
         }
 
@@ -163,17 +167,21 @@ class CheckoutController extends Controller
         if($request->shipping_address == 'on'){
             $shipping_address = new shipping_address;
             $shipping_address->customer_id = Auth::user()->id;
-            //$shipping_address->address_type = $request->new_address_type;
-            $shipping_address->landmark = $request->new_landmark;
+            $shipping_address->address_type = $request->new_address_type;
+            //$shipping_address->landmark = $request->new_landmark;
             $shipping_address->contact_person= $request->new_contact_person;
             $shipping_address->contact_mobile= $request->new_contact_mobile;
-            $shipping_address->address_line1= $request->new_address_line1;
-            $shipping_address->address_line2= $request->new_address_line2;
+            $shipping_address->street= $request->new_street;
+            $shipping_address->street_name= $request->new_street_name;
+            $shipping_address->block= $request->new_block;
+            $shipping_address->avenue= $request->new_avenue;
+            $shipping_address->building_no= $request->new_building_no;
+            $shipping_address->floor_no= $request->new_floor_no;
+            $shipping_address->apartment_no= $request->new_apartment_no;
+            $shipping_address->additional_description= $request->new_additional_description;
             $shipping_address->country= $request->new_country;
-            $shipping_address->country_code= $request->new_country_code;
             $shipping_address->city= $request->new_city;
             $shipping_address->area= $request->new_area;
-            $shipping_address->zipcode= $request->new_zipcode;
             $shipping_address->is_active= 0;
             $shipping_address->save();
         }
@@ -230,7 +238,7 @@ class CheckoutController extends Controller
                     $orders->shipping_address_id = $request->billing_address_id;
                 }
                 $orders->vendor_id = $current_vendor;
-                $orders->order_message = $request->order_message;
+                // $orders->order_message = $request->order_message;
 
 
                 $orders->sub_total = $sub_total;

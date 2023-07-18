@@ -110,7 +110,7 @@ class ProductListController extends Controller
             $i->where('p.subsubcategory', $subsubcategory);
         }
         $i->select('p.*');
-        $i->where('p.status',0);
+        $i->where('p.status',1);
         $product = $i->paginate(12);
 
         $category_data = category::find($category);
@@ -161,7 +161,7 @@ class ProductListController extends Controller
             $i->whereIn('v.city', $request->city);
         }
         $i->select('p.*');
-        $i->where('p.status',0);
+        $i->where('p.status',1);
         $product = $i->paginate(12);
 
         $category_data = category::find($category);
@@ -186,7 +186,7 @@ class ProductListController extends Controller
         $product_images = product_images::where('product_id',$id)->get();
         $vendor = vendor::find($product->vendor_id);
 
-        $related_products = product::where('vendor_id',$product->vendor_id)->where('id','!=',$id)->get();
+        $related_products = product::where('vendor_id',$product->vendor_id)->where('status',1)->where('id','!=',$id)->get();
 
         $category_all = category::where('status',0)->where('parent_id',0)->get();
 
@@ -336,7 +336,7 @@ class ProductListController extends Controller
                     $i->whereIn('pa.attribute_value',$request->get('attributes'));
                 }
                 $i->select('p.*');
-                $i->where('p.status',0);
+                $i->where('p.status',1);
                 $i->whereNotIn('p.id' , $iddata);
                 $data = $i->limit(6)->get();
             }
@@ -383,7 +383,7 @@ class ProductListController extends Controller
                     $i->whereIn('pa.attribute_value',$request->get('attributes'));
                 }
                 $i->select('p.*');
-                $i->where('p.status',0);
+                $i->where('p.status',1);
                 $data = $i->limit(6)->get();
             }
             $output = '';

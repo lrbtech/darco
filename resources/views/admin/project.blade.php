@@ -1,4 +1,4 @@
-@extends('vendor.layouts')
+@extends('admin.layouts')
 @section('extra-css')
 <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/tables/datatable/datatables.min.css">
 
@@ -12,7 +12,7 @@
           <div class="row breadcrumbs-top d-inline-block">
             <div class="breadcrumb-wrapper col-12">
               <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/vendor/dashboard">Home</a>
+                <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a>
                 </li>
                 <li class="breadcrumb-item"><a href="#">All Projects</a>
                 </li>
@@ -21,16 +21,7 @@
           </div>
         </div>
         <div class="content-header-right col-md-6 col-12">
-            <a href="/vendor/add-project" id="add_new" class="float-md-right btn btn-danger round btn-glow px-2" type="button">Add New</a>
-          <!-- <div class="dropdown float-md-right">
-            <button class="btn btn-danger dropdown-toggle round btn-glow px-2" id="dropdownBreadcrumbButton"
-            type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</button>
-            <div class="dropdown-menu" aria-labelledby="dropdownBreadcrumbButton"><a class="dropdown-item" href="#"><i class="la la-calendar-check-o"></i> Calender</a>
-              <a class="dropdown-item" href="#"><i class="la la-cart-plus"></i> Cart</a>
-              <a class="dropdown-item" href="#"><i class="la la-life-ring"></i> Support</a>
-              <div class="dropdown-divider"></div><a class="dropdown-item" href="#"><i class="la la-cog"></i> Settings</a>
-            </div>
-          </div> -->
+          <!-- <a href="/admin/add-project" id="add_new" class="float-md-right btn btn-danger round btn-glow px-2" type="button">Add New</a> -->
         </div>
       </div>
       <div class="content-body">
@@ -85,8 +76,14 @@
                                     <button type="button" class="btn btn-danger btn-block dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Action</button>
                                     <div class="dropdown-menu open-left arrow" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 40px, 0px); top: 0px; left: 0px; will-change: transform;">
                                         <button onclick="Edit({{$row->id}})"class="dropdown-item" type="button">Edit</button>
-                                        <!-- <div class="dropdown-divider"></div> -->
-                                        <!-- <button onclick="Delete({{$row->id}})"class="dropdown-item" type="button">Delete</button> -->
+                                        <div class="dropdown-divider"></div>
+                                        @if($row->status == 0)
+                                        <button onclick="Delete({{$row->id}},1)"class="dropdown-item" type="button">Active</button>
+                                        @elseif($row->status == 1)
+                                        <button onclick="Delete({{$row->id}},2)"class="dropdown-item" type="button">DeActive</button>
+                                        @else 
+                                        <button onclick="Delete({{$row->id}},2)"class="dropdown-item" type="button">Active</button>
+                                        @endif
                                     </div>
                                 </div>
                             </td>
@@ -116,7 +113,6 @@
   </div>
 
 
-
 @endsection
 @section('extra-js')
 <script src="/app-assets/vendors/js/tables/datatable/datatables.min.js" type="text/javascript"></script>
@@ -127,14 +123,14 @@
 $('.project').addClass('active');
 
 function Edit(id){
-  window.location.href="/vendor/edit-project/"+id;
+  window.location.href="/admin/edit-project/"+id;
 }
-function Delete(id){
+function Delete(id,status){
     var r = confirm("Are you sure");
     if (r == true) {
       spinner_body.show();   
       $.ajax({
-        url : '/vendor/delete-project/'+id,
+        url : '/admin/delete-project/'+id+'/'+status,
         type: "GET",
         dataType: "JSON",
         success: function(data)

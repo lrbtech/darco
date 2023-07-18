@@ -76,7 +76,7 @@ class IdeasListController extends Controller
             $i->where('p.subcategory', $subcategory);
         }
         $i->select('p.*');
-        $i->where('p.status',0);
+        $i->where('p.status',1);
         $get_ideas = $i->paginate(12);
 
         $category_data = idea_category::find($category);
@@ -92,9 +92,9 @@ class IdeasListController extends Controller
     public function getideadetails($id){
         $idea_book = idea_book::find($id);
         $vendor = vendor::find($idea_book->vendor_id);
-        $idea_book_images = idea_book_images::where('idea_book_id',$id)->get();
+        $idea_book_images = idea_book_images::where('idea_book_id',$id)->where('status',1)->get();
 
-        $related_idea_book = idea_book::where('vendor_id',$idea_book->vendor_id)->where('id','!=',$id)->get();
+        $related_idea_book = idea_book::where('vendor_id',$idea_book->vendor_id)->where('status',1)->where('id','!=',$id)->get();
 
         $language = language::all();
         return view('website.process.get_idea_details',compact('idea_book','idea_book_images','vendor','related_idea_book','language'));

@@ -76,7 +76,7 @@ class ProfessionalListController extends Controller
             $i->where('p.subcategory', $subcategory);
         }
         $i->select('p.*');
-        $i->where('p.status',0);
+        $i->where('p.status',1);
         $project = $i->paginate(12);
 
         $category_data = professional_category::find($category);
@@ -93,10 +93,10 @@ class ProfessionalListController extends Controller
         $project = vendor_project::find($id);
         $vendor = vendor::find($project->vendor_id);
         $project_images = project_images::where('project_id',$id)->get();
-        $related_projects = vendor_project::where('vendor_id',$project->vendor_id)->where('id','!=',$id)->get();
-        $related_projects_count = vendor_project::where('vendor_id',$project->vendor_id)->where('id','!=',$id)->count();
-        $idea_book = idea_book::where('vendor_id',$project->vendor_id)->get();
-        $idea_book_count = idea_book::where('vendor_id',$project->vendor_id)->count();
+        $related_projects = vendor_project::where('vendor_id',$project->vendor_id)->where('status',1)->where('id','!=',$id)->get();
+        $related_projects_count = vendor_project::where('vendor_id',$project->vendor_id)->where('status',1)->where('id','!=',$id)->count();
+        $idea_book = idea_book::where('vendor_id',$project->vendor_id)->where('status',1)->get();
+        $idea_book_count = idea_book::where('vendor_id',$project->vendor_id)->where('status',1)->count();
 
         $language = language::all();
         return view('website.process.professional_details',compact('project','project_images','vendor','related_projects','related_projects_count','idea_book','idea_book_count','language'));

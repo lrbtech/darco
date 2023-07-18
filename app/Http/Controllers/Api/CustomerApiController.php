@@ -55,7 +55,7 @@ class CustomerApiController extends Controller
             if($exist[0]->status == 1){
                 if(Hash::check($request->password,$exist[0]->password)){
                     // $user = User::find($exist[0]->id);
-                    //$user->firebase_key = $request->firebase_key;
+                    // $user->firebase_key = $request->firebase_key;
                     // $user->save();
                     return response()->json(['message' => 'Login Successfully',
                     'name'=>$exist[0]->first_name.' '.$exist[0]->last_name,
@@ -106,6 +106,7 @@ class CustomerApiController extends Controller
             $user = new User;
             $user->date = date('Y-m-d');
             $user->user_unique_id = rand().time();
+            //$user->firebase_key = $request->firebase_key;
             $user->first_name = $request->first_name;
             $user->last_name = $request->last_name;
             $user->mobile = $request->mobile;
@@ -113,12 +114,9 @@ class CustomerApiController extends Controller
             $user->password =  Hash::make($request->password);
             // $user->remember_token = $request->_token;
             $user->country = $request->country;
-            // $user->country_code = $request->country_code;
-            //$city = city::where('city',$request->city)->first();
-            $user->city = $request->city;
-            //$area = city::where('city',$request->area)->first();
-            $user->area = $request->area;
-            $user->zipcode = $request->zipcode;
+            $user->city = $request->state;
+            $user->area = $request->city;
+            //$user->zipcode = $request->zipcode;
             //$user->status = 1;
             $user->save();
 
@@ -140,26 +138,28 @@ class CustomerApiController extends Controller
 
     public function updateprofile(Request $request){
         try{
-            // $email_exist = User::where('email',$request->email)->get();
-            // if(count($email_exist)>0){
-            //     return response()->json(['message' => 'This Email Address Has been Already Registered','status'=>403], 403);
-            // }
-            $mobile_exist = User::where('mobile',$request->mobile)->get();
-            if(count($mobile_exist)>0){
-                return response()->json(['message' => 'This Mobile Number Has been Already Registered','status'=>403], 403);
+            $user = User::find($request->customer_id);
+            //if($request->email != $user->email){
+                // $email_exist = User::where('email',$request->email)->get();
+                // if(count($email_exist)>0){
+                //     return response()->json(['message' => 'This Email Address Has been Already Registered','status'=>403], 403);
+                // }
+            //}
+            if($request->mobile != $user->mobile){
+                $mobile_exist = User::where('mobile',$request->mobile)->get();
+                if(count($mobile_exist)>0){
+                    return response()->json(['message' => 'This Mobile Number Has been Already Registered','status'=>403], 403);
+                }
             }
 
-            $user = User::find($request->customer_id);
+            
             $user->first_name = $request->first_name;
             $user->last_name = $request->last_name;
             $user->mobile = $request->mobile;
-            $user->country = 1;
-            //$user->country_code = $request->country_code;
-            //$city = city::where('city',$request->city)->first();
-            $user->city = $request->city;
-            //$area = city::where('city',$request->area)->first();
-            $user->area = $request->area;
-            $user->zipcode = $request->zipcode;
+            $user->country = $request->country;
+            $user->city = $request->state;
+            $user->area = $request->city;
+            //$user->zipcode = $request->zipcode;
             //$user->status = 1;
             $user->save();
 
@@ -174,22 +174,19 @@ class CustomerApiController extends Controller
     }
 
     public function getprofile($id){
-        $user = User::find($id);
-        $city = city::find($user->city);
-        return response()->json($city); 
-        $area = city::find($user->area);
-        $data =array();
-        $data = array(
-            'id' => $user->id,
-            'first_name' => $user->first_name,
-            'last_name' => $user->last_name,
-            'mobile' => $user->mobile,
-            'country' => $user->country,
-            'city' => $city->city,
-            'area' => $area->city,
-            'zipcode' => $user->zipcode,
-        );
-        return response()->json($data); 
+        $user = User::where('id',$id)->select('id','first_name','last_name','mobile','country','city as state','area as city')->first();
+        // $data =array();
+        // $data = array(
+        //     'id' => $user->id,
+        //     'first_name' => $user->first_name,
+        //     'last_name' => $user->last_name,
+        //     'mobile' => $user->mobile,
+        //     'country' => $user->country,
+        //     'state' => $user->city,
+        //     'city' => $user->area,
+        //     //'zipcode' => $user->zipcode,
+        // );
+        return response()->json($user); 
     }
 
     public function getappslider(){
@@ -473,7 +470,7 @@ class CustomerApiController extends Controller
         //     $i->where('p.subsubcategory', $request->subsubcategory);
         // }
         $i->select('p.*');
-        $i->where('p.status',0);
+        $i->where('p.status',1);
         //$i->orderBy('p.id','DESC');
         $products = $i->limit(10)->get();
 
@@ -511,7 +508,7 @@ class CustomerApiController extends Controller
             $i->where('p.subsubcategory', $subsubcategory);
         }
         $i->select('p.*');
-        $i->where('p.status',0);
+        $i->where('p.status',1);
         //$i->orderBy('p.id','DESC');
         $products = $i->get();
 
@@ -574,7 +571,7 @@ class CustomerApiController extends Controller
             $i->where('p.subsubcategory', $subsubcategory);
         }
         $i->select('p.*');
-        $i->where('p.status',0);
+        $i->where('p.status',1);
         //$i->orderBy('p.id','DESC');
         $products = $i->get();
 
@@ -876,7 +873,7 @@ class CustomerApiController extends Controller
         $i->where('p.subcategory', $current->subcategory);
         $i->where('p.subsubcategory', $current->subsubcategory);
         $i->select('p.*');
-        $i->where('p.status',0);
+        $i->where('p.status',1);
         $products = $i->get();
 
         $data =array();
@@ -933,7 +930,7 @@ class CustomerApiController extends Controller
             $i->where('p.subcategory', $subcategory);
         }
         $i->select('p.*');
-        $i->where('p.status',0);
+        $i->where('p.status',1);
         $project = $i->get();
 
         $data =array();
@@ -966,7 +963,7 @@ class CustomerApiController extends Controller
         $i->where('vendor_id',$current->vendor_id);
         $i->where('id','!=',$id);
         $i->select('p.*');
-        $i->where('p.status',0);
+        $i->where('p.status',1);
         $project = $i->get();
 
         $data =array();
@@ -1047,7 +1044,7 @@ class CustomerApiController extends Controller
         $i =DB::table('idea_books as p');
         $i->where('vendor_id',$current->vendor_id);
         $i->select('p.*');
-        $i->where('p.status',0);
+        $i->where('p.status',1);
         $get_ideas = $i->get();
 
         $data =array();
@@ -1085,7 +1082,7 @@ class CustomerApiController extends Controller
             $i->where('p.subcategory', $subcategory);
         }
         $i->select('p.*');
-        $i->where('p.status',0);
+        $i->where('p.status',1);
         $get_ideas = $i->get();
 
         $data =array();
@@ -1118,7 +1115,7 @@ class CustomerApiController extends Controller
         $i->where('vendor_id',$current->vendor_id);
         $i->where('id','!=',$id);
         $i->select('p.*');
-        $i->where('p.status',0);
+        $i->where('p.status',1);
         $get_ideas = $i->get();
 
         $data =array();
@@ -1460,21 +1457,18 @@ class CustomerApiController extends Controller
         $data = $request->qrcode_data;
 
         $url = asset('').'qrcode-add-to-card/';
-        // $sku_value=0;
-        // foreach(explode($url, $data) as $sku) {
-        //     $sku_value = $sku;
-        // }
-
-        $sku_value = explode($url, $data);
-
+        $sku_value=0;
+        foreach(explode($url, $data) as $sku) {
+            $sku_value = $sku;
+        }
 
         $product = product::where('sku_value',$sku_value)->first();
  
         if (!empty($product)) {
-            return response()->json(['product_id'=>$product_id->id,'message'=>'Add to cart Successfully'], 200);
+            return response()->json(['product_id'=>$product->id,'message'=>'Add to cart Successfully'], 200);
         }
         else{
-            return response()->json(['message'=>'Qrcode Invalid','status'=>400], 400);
+            return response()->json(['product_id'=>0,'message'=>'Qrcode Invalid','status'=>400], 400);
         }
     }
 
@@ -1512,10 +1506,10 @@ class CustomerApiController extends Controller
                 'floor_no' => $value->floor_no,
                 'apartment_no' => $value->apartment_no,
                 'additional_description' => $value->additional_description,
-                //'country' => $value->country,
+                'country' => $value->country,
                 //'country_code' => $value->country_code,
-                'city' => $value->city,
-                'area' => $value->area,
+                'state' => $value->city,
+                'city' => $value->area,
                 //'zipcode' => $value->zipcode,
                 'is_active' => (int)$value->is_active,
             );
@@ -1540,10 +1534,10 @@ class CustomerApiController extends Controller
                 'floor_no' => $list->floor_no,
                 'apartment_no' => $list->apartment_no,
                 'additional_description' => $list->additional_description,
-                //'country' => $list->country,
+                'country' => $list->country,
                 //'country_code' => $list->country_code,
-                'city' => $list->city,
-                'area' => $list->area,
+                'state' => $list->city,
+                'city' => $list->area,
                 //'zipcode' => $list->zipcode,
                 'is_active' => $list->is_active,
             );
@@ -1554,27 +1548,21 @@ class CustomerApiController extends Controller
         try{
             $shipping_address = new shipping_address;
             $shipping_address->customer_id = $request->customer_id;
-            //$shipping_address->address_type = $request->address_type;
+            $shipping_address->address_type = $request->address_type;
             //$shipping_address->landmark = $request->landmark;
             $shipping_address->contact_person= $request->contact_person;
             $shipping_address->contact_mobile= $request->contact_mobile;
-            // $shipping_address->address_line1= $request->address_line1;
-            // $shipping_address->address_line2= $request->address_line2;
-            $shipping_address->address_type = $request->address_type;
-            $shipping_address->street_name = $request->street_name;
-            $shipping_address->block = $request->block;
-            $shipping_address->street = $request->street;
-            $shipping_address->avenue = $request->avenue;
-            $shipping_address->building_no = $request->building_no;
-            $shipping_address->floor_no = $request->floor_no;
-            $shipping_address->apartment_no = $request->apartment_no;
-            $shipping_address->additional_description = $request->additional_description;
-
-            //$shipping_address->country= $request->country;
-            //$shipping_address->country_code= $request->country_code;
-            $shipping_address->city= $request->city;
-            $shipping_address->area= $request->area;
-            //$shipping_address->zipcode= $request->zipcode;
+            $shipping_address->street= $request->street;
+            $shipping_address->street_name= $request->street_name;
+            $shipping_address->block= $request->block;
+            $shipping_address->avenue= $request->avenue;
+            $shipping_address->building_no= $request->building_no;
+            $shipping_address->floor_no= $request->floor_no;
+            $shipping_address->apartment_no= $request->apartment_no;
+            $shipping_address->additional_description= $request->additional_description;
+            $shipping_address->country= $request->country;
+            $shipping_address->city= $request->state;
+            $shipping_address->area= $request->city;
             $shipping_address->is_active= 1;
             $shipping_address->save();
 
@@ -1591,27 +1579,21 @@ class CustomerApiController extends Controller
         try{
             $shipping_address = shipping_address::find($request->id);
             //$shipping_address->customer_id = $request->customer_id;
-            //$shipping_address->address_type = $request->address_type;
+            $shipping_address->address_type = $request->address_type;
             //$shipping_address->landmark = $request->landmark;
             $shipping_address->contact_person= $request->contact_person;
             $shipping_address->contact_mobile= $request->contact_mobile;
-            // $shipping_address->address_line1= $request->address_line1;
-            // $shipping_address->address_line2= $request->address_line2;
-            $shipping_address->address_type = $request->address_type;
-            $shipping_address->street_name = $request->street_name;
-            $shipping_address->block = $request->block;
-            $shipping_address->street = $request->street;
-            $shipping_address->avenue = $request->avenue;
-            $shipping_address->building_no = $request->building_no;
-            $shipping_address->floor_no = $request->floor_no;
-            $shipping_address->apartment_no = $request->apartment_no;
-            $shipping_address->additional_description = $request->additional_description;
-            //$shipping_address->country= $request->country;
-            //$shipping_address->country_code= $request->country_code;
-            $shipping_address->city= $request->city;
-            $shipping_address->area= $request->area;
-            //$shipping_address->zipcode= $request->zipcode;
-            $shipping_address->is_active= 1;
+            $shipping_address->street= $request->street;
+            $shipping_address->street_name= $request->street_name;
+            $shipping_address->block= $request->block;
+            $shipping_address->avenue= $request->avenue;
+            $shipping_address->building_no= $request->building_no;
+            $shipping_address->floor_no= $request->floor_no;
+            $shipping_address->apartment_no= $request->apartment_no;
+            $shipping_address->additional_description= $request->additional_description;
+            $shipping_address->country= $request->country;
+            $shipping_address->city= $request->state;
+            $shipping_address->area= $request->city;
             $shipping_address->save();
 
             return response()->json(

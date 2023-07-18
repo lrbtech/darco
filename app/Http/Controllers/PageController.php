@@ -134,12 +134,13 @@ class PageController extends Controller
     }
 
     public function getarea($id) {
-        $city = city::where('parent_id',$id)->where('status',0)->orderBy('id','ASC')->get();
+        $getcity = city::where('city',$id)->first();
+        $city = city::where('parent_id',$getcity->id)->where('status',0)->orderBy('id','ASC')->get();
 
         $output='<option value="">SELECT</option>';
         if(!empty($city)){
             foreach($city as $row){
-                $output.='<option value="'.$row->id.'">'.$row->city.'</option>';
+                $output.='<option value="'.$row->city.'">'.$row->city.'</option>';
             }
         }
 
@@ -340,7 +341,7 @@ class PageController extends Controller
         // $user->country_code = $request->country_code;
         $user->city = $request->city;
         $user->area = $request->area;
-        $user->zipcode = $request->zipcode;
+        //$user->zipcode = $request->zipcode;
         $user->status = 1;
         $user->save();
 
@@ -404,7 +405,7 @@ class PageController extends Controller
         $vendor->vat_certificate_no = $request->vat_certificate_no;
         $vendor->civi_id_or_passport = $request->civi_id_or_passport;
         $vendor->commercial_license_no = $request->commercial_license_no;
-        $vendor->zipcode = $request->zipcode;
+        //$vendor->zipcode = $request->zipcode;
         $vendor->status = 1;
 
         if($request->id_proof!=""){
@@ -464,7 +465,7 @@ class PageController extends Controller
 
     public function verifyvendoraccount($id){
         $vendor = vendor::find($id);
-        $vendor->status = 1;
+        $vendor->is_email_verify = 1;
         $vendor->save();
         return view('vendor-login.login',compact('vendor','language'));
     }

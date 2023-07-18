@@ -18,6 +18,7 @@ class CreateVendorsTable extends Migration
             $table->string('user_id',20)->default('0');
             $table->string('vendor_unique_id')->nullable();
             $table->string('email')->nullable();
+            $table->string('is_email_verify',11)->default('0');
             $table->string('date')->nullable();
             $table->string('username')->nullable();
             $table->string('business_type')->nullable();

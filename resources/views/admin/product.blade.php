@@ -1,4 +1,4 @@
-@extends('vendor.layouts')
+@extends('admin.layouts')
 @section('extra-css')
 <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/tables/datatable/datatables.min.css">
 
@@ -12,7 +12,7 @@
           <div class="row breadcrumbs-top d-inline-block">
             <div class="breadcrumb-wrapper col-12">
               <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/vendor/dashboard">Home</a>
+                <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a>
                 </li>
                 <li class="breadcrumb-item"><a href="#">All Product</a>
                 </li>
@@ -21,16 +21,7 @@
           </div>
         </div>
         <div class="content-header-right col-md-6 col-12">
-            <a href="/vendor/add-product" class="float-md-right btn btn-danger round btn-glow px-2">Add New</a>
-          <!-- <div class="dropdown float-md-right">
-            <button class="btn btn-danger dropdown-toggle round btn-glow px-2" id="dropdownBreadcrumbButton"
-            type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</button>
-            <div class="dropdown-menu" aria-labelledby="dropdownBreadcrumbButton"><a class="dropdown-item" href="#"><i class="la la-calendar-check-o"></i> Calender</a>
-              <a class="dropdown-item" href="#"><i class="la la-cart-plus"></i> Cart</a>
-              <a class="dropdown-item" href="#"><i class="la la-life-ring"></i> Support</a>
-              <div class="dropdown-divider"></div><a class="dropdown-item" href="#"><i class="la la-cog"></i> Settings</a>
-            </div>
-          </div> -->
+          <!-- <a href="/admin/add-product" class="float-md-right btn btn-danger round btn-glow px-2">Add New</a> -->
         </div>
       </div>
       <div class="content-body">
@@ -85,7 +76,7 @@
                           </td>
                           <td>
                           @if($row->status == 0)
-                          Waiting for Admin Approval
+                          New Product
                           @elseif($row->status == 1)
                           Active
                           @elseif($row->status == 2)
@@ -98,12 +89,14 @@
                               <div class="dropdown-menu open-left arrow" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 40px, 0px); top: 0px; left: 0px; will-change: transform;">
                                 <button onclick="downloadqrcode({{$row->id}})" class="dropdown-item" type="button">Download Qrcode</button>
                                 <button onclick="Edit({{$row->id}})" class="dropdown-item" type="button">Edit</button>
-                                <!-- <div class="dropdown-divider"></div>
+                                <div class="dropdown-divider"></div>
                                 @if($row->status == 0)
-                                <button onclick="Delete({{$row->id}},1)"class="dropdown-item" type="button">DeActive</button>
+                                <button onclick="Delete({{$row->id}},1)"class="dropdown-item" type="button">Active</button>
+                                @elseif($row->status == 1)
+                                <button onclick="Delete({{$row->id}},2)"class="dropdown-item" type="button">DeActive</button>
                                 @else 
-                                <button onclick="Delete({{$row->id}},0)"class="dropdown-item" type="button">Active</button>
-                                @endif -->
+                                <button onclick="Delete({{$row->id}},2)"class="dropdown-item" type="button">Active</button>
+                                @endif
                               </div>
                             </div>
                           </td>
@@ -135,7 +128,7 @@
     </div>
   </div>
 
-  <div class="modal fade" id="popup_modal"  tabindex="-1" role="dialog" aria-labelledby="popup_modal" aria-hidden="true">
+<div class="modal fade" id="popup_modal"  tabindex="-1" role="dialog" aria-labelledby="popup_modal" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -227,7 +220,7 @@ function Save(){
   var formData = new FormData($('#form')[0]);
   if(action_type == 1){
     $.ajax({
-      url : '/vendor/save-product',
+      url : '/admin/save-product',
       type: "POST",
       data: formData,
       contentType: false,
@@ -252,7 +245,7 @@ function Save(){
     });
   }else{
     $.ajax({
-      url : '/vendor/update-product',
+      url : '/admin/update-product',
       type: "POST",
       data: formData,
       contentType: false,
@@ -279,14 +272,14 @@ function Save(){
   }
 }
 function Edit(id){
-  window.location.href="/vendor/edit-product/"+id;
+  window.location.href="/admin/edit-product/"+id;
 }
 function Delete(id,status){
     var r = confirm("Are you sure");
     if (r == true) {
       spinner_body.show();   
       $.ajax({
-        url : '/vendor/delete-product/'+id+'/'+status,
+        url : '/admin/delete-product/'+id+'/'+status,
         type: "GET",
         dataType: "JSON",
         success: function(data)

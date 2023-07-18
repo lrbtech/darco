@@ -23,12 +23,14 @@ Route::get('/optimize', function() {
     return 'optimize cleared';
 });
 
-session(
-	['theme' => 'light'],
-	['cookies' => '0'],
-	['lang' => 'english']
-);
+// session(
+// 	['theme' => 'light'],
+// 	['cookies' => '0'],
+// 	['lang' => 'english']
+// );
 Session::put('lang', 'english');
+Session::put('theme', 'light');
+Session::put('cookies', 0);
 
 Route::get('/update-language/{lang}', [App\Http\Controllers\HomeController::class, 'updatelanguage']);
 Route::get('/update-theme/{theme}', [App\Http\Controllers\HomeController::class, 'updatetheme']);
@@ -230,8 +232,14 @@ Route::group(['prefix' => 'admin'],function(){
 	Route::get('/delete-idea-subcategory/{id}/{status}', [App\Http\Controllers\Admin\CategoryController::class, 'deleteideasubcategory']);
 
 	
+	//country
+	Route::get('/country', [App\Http\Controllers\Admin\CityController::class, 'Country']);
+    Route::POST('/save-country', [App\Http\Controllers\Admin\CityController::class, 'saveCountry']);
+    Route::POST('/update-country', [App\Http\Controllers\Admin\CityController::class, 'updateCountry']);
+    Route::get('/edit-country/{id}', [App\Http\Controllers\Admin\CityController::class, 'editCountry']);
+    Route::get('/country-delete/{id}/{status}', [App\Http\Controllers\Admin\CityController::class, 'deleteCountry']);
 
-	Route::get('/city', [App\Http\Controllers\Admin\SettingsController::class, 'city']);
+	Route::get('/city/{id}', [App\Http\Controllers\Admin\SettingsController::class, 'city']);
 	Route::POST('/save-city', [App\Http\Controllers\Admin\SettingsController::class, 'savecity']);
 	Route::POST('/update-city', [App\Http\Controllers\Admin\SettingsController::class, 'updatecity']);
 	Route::get('/edit-city/{id}', [App\Http\Controllers\Admin\SettingsController::class, 'editcity']);
@@ -351,6 +359,30 @@ Route::group(['prefix' => 'admin'],function(){
     Route::POST('/delete_language', [App\Http\Controllers\Admin\SettingsController::class, 'deleteLanguage']);
 
     Route::get('/change-language/{language}', [App\Http\Controllers\Admin\SettingsController::class, 'changelanguage']);
+
+
+	//product
+	Route::get('/product', [App\Http\Controllers\Admin\ProductController::class, 'product']);
+	Route::POST('/update-product', [App\Http\Controllers\Admin\ProductController::class, 'updateproduct']);
+	Route::get('/edit-product/{id}', [App\Http\Controllers\Admin\ProductController::class, 'editproduct']);
+	Route::get('/delete-product/{id}/{status}', [App\Http\Controllers\Admin\ProductController::class, 'deleteproduct']);
+	Route::get('/delete-product-image/{id}', [App\Http\Controllers\Admin\ProductController::class, 'deleteproductimage']);
+	Route::get('/delete-product-attribute/{id}', [App\Http\Controllers\Admin\ProductController::class, 'deleteproductattribute']);
+	
+
+	Route::get('/project', [App\Http\Controllers\Admin\ProjectController::class, 'project']);
+	Route::POST('/update-project', [App\Http\Controllers\Admin\ProjectController::class, 'updateproject']);
+	Route::get('/edit-project/{id}', [App\Http\Controllers\Admin\ProjectController::class, 'editproject']);
+	Route::get('/delete-project/{id}/{status}', [App\Http\Controllers\Admin\ProjectController::class, 'deleteproject']);
+	Route::get('/delete-project-image/{id}', [App\Http\Controllers\Admin\ProjectController::class, 'deleteprojectimage']);
+
+
+	Route::get('/idea-book', [App\Http\Controllers\Admin\IdeaBookController::class, 'ideabook']);
+	Route::POST('/update-idea-book', [App\Http\Controllers\Admin\IdeaBookController::class, 'updateideabook']);
+	Route::get('/edit-idea-book/{id}', [App\Http\Controllers\Admin\IdeaBookController::class, 'editideabook']);
+	Route::get('/delete-idea-book/{id}/{status}', [App\Http\Controllers\Admin\IdeaBookController::class, 'deleteideabook']);
+	Route::get('/delete-idea-book-image/{id}', [App\Http\Controllers\Admin\IdeaBookController::class, 'deleteideabookimage']);
+	
 
 });
 

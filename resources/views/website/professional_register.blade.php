@@ -122,7 +122,7 @@
                                             <label>Country</label>
                                             <select id="country" name="country" class="form-control">
                                               <option value="">SELECT</option>
-                                              <option value="1">kuwait</option>
+                                              <option value="kuwait">kuwait</option>
                                             </select>
                                           </div>
                                         </div>
@@ -145,12 +145,12 @@
                                             </select>
                                           </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <!-- <div class="col-md-4">
                                             <label>Zipcode</label>
                                             <div class="form-group">
                                                 <input autocomplete="off" id="zipcode" name="zipcode" type="text" placeholder="" class="form-control">
                                             </div>
-                                        </div>
+                                        </div> -->
                                       </div>
 
 

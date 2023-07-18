@@ -25,9 +25,19 @@
         </li>
         @endif
 
-        <li class=" navigation-header">
-          <span data-i18n="nav.category.layouts">{{$language[39][Auth::guard('admin')->user()->lang]}}</span><i class="la la-ellipsis-h ft-minus" data-toggle="tooltip"
+        <!-- <li class=" navigation-header">
+          <span data-i18n="nav.category.layouts">Category</span><i class="la la-ellipsis-h ft-minus" data-toggle="tooltip"
           data-placement="right" data-original-title="Layouts"></i>
+        </li> -->
+
+        <li class="product nav-item">
+          <a href="/admin/product"><i class="la la-navicon"></i><span class="menu-title" data-i18n="nav.dash.main">All Products</span></a>
+        </li>
+        <li class="project nav-item">
+          <a href="/admin/project"><i class="la la-navicon"></i><span class="menu-title" data-i18n="nav.dash.main">All Projects</span></a>
+        </li>
+        <li class="idea-book nav-item">
+          <a href="/admin/idea-book"><i class="la la-navicon"></i><span class="menu-title" data-i18n="nav.dash.main">All Idea Books</span></a>
         </li>
 
         @if($role_get->product_category == 'on')
@@ -57,8 +67,8 @@
         </li>
 
         @if($role_get->city == 'on')
-        <li class="city nav-item">
-          <a href="/admin/city"><i class="la la-navicon"></i><span class="menu-title" data-i18n="nav.dash.main">{{$language[73][Auth::guard('admin')->user()->lang]}}</span></a>
+        <li class="country nav-item">
+          <a href="/admin/country"><i class="la la-navicon"></i><span class="menu-title" data-i18n="nav.dash.main">Country</span></a>
         </li>
         @endif
 

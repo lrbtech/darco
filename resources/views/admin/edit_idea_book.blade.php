@@ -1,4 +1,4 @@
-@extends('vendor.layouts')
+@extends('admin.layouts')
 @section('extra-css')
 <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/editors/tinymce/tinymce.min.css">
 
@@ -98,7 +98,7 @@
           <div class="row breadcrumbs-top d-inline-block">
             <div class="breadcrumb-wrapper col-12">
               <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/vendor/dashboard">Home</a>
+                <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a>
                 </li>
                 <li class="breadcrumb-item active">Edit Idea Book</li>
               </ol>
@@ -106,7 +106,7 @@
           </div>
         </div>
         <div class="content-header-right col-md-6 col-12">
-          <!-- <a onclick="Delete({{$idea_book->id}})" href="#" class="float-md-right btn btn-danger round btn-glow px-2" type="button">Delete Idea Book</a> -->
+            <!-- <a onclick="Delete({{$idea_book->id}})" href="#" class="float-md-right btn btn-danger round btn-glow px-2" type="button">Delete Idea Book</a> -->
         </div>
       </div>
       <div class="content-body">
@@ -131,6 +131,7 @@
                     <form id="form" method="POST" action="#" class="steps-validation wizard-notification">
                     {{csrf_field()}}
                     <input type="hidden" name="id" value="{{$idea_book->id}}">
+                    <input type="hidden" name="vendor_id" value="{{$idea_book->vendor_id}}">
                       <!-- Step 1 -->
                       <h6>Basic Details</h6>
                       <fieldset>
@@ -278,13 +279,13 @@ function Delete(id){
     var r = confirm("Are you sure Completely delete from our site");
     if (r == true) {
       $.ajax({
-        url : '/vendor/delete-idea-book/'+id,
+        url : '/admin/delete-idea-book/'+id,
         type: "GET",
         dataType: "JSON",
         success: function(data)
         {
           toastr.success('Successfully Delete');
-          window.location = "/vendor/idea-book";
+          window.location = "/admin/idea-book";
         }
       });
     } 
@@ -294,7 +295,7 @@ function DeleteImage(id){
     var r = confirm("Are you sure Completely delete from our site");
     if (r == true) {
       $.ajax({
-        url : '/vendor/delete-idea-book-image/'+id,
+        url : '/admin/delete-idea-book-image/'+id,
         type: "GET",
         dataType: "JSON",
         success: function(data)
@@ -314,7 +315,7 @@ function Save(){
     var description = tinyMCE.get('description').getContent();
     formData.append('description', description);
     $.ajax({
-        url : '/vendor/update-idea-book',
+        url : '/admin/update-idea-book',
         type: "POST",
         data: formData,
         contentType: false,
@@ -327,7 +328,7 @@ function Save(){
                   title: data.message,
                   icon: "success",
                }).then(function() {
-                  window.location = "/vendor/idea-book";
+                  window.location = "/admin/idea-book";
                   spinner_body.hide();
                });
             }

@@ -107,7 +107,7 @@ class BusinessController extends Controller
 
             ->addColumn('status', function ($vendor) {
                 if($vendor->status == 0){
-                    return 'Email Not Verify';
+                    return 'New Vendor';
                 }
                 elseif($vendor->status == 1){
                     return 'Activate';
@@ -125,7 +125,10 @@ class BusinessController extends Controller
 
             ->addColumn('action', function ($vendor) {
                 $output='';
-                if($vendor->status == 1){
+                if($vendor->status == 0){
+                    $output.='<button onclick="Delete('.$vendor->id.',1)" class="dropdown-item" type="button">Active</button>';
+                }
+                elseif($vendor->status == 1){
                     $output.='<button onclick="Delete('.$vendor->id.',2)" class="dropdown-item" type="button">DeActive</button>';
                 }
                 elseif($vendor->status == 2){

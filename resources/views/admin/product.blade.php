@@ -95,7 +95,7 @@
                                 @elseif($row->status == 1)
                                 <button onclick="Delete({{$row->id}},2)"class="dropdown-item" type="button">DeActive</button>
                                 @else 
-                                <button onclick="Delete({{$row->id}},2)"class="dropdown-item" type="button">Active</button>
+                                <button onclick="Delete({{$row->id}},1)"class="dropdown-item" type="button">Active</button>
                                 @endif
                               </div>
                             </div>

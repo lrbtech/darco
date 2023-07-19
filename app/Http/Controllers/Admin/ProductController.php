@@ -16,6 +16,7 @@ use App\Models\roles;
 use App\Models\return_reason;
 use App\Models\language;
 use App\Models\product_specifications;
+use App\Models\vendor;
 use Yajra\DataTables\Facades\DataTables;
 use Auth;
 use DB;
@@ -495,7 +496,30 @@ class ProductController extends Controller
         $product = product::orderBy('id','DESC')->get();
         $category = category::where('status',0)->where('parent_id',0)->get();
         $language = language::all();
-        return view('admin.product',compact('product','category','language'));
+        $vendor = vendor::where('status',1)->get();
+        return view('admin.product',compact('product','category','language','vendor'));
+    }
+
+    public function searchproduct(Request $request){
+        // $from_date = date('Y-m-d',strtotime($request->from_date));
+        // $to_date = date('Y-m-d',strtotime($request->to_date));
+
+        $q =DB::table('products as p');
+        if ( $request->vendor_id && !empty($request->vendor_id) )
+        {
+            $q->where('p.vendor_id', $request->vendor_id);
+        }
+        if ( $request->status && !empty($request->status) )
+        {
+            $q->where('p.status', $request->status);
+        }
+        $q->orderBy('p.id', 'DESC');
+        $product = $q->get();
+
+        $category = category::where('status',0)->where('parent_id',0)->get();
+        $language = language::all();
+        $vendor = vendor::where('status',1)->get();
+        return view('admin.product',compact('product','category','language','vendor'));
     }
 
     public function editproduct($id){

@@ -41,6 +41,22 @@ class ProductController extends Controller
         }
     }
 
+    public function updateproductprice($id,Request $request){
+        
+        $product = product::find($id);
+        $product->sales_price = $request->sales_price;
+        $product->stock = $request->stock;
+        $product->save();
+
+        $response = array( 
+            'status' => 1, 
+            'msg' => 'Product data has been updated successfully.', 
+            'data' => $product 
+        ); 
+
+        return response()->json($response, 200);  
+    }
+
 
     public function addproduct(){
         $category = category::where('status',0)->where('parent_id',0)->get();

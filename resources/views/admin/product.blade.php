@@ -31,16 +31,33 @@
             <div class="col-12">
               <div class="card">
                 <div class="card-header">
-                  <h4 class="card-title">All product</h4>
-                  <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
-                  <div class="heading-elements">
-                    <ul class="list-inline mb-0">
-                      <!-- <li><a data-action="collapse"><i class="ft-minus"></i></a></li> -->
-                      <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
-                      <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
-                      <!-- <li><a data-action="close"><i class="ft-x"></i></a></li> -->
-                    </ul>
+                  <form action="/admin/search-product" method="post" enctype="multipart/form-data">
+                  {{ csrf_field() }}
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <label class="col-form-label">Search Vendor</label>
+                      <select id="vendor_id" name="vendor_id" class="select2 form-control mt-15">
+                          <option value="">Search Vendor</option>
+                          @foreach($vendor as $vendor1)
+                          <option value="{{$vendor1->id}}">{{$vendor1->business_name}}</option>
+                          @endforeach
+                      </select>
+                    </div>
+                    <div class="col-sm-2">
+                      <label class="col-form-label">Status</label>
+                      <select id="status" name="status" class="select2 form-control mt-15">
+                        <option value="">All Status</option>
+                        <option value="0">New</option>
+                        <option value="1">Active</option>
+                        <option value="2">InActive</option>
+                      </select>
+                    </div>
+                    <div class="col-sm-2">
+                      <br><br>
+                      <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
                   </div>
+                  </form>
                 </div>
                 <div class="card-content collapse show">
                   <div class="card-body card-dashboard">
@@ -48,7 +65,8 @@
                       <thead>
                         <tr>
                           <th>#</th>
-                          <th style="width:400px;">Product Name</th>
+                          <th>Vendor</th>
+                          <th>Product Name</th>
                           <th>Sales Price</th>
                           <th>Stock</th>
                           <th>Image</th>
@@ -62,6 +80,9 @@
                       <?php $url = asset('').'qrcode-add-to-card/'.$row->sku_value; ?>
                         <tr>
                           <td>{{$key + 1}}</td>
+                          <td>
+                          {{\App\Http\Controllers\PageController::viewvendorname($row->vendor_id)}}
+                          </td>
                           <td>{{$row->product_name}}</td>
                           <td>{{$row->sales_price}}</td>
                           <td>{{$row->stock}}</td>

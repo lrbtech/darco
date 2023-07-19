@@ -147,7 +147,29 @@ class IdeaBookController extends Controller
     public function ideabook(){
         $idea_book = idea_book::orderBy('id','DESC')->get();
         $language = language::all();
-        return view('admin.idea_book',compact('idea_book','language'));
+        $vendor = vendor::where('status',1)->get();
+        return view('admin.idea_book',compact('idea_book','language','vendor'));
+    }
+
+    public function searchideabook(Request $request){
+        // $from_date = date('Y-m-d',strtotime($request->from_date));
+        // $to_date = date('Y-m-d',strtotime($request->to_date));
+
+        $q =DB::table('idea_books as p');
+        if ( $request->vendor_id && !empty($request->vendor_id) )
+        {
+            $q->where('p.vendor_id', $request->vendor_id);
+        }
+        if ( $request->status && !empty($request->status) )
+        {
+            $q->where('p.status', $request->status);
+        }
+        $q->orderBy('p.id', 'DESC');
+        $idea_book = $q->get();
+
+        $language = language::all();
+        $vendor = vendor::where('status',1)->get();
+        return view('admin.idea_book',compact('idea_book','language','vendor'));
     }
 
     public function editideabook($id){

@@ -1,7 +1,31 @@
 @extends('vendor.layouts')
 @section('extra-css')
 <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/tables/datatable/datatables.min.css">
+<style>
 
+.btn-default{
+    border: 1px solid #7995A7;
+}
+.btn-default:hover{
+    border: 1px solid #7995A7;
+    background-color: #deebf2;
+}
+i.pencil, i.trash{
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+    vertical-align: middle;
+}
+.pencil:before {
+    content: url('/images/edit-icon.png');
+}
+.trash:before {
+    content: url('/images/delete-icon.png');
+}
+</style>
 @endsection
 @section('content')
   <div class="app-content content">
@@ -57,23 +81,29 @@
                       <thead>
                         <tr>
                           <th>#</th>
-                          <th style="width:400px;">Product Name</th>
-                          <th>Sales Price</th>
-                          <th>Stock</th>
+                          <th>Product Name</th>
+                          <th style="width:100px;">Sales Price</th>
+                          <th style="width:100px;">Stock</th>
                           <th>Image</th>
                           <th>Qr Code</th>
                           <th>Status</th>
                           <th>Action</th>
                         </tr>
                       </thead>
-                      <tbody>
+                      <tbody id="userData">
                       @foreach($product as $key => $row)
                       <?php $url = asset('').'qrcode-add-to-card/'.$row->sku_value; ?>
-                        <tr>
+                        <tr id="{{$row->id}}">
                           <td>{{$key + 1}}</td>
                           <td>{{$row->product_name}}</td>
-                          <td>{{$row->sales_price}}</td>
-                          <td>{{$row->stock}}</td>
+                          <td>
+                            <span class="editSpan sales_price">{{$row->sales_price}}</span>
+                            <input class="form-control editInput sales_price" type="text" name="sales_price" value="{{$row->sales_price}}" style="display: none;">
+                          </td>
+                          <td>
+                            <span class="editSpan sastockles_price">{{$row->stock}}</span>
+                            <input class="form-control editInput stock" type="text" name="stock" value="{{$row->stock}}" style="display: none;">
+                          </td>
                           <td>
                             <img style="height: 100px;" src="/product_image/{{$row->image}}">
                           </td>
@@ -93,6 +123,10 @@
                           @endif
                           </td>
                           <td>
+                            <button type="button" class="btn btn-default editBtn"><i class="pencil"></i></button>                            
+                            <button type="button" class="btn btn-success saveBtn" style="display: none;">Save</button>
+                            <button type="button" class="btn btn-secondary cancelBtn" style="display: none;">Cancel</button>
+
                             <div class="btn-group mr-1 mb-1">
                               <button type="button" class="btn btn-danger btn-block dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Action</button>
                               <div class="dropdown-menu open-left arrow" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 40px, 0px); top: 0px; left: 0px; will-change: transform;">
@@ -114,8 +148,8 @@
                         <tr>
                           <th>#</th>
                           <th>Product Name</th>
-                          <th>Sales Price</th>
-                          <th>Stock</th>
+                          <th style="width:100px;">Sales Price</th>
+                          <th style="width:100px;">Stock</th>
                           <th>Image</th>
                           <th>Qr Code</th>
                           <th>Status</th>
@@ -172,6 +206,98 @@
 
 <script>
 $('.product').addClass('active');
+
+$(document).ready(function(){
+    $('.editBtn').on('click',function(){
+        //hide edit span
+        $(this).closest("tr").find(".editSpan").hide();
+
+        //show edit input
+        $(this).closest("tr").find(".editInput").show();
+
+        //hide edit button
+        $(this).closest("tr").find(".editBtn").hide();
+
+        //$(this).closest("tr").find(".editBtn1").hide();
+
+        //hide delete button
+        //$(this).closest("tr").find(".deleteBtn").hide();
+        
+        //show save button
+        $(this).closest("tr").find(".saveBtn").show();
+
+        //show cancel button
+        $(this).closest("tr").find(".cancelBtn").show();
+        
+    });
+    
+    $('.saveBtn').on('click',function(){
+        $('#userData').css('opacity', '.5');
+
+        var trObj = $(this).closest("tr");
+        var ID = $(this).closest("tr").attr('id');
+        var inputData = $(this).closest("tr").find(".editInput").serialize();
+        $.ajax({
+            url : '/vendor/update-product-price/'+ID,
+            type: "GET",
+            data: inputData,
+            contentType: false,
+            processData: false,
+            dataType: "JSON",
+            // type:'POST',
+            // url:'userAction.php',
+            // dataType: "json",
+            // data:'action=edit&id='+ID+'&'+inputData,
+            success:function(response){
+                if(response.status == 1){
+                  trObj.find(".editSpan.sales_price").text(response.data.sales_price);
+                  trObj.find(".editInput.sales_price").val(response.data.sales_price);
+                  trObj.find(".editSpan.stock").text(response.data.stock);
+                  trObj.find(".editInput.stock").val(response.data.stock);
+
+                  toastr.success(response.msg);
+                  
+                  trObj.find(".editInput").hide();
+                  trObj.find(".editSpan").show();
+                  trObj.find(".saveBtn").hide();
+                  trObj.find(".cancelBtn").hide();
+                  trObj.find(".editBtn").show();
+                  //trObj.find(".editBtn1").show();
+                  //trObj.find(".deleteBtn").show();
+                }else{
+                  //alert(response.msg);
+                }
+                $('#userData').css('opacity', '');
+            }
+        });
+    });
+
+    $('.cancelBtn').on('click',function(){
+        //hide & show buttons
+        $(this).closest("tr").find(".saveBtn").hide();
+        $(this).closest("tr").find(".cancelBtn").hide();
+        //$(this).closest("tr").find(".confirmBtn").hide();
+        $(this).closest("tr").find(".editBtn").show();
+        //$(this).closest("tr").find(".editBtn1").show();
+        //$(this).closest("tr").find(".deleteBtn").show();
+
+        //hide input and show values
+        $(this).closest("tr").find(".editInput").hide();
+        $(this).closest("tr").find(".editSpan").show();
+    });
+    
+    $('.deleteBtn').on('click',function(){
+        //hide edit & delete button
+        $(this).closest("tr").find(".editBtn").hide();
+        $(this).closest("tr").find(".editBtn1").hide();
+        $(this).closest("tr").find(".deleteBtn").hide();
+        
+        //show confirm & cancel button
+        $(this).closest("tr").find(".confirmBtn").show();
+        $(this).closest("tr").find(".cancelBtn").show();
+    });
+    
+});
 
 function downloadqrcode(id){
   spinner_body.show();   

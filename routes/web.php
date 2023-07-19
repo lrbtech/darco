@@ -363,6 +363,7 @@ Route::group(['prefix' => 'admin'],function(){
 
 	//product
 	Route::get('/product', [App\Http\Controllers\Admin\ProductController::class, 'product']);
+	Route::post('/search-product', [App\Http\Controllers\Admin\ProductController::class, 'searchproduct']);
 	Route::POST('/update-product', [App\Http\Controllers\Admin\ProductController::class, 'updateproduct']);
 	Route::get('/edit-product/{id}', [App\Http\Controllers\Admin\ProductController::class, 'editproduct']);
 	Route::get('/delete-product/{id}/{status}', [App\Http\Controllers\Admin\ProductController::class, 'deleteproduct']);
@@ -371,6 +372,7 @@ Route::group(['prefix' => 'admin'],function(){
 	
 
 	Route::get('/project', [App\Http\Controllers\Admin\ProjectController::class, 'project']);
+	Route::post('/search-project', [App\Http\Controllers\Admin\ProjectController::class, 'searchproject']);
 	Route::POST('/update-project', [App\Http\Controllers\Admin\ProjectController::class, 'updateproject']);
 	Route::get('/edit-project/{id}', [App\Http\Controllers\Admin\ProjectController::class, 'editproject']);
 	Route::get('/delete-project/{id}/{status}', [App\Http\Controllers\Admin\ProjectController::class, 'deleteproject']);
@@ -378,6 +380,7 @@ Route::group(['prefix' => 'admin'],function(){
 
 
 	Route::get('/idea-book', [App\Http\Controllers\Admin\IdeaBookController::class, 'ideabook']);
+	Route::post('/search-idea-book', [App\Http\Controllers\Admin\IdeaBookController::class, 'searchideabook']);
 	Route::POST('/update-idea-book', [App\Http\Controllers\Admin\IdeaBookController::class, 'updateideabook']);
 	Route::get('/edit-idea-book/{id}', [App\Http\Controllers\Admin\IdeaBookController::class, 'editideabook']);
 	Route::get('/delete-idea-book/{id}/{status}', [App\Http\Controllers\Admin\IdeaBookController::class, 'deleteideabook']);
@@ -422,6 +425,7 @@ Route::group(['prefix' => 'vendor'],function(){
     Route::get('/delete-vendor/{id}/{status}', [App\Http\Controllers\Vendor\BusinessController::class, 'deletevendor']);
 
 	//product
+	Route::get('/update-product-price/{id}', [App\Http\Controllers\Vendor\ProductController::class, 'updateproductprice']);
 	Route::get('/add-product', [App\Http\Controllers\Vendor\ProductController::class, 'addproduct']);
 	Route::get('/product', [App\Http\Controllers\Vendor\ProductController::class, 'product']);
 	Route::POST('/save-product', [App\Http\Controllers\Vendor\ProductController::class, 'saveproduct']);

@@ -44,7 +44,14 @@ class CheckoutController extends Controller
     {
         $cart_items = Cart::getContent();
         $language = language::all();
-        return view('website.checkout', compact('cart_items','language'));
+        $curlSession = curl_init();
+		curl_setopt($curlSession, CURLOPT_URL, 'https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/countries.json');
+		curl_setopt($curlSession, CURLOPT_BINARYTRANSFER, true);
+		curl_setopt($curlSession, CURLOPT_RETURNTRANSFER, true);
+
+		$countrydata = json_decode(curl_exec($curlSession));
+		curl_close($curlSession);
+        return view('website.checkout', compact('cart_items','language','countrydata'));
     }
 
 

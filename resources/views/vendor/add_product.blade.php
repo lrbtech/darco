@@ -358,9 +358,9 @@
                           </div>
                           <div class="col-md-6">
                               <div class="form-group">
-                                <label class="product_group">Select Product Name</label>
+                                <label class="product_group">Select Product Group Name</label>
                                 <select required id="product_group" name="product_group" class="form-control">
-                                  <option value="">SELECT Product Name</option>
+                                  <option value="">SELECT Product Group Name</option>
                                   @foreach($product_group as $row)
                                   <option value="{{$row->id}}">{{$row->group_name}}</option>
                                   @endforeach

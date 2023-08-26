@@ -92,19 +92,80 @@
         <tbody>
             <tr>
             <td>Country:</td>
-            <td>{{$vendor->kuwait}}</td>
+            <td>{{$vendor->country}}</td>
             </tr>
             <tr>
             <td>City:</td>
-            <td>{{\App\Http\Controllers\PageController::viewcityname($vendor->city)}}</td>
+            <td>{{$vendor->city}}</td>
             </tr>
             <tr>
             <td>Area:</td>
-            <td>{{\App\Http\Controllers\PageController::viewcityname($vendor->area)}}</td>
+            <td>{{$vendor->area}}</td>
             </tr>
             <tr>
             <td>Address:</td>
             <td>{{$vendor->address}}</td>
+            </tr>
+        </tbody>
+        <tbody>
+            <tr>
+            <td>TRADE LICENSE NO:</td>
+            <td>{{$vendor->trade_license_no}}</td>
+            </tr>
+            <tr>
+            <td>VAT CERTIFICATE NO:</td>
+            <td>{{$vendor->vat_certificate_no}}</td>
+            </tr>
+            <tr>
+            <td>Civil ID / Passport:</td>
+            <td>{{$vendor->civi_id_or_passport}}</td>
+            </tr>
+            <tr>
+            <td>Commercial LICENSE NO:</td>
+            <td>{{$vendor->commercial_license_no}}</td>
+            </tr>
+        </tbody>
+        <tbody>
+            <tr>
+            <td>ID Proof:</td>
+            <td>
+                @if($vendor->id_proof != '')
+                <a target="_blank" href="/vendor_files/{{$vendor->id_proof}}">View</a>
+                @else 
+                NONE
+                @endif
+            </td>
+            </tr>
+            <tr>
+            <td>Civil ID / Passport Copy:</td>
+            <td>
+                @if($vendor->civi_id_or_passport_copy != '')
+                <a target="_blank" href="/vendor_files/{{$vendor->civi_id_or_passport_copy}}">View</a>
+                @else 
+                NONE
+                @endif
+            </td>
+            </tr>
+            <tr>
+            <td>Commercial LICENSE COPY:</td>
+            <td>
+                @if($vendor->commercial_license_copy != '')
+                <a target="_blank" href="/vendor_files/{{$vendor->commercial_license_copy}}">View</a>
+                @else 
+                NONE
+                @endif
+            </td>
+            </tr>
+            <tr>
+            <td>Article of Association:</td>
+            <td>
+                @if($vendor->article_of_association != '')
+                <a target="_blank" href="/vendor_files/{{$vendor->article_of_association}}">View</a>
+                @else 
+                NONE
+                @endif
+            </td>
+
             </tr>
         </tbody>
         </table>

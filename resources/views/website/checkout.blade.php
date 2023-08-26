@@ -336,18 +336,24 @@
                             </div>
                             <div class="form-group col-lg-6">
                               <label>Country <span class="asterisk">*</span></label>
-                              <select id="country" name="country" class="form-control">
+                              <select onchange="changecountry()" id="country" name="country" class="form-control">
                                 <option value="">SELECT</option>
-                                <option value="kuwait">kuwait</option>
+                                @foreach($countrydata as $row)
+                                <option value="{{$row->name}}">{{$row->name}}</option>
+                                @endforeach
                               </select>
                             </div>
                             <div class="form-group col-lg-6">
                               <label>City <span class="asterisk">*</span></label>
-                              <input type="text" id="city" name="city" placeholder="City">
+                              <select onchange="changecity()" id="city" name="city" class="form-control">
+                                <option value="">SELECT</option>
+                              </select>
                             </div>
                             <div class="form-group col-lg-6">
                               <label>Area <span class="asterisk">*</span></label>
-                              <input type="text" id="area" name="area" placeholder="Area">
+                              <select id="area" name="area" class="form-control">
+                                <option value="">SELECT</option>
+                              </select>
                             </div>
                             <div class="form-group col-lg-12">
                               <textarea name="additional_information" id="additional_information" rows="2" placeholder="Additional information"></textarea>
@@ -453,18 +459,24 @@
                                 </div>
                                 <div class="form-group col-lg-6">
                                   <label>Country <span class="asterisk">*</span></label>
-                                  <select id="new_country" name="new_country" class="form-control">
+                                  <select onchange="changenewcountry()" id="new_country" name="new_country" class="form-control">
                                     <option value="">SELECT</option>
-                                    <option value="kuwait">kuwait</option>
+                                    @foreach($countrydata as $row)
+                                    <option value="{{$row->name}}">{{$row->name}}</option>
+                                    @endforeach
                                   </select>
                                 </div>
                                 <div class="form-group col-lg-6">
                                   <label>City <span class="asterisk">*</span></label>
-                                  <input type="text" id="new_city" name="new_city" placeholder="City">
+                                  <select onchange="changenewcity()" id="new_city" name="new_city" class="form-control">
+                                    <option value="">SELECT</option>
+                                  </select>
                                 </div>
                                 <div class="form-group col-lg-6">
                                   <label>Area <span class="asterisk">*</span></label>
-                                  <input type="text" id="new_area" name="new_area" placeholder="Area">
+                                  <select id="new_area" name="new_area" class="form-control">
+                                    <option value="">SELECT</option>
+                                  </select>
                                 </div>
                                 <div class="form-group col-lg-12">
                                   <textarea name="new_additional_information" id="new_additional_information" rows="2" placeholder="Additional information"></textarea>
@@ -680,6 +692,62 @@ $('#addaddress').click(function(){
     $('#create_address').show();
     //$("#form")[0].reset();
 });
+
+function changecountry(){
+  spinner_body.show();
+  var id = $('#country').val();
+  $.ajax({
+    url : '/get-api-city/'+id,
+    type: "GET",
+    success: function(data)
+    {
+      $('#city').html(data);
+      spinner_body.hide();
+    }
+  });
+}
+
+function changecity(){
+  spinner_body.show();
+  var id = $('#city').val();
+  $.ajax({
+    url : '/get-api-area/'+id,
+    type: "GET",
+    success: function(data)
+    {
+      $('#area').html(data);
+      spinner_body.hide();
+    }
+  });
+}
+
+function changenewcountry(){
+  spinner_body.show();
+  var id = $('#new_country').val();
+  $.ajax({
+    url : '/get-api-city/'+id,
+    type: "GET",
+    success: function(data)
+    {
+      $('#new_city').html(data);
+      spinner_body.hide();
+    }
+  });
+}
+
+function changenewcity(){
+  spinner_body.show();
+  var id = $('#new_city').val();
+  $.ajax({
+    url : '/get-api-area/'+id,
+    type: "GET",
+    success: function(data)
+    {
+      $('#new_area').html(data);
+      spinner_body.hide();
+    }
+  });
+}
 
 function SaveAddress(){
     spinner_body.show();

@@ -32,11 +32,11 @@
                                       <div class="row">
                                         <div class="col-md-2">
                                             <div class="form-group mb-3">
-                                              <label>Business Type</label>
+                                              <label>Business Type <span style="color:red;">*</span></label>
                                               <div class="business_type mb-50">
                                                 <div class="custome-radio">
                                                     <input value="0" class="form-check-input" type="radio" name="business_type" id="business_type1"/>
-                                                    <label class="form-check-label" for="business_type1" >Shop</label>
+                                                    <label class="form-check-label" for="business_type1" >Vendor</label>
                                                 </div>
                                                 <div class="custome-radio">
                                                     <input value="1"  class="form-check-input" type="radio" name="business_type" id="business_type2" />
@@ -47,19 +47,19 @@
                                         </div>
                                         <div class="col-md-4">
                                           <div class="form-group mb-3">
-                                            <label>Business Name</label>
+                                            <label>Business Name <span style="color:red;">*</span></label>
                                             <input autocomplete="off" type="text" name="business_name" id="business_name" class="form-control">
                                           </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                           <div class="form-group mb-3">
-                                            <label>First Name (Authorized Signator)</label>
+                                            <label>First Name (Authorized Signator) <span style="color:red;">*</span></label>
                                             <input autocomplete="off" type="text" name="first_name" id="first_name" class="form-control">
                                           </div>
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-3">
                                             <div class="form-group mb-3">
-                                              <label>Last Name (Authorized Signator)</label>
+                                              <label>Last Name (Authorized Signator) <span style="color:red;">*</span></label>
                                               <input autocomplete="off" type="text" name="last_name" id="last_name" class="form-control">
                                             </div>
                                         </div>
@@ -73,7 +73,7 @@
 
                                         <div class="col-md-4">
                                           <div class="form-group mb-3">
-                                            <label>Choose Package</label>
+                                            <label>Choose Package <span style="color:red;">*</span></label>
                                             <select id="package_id" name="package_id" class="form-control">
                                               <option value="">SELECT</option>
                                               @foreach($package as $row)
@@ -85,55 +85,20 @@
 
                                         <div class="col-md-4">
                                           <div class="form-group mb-3">
-                                            <label>Email address</label>
-                                            <input value="<?php echo $_GET['email']; ?>" autocomplete="off" type="email" name="email" id="email" class="form-control">
-                                          </div>
-                                        </div>
-
-                                        <div class="col-md-4">
-                                          <div class="form-group mb-3">
-                                            <label>Mobile</label>
-                                            <input autocomplete="off" type="number" name="mobile" id="mobile" class="form-control">
-                                          </div>
-                                        </div>
-
-                                        <div class="col-md-4">
-                                          <div class="form-group mb-3">
-                                            <label>Password</label>
-                                            <input autocomplete="off" id="password" name="password" type="password" class="form-control">
-                                          </div>
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <label>Confirm Password</label>
-                                            <div class="form-group">
-                                                <input autocomplete="off" id="password_confirmation" name="password_confirmation" type="password" placeholder="" class="form-control">
-                                            </div>
-                                        </div>
-                                      
-                                      <!-- </div>
-                                  
-                                        
-
-                                      <div class="row"> -->
-                                        
-                                        <div class="col-md-4">
-                                          <div class="form-group mb-3">
-                                            <label>Country</label>
-                                            <select id="country" name="country" class="form-control">
+                                            <label>Country <span style="color:red;">*</span></label>
+                                            <select onchange="changecountry()" id="country" name="country" class="form-control">
                                               <option value="">SELECT</option>
-                                              <option value="kuwait">kuwait</option>
+                                              @foreach($countrydata as $row)
+                                              <option value="{{$row->name}}">{{$row->name}}</option>
+                                              @endforeach
                                             </select>
                                           </div>
                                         </div>
                                         <div class="col-md-4">
                                           <div class="form-group mb-3">
-                                            <label>City</label>
+                                            <label>City <span style="color:red;">*</span></label>
                                             <select onchange="changecity()" id="city" name="city" class="form-control">
                                               <option value="">SELECT</option>
-                                              @foreach($city as $row)
-                                              <option value="{{$row->id}}">{{$row->city}}</option>
-                                              @endforeach
                                             </select>
                                           </div>
                                         </div>
@@ -145,12 +110,47 @@
                                             </select>
                                           </div>
                                         </div>
-                                        <!-- <div class="col-md-4">
-                                            <label>Zipcode</label>
-                                            <div class="form-group">
-                                                <input autocomplete="off" id="zipcode" name="zipcode" type="text" placeholder="" class="form-control">
+
+                                        <div class="col-md-4">
+                                          <div class="form-group mb-3">
+                                            <label>Address</label>
+                                            <textarea id="address" name="address" class="form-control"></textarea>
+                                          </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                          <div class="form-group mb-3">
+                                            <label>Email address <span style="color:red;">*</span></label>
+                                            <input value="<?php echo $_GET['email']; ?>" autocomplete="off" type="email" name="email" id="email" class="form-control">
+                                          </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                          <div class="form-group mb-3">
+                                            <label>Mobile <span style="color:red;">*</span></label>
+                                            <div class="input-group mb-3">
+                                              <div style="width:30%;" class="input-group-prepend">
+                                                <input readonly type="text" name="country_code" id="country_code">
+                                              </div>
+                                              <input style="width:70%;" type="number" class="form-control" name="mobile" id="mobile" placeholder="Mobile">
                                             </div>
-                                        </div> -->
+                                          </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                          <div class="form-group mb-3">
+                                            <label>Password <span style="color:red;">*</span></label>
+                                            <input autocomplete="off" id="password" name="password" type="password" class="form-control">
+                                          </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label>Confirm Password <span style="color:red;">*</span></label>
+                                            <div class="form-group">
+                                                <input autocomplete="off" id="password_confirmation" name="password_confirmation" type="password" placeholder="" class="form-control">
+                                            </div>
+                                        </div>
+                                      
                                       </div>
 
 
@@ -220,8 +220,11 @@
                                             </div>
                                             <!-- <a href="/pages/privacy-policy"><i class="fi-rs-book-alt mr-5 text-muted"></i>Lean more</a> -->
                                         </div>
+                                        <div id="recaptcha-container"></div>
+
                                         <div class="form-group mb-30">
-                                            <button onclick="Save()" type="button" class="btn btn-fill-out btn-block hover-up font-weight-bold" name="login">Submit &amp; Register</button>
+                                          
+                                            <button onclick="Send()" type="button" class="btn btn-fill-out btn-block hover-up font-weight-bold" name="login">Submit &amp; Register</button>
                                         </div>
                                         <p class="font-xs text-muted"><strong>Note:</strong>Your personal data will be used to support your experience throughout this website, to manage access to your account, and for other purposes described in our privacy policy</p>
                                     </form>
@@ -247,6 +250,22 @@
 </div>
 @endsection
 @section('extra-js')
+<script src="https://www.gstatic.com/firebasejs/6.0.2/firebase.js"></script>
+  
+<script>
+      
+  var firebaseConfig = {
+    apiKey: "AIzaSyCq7oCiv7fDIZ4UGDUnW4gTso43VJeVUUI",
+    authDomain: "darstore-335c3.firebaseapp.com",
+    projectId: "darstore-335c3",
+    storageBucket: "darstore-335c3.appspot.com",
+    messagingSenderId: "1033027003222",
+    appId: "1:1033027003222:web:3066ac26694c9fdc332cf7",
+    measurementId: "G-0MY5YNXKFD"
+  };
+    
+  firebase.initializeApp(firebaseConfig);
+</script>
 <script>
 
 $('#privacy_policy').click(function(){
@@ -259,17 +278,196 @@ $('#privacy_policy').click(function(){
   //$('#modal-title').text('Add Category');
 });
 
-function changecity(){
-  var id = $('#city').val();
-  // alert(id);
+function changecountry(){
+  spinner_body.show();
+  var id = $('#country').val();
   $.ajax({
-    url : '/get-area/'+id,
+    url : '/get-api-city/'+id,
+    type: "GET",
+    success: function(data)
+    {
+      $('#city').html(data);
+      spinner_body.hide();
+      getapicountrycode(id);
+    }
+  });
+}
+
+function changecity(){
+  spinner_body.show();
+  var id = $('#city').val();
+  $.ajax({
+    url : '/get-api-area/'+id,
     type: "GET",
     success: function(data)
     {
       $('#area').html(data);
+      spinner_body.hide();
     }
   });
+}
+
+function getapicountrycode(id){
+  spinner_body.show();
+  $.ajax({
+    url : '/get-api-countrycode/'+id,
+    type: "GET",
+    success: function(data)
+    {
+      $('#country_code').val(data);
+      spinner_body.hide();
+    }
+  });
+}
+
+window.onload=function () {
+  render();
+};
+
+function render() {
+  window.recaptchaVerifier=new firebase.auth.RecaptchaVerifier('recaptcha-container');
+  recaptchaVerifier.render();
+}
+
+function Send(){
+	if ($("#privacy_policy").is(":checked")) {
+		spinner_body.show();
+		$(".text-danger").remove();
+		$('.form-group').removeClass('has-error').removeClass('has-success');
+		var formData = new FormData($('#form')[0]);
+		$("#savebutton").attr("disabled", true);
+		$.ajax({
+			url : '/send-vendor-otp',
+			type: "POST",
+			data: formData,
+			contentType: false,
+			processData: false,
+			dataType: "JSON",
+			success: function(data)
+			{     
+				spinner_body.hide();  
+				$("#savebutton").attr("disabled", false);  
+
+        var mobile = $('#mobile').val();
+        var country_code = $('#country_code').val();
+        var number = '+'+''+country_code+''+mobile;
+
+        phoneSendAuth(number);
+  
+        Swal.fire({
+        title: 'Verify Your Otp',
+        input: 'text',
+        inputAttributes: {
+          autocapitalize: 'off'
+        },
+        showCancelButton: true,
+        confirmButtonText: 'Verify',
+        showLoaderOnConfirm: true,
+        preConfirm: (otp) => {
+          return coderesult.confirm(otp).then(function (result) {
+              // var user=result.user;
+              allowOutsideClick: () => !Swal.isLoading()
+              console.log("success");
+              Save();
+              return true;
+          }).catch(function (error) {
+              // $("#error").text(error.message);
+              // $("#error").show();
+              //toastr.error("invalid code");
+              console.log("invalid code");
+              Swal.showValidationMessage("invalid code")
+             
+          });
+        },
+        
+        }).then((result) => {
+          // if (result.isConfirmed) {
+        
+          // }
+          // else {
+          //   $("#savebutton").attr("disabled", false);
+          // }
+        })
+
+				// if(data.status == 1){
+				// 	var mobile = $('#mobile').val();
+				// 	Swal.fire({
+				// 	title: 'Verify Your Otp',
+				// 	input: 'text',
+				// 	inputAttributes: {
+				// 		autocapitalize: 'off'
+				// 	},
+				// 	showCancelButton: true,
+				// 	confirmButtonText: 'Verify',
+				// 	showLoaderOnConfirm: true,
+				// 	preConfirm: (otp) => {
+				// 		return fetch('verify-vendor-otp/'+mobile+'/'+otp)
+				// 		.then(response => {
+				// 			if (!response.ok) {
+				// 				throw new Error(response.statusText)
+				// 			}
+				// 			// Swal.showValidationMessage(response)
+				// 			return response.json()
+				// 		})
+				// 		.catch(error => {
+				// 			// Swal.showValidationMessage(
+				// 			// `Request failed: ${error}`
+				// 			// )
+				// 			Swal.showValidationMessage(`Invalid OTP`)
+				// 		})
+				// 	},
+				// 	allowOutsideClick: () => !Swal.isLoading()
+				// 	}).then((result) => {
+				// 		if (result.isConfirmed) {
+				// 			Save();
+				// 		}
+				// 		else {
+				// 			$("#savebutton").attr("disabled", false);
+				// 		}
+				// 	})
+				// } 
+			
+			},error: function (data) {
+				spinner_body.hide();    
+				$("#savebutton").attr("disabled", false);
+				var errorData = data.responseJSON.errors;
+				$.each(errorData, function(i, obj) {
+					toastr.error(obj[0]);
+					$('#'+i).after('<p class="text-danger">'+obj[0]+'</p>');
+					$('#'+i).closest('.form-group').addClass('has-error');
+					$("#savebutton").attr("disabled", false);
+				});
+			}
+		});
+	}
+	else{
+		toastr.error('Accept Terms & Privacy Policy');
+	}
+}
+
+function phoneSendAuth(number) { 
+  firebase.auth().signInWithPhoneNumber(number,window.recaptchaVerifier).then(function (confirmationResult) {
+      window.confirmationResult=confirmationResult;
+      coderesult=confirmationResult;
+      console.log(coderesult);
+      // $("#sentSuccess").text("Message Sent Successfully.");
+      // $("#sentSuccess").show();
+  }).catch(function (error) {
+      // $("#error").text(error.message);
+      // $("#error").show();
+      toastr.error(error.message);
+  });
+}
+
+function codeverify(code) {
+    coderesult.confirm(code).then(function (result) {
+        var user=result.user;
+        console.log(user);
+    }).catch(function (error) {
+        // $("#error").text(error.message);
+        // $("#error").show();
+        toastr.error(error.message);
+    });
 }
 
 function Save(){
@@ -289,8 +487,9 @@ function Save(){
       {   
         spinner_body.hide();             
         $("#form")[0].reset();
-        location.reload();
+        // location.reload();
         toastr.success(data, 'Successfully Save');
+        window.location.href="/vendor/login";
       },error: function (data) {
         spinner_body.hide(); 
         var errorData = data.responseJSON.errors;

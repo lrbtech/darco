@@ -42,6 +42,43 @@
                                       </div>
 
                                       <div class="row">
+                                        <div class="col-md-4">
+                                          <div class="form-group mb-3">
+                                            <label>Country</label>
+                                            <select onchange="changecountry()" id="country" name="country" class="form-control">
+                                              <option value="">SELECT</option>
+                                              @foreach($countrydata as $row)
+                                              <option value="{{$row->name}}">{{$row->name}}</option>
+                                              @endforeach
+                                            </select>
+                                          </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                          <div class="form-group mb-3">
+                                            <label>City</label>
+                                            <select onchange="changecity()" id="city" name="city" class="form-control">
+                                              <option value="">SELECT</option>
+                                            </select>
+                                          </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                          <div class="form-group mb-3">
+                                            <label>Area</label>
+                                            <select id="area" name="area" class="form-control">
+                                              <option value="">SELECT</option>
+                                            </select>
+                                          </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                          <div class="form-group mb-3">
+                                            <label>Address</label>
+                                            <textarea id="address" name="address" class="form-control"></textarea>
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      <div class="row">
                                         <div class="col-md-6">
                                           <div class="form-group mb-3">
                                             <label>Email address</label>
@@ -51,9 +88,15 @@
                                         <div class="col-md-6">
                                           <div class="form-group mb-3">
                                             <label>Mobile</label>
-                                            <input autocomplete="off" type="number" name="mobile" id="mobile" class="form-control">
+                                            <div class="input-group mb-3">
+                                              <div style="width:30%;" class="input-group-prepend">
+                                                <input readonly type="text" name="country_code" id="country_code">
+                                              </div>
+                                              <input style="width:70%;" type="number" class="form-control" name="mobile" id="mobile" placeholder="Mobile">
+                                            </div>
                                           </div>
                                         </div>
+                                        
 
                                         <div class="col-md-6">
                                           <div class="form-group mb-3">
@@ -72,53 +115,6 @@
                                       </div>
                                   
                                         
-
-                                      <div class="row">
-                                        <div class="col-md-4">
-                                          <div class="form-group mb-3">
-                                            <label>Country</label>
-                                            <select id="country" name="country" class="form-control">
-                                              <option value="">SELECT</option>
-                                              <option value="kuwait">kuwait</option>
-                                            </select>
-                                          </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                          <div class="form-group mb-3">
-                                            <label>City</label>
-                                            <select onchange="changecity()" id="city" name="city" class="form-control">
-                                              <option value="">SELECT</option>
-                                              @foreach($city as $row)
-                                              <option value="{{$row->city}}">{{$row->city}}</option>
-                                              @endforeach
-                                            </select>
-                                          </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                          <div class="form-group mb-3">
-                                            <label>Area</label>
-                                            <select id="area" name="area" class="form-control">
-                                              <option value="">SELECT</option>
-                                            </select>
-                                          </div>
-                                        </div>
-                                        <!-- <div class="col-md-3">
-                                            <label>Zipcode</label>
-                                            <div class="form-group">
-                                                <input autocomplete="off" id="zipcode" name="zipcode" type="text" placeholder="" class="form-control">
-                                            </div>
-                                        </div> -->
-                                      </div>
-                                        <!-- <div class="payment_option mb-50">
-                                            <div class="custome-radio">
-                                                <input class="form-check-input" required="" type="radio" name="payment_option" id="exampleRadios3" checked="" />
-                                                <label class="form-check-label" for="exampleRadios3" data-bs-toggle="collapse" data-target="#bankTranfer" aria-controls="bankTranfer">I am a customer</label>
-                                            </div>
-                                            <div class="custome-radio">
-                                                <input class="form-check-input" required="" type="radio" name="payment_option" id="exampleRadios4" checked="" />
-                                                <label class="form-check-label" for="exampleRadios4" data-bs-toggle="collapse" data-target="#checkPayment" aria-controls="checkPayment">I am a vendor</label>
-                                            </div>
-                                        </div> -->
                                         <div class="login_footer form-group mb-50">
                                             <div class="chek-form">
                                                 <div class="custome-checkbox">
@@ -130,8 +126,10 @@
                                             </div>
                                             <!-- <a href="/privacy-policy"><i class="fi-rs-book-alt mr-5 text-muted"></i>Lean more</a> -->
                                         </div>
+                                        <div id="recaptcha-container"></div>
                                         <div class="form-group mb-30">
-                                            <button onclick="Save()" type="button" class="btn btn-fill-out btn-block hover-up font-weight-bold" name="login">Submit &amp; Register</button>
+                                          
+                                          <button onclick="Send()" type="button" class="btn btn-fill-out btn-block hover-up font-weight-bold" name="login">Submit &amp; Register</button>
                                         </div>
                                         <p class="font-xs text-muted"><strong>Note:</strong>Your personal data will be used to support your experience throughout this website, to manage access to your account, and for other purposes described in our privacy policy</p>
                                     </form>
@@ -157,6 +155,23 @@
 </div>
 @endsection
 @section('extra-js')
+
+<script src="https://www.gstatic.com/firebasejs/6.0.2/firebase.js"></script>
+  
+<script>
+      
+  var firebaseConfig = {
+    apiKey: "AIzaSyCq7oCiv7fDIZ4UGDUnW4gTso43VJeVUUI",
+    authDomain: "darstore-335c3.firebaseapp.com",
+    projectId: "darstore-335c3",
+    storageBucket: "darstore-335c3.appspot.com",
+    messagingSenderId: "1033027003222",
+    appId: "1:1033027003222:web:3066ac26694c9fdc332cf7",
+    measurementId: "G-0MY5YNXKFD"
+  };
+    
+  firebase.initializeApp(firebaseConfig);
+</script>
 <script>
 $('#privacy_policy').click(function(){
   // alert('hi');
@@ -168,17 +183,158 @@ $('#privacy_policy').click(function(){
   //$('#modal-title').text('Add Category');
 });
 
-function changecity(){
-  var id = $('#city').val();
-  // alert(id);
+function changecountry(){
+  spinner_body.show();
+  var id = $('#country').val();
   $.ajax({
-    url : '/get-area/'+id,
+    url : '/get-api-city/'+id,
+    type: "GET",
+    success: function(data)
+    {
+      $('#city').html(data);
+      spinner_body.hide();
+      getapicountrycode(id);
+    }
+  });
+}
+
+function changecity(){
+  spinner_body.show();
+  var id = $('#city').val();
+  $.ajax({
+    url : '/get-api-area/'+id,
     type: "GET",
     success: function(data)
     {
       $('#area').html(data);
+      spinner_body.hide();
     }
   });
+}
+
+function getapicountrycode(id){
+  spinner_body.show();
+  $.ajax({
+    url : '/get-api-countrycode/'+id,
+    type: "GET",
+    success: function(data)
+    {
+      $('#country_code').val(data);
+      spinner_body.hide();
+    }
+  });
+}
+
+window.onload=function () {
+  render();
+};
+
+function render() {
+  window.recaptchaVerifier=new firebase.auth.RecaptchaVerifier('recaptcha-container');
+  recaptchaVerifier.render();
+}
+
+
+function Send(){
+	if (!$("#privacy_policy").is(":checked")) {
+		toastr.error('Accept Terms & Privacy Policy');
+	}
+		spinner_body.show();
+		$(".text-danger").remove();
+		$('.form-group').removeClass('has-error').removeClass('has-success');
+		var formData = new FormData($('#form')[0]);
+		$("#savebutton").attr("disabled", true);
+		$.ajax({
+			url : '/send-user-otp',
+			type: "POST",
+			data: formData,
+			contentType: false,
+			processData: false,
+			dataType: "JSON",
+			success: function(data)
+			{     
+				spinner_body.hide();  
+				$("#savebutton").attr("disabled", false); 
+
+        var mobile = $('#mobile').val();
+        var country_code = $('#country_code').val();
+        var number = '+'+''+country_code+''+mobile;
+
+        phoneSendAuth(number);
+  
+        Swal.fire({
+        title: 'Verify Your Otp',
+        input: 'text',
+        inputAttributes: {
+          autocapitalize: 'off'
+        },
+        showCancelButton: true,
+        confirmButtonText: 'Verify',
+        showLoaderOnConfirm: true,
+        preConfirm: (otp) => {
+          return coderesult.confirm(otp).then(function (result) {
+              // var user=result.user;
+              allowOutsideClick: () => !Swal.isLoading()
+              console.log("success");
+              Save();
+              return true;
+          }).catch(function (error) {
+              // $("#error").text(error.message);
+              // $("#error").show();
+              //toastr.error("invalid code");
+              console.log("invalid code");
+              Swal.showValidationMessage("invalid code")
+             
+          });
+        },
+        
+        }).then((result) => {
+          // if (result.isConfirmed) {
+        
+          // }
+          // else {
+          //   $("#savebutton").attr("disabled", false);
+          // }
+        })
+        			
+			},error: function (data) {
+				spinner_body.hide();    
+				$("#savebutton").attr("disabled", false);
+				var errorData = data.responseJSON.errors;
+				$.each(errorData, function(i, obj) {
+					toastr.error(obj[0]);
+					$('#'+i).after('<p class="text-danger">'+obj[0]+'</p>');
+					$('#'+i).closest('.form-group').addClass('has-error');
+					$("#savebutton").attr("disabled", false);
+				});
+			}
+		});
+	
+}
+
+function phoneSendAuth(number) { 
+  firebase.auth().signInWithPhoneNumber(number,window.recaptchaVerifier).then(function (confirmationResult) {
+      window.confirmationResult=confirmationResult;
+      coderesult=confirmationResult;
+      console.log(coderesult);
+      // $("#sentSuccess").text("Message Sent Successfully.");
+      // $("#sentSuccess").show();
+  }).catch(function (error) {
+      // $("#error").text(error.message);
+      // $("#error").show();
+      toastr.error(error.message);
+  });
+}
+
+function codeverify(code) {
+    coderesult.confirm(code).then(function (result) {
+        var user=result.user;
+        console.log(user);
+    }).catch(function (error) {
+        // $("#error").text(error.message);
+        // $("#error").show();
+        toastr.error(error.message);
+    });
 }
 
 function Save(){

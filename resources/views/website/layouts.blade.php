@@ -1003,9 +1003,9 @@ body {
                                             <li>
                                                 <a href="/customer/enquiry"><i class="fi fi-rs-heart mr-10"></i>{{$language[139][session()->get('lang')]}}</a>
                                             </li>
-                                            <li>
+                                            <!-- <li>
                                                 <a href="/customer/manage-address"><i class="fi fi-rs-location-alt mr-10"></i>{{$language[140][session()->get('lang')]}}</a>
-                                            </li>
+                                            </li> -->
                                             <li>
                                                 <a href="/customer/change-password"><i class="fi fi-rs-settings-sliders mr-10"></i>{{$language[141][session()->get('lang')]}}</a>
                                             </li>

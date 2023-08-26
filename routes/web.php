@@ -41,6 +41,8 @@ Route::get('/vendor-login/{id}', [App\Http\Controllers\PageController::class, 'v
 
 Route::get('/viewattributefilter', [App\Http\Controllers\HomeController::class, 'viewattributefilter']);
 
+Route::get('send-firebase-otp', [App\Http\Controllers\PageController::class, 'sendfirebaseotp']);
+
 Route::get('/', [App\Http\Controllers\PageController::class, 'home']);
 Route::get('/home', [App\Http\Controllers\PageController::class, 'home']);
 Route::get('/get-home-sub-category/{id}', [App\Http\Controllers\HomeController::class, 'gethomesubcategory']);
@@ -57,6 +59,13 @@ Route::get('/professional-register', [App\Http\Controllers\PageController::class
 
 Route::post('/save-individual-register', [App\Http\Controllers\PageController::class, 'saveindividualregister']);
 Route::post('/save-professional-register', [App\Http\Controllers\PageController::class, 'saveprofessionalregister']);
+
+Route::post('/send-user-otp', [App\Http\Controllers\PageController::class, 'senduserotp']);
+Route::get('/verify-user-otp/{mobile}/{otp}', [App\Http\Controllers\PageController::class, 'verifyuserotp']);
+
+Route::post('/send-vendor-otp', [App\Http\Controllers\PageController::class, 'sendvendorotp']);
+Route::get('/verify-vendor-otp/{mobile}/{otp}', [App\Http\Controllers\PageController::class, 'verifyvendorotp']);
+
 
 // Route::get('/send-verify-mail/{id}', [App\Http\Controllers\PageController::class, 'sendverifymail']);
 Route::get('/verify-account/{id}', [App\Http\Controllers\PageController::class, 'verifyaccount']);
@@ -94,6 +103,9 @@ Route::get('/mobile-loader', [App\Http\Controllers\HomeController::class, 'mobil
 Route::get('/print-invoice/{id}', [App\Http\Controllers\PageController::class, 'printinvoice']);
 
 
+Route::get('/get-api-city/{id}', [App\Http\Controllers\PageController::class, 'getapicity']);
+Route::get('/get-api-area/{id}', [App\Http\Controllers\PageController::class, 'getapiarea']);
+Route::get('/get-api-countrycode/{id}', [App\Http\Controllers\PageController::class, 'getapicountrycode']);
 
 Route::get('/get-area/{id}', [App\Http\Controllers\PageController::class, 'getarea']);
 Route::get('/get-sub-category/{id}', [App\Http\Controllers\PageController::class, 'getsubcategory']);

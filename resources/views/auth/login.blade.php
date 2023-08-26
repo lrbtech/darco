@@ -97,7 +97,7 @@
           <div class="col-sm-6">
             <a href="/professional-register?email=" class="style3" id="view2">
             <div class="card">
-              <div class="card-title"><h4>Professional</h4></div>
+              <div class="card-title"><h4>Professional or Vendor</h4></div>
               <div class="card-desc text-center">
                 <span id="img-icon2"></span><br> <br>
                 <p>We offer home improvement service or sell home products, lands.</p>

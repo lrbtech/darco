@@ -23,6 +23,8 @@ use App\Models\shipping_address;
 use App\Models\settings;
 use App\Models\package;
 use App\Models\language;
+use App\Models\user_mobile_verify;
+use App\Models\vendor_mobile_verify;
 use Hash;
 use DB;
 use Mail;
@@ -131,6 +133,81 @@ class PageController extends Controller
         else{
             return '';
         }
+    }
+
+    public function getapicountrycode($id) {
+        $curlSession = curl_init();
+		curl_setopt($curlSession, CURLOPT_URL, 'https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/countries.json');
+		curl_setopt($curlSession, CURLOPT_BINARYTRANSFER, true);
+		curl_setopt($curlSession, CURLOPT_RETURNTRANSFER, true);
+
+		$jsonData = json_decode(curl_exec($curlSession));
+		curl_close($curlSession);
+
+
+		$filter = array($id);
+	    $country = array_filter($jsonData, function ($item) use ($filter) {
+			return in_array($item->name, $filter);
+		});
+
+        $output='';
+        if(!empty($country)){
+            foreach($country as $row){
+                $output=$row->phone_code;
+            }
+        }
+
+        echo $output;
+    }
+
+    public function getapicity($id) {
+        $curlSession = curl_init();
+		curl_setopt($curlSession, CURLOPT_URL, 'https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/states.json');
+		curl_setopt($curlSession, CURLOPT_BINARYTRANSFER, true);
+		curl_setopt($curlSession, CURLOPT_RETURNTRANSFER, true);
+
+		$jsonData = json_decode(curl_exec($curlSession));
+		curl_close($curlSession);
+
+
+		$filter = array($id);
+	    $area = array_filter($jsonData, function ($item) use ($filter) {
+			return in_array($item->country_name, $filter);
+		});
+
+        $output='<option value="">SELECT</option>';
+        if(!empty($area)){
+            foreach($area as $row){
+                $output.='<option value="'.$row->name.'">'.$row->name.'</option>';
+            }
+        }
+
+        echo $output;
+    }
+
+    public function getapiarea($id) {
+        $curlSession = curl_init();
+		curl_setopt($curlSession, CURLOPT_URL, 'https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/cities.json');
+		curl_setopt($curlSession, CURLOPT_BINARYTRANSFER, true);
+		curl_setopt($curlSession, CURLOPT_RETURNTRANSFER, true);
+
+		$jsonData = json_decode(curl_exec($curlSession));
+		curl_close($curlSession);
+
+
+		$filter = array($id);
+	    $city = array_filter($jsonData, function ($item) use ($filter) {
+			return in_array($item->state_name, $filter);
+		});
+
+        $output='<option value="">SELECT</option>';
+        if(!empty($city)){
+            foreach($city as $row){
+                $output.='<option value="'.$row->name.'">'.$row->name.'</option>';
+            }
+        }
+
+        echo $output;
     }
 
     public function getarea($id) {
@@ -256,21 +333,42 @@ class PageController extends Controller
         return view('website.contact_us',compact('language'));
     }
 
+    public function sendfirebaseotp()
+    {
+        $language = language::all();
+        return view('website.firebase_otp',compact('language'));
+    }
+
     public function individualregister()
     {
-        $city = city::where('parent_id',0)->where('status',0)->orderBy('id','ASC')->get();
         $settings = settings::find(1);
         $language = language::all();
-        return view('website.individual_register',compact('city','settings','language'));
+
+        $curlSession = curl_init();
+		curl_setopt($curlSession, CURLOPT_URL, 'https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/countries.json');
+		curl_setopt($curlSession, CURLOPT_BINARYTRANSFER, true);
+		curl_setopt($curlSession, CURLOPT_RETURNTRANSFER, true);
+
+		$countrydata = json_decode(curl_exec($curlSession));
+		curl_close($curlSession);
+
+        return view('website.individual_register',compact('countrydata','settings','language'));
     }
 
     public function professionalregister()
     {
-        $city = city::where('parent_id',0)->where('status',0)->orderBy('id','ASC')->get();
         $package = package::where('status',0)->orderBy('id','ASC')->get();
         $settings = settings::find(1);
         $language = language::all();
-        return view('website.professional_register',compact('city','package','settings','language'));
+
+        $curlSession = curl_init();
+		curl_setopt($curlSession, CURLOPT_URL, 'https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/countries.json');
+		curl_setopt($curlSession, CURLOPT_BINARYTRANSFER, true);
+		curl_setopt($curlSession, CURLOPT_RETURNTRANSFER, true);
+
+		$countrydata = json_decode(curl_exec($curlSession));
+		curl_close($curlSession);
+        return view('website.professional_register',compact('countrydata','package','settings','language'));
     }
 
 
@@ -315,14 +413,72 @@ class PageController extends Controller
         return view('professionals.overview',compact('vendor','vendor_project','language'));
     }
 
+    public function senduserotp(Request $request){
+        $this->validate($request, [
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'mobile' => 'required|numeric|unique:users',
+            'country' => 'required',
+            'city' => 'required',
+            //'zipcode' => 'required',
+            'email' => 'required|unique:users',
+            'password' => 'min:6|required_with:password_confirmation|same:password_confirmation',
+            'password_confirmation' => 'min:6|required',
+        ]);
+
+        // $randomid = mt_rand(1000,9999); 
+        // $exist = user_mobile_verify::where('mobile',$request->mobile)->first();
+        // if(!empty($exist)){
+        //     $user_mobile_verify = user_mobile_verify::where('mobile',$request->mobile)->first();
+        //     $user_mobile_verify->otp = $randomid;
+        //     $user_mobile_verify->save();
+        // }
+        // else{
+        //     $user_mobile_verify = new user_mobile_verify;
+        //     $user_mobile_verify->mobile = $request->mobile;
+        //     $user_mobile_verify->otp = $randomid;
+        //     $user_mobile_verify->save();
+        // }
+    
+        // $msg= "Dear Customer,
+        
+        // Please use this OTP ".$user_mobile_verify->otp." to complete your registration process.
+        
+        // -DARSTORE";
+
+        // $event = new event();
+        // $event->otp_sms($user_mobile_verify->mobile,$msg);
+
+        return response()->json(['message' => 'Successfully Send','status'=>1], 200);
+    }
+
+
+    public function verifyuserotp($mobile,$otp)
+    {
+        if($mobile !=null){
+            $user_mobile_verify = user_mobile_verify::where('mobile',$mobile)->first();
+            if($user_mobile_verify->otp == $otp){
+                
+                return response()->json(['message' => 'Verified Your Account',
+                // 'name'=>$user_mobile_verify->id,
+                'status'=>200], 200);
+            }else{
+                return response()->json('Verification Code Not Valid', 500);
+            }
+        }else{
+            return response()->json('Mobile number Not valid', 400);
+        }
+    }
+
     public function saveindividualregister(Request $request)
     {
         $this->validate($request, [
             'first_name' => 'required',
             'last_name' => 'required',
-            'mobile' => 'required|numeric|digits:9|unique:users',
+            'mobile' => 'required|numeric|unique:users',
+            'country' => 'required',
             'city' => 'required',
-            'zipcode' => 'required',
+            //'zipcode' => 'required',
             'email' => 'required|unique:users',
             'password' => 'min:6|required_with:password_confirmation|same:password_confirmation',
             'password_confirmation' => 'min:6|required',
@@ -338,10 +494,10 @@ class PageController extends Controller
         $user->password =  Hash::make ( $request->password );
         $user->remember_token = $request->_token;
         $user->country = $request->country;
-        // $user->country_code = $request->country_code;
+        $user->country_code = $request->country_code;
         $user->city = $request->city;
         $user->area = $request->area;
-        //$user->zipcode = $request->zipcode;
+        $user->address = $request->address;
         $user->status = 1;
         $user->save();
 
@@ -354,6 +510,79 @@ class PageController extends Controller
         return response()->json('save successfully'); 
     }
 
+    public function sendvendorotp(Request $request){
+        $this->validate($request, [
+            'business_name' => 'required',
+            'business_type' => 'required',
+            'package_id' => 'required',
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'mobile' => 'required|numeric|unique:vendors',
+            'city' => 'required',
+            'country' => 'required',
+            'email' => 'required|unique:vendors',
+            'password' => 'min:6|required_with:password_confirmation|same:password_confirmation',
+            'password_confirmation' => 'min:6|required',
+            'id_proof' => 'nullable|mimes:jpeg,jpg,png,pdf|max:3000',
+            'civi_id_or_passport_copy' => 'nullable|mimes:jpeg,jpg,png,pdf|max:3000',
+            'commercial_license_copy' => 'nullable|mimes:jpeg,jpg,png,pdf|max:3000',
+            'article_of_association' => 'nullable|mimes:jpeg,jpg,png,pdf|max:3000',
+            ],[
+            'id_proof.mimes' => 'Only jpeg,png,pdf and jpg formats are allowed',
+            'id_proof.max' => 'Sorry! Maximum allowed size for an ID Proof is 3MB',
+            'civi_id_or_passport_copy.mimes' => 'Only jpeg,png,pdf and jpg formats are allowed',
+            'civi_id_or_passport_copy.max' => 'Sorry! Maximum allowed size for an passport copy is 3MB',
+            'commercial_license_copy.mimes' => 'Only jpeg,png,pdf and jpg formats are allowed',
+            'commercial_license_copy.max' => 'Sorry! Maximum allowed size for an Emirates id copy is 3MB',
+            'article_of_association.mimes' => 'Only jpeg,png,pdf and jpg formats are allowed',
+            'article_of_association.max' => 'Sorry! Maximum allowed size for an Emirates id copy is 3MB',
+            'package_id.required' => 'Choose Package is Required',
+        ]);
+
+        // $randomid = mt_rand(1000,9999); 
+        // $exist = vendor_mobile_verify::where('mobile',$request->mobile)->first();
+        // if(!empty($exist)){
+        //     $vendor_mobile_verify = vendor_mobile_verify::where('mobile',$request->mobile)->first();
+        //     $vendor_mobile_verify->otp = $randomid;
+        //     $vendor_mobile_verify->save();
+        // }
+        // else{
+        //     $vendor_mobile_verify = new vendor_mobile_verify;
+        //     $vendor_mobile_verify->mobile = $request->mobile;
+        //     $vendor_mobile_verify->otp = $randomid;
+        //     $vendor_mobile_verify->save();
+        // }
+    
+        // $msg= "Dear Customer,
+        
+        // Please use this OTP ".$vendor_mobile_verify->otp." to complete your registration process.
+        
+        // -DARSTORE";
+
+        // $event = new event();
+        // $event->otp_sms($vendor_mobile_verify->mobile,$msg);
+
+        return response()->json(['message' => 'Successfully Send','status'=>1], 200);
+    }
+
+
+    public function verifyvendorotp($mobile,$otp)
+    {
+        if($mobile !=null){
+            $vendor_mobile_verify = vendor_mobile_verify::where('mobile',$mobile)->first();
+            if($vendor_mobile_verify->otp == $otp){
+                
+                return response()->json(['message' => 'Verified Your Account',
+                // 'name'=>$vendor_mobile_verify->id,
+                'status'=>200], 200);
+            }else{
+                return response()->json('Verification Code Not Valid', 500);
+            }
+        }else{
+            return response()->json('Mobile number Not valid', 400);
+        }
+    }
+
     public function saveprofessionalregister(Request $request)
     {
         $this->validate($request, [
@@ -362,9 +591,9 @@ class PageController extends Controller
             'package_id' => 'required',
             'first_name' => 'required',
             'last_name' => 'required',
-            'mobile' => 'required|numeric|digits:9|unique:vendors',
+            'mobile' => 'required|numeric|unique:vendors',
             'city' => 'required',
-            'zipcode' => 'required',
+            'country' => 'required',
             'email' => 'required|unique:vendors',
             'password' => 'min:6|required_with:password_confirmation|same:password_confirmation',
             'password_confirmation' => 'min:6|required',
@@ -398,14 +627,14 @@ class PageController extends Controller
         $vendor->password =  Hash::make ( $request->password );
         $vendor->remember_token = $request->_token;
         $vendor->country = $request->country;
-        //$vendor->country_code = $request->country_code;
+        $vendor->country_code = $request->country_code;
         $vendor->city = $request->city;
         $vendor->area = $request->area;
         $vendor->trade_license_no = $request->trade_license_no;
         $vendor->vat_certificate_no = $request->vat_certificate_no;
         $vendor->civi_id_or_passport = $request->civi_id_or_passport;
         $vendor->commercial_license_no = $request->commercial_license_no;
-        //$vendor->zipcode = $request->zipcode;
+        $vendor->address = $request->address;
         $vendor->status = 1;
 
         if($request->id_proof!=""){

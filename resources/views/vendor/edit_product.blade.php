@@ -358,9 +358,9 @@
                           </div>
                           <div class="col-md-6">
                               <div class="form-group">
-                                <label class="product_group">Select Product Name</label>
+                                <label class="product_group">Select Product Group Name</label>
                                 <select required id="product_group" name="product_group" class="form-control">
-                                    <option value="">SELECT Product Name</option>
+                                    <option value="">SELECT Product Group Name</option>
                                     @foreach($product_group as $product_group1)
                                     @if($product_group1->id == $product->product_group)
                                     <option selected value="{{$product_group1->id}}" >{{$product_group1->group_name}}</option>

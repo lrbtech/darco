@@ -48,7 +48,7 @@
                                             <select onchange="changecountry()" id="country" name="country" class="form-control">
                                               <option value="">SELECT</option>
                                               @foreach($countrydata as $row)
-                                              <option value="{{$row->name}}">{{$row->name}}</option>
+                                              <option value="{{$row->id}}">{{$row->name}}</option>
                                               @endforeach
                                             </select>
                                           </div>

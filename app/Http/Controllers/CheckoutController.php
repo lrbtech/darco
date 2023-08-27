@@ -20,6 +20,9 @@ use App\Models\product_group;
 use App\Models\coupon;
 use App\Models\language;
 use App\Models\settings;
+use App\Models\api_country;
+use App\Models\api_city;
+use App\Models\api_state;
 use Hash;
 use DB;
 use Mail;
@@ -44,13 +47,7 @@ class CheckoutController extends Controller
     {
         $cart_items = Cart::getContent();
         $language = language::all();
-        $curlSession = curl_init();
-		curl_setopt($curlSession, CURLOPT_URL, 'https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/countries.json');
-		curl_setopt($curlSession, CURLOPT_BINARYTRANSFER, true);
-		curl_setopt($curlSession, CURLOPT_RETURNTRANSFER, true);
-
-		$countrydata = json_decode(curl_exec($curlSession));
-		curl_close($curlSession);
+        $countrydata = api_country::all();
         return view('website.checkout', compact('cart_items','language','countrydata'));
     }
 
@@ -83,8 +80,10 @@ class CheckoutController extends Controller
         $shipping_address->floor_no= $request->floor_no;
         $shipping_address->apartment_no= $request->apartment_no;
         $shipping_address->additional_description= $request->additional_description;
-        $shipping_address->country= $request->country;
-        $shipping_address->city= $request->city;
+        $api_country = api_country::find($request->country);
+        $shipping_address->country= $api_country->name;
+        $api_state = api_state::find($request->city);
+        $shipping_address->city= $api_state->name;
         $shipping_address->area= $request->area;
         $shipping_address->is_active= 1;
         $shipping_address->save();
@@ -186,8 +185,10 @@ class CheckoutController extends Controller
             $shipping_address->floor_no= $request->new_floor_no;
             $shipping_address->apartment_no= $request->new_apartment_no;
             $shipping_address->additional_description= $request->new_additional_description;
-            $shipping_address->country= $request->new_country;
-            $shipping_address->city= $request->new_city;
+            $api_country = api_country::find($request->new_country);
+            $shipping_address->country= $api_country->name;
+            $api_state = api_state::find($request->new_city);
+            $shipping_address->city= $api_state->name;
             $shipping_address->area= $request->new_area;
             $shipping_address->is_active= 0;
             $shipping_address->save();

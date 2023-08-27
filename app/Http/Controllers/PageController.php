@@ -25,6 +25,9 @@ use App\Models\package;
 use App\Models\language;
 use App\Models\user_mobile_verify;
 use App\Models\vendor_mobile_verify;
+use App\Models\api_country;
+use App\Models\api_city;
+use App\Models\api_state;
 use Hash;
 use DB;
 use Mail;
@@ -136,49 +139,18 @@ class PageController extends Controller
     }
 
     public function getapicountrycode($id) {
-        $curlSession = curl_init();
-		curl_setopt($curlSession, CURLOPT_URL, 'https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/countries.json');
-		curl_setopt($curlSession, CURLOPT_BINARYTRANSFER, true);
-		curl_setopt($curlSession, CURLOPT_RETURNTRANSFER, true);
+        $country = api_country::find($id);
 
-		$jsonData = json_decode(curl_exec($curlSession));
-		curl_close($curlSession);
-
-
-		$filter = array($id);
-	    $country = array_filter($jsonData, function ($item) use ($filter) {
-			return in_array($item->name, $filter);
-		});
-
-        $output='';
-        if(!empty($country)){
-            foreach($country as $row){
-                $output=$row->phone_code;
-            }
-        }
-
-        echo $output;
+        echo $country->phonecode;
     }
 
     public function getapicity($id) {
-        $curlSession = curl_init();
-		curl_setopt($curlSession, CURLOPT_URL, 'https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/states.json');
-		curl_setopt($curlSession, CURLOPT_BINARYTRANSFER, true);
-		curl_setopt($curlSession, CURLOPT_RETURNTRANSFER, true);
-
-		$jsonData = json_decode(curl_exec($curlSession));
-		curl_close($curlSession);
-
-
-		$filter = array($id);
-	    $area = array_filter($jsonData, function ($item) use ($filter) {
-			return in_array($item->country_name, $filter);
-		});
+        $state = api_state::where('country_id',$id)->get();
 
         $output='<option value="">SELECT</option>';
-        if(!empty($area)){
-            foreach($area as $row){
-                $output.='<option value="'.$row->name.'">'.$row->name.'</option>';
+        if(!empty($state)){
+            foreach($state as $row){
+                $output.='<option value="'.$row->id.'">'.$row->name.'</option>';
             }
         }
 
@@ -186,19 +158,7 @@ class PageController extends Controller
     }
 
     public function getapiarea($id) {
-        $curlSession = curl_init();
-		curl_setopt($curlSession, CURLOPT_URL, 'https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/cities.json');
-		curl_setopt($curlSession, CURLOPT_BINARYTRANSFER, true);
-		curl_setopt($curlSession, CURLOPT_RETURNTRANSFER, true);
-
-		$jsonData = json_decode(curl_exec($curlSession));
-		curl_close($curlSession);
-
-
-		$filter = array($id);
-	    $city = array_filter($jsonData, function ($item) use ($filter) {
-			return in_array($item->state_name, $filter);
-		});
+        $city = api_city::where('state_id',$id)->get();
 
         $output='<option value="">SELECT</option>';
         if(!empty($city)){
@@ -344,13 +304,8 @@ class PageController extends Controller
         $settings = settings::find(1);
         $language = language::all();
 
-        $curlSession = curl_init();
-		curl_setopt($curlSession, CURLOPT_URL, 'https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/countries.json');
-		curl_setopt($curlSession, CURLOPT_BINARYTRANSFER, true);
-		curl_setopt($curlSession, CURLOPT_RETURNTRANSFER, true);
 
-		$countrydata = json_decode(curl_exec($curlSession));
-		curl_close($curlSession);
+		$countrydata = api_country::all();
 
         return view('website.individual_register',compact('countrydata','settings','language'));
     }
@@ -361,13 +316,8 @@ class PageController extends Controller
         $settings = settings::find(1);
         $language = language::all();
 
-        $curlSession = curl_init();
-		curl_setopt($curlSession, CURLOPT_URL, 'https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/master/countries.json');
-		curl_setopt($curlSession, CURLOPT_BINARYTRANSFER, true);
-		curl_setopt($curlSession, CURLOPT_RETURNTRANSFER, true);
+        $countrydata = api_country::all();
 
-		$countrydata = json_decode(curl_exec($curlSession));
-		curl_close($curlSession);
         return view('website.professional_register',compact('countrydata','package','settings','language'));
     }
 
@@ -493,9 +443,13 @@ class PageController extends Controller
         $user->email = $request->email;
         $user->password =  Hash::make ( $request->password );
         $user->remember_token = $request->_token;
-        $user->country = $request->country;
         $user->country_code = $request->country_code;
-        $user->city = $request->city;
+
+        $api_country = api_country::find($request->country);
+        $user->country= $api_country->name;
+        $api_state = api_state::find($request->city);
+        $user->city= $api_state->name;
+
         $user->area = $request->area;
         $user->address = $request->address;
         $user->status = 1;
@@ -626,9 +580,13 @@ class PageController extends Controller
         $vendor->email = $request->email;
         $vendor->password =  Hash::make ( $request->password );
         $vendor->remember_token = $request->_token;
-        $vendor->country = $request->country;
         $vendor->country_code = $request->country_code;
-        $vendor->city = $request->city;
+
+        $api_country = api_country::find($request->country);
+        $vendor->country= $api_country->name;
+        $api_state = api_state::find($request->city);
+        $vendor->city= $api_state->name;
+
         $vendor->area = $request->area;
         $vendor->trade_license_no = $request->trade_license_no;
         $vendor->vat_certificate_no = $request->vat_certificate_no;

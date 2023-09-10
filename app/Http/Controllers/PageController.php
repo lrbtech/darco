@@ -376,25 +376,31 @@ class PageController extends Controller
             'password_confirmation' => 'min:6|required',
         ]);
 
-        // $randomid = mt_rand(1000,9999); 
-        // $exist = user_mobile_verify::where('mobile',$request->mobile)->first();
-        // if(!empty($exist)){
-        //     $user_mobile_verify = user_mobile_verify::where('mobile',$request->mobile)->first();
-        //     $user_mobile_verify->otp = $randomid;
-        //     $user_mobile_verify->save();
-        // }
-        // else{
-        //     $user_mobile_verify = new user_mobile_verify;
-        //     $user_mobile_verify->mobile = $request->mobile;
-        //     $user_mobile_verify->otp = $randomid;
-        //     $user_mobile_verify->save();
-        // }
+        $randomid = mt_rand(1000,9999); 
+        $exist = user_mobile_verify::where('email',$request->email)->first();
+        if(!empty($exist)){
+            $user_mobile_verify = user_mobile_verify::where('email',$request->email)->first();
+            $user_mobile_verify->otp = $randomid;
+            $user_mobile_verify->save();
+        }
+        else{
+            $user_mobile_verify = new user_mobile_verify;
+            $user_mobile_verify->mobile = $request->mobile;
+            $user_mobile_verify->otp = $randomid;
+            $user_mobile_verify->save();
+        }
     
-        // $msg= "Dear Customer,
+        $msg= "Dear Customer,
         
-        // Please use this OTP ".$user_mobile_verify->otp." to complete your registration process.
+        Please use this OTP ".$user_mobile_verify->otp." to complete your registration process.
         
-        // -DARSTORE";
+        -DARSTORE";
+
+        $all = user_mobile_verify::find($user_mobile_verify->id);
+        Mail::send('mail.otp_mail',compact('all'),function($message) use($all){
+            $message->to($all['email'])->subject('Verify your DARSTORE Account');
+            $message->from('mail.lrbinfotech@gmail.com','DARSTORE');
+        });
 
         // $event = new event();
         // $event->otp_sms($user_mobile_verify->mobile,$msg);
@@ -406,7 +412,7 @@ class PageController extends Controller
     public function verifyuserotp($mobile,$otp)
     {
         if($mobile !=null){
-            $user_mobile_verify = user_mobile_verify::where('mobile',$mobile)->first();
+            $user_mobile_verify = user_mobile_verify::where('email',$mobile)->first();
             if($user_mobile_verify->otp == $otp){
                 
                 return response()->json(['message' => 'Verified Your Account',
@@ -493,25 +499,32 @@ class PageController extends Controller
             'package_id.required' => 'Choose Package is Required',
         ]);
 
-        // $randomid = mt_rand(1000,9999); 
-        // $exist = vendor_mobile_verify::where('mobile',$request->mobile)->first();
-        // if(!empty($exist)){
-        //     $vendor_mobile_verify = vendor_mobile_verify::where('mobile',$request->mobile)->first();
-        //     $vendor_mobile_verify->otp = $randomid;
-        //     $vendor_mobile_verify->save();
-        // }
-        // else{
-        //     $vendor_mobile_verify = new vendor_mobile_verify;
-        //     $vendor_mobile_verify->mobile = $request->mobile;
-        //     $vendor_mobile_verify->otp = $randomid;
-        //     $vendor_mobile_verify->save();
-        // }
+        $randomid = mt_rand(1000,9999); 
+        $exist = vendor_mobile_verify::where('email',$request->email)->first();
+        if(!empty($exist)){
+            $vendor_mobile_verify = vendor_mobile_verify::where('email',$request->email)->first();
+            $vendor_mobile_verify->otp = $randomid;
+            $vendor_mobile_verify->save();
+        }
+        else{
+            $vendor_mobile_verify = new vendor_mobile_verify;
+            $vendor_mobile_verify->email = $request->email;
+            //$vendor_mobile_verify->mobile = $request->mobile;
+            $vendor_mobile_verify->otp = $randomid;
+            $vendor_mobile_verify->save();
+        }
     
-        // $msg= "Dear Customer,
+        $msg= "Dear Customer,
         
-        // Please use this OTP ".$vendor_mobile_verify->otp." to complete your registration process.
+        Please use this OTP ".$vendor_mobile_verify->otp." to complete your registration process.
         
-        // -DARSTORE";
+        -DARSTORE";
+
+        $all = vendor_mobile_verify::find($vendor_mobile_verify->id);
+        Mail::send('mail.otp_mail',compact('all'),function($message) use($all){
+            $message->to($all['email'])->subject('Verify your DARSTORE Account');
+            $message->from('mail.lrbinfotech@gmail.com','DARSTORE');
+        });
 
         // $event = new event();
         // $event->otp_sms($vendor_mobile_verify->mobile,$msg);
@@ -523,7 +536,7 @@ class PageController extends Controller
     public function verifyvendorotp($mobile,$otp)
     {
         if($mobile !=null){
-            $vendor_mobile_verify = vendor_mobile_verify::where('mobile',$mobile)->first();
+            $vendor_mobile_verify = vendor_mobile_verify::where('email',$mobile)->first();
             if($vendor_mobile_verify->otp == $otp){
                 
                 return response()->json(['message' => 'Verified Your Account',

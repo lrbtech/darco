@@ -126,6 +126,7 @@
                                             </div>
                                             <!-- <a href="/privacy-policy"><i class="fi-rs-book-alt mr-5 text-muted"></i>Lean more</a> -->
                                         </div>
+                                        <div id="recaptcha-container"></div>
                                         <div class="form-group mb-30">
                                           
                                           <button onclick="Send()" type="button" class="btn btn-fill-out btn-block hover-up font-weight-bold" name="login">Submit &amp; Register</button>
@@ -155,7 +156,22 @@
 @endsection
 @section('extra-js')
 
-
+<script src="https://www.gstatic.com/firebasejs/6.0.2/firebase.js"></script>
+  
+<script>
+      
+  var firebaseConfig = {
+    apiKey: "AIzaSyCq7oCiv7fDIZ4UGDUnW4gTso43VJeVUUI",
+    authDomain: "darstore-335c3.firebaseapp.com",
+    projectId: "darstore-335c3",
+    storageBucket: "darstore-335c3.appspot.com",
+    messagingSenderId: "1033027003222",
+    appId: "1:1033027003222:web:3066ac26694c9fdc332cf7",
+    measurementId: "G-0MY5YNXKFD"
+  };
+    
+  firebase.initializeApp(firebaseConfig);
+</script>
 <script>
 $('#privacy_policy').click(function(){
   // alert('hi');
@@ -238,44 +254,48 @@ function Send(){
 			success: function(data)
 			{     
 				spinner_body.hide();  
-				$("#savebutton").attr("disabled", false);  
-				if(data.status == 1){
-					var email = $('#email').val();
-					Swal.fire({
-					title: 'Verify Your Otp',
-					input: 'text',
-					inputAttributes: {
-						autocapitalize: 'off'
-					},
-					showCancelButton: true,
-					confirmButtonText: 'Verify',
-					showLoaderOnConfirm: true,
-					preConfirm: (otp) => {
-						return fetch('verify-user-otp/'+email+'/'+otp)
-						.then(response => {
-							if (!response.ok) {
-								throw new Error(response.statusText)
-							}
-							// Swal.showValidationMessage(response)
-							return response.json()
-						})
-						.catch(error => {
-							// Swal.showValidationMessage(
-							// `Request failed: ${error}`
-							// )
-							Swal.showValidationMessage(`Invalid OTP`)
-						})
-					},
-					allowOutsideClick: () => !Swal.isLoading()
-					}).then((result) => {
-						if (result.isConfirmed) {
-							Save();
-						}
-						else {
-							$("#savebutton").attr("disabled", false);
-						}
-					})
-				}
+				$("#savebutton").attr("disabled", false); 
+
+        var mobile = $('#mobile').val();
+        var country_code = $('#country_code').val();
+        var number = '+'+''+country_code+''+mobile;
+
+        phoneSendAuth(number);
+  
+        Swal.fire({
+        title: 'Verify Your Otp',
+        input: 'text',
+        inputAttributes: {
+          autocapitalize: 'off'
+        },
+        showCancelButton: true,
+        confirmButtonText: 'Verify',
+        showLoaderOnConfirm: true,
+        preConfirm: (otp) => {
+          return coderesult.confirm(otp).then(function (result) {
+              // var user=result.user;
+              allowOutsideClick: () => !Swal.isLoading()
+              console.log("success");
+              Save();
+              return true;
+          }).catch(function (error) {
+              // $("#error").text(error.message);
+              // $("#error").show();
+              //toastr.error("invalid code");
+              console.log("invalid code");
+              Swal.showValidationMessage("invalid code")
+             
+          });
+        },
+        
+        }).then((result) => {
+          // if (result.isConfirmed) {
+        
+          // }
+          // else {
+          //   $("#savebutton").attr("disabled", false);
+          // }
+        })
         			
 			},error: function (data) {
 				spinner_body.hide();    
@@ -292,7 +312,30 @@ function Send(){
 	
 }
 
+function phoneSendAuth(number) { 
+  firebase.auth().signInWithPhoneNumber(number,window.recaptchaVerifier).then(function (confirmationResult) {
+      window.confirmationResult=confirmationResult;
+      coderesult=confirmationResult;
+      console.log(coderesult);
+      // $("#sentSuccess").text("Message Sent Successfully.");
+      // $("#sentSuccess").show();
+  }).catch(function (error) {
+      // $("#error").text(error.message);
+      // $("#error").show();
+      toastr.error(error.message);
+  });
+}
 
+function codeverify(code) {
+    coderesult.confirm(code).then(function (result) {
+        var user=result.user;
+        console.log(user);
+    }).catch(function (error) {
+        // $("#error").text(error.message);
+        // $("#error").show();
+        toastr.error(error.message);
+    });
+}
 
 function Save(){
   if ($("#privacy_policy").is(":checked")) {

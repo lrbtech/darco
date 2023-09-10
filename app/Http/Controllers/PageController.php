@@ -397,7 +397,7 @@ class PageController extends Controller
         -DARSTORE";
 
         $all = user_mobile_verify::find($user_mobile_verify->id);
-        Mail::send('mail.otp_mail',compact('all'),function($message) use($all){
+        Mail::send('mail.otp_mail',compact('msg'),function($message) use($all){
             $message->to($all['email'])->subject('Verify your DARSTORE Account');
             $message->from('mail.lrbinfotech@gmail.com','DARSTORE');
         });
@@ -521,7 +521,7 @@ class PageController extends Controller
         -DARSTORE";
 
         $all = vendor_mobile_verify::find($vendor_mobile_verify->id);
-        Mail::send('mail.otp_mail',compact('all'),function($message) use($all){
+        Mail::send('mail.otp_mail',compact('msg'),function($message) use($all){
             $message->to($all['email'])->subject('Verify your DARSTORE Account');
             $message->from('mail.lrbinfotech@gmail.com','DARSTORE');
         });

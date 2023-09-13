@@ -385,7 +385,7 @@ class PageController extends Controller
         }
         else{
             $user_mobile_verify = new user_mobile_verify;
-            $user_mobile_verify->mobile = $request->mobile;
+            $user_mobile_verify->email = $request->email;
             $user_mobile_verify->otp = $randomid;
             $user_mobile_verify->save();
         }

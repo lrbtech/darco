@@ -13,6 +13,9 @@ use App\Models\idea_book;
 use App\Models\idea_book_images;
 use App\Models\city;
 use App\Models\language;
+use App\Models\api_country;
+use App\Models\api_city;
+use App\Models\api_state;
 use Yajra\DataTables\Facades\DataTables;
 use Auth;
 use DB;
@@ -287,7 +290,9 @@ class SettingsController extends Controller
         $profile = vendor::find(Auth::guard('vendor')->user()->id);
         $city = city::where('parent_id',0)->where('status',0)->orderBy('id','ASC')->get();
         $language = language::all();
-        return view('vendor.profile',compact('profile','city','language'));
+        $countrydata = api_country::all();
+
+        return view('vendor.profile',compact('profile','city','language','countrydata'));
     }
 
     public function updateprofile(Request $request){
@@ -313,7 +318,11 @@ class SettingsController extends Controller
         $profile->email = $request->email;
         $profile->website = $request->website;
         $profile->address = $request->address;
-        $profile->city = $request->city;
+        $profile->country_code = $request->country_code;
+        $api_country = api_country::find($request->country);
+        $profile->country= $api_country->name;
+        $api_state = api_state::find($request->city);
+        $profile->city= $api_state->name;
         $profile->area = $request->area;
 
         if($request->profile_image!=""){

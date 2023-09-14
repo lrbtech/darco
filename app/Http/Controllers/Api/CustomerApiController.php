@@ -479,7 +479,7 @@ class CustomerApiController extends Controller
         foreach ($products as $key => $value) {
             $cat = category::find($value->category);
             $vendor = vendor::find($value->vendor_id);
-            $city = city::find($vendor->city);
+            //$city = city::find($vendor->city);
             $data = array(
                 'product_id' => $value->id,
                 'image' => '',
@@ -517,7 +517,7 @@ class CustomerApiController extends Controller
         foreach ($products as $key => $value) {
             $cat = category::find($value->category);
             $vendor = vendor::find($value->vendor_id);
-            $city = city::find($vendor->city);
+            //$city = city::find($vendor->city);
             $data = array(
                 'review_count' => '',
                 'review_average' => '',
@@ -529,7 +529,7 @@ class CustomerApiController extends Controller
                 'sales_price' => $value->sales_price,
                 'vendor' => $vendor->business_name,
                 'category' => $cat->category,
-                'city' => $city->city,
+                'city' => $vendor->city,
             );
             if(!empty($value->image)){
                 $data['image'] = $value->image;
@@ -582,7 +582,7 @@ class CustomerApiController extends Controller
 
             $cat = category::find($value->category);
             $vendor = vendor::find($value->vendor_id);
-            $city = city::find($vendor->city);
+           // $city = city::find($vendor->city);
             $data = array(
                 'review_count' => '',
                 'review_average' => '',
@@ -595,7 +595,7 @@ class CustomerApiController extends Controller
                 'sales_price' => $value->sales_price,
                 'vendor' => $vendor->business_name,
                 'category' => $cat->category,
-                'city' => $city->city,
+                'city' => $vendor->city,
             );
             if($value->product_name_arabic != ''){
                 $data['product_name_arabic']=$value->product_name_arabic;
@@ -631,7 +631,7 @@ class CustomerApiController extends Controller
         $data =array();
         $cat = category::find($product->category);
         $vendor = vendor::find($product->vendor_id);
-        $city = city::find($vendor->city);
+        //$city = city::find($vendor->city);
         $data = array(
             'review_count' => '',
             'review_average' => '',
@@ -648,7 +648,7 @@ class CustomerApiController extends Controller
             'vendor_website' => '',
             'vendor_image' => '',
             'category' => $cat->category,
-            'city' => $city->city,
+            'city' => $vendor->city,
             'stock' => $product->stock,
             'specifications' => $product->mobile_specifications,
             'description' => $product->mobile_description,
@@ -711,7 +711,7 @@ class CustomerApiController extends Controller
             'sales_price' => $product->sales_price,
             'vendor' => $vendor->business_name,
             'category' => $cat->category,
-            'city' => $city->city,
+            'city' => $vendor->city,
             'stock' => $product->stock,
             'specifications' => $product->mobile_specifications,
             'description' => $product->mobile_description,
@@ -881,7 +881,7 @@ class CustomerApiController extends Controller
         foreach ($products as $key => $value) {
             $cat = category::find($value->category);
             $vendor = vendor::find($value->vendor_id);
-            $city = city::find($vendor->city);
+            //$city = city::find($vendor->city);
             $data = array(
                 'review_count' => '',
                 'review_average' => '',
@@ -892,7 +892,7 @@ class CustomerApiController extends Controller
                 'sales_price' => $value->sales_price,
                 'vendor' => $vendor->business_name,
                 'category' => $cat->category,
-                'city' => $city->city,
+                'city' => $vendor->city,
             );
             if(!empty($value->image)){
                 $data['image'] = $value->image;
@@ -938,7 +938,7 @@ class CustomerApiController extends Controller
         foreach ($project as $key => $value) {
             $cat = professional_category::find($value->category);
             $vendor = vendor::find($value->vendor_id);
-            $city = city::find($vendor->city);
+            //$city = city::find($vendor->city);
             $data = array(
                 'vendor_name' => $vendor->first_name.' '.$vendor->last_name,
                 'project_id' => $value->id,
@@ -946,7 +946,7 @@ class CustomerApiController extends Controller
                 'description' => $value->description,
                 'image' => '',
                 'category' => $cat->category,
-                'city' => $city->city,
+                'city' => $vendor->city,
             );
             if(!empty($value->image)){
                 $data['image'] = $value->image;
@@ -971,7 +971,7 @@ class CustomerApiController extends Controller
         foreach ($project as $key => $value) {
             $cat = professional_category::find($value->category);
             $vendor = vendor::find($value->vendor_id);
-            $city = city::find($vendor->city);
+            //$city = city::find($vendor->city);
             $data = array(
                 'vendor_name' => $vendor->first_name.' '.$vendor->last_name,
                 'project_id' => $value->id,
@@ -979,7 +979,7 @@ class CustomerApiController extends Controller
                 'description' => $value->description,
                 'image' => '',
                 'category' => $cat->category,
-                'city' => $city->city,
+                'city' => $vendor->city,
             );
             if(!empty($value->image)){
                 $data['image'] = $value->image;
@@ -995,7 +995,7 @@ class CustomerApiController extends Controller
         $data =array();
         $cat = professional_category::find($project->category);
         $vendor = vendor::find($project->vendor_id);
-        $city = city::find($vendor->city);
+        //$city = city::find($vendor->city);
         $data = array(
             'vendor_name' => $vendor->first_name.' '.$vendor->last_name,
             'vendor_id' => $vendor->id,
@@ -1004,7 +1004,7 @@ class CustomerApiController extends Controller
             'description' => $project->description,
             'image' => '',
             'category' => $cat->category,
-            'city' => $city->city,
+            'city' => $vendor->city,
             'vendor_address' => '',
             'vendor_website' => '',
             'vendor_image' => '',
@@ -1052,7 +1052,7 @@ class CustomerApiController extends Controller
         foreach ($get_ideas as $key => $value) {
             $cat = idea_category::find($value->category);
             $vendor = vendor::find($value->vendor_id);
-            $city = city::find($vendor->city);
+            //$city = city::find($vendor->city);
             $data = array(
                 'vendor_name' => $vendor->first_name.' '.$vendor->last_name,
                 'idea_book_id' => $value->id,
@@ -1060,7 +1060,7 @@ class CustomerApiController extends Controller
                 'description' => $value->description,
                 'image' => '',
                 'category' => $cat->category,
-                'city' => $city->city,
+                'city' => $vendor->city,
             );
             if(!empty($value->image)){
                 $data['image'] = $value->image;
@@ -1090,7 +1090,7 @@ class CustomerApiController extends Controller
         foreach ($get_ideas as $key => $value) {
             $cat = idea_category::find($value->category);
             $vendor = vendor::find($value->vendor_id);
-            $city = city::find($vendor->city);
+            //$city = city::find($vendor->city);
             $data = array(
                 'vendor_name' => $vendor->first_name.' '.$vendor->last_name,
                 'idea_book_id' => $value->id,
@@ -1098,7 +1098,7 @@ class CustomerApiController extends Controller
                 'description' => $value->description,
                 'image' => '',
                 'category' => $cat->category,
-                'city' => $city->city,
+                'city' => $vendor->city,
             );
             if(!empty($value->image)){
                 $data['image'] = $value->image;
@@ -1123,7 +1123,7 @@ class CustomerApiController extends Controller
         foreach ($get_ideas as $key => $value) {
             $cat = idea_category::find($value->category);
             $vendor = vendor::find($value->vendor_id);
-            $city = city::find($vendor->city);
+            //$city = city::find($vendor->city);
             $data = array(
                 'vendor_name' => $vendor->first_name.' '.$vendor->last_name,
                 'idea_book_id' => $value->id,
@@ -1131,7 +1131,7 @@ class CustomerApiController extends Controller
                 'description' => $value->description,
                 'image' => '',
                 'category' => $cat->category,
-                'city' => $city->city,
+                'city' => $vendor->city,
             );
             if(!empty($value->image)){
                 $data['image'] = $value->image;
@@ -1147,7 +1147,7 @@ class CustomerApiController extends Controller
         $data =array();
         $cat = idea_category::find($get_ideas->category);
         $vendor = vendor::find($get_ideas->vendor_id);
-        $city = city::find($vendor->city);
+        //$city = city::find($vendor->city);
         $data = array(
             'vendor_name' => $vendor->first_name.' '.$vendor->last_name,
             'vendor_id' => $vendor->id,
@@ -1156,7 +1156,7 @@ class CustomerApiController extends Controller
             'description' => $get_ideas->description,
             'image' => '',
             'category' => $cat->category,
-            'city' => $city->city,
+            'city' => $vendor->city,
             'vendor_address' => '',
             'vendor_website' => '',
             'vendor_image' => '',

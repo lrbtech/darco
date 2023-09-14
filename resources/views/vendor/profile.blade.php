@@ -66,10 +66,21 @@
                               <input value="{{$profile->username}}" type="text" id="username" class="form-control" placeholder="Username" name="username">
                             </div>
                           </div>
-                          <div class="col-md-6">
+                          <!-- <div class="col-md-6">
                             <div class="form-group">
                               <label for="mobile">Mobile Number</label>
                               <input value="{{$profile->mobile}}" type="text" id="mobile" class="form-control" placeholder="Mobile Number" name="mobile">
+                            </div>
+                          </div> -->
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label>Mobile</label>
+                              <div class="input-group">
+                                <div style="width:30%;" class="input-group-prepend">
+                                  <input value="{{$profile->country_code}}" readonly type="text" name="country_code" id="country_code">
+                                </div>
+                                <input value="{{$profile->mobile}}" style="width:70%;" type="number" class="form-control" name="mobile" id="mobile" placeholder="Mobile">
+                              </div>
                             </div>
                           </div>
                           <div class="col-md-6">
@@ -99,26 +110,30 @@
                           </div>
                         </div>
                         <div class="row">
-                          <div class="col-md-6">
-                            <div class="form-group">
-                              <label>City</label>
-                              <select onchange="changecity()" id="city" name="city" class="form-control">
-                                <option value="">SELECT</option>
-                                @foreach($city as $city1)
-                                @if($city1->id == $profile->city)
-                                <option selected value="{{$city1->id}}" >{{$city1->city}}</option>
-                                @else
-                                <option value="{{$city1->id}}" >{{$city1->city}}</option>
-                                @endif
+                          <div class="col-md-4">
+                            <div class="form-group mb-3">
+                              <label>Country</label>
+                              <select onchange="changecountry()" id="country" name="country" class="form-control">
+                                <option value="{{$profile->country}}">{{$profile->country}}</option>
+                                @foreach($countrydata as $row)
+                                <option value="{{$row->id}}">{{$row->name}}</option>
                                 @endforeach
                               </select>
                             </div>
                           </div>
-                          <div class="col-md-6">
+                          <div class="col-md-4">
+                            <div class="form-group">
+                              <label>City</label>
+                              <select onchange="changecity()" id="city" name="city" class="form-control">
+                                <option value="{{$profile->city}}">{{$profile->city}}</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-md-4">
                             <div class="form-group">
                               <label>Area</label>
                               <select id="area" name="area" class="form-control">
-                                <option value="">SELECT</option>
+                                <option value="{{$profile->area}}">{{$profile->area}}</option>
                               </select>
                             </div>
                           </div>
@@ -162,28 +177,57 @@
 <script>
 $('.profile').addClass('active');
 
-getarea();
-function getarea(){
+//getarea();
+// function getarea(){
+//   $.ajax({
+//       url : '/get-area/'+<?php //echo $profile->city; ?>,
+//       type: "GET",
+//       success: function(data)
+//       {
+//         $('#area').html(data);
+//         $('select[name=area]').val(<?php //echo $profile->area; ?>);
+//       }
+//   });
+// }
+
+function changecountry(){
+  spinner_body.show();
+  var id = $('#country').val();
   $.ajax({
-      url : '/get-area/'+<?php echo $profile->city; ?>,
-      type: "GET",
-      success: function(data)
-      {
-        $('#area').html(data);
-        $('select[name=area]').val(<?php echo $profile->area; ?>);
-      }
+    url : '/get-api-city/'+id,
+    type: "GET",
+    success: function(data)
+    {
+      $('#city').html(data);
+      spinner_body.hide();
+      getapicountrycode(id);
+    }
   });
 }
 
 function changecity(){
+  spinner_body.show();
   var id = $('#city').val();
-  // alert(id);
   $.ajax({
-    url : '/get-area/'+id,
+    url : '/get-api-area/'+id,
     type: "GET",
     success: function(data)
     {
       $('#area').html(data);
+      spinner_body.hide();
+    }
+  });
+}
+
+function getapicountrycode(id){
+  spinner_body.show();
+  $.ajax({
+    url : '/get-api-countrycode/'+id,
+    type: "GET",
+    success: function(data)
+    {
+      $('#country_code').val(data);
+      spinner_body.hide();
     }
   });
 }

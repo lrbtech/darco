@@ -336,6 +336,7 @@ function Send(){
 					var email = $('#email').val();
 					Swal.fire({
 					title: 'Verify Your Otp',
+          text: '(We have sent OTP to your Email)',
 					input: 'text',
 					inputAttributes: {
 						autocapitalize: 'off'

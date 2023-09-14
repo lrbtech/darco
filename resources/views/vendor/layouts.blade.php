@@ -33,6 +33,15 @@
   <link rel="stylesheet" type="text/css" href="/app-assets/css/pages/timeline.css">
   <!-- END Page Level CSS-->
   <!-- BEGIN Custom CSS-->
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RVVY4PEBQD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RVVY4PEBQD');
+</script>
   <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
   <script src="/theme/iconify.min.js" type="text/javascript"></script>
 <style>

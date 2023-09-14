@@ -40,6 +40,15 @@
   <!-- BEGIN Custom CSS-->
   <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
   <!-- END Custom CSS-->
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RVVY4PEBQD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RVVY4PEBQD');
+</script>
   @yield('extra-css')
   <script src="/spinner/jquery-spinner.min.js" type="text/javascript"></script>
   <style>

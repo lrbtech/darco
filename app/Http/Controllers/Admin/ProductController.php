@@ -332,8 +332,8 @@ class ProductController extends Controller
         $product->mrp_price = $request->mrp_price;
         $product->sales_price = $request->sales_price;
         $product->stock = $request->stock;
-        $product->description = $request->description;
-        $product->specifications = $request->specifications;
+        //$product->description = $request->description;
+        //$product->specifications = $request->specifications;
         // $product->description_arabic = $request->description_arabic;
         // $product->specifications_arabic = $request->specifications_arabic;
         $product->mobile_description = $request->mobile_description;

@@ -120,7 +120,7 @@ class ProductController extends Controller
           ],[
             'image.mimes' => 'Only jpeg, png and jpg images are allowed',
             'image.max' => 'Sorry! Maximum allowed size for an image is 1MB',
-            'image.required' => 'The Product 1st image field is required',
+            'image.required' => 'The Product Primary image field is required',
         ]);
 
         if(isset($_FILES['images'])){
@@ -172,8 +172,8 @@ class ProductController extends Controller
         $product->mrp_price = $request->mrp_price;
         $product->sales_price = $request->sales_price;
         $product->stock = $request->stock;
-        $product->description = $request->description;
-        $product->specifications = $request->specifications;
+        //$product->description = $request->description;
+        //$product->specifications = $request->specifications;
         // $product->description_arabic = $request->description_arabic;
         // $product->specifications_arabic = $request->specifications_arabic;
         $product->mobile_description = $request->mobile_description;
@@ -279,6 +279,9 @@ class ProductController extends Controller
             'image.max' => 'Sorry! Maximum allowed size for an image is 1MB',
         ]);
 
+        $product = product::find($request->id);
+
+        if($product->status == 0){
         if(isset($_FILES['images'])){
             $name_array = $_FILES['images']['name'];
             $tmp_name_array = $_FILES['images']['tmp_name'];
@@ -293,8 +296,9 @@ class ProductController extends Controller
                 }
             }
         }
+        }
         
-        $product = product::find($request->id);
+        
         $product->product_group = $request->product_group;
         $product->product_name = $request->product_name;
         $product->product_name_arabic = $request->product_name_arabic;
@@ -305,8 +309,8 @@ class ProductController extends Controller
         $product->mrp_price = $request->mrp_price;
         $product->sales_price = $request->sales_price;
         $product->stock = $request->stock;
-        $product->description = $request->description;
-        $product->specifications = $request->specifications;
+        //$product->description = $request->description;
+        //$product->specifications = $request->specifications;
         // $product->description_arabic = $request->description_arabic;
         // $product->specifications_arabic = $request->specifications_arabic;
         $product->mobile_description = $request->mobile_description;
@@ -325,6 +329,7 @@ class ProductController extends Controller
         $product->rest_assured_seller = $request->rest_assured_seller;
         $product->most_trusted = $request->most_trusted;
 
+        if($product->status == 0){
         if($request->image!=""){
             $old_image = "product_image/".$product->image;
             if (file_exists($old_image)) {
@@ -336,6 +341,7 @@ class ProductController extends Controller
             $image->move(public_path('product_image/'), $upload_image);
             $product->image = $upload_image;
             }
+        }
         }
 
         $product->save();
@@ -374,6 +380,7 @@ class ProductController extends Controller
             }
         }
 
+        if($product->status == 0){
         if(isset($_FILES['images'])){
             $name_array = $_FILES['images']['name'];
             $tmp_name_array = $_FILES['images']['tmp_name'];
@@ -430,6 +437,7 @@ class ProductController extends Controller
                     }
                 }
             }
+        }
         }
 
         $old_product_specifications = product_specifications::where('product_id',$product->id)->delete();

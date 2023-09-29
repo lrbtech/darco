@@ -458,14 +458,14 @@ class PageController extends Controller
 
         $user->area = $request->area;
         $user->address = $request->address;
-        $user->status = 1;
+        $user->status = 0;
         $user->save();
 
-        $all = User::find($user->id);
-        Mail::send('mail.verify_mail',compact('all'),function($message) use($all){
-            $message->to($all['email'])->subject('Verify your DARSTORE Account');
-            $message->from('mail.lrbinfotech@gmail.com','DARSTORE');
-        });
+        // $all = User::find($user->id);
+        // Mail::send('mail.verify_mail',compact('all'),function($message) use($all){
+        //     $message->to($all['email'])->subject('Verify your DARSTORE Account');
+        //     $message->from('mail.lrbinfotech@gmail.com','DARSTORE');
+        // });
         
         return response()->json('save successfully'); 
     }
@@ -606,7 +606,7 @@ class PageController extends Controller
         $vendor->civi_id_or_passport = $request->civi_id_or_passport;
         $vendor->commercial_license_no = $request->commercial_license_no;
         $vendor->address = $request->address;
-        $vendor->status = 1;
+        $vendor->status = 0;
 
         if($request->id_proof!=""){
             if($request->file('id_proof')!=""){
@@ -646,11 +646,11 @@ class PageController extends Controller
 
         $vendor->save();
         
-        $all = vendor::find($vendor->id);
-        Mail::send('mail.verify_vendor_mail',compact('all'),function($message) use($all){
-            $message->to($all['email'])->subject('Verify your DARSTORE Account');
-            $message->from('mail.lrbinfotech@gmail.com','DARSTORE');
-        });
+        // $all = vendor::find($vendor->id);
+        // Mail::send('mail.verify_vendor_mail',compact('all'),function($message) use($all){
+        //     $message->to($all['email'])->subject('Verify your DARSTORE Account');
+        //     $message->from('mail.lrbinfotech@gmail.com','DARSTORE');
+        // });
 
         return response()->json('save successfully'); 
     }

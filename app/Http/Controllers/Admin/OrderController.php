@@ -93,17 +93,22 @@ class OrderController extends Controller
             })
 
             ->addColumn('shipping_status', function ($orders) {
-                if($orders->shipping_status == 0){
-                    return 'Order Placed';
+                if($orders->status == 0){
+                    if($orders->shipping_status == 0){
+                        return 'Order Placed';
+                    }
+                    elseif($orders->shipping_status == 1){
+                        return 'Order Processing';
+                    }
+                    elseif($orders->shipping_status == 2){
+                        return 'Order Dispatched';
+                    }
+                    elseif($orders->shipping_status == 3){
+                        return 'Delivered';
+                    }
                 }
-                elseif($orders->shipping_status == 1){
-                    return 'Order Processing';
-                }
-                elseif($orders->shipping_status == 2){
-                    return 'Order Dispatched';
-                }
-                elseif($orders->shipping_status == 3){
-                    return 'Delivered';
+                else{
+                    return 'Order Cancelled';
                 }
             })
 

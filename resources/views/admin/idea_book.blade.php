@@ -60,7 +60,7 @@
                   </form>
                 </div>
                 <div class="card-content collapse show">
-                  <div class="card-body card-dashboard">
+                  <div class="card-body card-dashboard table-responsive">
                     <table id="datatable" class="table table-striped table-bordered zero-configuration">
                       <thead>
                         <tr>
@@ -87,9 +87,9 @@
                               @if($row->status == 0)
                               Waiting for Admin Approval
                               @elseif($row->status == 1)
-                              Active
+                              Approved
                               @elseif($row->status == 2)
-                              DeActive
+                              Rejected
                               @endif
                             </td>
                             <td>
@@ -99,11 +99,11 @@
                                         <button onclick="Edit({{$row->id}})"class="dropdown-item" type="button">Edit</button>
                                         <div class="dropdown-divider"></div>
                                         @if($row->status == 0)
-                                        <button onclick="Delete({{$row->id}},1)"class="dropdown-item" type="button">Active</button>
+                                        <button onclick="Delete({{$row->id}},1)"class="dropdown-item" type="button">Approve</button>
                                         @elseif($row->status == 1)
-                                        <button onclick="Delete({{$row->id}},2)"class="dropdown-item" type="button">DeActive</button>
+                                        <button onclick="Delete({{$row->id}},2)"class="dropdown-item" type="button">Reject</button>
                                         @else 
-                                        <button onclick="Delete({{$row->id}},1)"class="dropdown-item" type="button">Active</button>
+                                        <button onclick="Delete({{$row->id}},1)"class="dropdown-item" type="button">Approve</button>
                                         @endif
                                     </div>
                                 </div>

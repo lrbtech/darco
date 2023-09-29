@@ -48,11 +48,7 @@
 
         @else 
 
-        <li class="profile nav-item">
-          <a class="nav-link" href="/vendor/profile"><i class="la la-user"></i>
-            <span>My Profile</span>
-          </a>
-        </li>
+        
         <li class="about-us nav-item">
           <a class="nav-link" href="/vendor/about-us"><i class="la la-users"></i>
             <span>About Us</span>
@@ -78,6 +74,18 @@
         <li class="product-reviews nav-item">
           <a class="nav-link" href="/vendor/product-reviews"><i class="la la-star"></i>
             <span>Reviews</span>
+          </a>
+        </li>
+
+        <li class="profile nav-item">
+          <a class="nav-link" href="/vendor/profile"><i class="la la-user"></i>
+            <span>My Profile</span>
+          </a>
+        </li>
+
+        <li class="profile nav-item">
+          <a class="nav-link" href="/home"><i class="la la-home"></i>
+            <span>Back to Homepage</span>
           </a>
         </li>
 

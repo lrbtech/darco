@@ -22,7 +22,7 @@
             @endif
                 <div class="row align-items-center">
                     <div class="col-xl-3">
-                        <h1 class="mb-15">GET IDEAS</h1>
+                        <h1 class="mb-15">Get Design</h1>
                         <div class="breadcrumb">
                             <a href="/" rel="nofollow"><i class="fi-rs-home mr-5"></i>@if(!empty($category_data))
                             {{$category_data->category}}

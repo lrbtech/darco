@@ -117,6 +117,9 @@ class IdeaBookController extends Controller
             'image.max' => 'Sorry! Maximum allowed size for an image is 1MB',
         ]);
 
+        $idea_book = idea_book::find($request->id);
+
+        if($idea_book->status == 0){
         if(isset($_FILES['images'])){
             $name_array = $_FILES['images']['name'];
             $tmp_name_array = $_FILES['images']['tmp_name'];
@@ -131,13 +134,15 @@ class IdeaBookController extends Controller
                 }
             }
         }
+        }
         
-        $idea_book = idea_book::find($request->id);
+        
         $idea_book->title = $request->title;
         $idea_book->category = $request->category;
         $idea_book->subcategory = $request->subcategory;
         $idea_book->description = $request->description;
 
+        if($idea_book->status == 0){
         if($request->image!=""){
             $old_image = "project_image/".$idea_book->image;
             if (file_exists($old_image)) {
@@ -150,9 +155,11 @@ class IdeaBookController extends Controller
             $idea_book->image = $upload_image;
             }
         }
+        }
 
         $idea_book->save();
 
+        if($idea_book->status == 0){
         if(isset($_FILES['images'])){
             $name_array = $_FILES['images']['name'];
             $tmp_name_array = $_FILES['images']['tmp_name'];
@@ -209,6 +216,7 @@ class IdeaBookController extends Controller
                     }
                 }
             }
+        }
         }
 
         return response()->json(['message'=>'Your Idea Book is Update Successfully','status'=>0], 200);  

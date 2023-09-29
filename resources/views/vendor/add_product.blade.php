@@ -269,7 +269,7 @@
                       <!-- Step 1 -->
                       <h6>Description</h6>
                       <fieldset>
-                        <div class="row">
+                        <!-- <div class="row">
                           <div class="col-md-6">
                             <div class="form-group">
                               <label for="description">Product Description</label>
@@ -282,7 +282,7 @@
                                 <textarea name="specifications" id="specifications" rows="8" class="tinymce"></textarea>
                             </div>
                           </div>
-                        </div>
+                        </div> -->
 
                         <!-- <div class="row arabic_content">
                           <div class="col-md-6">
@@ -302,19 +302,15 @@
                         <div class="row">
                           <div class="col-md-6">
                             <div class="form-group">
-                              <label for="mobile_description">Mobile App View Product Description</label>
+                              <label for="mobile_description">Product Description</label>
                                 <textarea name="mobile_description" id="mobile_description" rows="10" class="form-control"></textarea>
                             </div>
                           </div>
                           <div class="col-md-6">
-                            <!-- <div class="form-group">
-                              <label for="mobile_specifications">Mobile App View Product Specifications</label>
-                                <textarea name="mobile_specifications" id="mobile_specifications" rows="4" class="form-control"></textarea>
-                            </div> -->
                             <table id="featuresTable" class="table">
                               <thead class="thead-primary">
                                   <tr style="text-align: center;">
-                                    <th colspan="3" style="width:100%;">Mobile App View Product Specifications</th>
+                                    <th colspan="3" style="width:100%;">Product Specifications</th>
                                   </tr>
                                   <tr style="text-align: center;">
                                     <th style="width: 40%;">Label</th>
@@ -723,11 +719,11 @@ function Save(){
   $(".text-danger").remove();
   $('.form-group').removeClass('has-error').removeClass('has-success');
   var formData = new FormData($('#form')[0]);
-  var description = tinyMCE.get('description').getContent();
-  var specifications = tinyMCE.get('specifications').getContent();
+  // var description = tinyMCE.get('description').getContent();
+  // var specifications = tinyMCE.get('specifications').getContent();
   formData.append('attrdata', attrdata);
-  formData.append('description', description);
-  formData.append('specifications', specifications);
+  // formData.append('description', description);
+  // formData.append('specifications', specifications);
   $.ajax({
     url : '/vendor/save-product',
     type: "POST",

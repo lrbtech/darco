@@ -137,19 +137,60 @@
                               </select>
                             </div>
                           </div>
-                        </div>
-                        <div class="form-group">
-                          <label for="address">Address</label>
-                          <textarea id="address" rows="5" class="form-control" name="address" placeholder="Address">{{$profile->address}}</textarea>
-                        </div>
-                        <div class="form-group">
-                          <label>Profile Image</label>
-                          <label id="profile_image" class="file center-block">
-                            <input type="file" id="profile_image" name="profile_image">
-                            <span class="file-custom"></span>
-                          </label>
-                          <br>
-                          <img style="height:100px;" src="/profile_image/{{$profile->profile_image}}">
+                          <div class="form-group col-md-12">
+                            <label for="address">Address</label>
+                            <textarea id="address" rows="5" class="form-control" name="address" placeholder="Address">{{$profile->address}}</textarea>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="form-group mb-3">
+                              <label>Profile Image</label>
+                              <input autocomplete="off" type="file" name="profile_image" id="profile_image" class="form-control">
+                              @if($profile->profile_image != '')
+                              <a target="_blank" href="/profile_image/{{$profile->profile_image}}">View</a>
+                              @endif 
+                            </div>
+                           
+                          </div>
+                          <div class="col-md-4">
+                            <div class="form-group mb-3">
+                              <label>ID Proof</label>
+                              <input autocomplete="off" type="file" name="id_proof" id="id_proof" class="form-control">
+                              @if($profile->id_proof != '')
+                              <a target="_blank" href="/vendor_files/{{$profile->id_proof}}">View</a>
+                              @endif 
+                            </div>
+                            
+                          </div>
+                          <div class="col-md-4">
+                            <div class="form-group mb-3">
+                              <label>Civil ID  / Passport Copy</label>
+                              <input autocomplete="off" type="file" name="civi_id_or_passport_copy" id="civi_id_or_passport_copy" class="form-control">
+                              @if($profile->civi_id_or_passport_copy != '')
+                              <a target="_blank" href="/vendor_files/{{$profile->civi_id_or_passport_copy}}">View</a>
+                              @endif
+                            </div>
+                            
+                          </div>
+                          <div class="col-md-4">
+                            <div class="form-group mb-3">
+                              <label>Commercial LICENSE COPY</label>
+                              <input autocomplete="off" type="file" name="commercial_license_copy" id="commercial_license_copy" class="form-control">
+                              @if($profile->commercial_license_copy != '')
+                              <a target="_blank" href="/vendor_files/{{$profile->commercial_license_copy}}">View</a>
+                              @endif
+                            </div>
+                            
+                          </div>
+                          <div class="col-md-4">
+                            <div class="form-group mb-3">
+                              <label>Article of Association</label>
+                              <input autocomplete="off" type="file" name="article_of_association" id="article_of_association" class="form-control">
+                              @if($profile->article_of_association != '')
+                              <a target="_blank" href="/vendor_files/{{$profile->article_of_association}}">View</a>
+                              @endif
+                            </div>
+                            
+                          </div>
                         </div>
                       </div>
                       <div class="form-actions">

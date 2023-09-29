@@ -178,6 +178,7 @@
                                 <textarea name="description" id="description" rows="8" class="tinymce"><?php echo $idea_book->description; ?></textarea>
                             </div>
                           </div>
+                          @if($idea_book->status == 0)
                           <div class="col-md-6">
                             <div id="image_view" class="row">
                                 <div value="1" class="center form-input panel_image">
@@ -208,6 +209,7 @@
                                 </div>
                             </div>
                           </div>
+                          @endif
                         </div>
 
                         <div class="row">

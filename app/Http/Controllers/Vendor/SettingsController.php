@@ -123,6 +123,9 @@ class SettingsController extends Controller
             'image.max' => 'Sorry! Maximum allowed size for an image is 1MB',
         ]);
 
+        $project = vendor_project::find($request->id);
+
+        if($project->status == 0){
         if(isset($_FILES['images'])){
             $name_array = $_FILES['images']['name'];
             $tmp_name_array = $_FILES['images']['tmp_name'];
@@ -137,13 +140,15 @@ class SettingsController extends Controller
                 }
             }
         }
+        }
         
-        $project = vendor_project::find($request->id);
+        
         $project->project_name = $request->project_name;
         $project->category = $request->category;
         $project->subcategory = $request->subcategory;
         $project->description = $request->description;
 
+        if($project->status == 0){
         if($request->image!=""){
             $old_image = "project_image/".$project->image;
             if (file_exists($old_image)) {
@@ -156,9 +161,11 @@ class SettingsController extends Controller
             $project->image = $upload_image;
             }
         }
+        }
 
         $project->save();
 
+        if($project->status == 0){
         if(isset($_FILES['images'])){
             $name_array = $_FILES['images']['name'];
             $tmp_name_array = $_FILES['images']['tmp_name'];
@@ -215,6 +222,7 @@ class SettingsController extends Controller
                     }
                 }
             }
+        }
         }
 
         return response()->json(['message'=>'Your Project is Update Successfully','status'=>0], 200);  
@@ -320,9 +328,19 @@ class SettingsController extends Controller
         $profile->address = $request->address;
         $profile->country_code = $request->country_code;
         $api_country = api_country::find($request->country);
-        $profile->country= $api_country->name;
+        if(!empty($api_country)){
+            $profile->country = $api_country->name;
+        }
+        else{
+            $profile->country = $request->country;
+        }
         $api_state = api_state::find($request->city);
-        $profile->city= $api_state->name;
+        if(!empty($api_state)){
+            $profile->city = $api_state->name;
+        }
+        else{
+            $profile->city = $request->city;
+        }
         $profile->area = $request->area;
 
         if($request->profile_image!=""){
@@ -335,6 +353,58 @@ class SettingsController extends Controller
                 $upload_image = rand().time().'.'.$image->getClientOriginalExtension();
                 $image->move(public_path('profile_image/'), $upload_image);
                 $profile->profile_image = $upload_image;
+            }
+        }
+
+        if($request->id_proof!=""){
+            $old_image = "vendor_files/".$profile->id_proof;
+            if (file_exists($old_image)) {
+                @unlink($old_image);
+            }
+            if($request->file('id_proof')!=""){
+                $image = $request->file('id_proof');
+                $upload_image = rand().time().'.'.$image->getClientOriginalExtension();
+                $image->move(public_path('vendor_files/'), $upload_image);
+                $profile->id_proof = $upload_image;
+            }
+        }
+
+        if($request->civi_id_or_passport_copy!=""){
+            $old_image = "vendor_files/".$profile->civi_id_or_passport_copy;
+            if (file_exists($old_image)) {
+                @unlink($old_image);
+            }
+            if($request->file('civi_id_or_passport_copy')!=""){
+                $image = $request->file('civi_id_or_passport_copy');
+                $upload_image = rand().time().'.'.$image->getClientOriginalExtension();
+                $image->move(public_path('vendor_files/'), $upload_image);
+                $profile->civi_id_or_passport_copy = $upload_image;
+            }
+        }
+
+        if($request->commercial_license_copy!=""){
+            $old_image = "vendor_files/".$profile->commercial_license_copy;
+            if (file_exists($old_image)) {
+                @unlink($old_image);
+            }
+            if($request->file('commercial_license_copy')!=""){
+                $image = $request->file('commercial_license_copy');
+                $upload_image = rand().time().'.'.$image->getClientOriginalExtension();
+                $image->move(public_path('vendor_files/'), $upload_image);
+                $profile->commercial_license_copy = $upload_image;
+            }
+        }
+
+        if($request->article_of_association!=""){
+            $old_image = "vendor_files/".$profile->article_of_association;
+            if (file_exists($old_image)) {
+                @unlink($old_image);
+            }
+            if($request->file('article_of_association')!=""){
+                $image = $request->file('article_of_association');
+                $upload_image = rand().time().'.'.$image->getClientOriginalExtension();
+                $image->move(public_path('vendor_files/'), $upload_image);
+                $profile->article_of_association = $upload_image;
             }
         }
 

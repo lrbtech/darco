@@ -366,7 +366,33 @@ data-menu="horizontal-menu" data-col="2-columns">
   <!-- ////////////////////////////////////////////////////////////////////////////-->
   @include('vendor.menu')
 
-  @yield('content')
+  
+  @if(Auth::user()->status == '0')
+    <center>
+        <div class="auto-container">
+            <div class="content-box centred mr-0">
+                <div class="title">
+                    <h1>Waiting for Admin Approval</h1>
+                    <h4>Please Contact Darstore Admin</h4>
+                </div>
+            </div>
+        </div>
+    </center>
+    @elseif(Auth::user()->status == '1')
+    @yield('content')
+    @elseif(Auth::user()->status == '2')
+    <center>
+        <div class="auto-container">
+            <div class="content-box centred mr-0">
+                <div class="title">
+                    <h1>Your Account is Deactivated</h1>
+                    <h4>Please Contact Darstore Admin</h4>
+                </div>
+            </div>
+        </div>
+    </center>
+    @endif
+
   <!-- ////////////////////////////////////////////////////////////////////////////-->
   <footer class="footer footer-static footer-light navbar-shadow">
     <p class="clearfix blue-grey lighten-2 text-sm-center mb-0 px-2">

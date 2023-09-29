@@ -123,15 +123,17 @@ i.pencil, i.trash{
                           @endif
                           </td>
                           <td>
-                            <button type="button" class="btn btn-default editBtn"><i class="pencil"></i></button>                            
+                            <button type="button" class="btn btn-default editBtn">Edit Inline Table</button>                            
                             <button type="button" class="btn btn-success saveBtn" style="display: none;">Save</button>
                             <button type="button" class="btn btn-secondary cancelBtn" style="display: none;">Cancel</button>
-
+                            <br>
                             <div class="btn-group mr-1 mb-1">
                               <button type="button" class="btn btn-danger btn-block dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Action</button>
                               <div class="dropdown-menu open-left arrow" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 40px, 0px); top: 0px; left: 0px; will-change: transform;">
                                 <button onclick="downloadqrcode({{$row->id}})" class="dropdown-item" type="button">Download Qrcode</button>
-                                <button onclick="Edit({{$row->id}})" class="dropdown-item" type="button">Edit</button>
+                                @if($row->status == 0 || $row->status == 1)
+                                <button onclick="Edit({{$row->id}})" class="dropdown-item" type="button">Edit Product</button>
+                                @endif
                                 <!-- <div class="dropdown-divider"></div>
                                 @if($row->status == 0)
                                 <button onclick="Delete({{$row->id}},1)"class="dropdown-item" type="button">DeActive</button>

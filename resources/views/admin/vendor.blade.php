@@ -215,7 +215,12 @@ function Delete(id,status){
       dataType: "JSON",
       success: function(data)
       {
-        toastr.success(data, 'Successfully Delete');
+        if(status == '1'){
+          toastr.success('Successfully Approved');
+        }
+        else if(status == '2'){
+          toastr.success('Successfully Rejected');
+        }
         // location.reload();
         var new_url = '/admin/get-vendor';
         orderPageTable.ajax.url(new_url).load(null, false);

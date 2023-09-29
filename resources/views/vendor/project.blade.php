@@ -84,9 +84,11 @@
                                 <div class="btn-group mr-1 mb-1">
                                     <button type="button" class="btn btn-danger btn-block dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Action</button>
                                     <div class="dropdown-menu open-left arrow" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 40px, 0px); top: 0px; left: 0px; will-change: transform;">
-                                        <button onclick="Edit({{$row->id}})"class="dropdown-item" type="button">Edit</button>
-                                        <!-- <div class="dropdown-divider"></div> -->
-                                        <!-- <button onclick="Delete({{$row->id}})"class="dropdown-item" type="button">Delete</button> -->
+                                      @if($row->status == 0 || $row->status == 1)
+                                      <button onclick="Edit({{$row->id}})"class="dropdown-item" type="button">Edit</button>
+                                      @endif
+                                      <!-- <div class="dropdown-divider"></div> -->
+                                      <!-- <button onclick="Delete({{$row->id}})"class="dropdown-item" type="button">Delete</button> -->
                                     </div>
                                 </div>
                             </td>

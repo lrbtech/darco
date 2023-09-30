@@ -15,8 +15,9 @@ class CreateIdeaBooksTable extends Migration
     {
         Schema::create('idea_books', function (Blueprint $table) {
             $table->id();
-            $table->string('vendor_id')->nullable();
-            $table->string('project_id')->nullable();
+            $table->string('date',20)->nullable();
+            $table->string('vendor_id',20)->nullable();
+            $table->string('project_id',20)->nullable();
             $table->string('title')->nullable();
             $table->string('category')->nullable();
             $table->string('subcategory')->nullable();

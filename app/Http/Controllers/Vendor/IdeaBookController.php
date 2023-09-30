@@ -54,6 +54,7 @@ class IdeaBookController extends Controller
         }
 
         $idea_book = new idea_book;
+        $idea_book->date = date('Y-m-d');
         $idea_book->vendor_id = Auth::guard('vendor')->user()->id;
         $idea_book->title = $request->title;
         $idea_book->category = $request->category;

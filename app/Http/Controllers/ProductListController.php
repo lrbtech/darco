@@ -126,6 +126,9 @@ class ProductListController extends Controller
         $brand_all = brand::where('status',0)->get();
 
         $language = language::all();
+
+        
+
         return view('website.process.product_list',compact('category_all','subcategory_all','category_data','subcategory_data','subsubcategory_data','product','category_id','subcategory_id','subsubcategory_id','search_id','brand_all','city_all','language'));
     }
 
@@ -304,10 +307,18 @@ class ProductListController extends Controller
                 {
                     $i->where('p.category', $request->category);
                 }
-                if ( $request->subcategory != '0' )
+                
+                if ( $request->subcategory == 'N' )
+                {
+                    $today = date('Y-m-d');
+                    $start = date("Y-m-d", strtotime("- 14 days"));
+                    $i->whereBetween('p.date', [$start, $today]);
+                }
+                elseif ( $request->subcategory != '0' )
                 {
                     $i->where('p.subcategory', $request->subcategory);
                 }
+
                 if ( $request->subsubcategory != '0' )
                 {
                     $i->where('p.subsubcategory', $request->subsubcategory);
@@ -351,7 +362,17 @@ class ProductListController extends Controller
                 {
                     $i->where('p.category', $request->category);
                 }
-                if ( $request->subcategory != '0' )
+                // if ( $request->subcategory != '0' )
+                // {
+                //     $i->where('p.subcategory', $request->subcategory);
+                // }
+                if ( $request->subcategory == 'N' )
+                {
+                    $today = date('Y-m-d');
+                    $start = date("Y-m-d", strtotime("- 14 days"));
+                    $i->whereBetween('p.date', [$start, $today]);
+                }
+                elseif ( $request->subcategory != '0' )
                 {
                     $i->where('p.subcategory', $request->subcategory);
                 }

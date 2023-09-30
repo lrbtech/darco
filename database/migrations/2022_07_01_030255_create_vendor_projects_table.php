@@ -15,6 +15,7 @@ class CreateVendorProjectsTable extends Migration
     {
         Schema::create('vendor_projects', function (Blueprint $table) {
             $table->id();
+            $table->string('date',20)->nullable();
             $table->string('vendor_id',20)->nullable();
             $table->string('project_name')->nullable();
             $table->string('category',20)->nullable();

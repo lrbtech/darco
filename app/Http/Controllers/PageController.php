@@ -269,6 +269,7 @@ class PageController extends Controller
         $html.=' <li class="position-static"><a href="/shop-category">'.$language[134][session()->get('lang')].' <i class="fi-rs-angle-down"></i></a><ul class="mega-menu">';
         foreach($home as $row){
             $html .='<li class="translate sub-mega-menu sub-mega-menu-width-22"><a class="menu-title" href="/product-list/'.$row->id.'/0/0/0">'.$row->category.'</a><ul>';
+                $html.='<li><a href="/product-list/'.$row->id.'/N/0/0">New Arrivals</a></li>';
             $child = category::where('status',0)->where('parent_id',$row->id)->get();
             foreach($child as $row1){
                  $html.='<li><a href="/product-list/'.$row->id.'/'.$row1->id.'/0/0">'.$row1->category.'</a></li>';

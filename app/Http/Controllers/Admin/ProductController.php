@@ -322,6 +322,7 @@ class ProductController extends Controller
         }
         
         $product = product::find($request->id);
+        //$product->date = date('Y-m-d');
         $product->product_group = $request->product_group;
         $product->product_name = $request->product_name;
         $product->product_name_arabic = $request->product_name_arabic;

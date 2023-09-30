@@ -60,6 +60,7 @@ class SettingsController extends Controller
         }
 
         $project = new vendor_project;
+        $project->date = date('Y-m-d');
         $project->vendor_id = Auth::guard('vendor')->user()->id;
         $project->project_name = $request->project_name;
         $project->category = $request->category;

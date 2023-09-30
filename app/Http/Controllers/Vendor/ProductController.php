@@ -160,6 +160,7 @@ class ProductController extends Controller
 
         $product = new product;
         $sku_value =  $this->generateSkuValue();
+        $product->date = date('Y-m-d');
         $product->sku_value = $sku_value;
         $product->vendor_id = Auth::guard('vendor')->user()->id;
         $product->product_group = $request->product_group;

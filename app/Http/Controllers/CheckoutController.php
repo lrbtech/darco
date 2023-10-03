@@ -399,7 +399,7 @@ class CheckoutController extends Controller
 
             'order_id'=>$invoice_id,
             'CurrencyCode'=>'KWD',//'KWD','SAR','USD','BHD','EUR','OMR','QAR','AED' and others,Please ask our support to activate
-            'total_price'=>0.01,
+            'total_price'=>$total,
             'CstFName'=>$name,			
             'CstEmail'=>Auth::user()->email,
             'CstMobile'=>Auth::user()->mobile,

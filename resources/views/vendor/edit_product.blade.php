@@ -464,7 +464,8 @@
                           <div class="col-md-4 view_return_policy">
                             <div class="form-group">
                               <label for="return_policy">Return Days:</label>
-                              <br>
+                              <input onfocus="if(this.value=='0') this.value='';" onfocusout="if(this.value=='') this.value='0';" value="{{$product->return_days}}" type="number" class="form-control required" id="return_days" name="return_days">
+                              <!-- <br>
                               <div class="custom-control custom-radio custom-control-inline">  
                                 <input {{ ($product->return_days == '7' ? ' checked' : '') }} value="7" type="radio" id="return_days1" name="return_days" class="custom-control-input">  
                                 <label class="custom-control-label" for="return_days1"> 7 Days </label>  
@@ -476,7 +477,7 @@
                               <div class="custom-control custom-radio custom-control-inline">  
                                 <input {{ ($product->return_days == '30' ? ' checked' : '') }} value="30" type="radio" id="return_days3" name="return_days" class="custom-control-input">  
                                 <label class="custom-control-label" for="return_days3"> 30 Days </label>  
-                              </div>  
+                              </div>   -->
                             </div>
                           </div>
                           <div class="col-md-5 view_return_policy">

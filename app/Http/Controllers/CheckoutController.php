@@ -56,7 +56,7 @@ class CheckoutController extends Controller
         $this->validate($request, [
             'contact_person'=>'required',
             'contact_mobile'=>'required',
-            'address_line1'=>'required',
+            //'building_no'=>'required',
             'city'=>'required',
             'street'=>'required',
             'street_name'=>'required',

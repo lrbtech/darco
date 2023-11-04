@@ -39,16 +39,39 @@
             <div class="col-12">
               <div class="card">
                 <div class="card-header">
-                  <h4 class="card-title">{{$language[96][Auth::guard('admin')->user()->lang]}}</h4>
-                  <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
-                  <div class="heading-elements">
-                    <ul class="list-inline mb-0">
-                      <!-- <li><a data-action="collapse"><i class="ft-minus"></i></a></li> -->
-                      <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
-                      <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
-                      <!-- <li><a data-action="close"><i class="ft-x"></i></a></li> -->
-                    </ul>
-                  </div>
+                <form id="search_form" action="/admin/excel-payments-out" method="post" enctype="multipart/form-data">
+                {{ csrf_field() }}
+                <div class="row">
+                  <?php
+                  $first_date = date('Y-m-d',strtotime('first day of this month'));
+                  $last_date = date('Y-m-d',strtotime('last day of this month'));
+                  ?>
+                    <div class="col-sm-3">
+                      <label class="col-form-label">From Date</label>
+                      <input value="{{date('Y-m-d', strtotime('first day of this month'))}}" autocomplete="off" id="from_date" name="from_date" type="date" class="form-control mt-15" placeholder="Search From Date">
+                    </div>
+                    <div class="col-sm-3">
+                      <label class="col-form-label">To Date</label>
+                      <input value="{{date('Y-m-d', strtotime('last day of this month'))}}" autocomplete="off" id="to_date" name="to_date" type="date" class="form-control mt-15" placeholder="Search To Date">
+                    </div>
+                    <div class="col-sm-3">
+                        <label class="col-form-label">Search Vendor</label>
+                        <select id="vendor_id" name="vendor_id" class="select2 form-control mt-15">
+                            <option value="">Search Vendor</option>
+                            @foreach($vendor as $vendor1)
+                            <option value="{{$vendor1->id}}">{{$vendor1->first_name}} {{$vendor1->last_name}} - {{$vendor1->email}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-sm-2">
+                      <button id="search" type="button" class="btn btn-primary">Search</button>
+                      <br>
+                      <button onclick="PrintReport()" id="print" type="button" class="btn btn-primary">Print</button>
+                      <br>
+                      <button type="submit" class="btn btn-primary">Excel</button>
+                    </div>
+                </div>
+                </form>
                 </div>
                 <div class="card-content collapse show">
                   <div class="card-body card-dashboard">
@@ -111,7 +134,13 @@ var orderPageTable = $('#datatable').DataTable({
       "url": "/admin/get-payments-out-report",
       "dataType": "json",
       "type": "POST",
-      "data":{ _token: "{{csrf_token()}}"}
+      // "data":{ _token: "{{csrf_token()}}"}
+      "data": function (d) {
+        d.from_date = $("#from_date").val();
+        d.to_date = $("#to_date").val();
+        d.vendor_id = $("#vendor_id").val();
+        d._token = '{{csrf_token()}}';
+      },
   },
   "columns": [
     { data: 'DT_RowIndex', name: 'DT_RowIndex'},
@@ -125,6 +154,48 @@ var orderPageTable = $('#datatable').DataTable({
     { data: 'action', name: 'action' },
   ]
 });
+
+$('#search').click(function(){
+    var new_url = '/admin/get-payments-out-report';
+    orderPageTable.ajax.url(new_url).load(null, false);
+    //orderPageTable.draw();
+});
+
+function PrintReport(){
+    spinner_body.show();
+    var formData = new FormData($('#search_form')[0]);
+    $.ajax({
+        url : '/admin/print-payments-out',
+        type: "POST",
+        data: formData,
+        contentType: false,
+        processData: false,
+        dataType: "JSON",
+        success: function(data)
+        {
+            spinner_body.hide();
+            var mywindow = window.open('', 'BIlling Application', 'height=600,width=900');
+            var is_chrome = Boolean(mywindow.chrome);
+            mywindow.document.write(data.html);
+            mywindow.document.close(); 
+            if (is_chrome) {
+                setTimeout(function() {
+                mywindow.focus(); 
+                mywindow.print(); 
+                mywindow.close();
+                //location.reload();
+                
+                }, 250);
+            } else {
+                mywindow.focus(); 
+                mywindow.print(); 
+                mywindow.close();
+                //location.reload();
+            }
+            //PrintDiv(data);
+        }
+    });
+}
 
 function ChangeStatus(id,status){
   var r = confirm("Are you sure");

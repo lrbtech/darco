@@ -45,9 +45,11 @@ use DB;
 use Image;
 use App\Events\ChatEvent;
 use App\Events\ChatAdmin;
-
+use Illuminate\Support\Facades\Log;
 class CustomerApiController extends Controller
 {
+
+    
 
     public function login(Request $request){
         $exist = User::where('email',$request->email)->get();

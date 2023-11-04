@@ -255,11 +255,11 @@ button#chat-submit {
                                                         {{\App\Http\Controllers\PageController::viewvendorname($row->vendor_id)}}
                                                         </td>
                                                         <td>{{$row->comments}}</td>
-                                                        <td>
-                                                        </td>
-                                                        <!-- <td width="15%">
-                                                          <a href="javascript:void(null)" class="btn-small d-block chat-circle"><i class="fa fa-comments-o" aria-hidden="true"></i> Chat</a>
+                                                        <!-- <td>
                                                         </td> -->
+                                                        <td width="15%">
+                                                          <a href="/customer/chat/{{$row->id}}" class="btn-small d-block "><i class="fa fa-comments-o" aria-hidden="true"></i> Chat</a>
+                                                        </td>
                                                     </tr>
                                                     @endforeach
                                                 </tbody>

@@ -1640,15 +1640,15 @@ $.ajax({
     });
 });
 function cookies(){
-    
-    $.ajax({
-      url : '/update-cookies/1',
-      type: "GET",
-      success: function(data)
-      {
-     $('#cookies_banner').remove();
-      }
-    });
+    window.location.href="https://darstore.me/pages/privacy-policy";
+    // $.ajax({
+    //   url : '/update-cookies/1',
+    //   type: "GET",
+    //   success: function(data)
+    //   {
+    //  $('#cookies_banner').remove();
+    //   }
+    // });
 }
 </script>
 <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" type="text/javascript"></script>

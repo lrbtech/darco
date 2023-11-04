@@ -111,13 +111,8 @@
                                 <button onclick="downloadqrcode({{$row->id}})" class="dropdown-item" type="button">Download Qrcode</button>
                                 <button onclick="Edit({{$row->id}})" class="dropdown-item" type="button">Edit</button>
                                 <div class="dropdown-divider"></div>
-                                @if($row->status == 0)
                                 <button onclick="Delete({{$row->id}},1)"class="dropdown-item" type="button">Approve</button>
-                                @elseif($row->status == 1)
                                 <button onclick="Delete({{$row->id}},2)"class="dropdown-item" type="button">Reject</button>
-                                @else 
-                                <button onclick="Delete({{$row->id}},1)"class="dropdown-item" type="button">Approve</button>
-                                @endif
                               </div>
                             </div>
                           </td>

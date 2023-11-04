@@ -172,6 +172,9 @@ Route::group(['prefix' => 'admin'],function(){
 
 	Route::get('/orders', [App\Http\Controllers\Admin\OrderController::class, 'orders']);
     Route::POST('/get-orders', [App\Http\Controllers\Admin\OrderController::class, 'getorders']);
+	Route::POST('/excel-orders', [App\Http\Controllers\Admin\OrderController::class, 'excelorders']);
+	Route::POST('/print-orders', [App\Http\Controllers\Admin\OrderController::class, 'printorders']);
+
     Route::get('/change-order-status/{id}/{status}', [App\Http\Controllers\Admin\OrderController::class, 'changeorderstatus']);
 	Route::get('/view-order/{id}', [App\Http\Controllers\Admin\OrderController::class, 'vieworder']);
 
@@ -361,8 +364,22 @@ Route::group(['prefix' => 'admin'],function(){
 
 	Route::get('/payments-out-report', [App\Http\Controllers\Admin\ReportController::class, 'paymentsoutreport']);
 	Route::POST('/get-payments-out-report', [App\Http\Controllers\Admin\ReportController::class, 'getpaymentsoutreport']);
+	Route::POST('/excel-payments-out', [App\Http\Controllers\Admin\ReportController::class, 'excelpaymentsout']);
+	Route::POST('/print-payments-out', [App\Http\Controllers\Admin\ReportController::class, 'printpaymentsout']);
 
 	Route::get('/change-status-paymentsout/{id}/{status}', [App\Http\Controllers\Admin\ReportController::class, 'changestatuspaymentsout']);
+
+
+	Route::get('/product-report', [App\Http\Controllers\Admin\ProductReportController::class, 'productreport']);
+	Route::POST('/get-product-report', [App\Http\Controllers\Admin\ProductReportController::class, 'getproductreport']);
+	Route::POST('/excel-product-report', [App\Http\Controllers\Admin\ProductReportController::class, 'excelproductreport']);
+	Route::POST('/print-product-report', [App\Http\Controllers\Admin\ProductReportController::class, 'printproductreport']);
+
+	Route::get('/finance-report', [App\Http\Controllers\Admin\FinanceReportController::class, 'financereport']);
+	Route::POST('/get-finance-report', [App\Http\Controllers\Admin\FinanceReportController::class, 'getfinancereport']);
+	Route::POST('/excel-finance-report', [App\Http\Controllers\Admin\FinanceReportController::class, 'excelfinancereport']);
+	Route::POST('/print-finance-report', [App\Http\Controllers\Admin\FinanceReportController::class, 'printfinancereport']);
+
 
 	Route::get('/languages', [App\Http\Controllers\Admin\SettingsController::class, 'languageTable']);
     Route::get('/fetch_language', [App\Http\Controllers\Admin\SettingsController::class, 'fetchLanguage']);
@@ -531,9 +548,7 @@ Route::group(['prefix' => 'vendor'],function(){
 	Route::get('/chat-to-customer/{id}', [App\Http\Controllers\Vendor\ChatController::class, 'chatToCustomer']);
 	Route::get('/get-customer-chat/{id}', [App\Http\Controllers\Vendor\ChatController::class, 'getCustomerChat']);
 	Route::POST('/save-customer-chat', [App\Http\Controllers\Vendor\ChatController::class, 'saveCustomerChat']);
-
-	Route::get('/get-admin-chat/{id}', [App\Http\Controllers\Vendor\ChatController::class, 'getAdminChat']);
-	Route::POST('/save-admin-chat', [App\Http\Controllers\Vendor\ChatController::class, 'saveAdminChat']);
+	Route::get('/view-customer-chat-count/{id}', [App\Http\Controllers\Vendor\ChatController::class, 'viewcustomerchatcount']);
 
 
 });
@@ -594,6 +609,10 @@ Route::group(['prefix' => 'customer'],function(){
 	Route::POST('/update-profile', [App\Http\Controllers\Customer\HomeController::class, 'updateprofile']);
 	
 	// Chat
-	Route::get('/chat', [App\Http\Controllers\Customer\ChatController::class, 'chat']);
+	Route::get('/chat/{id}', [App\Http\Controllers\Customer\ChatController::class, 'chat']);
+	Route::get('/get-vendor-chat/{id}', [App\Http\Controllers\Customer\ChatController::class, 'getvendorchat']);
+	Route::POST('/save-vendor-chat', [App\Http\Controllers\Customer\ChatController::class, 'savevendorchat']);
+	Route::get('/view-vendor-chat-count/{id}', [App\Http\Controllers\Customer\ChatController::class, 'viewvendorchatcount']);
+
 
 });

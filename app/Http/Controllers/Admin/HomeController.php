@@ -53,9 +53,13 @@ class HomeController extends Controller
         $total_order = orders::count();
         $total_order_value = orders::sum('total');
 
+        $new_product = vendor::where('status',0)->count();
+        $new_vendor = vendor::where('status',0)->where('business_type',0)->count();
+        $new_professionals = vendor::where('status',0)->where('business_type',1)->count();
+
         $language = language::all();
 
-        return view('admin.dashboard',compact('total_order_value','total_order','total_customer','total_vendor','orders','language'));
+        return view('admin.dashboard',compact('total_order_value','total_order','total_customer','total_vendor','orders','language','new_product','new_vendor','new_professionals'));
     }
 
     public function changepassword(){

@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 // });
 
 
+
 Route::group(['prefix' => 'customer'],function(){
 
     Route::post('/login', [App\Http\Controllers\Api\CustomerApiController::class, 'login']);

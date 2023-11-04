@@ -98,13 +98,8 @@
                                     <div class="dropdown-menu open-left arrow" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 40px, 0px); top: 0px; left: 0px; will-change: transform;">
                                         <button onclick="Edit({{$row->id}})"class="dropdown-item" type="button">Edit</button>
                                         <div class="dropdown-divider"></div>
-                                        @if($row->status == 0)
                                         <button onclick="Delete({{$row->id}},1)"class="dropdown-item" type="button">Approve</button>
-                                        @elseif($row->status == 1)
                                         <button onclick="Delete({{$row->id}},2)"class="dropdown-item" type="button">Reject</button>
-                                        @else 
-                                        <button onclick="Delete({{$row->id}},1)"class="dropdown-item" type="button">Approve</button>
-                                        @endif
                                     </div>
                                 </div>
                             </td>

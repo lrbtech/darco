@@ -125,15 +125,15 @@ class BusinessController extends Controller
 
             ->addColumn('action', function ($vendor) {
                 $output='';
-                if($vendor->status == 0){
+                // if($vendor->status == 0){
                     $output.='<button onclick="Delete('.$vendor->id.',1)" class="dropdown-item" type="button">Approve</button>';
-                }
-                elseif($vendor->status == 1){
+                // }
+                // elseif($vendor->status == 1){
                     $output.='<button onclick="Delete('.$vendor->id.',2)" class="dropdown-item" type="button">Reject</button>';
-                }
-                elseif($vendor->status == 2){
-                    $output.='<button onclick="Delete('.$vendor->id.',1)" class="dropdown-item" type="button">Approve</button>';
-                }
+                // }
+                // elseif($vendor->status == 2){
+                //     $output.='<button onclick="Delete('.$vendor->id.',1)" class="dropdown-item" type="button">Approve</button>';
+                // }
                 return '<td>
                 <div class="btn-group mr-1 mb-1">
                     <button type="button" class="btn btn-danger btn-block dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Action</button>

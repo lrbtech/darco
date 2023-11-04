@@ -81,19 +81,29 @@
           data-placement="right" data-original-title="Layouts"></i>
         </li>
 
-        @if($role_get->orders == 'on')
-        <li class="orders nav-item">
-          <a href="/admin/orders"><i class="la la-money"></i><span class="menu-title" data-i18n="nav.dash.main">{{$language[88][Auth::guard('admin')->user()->lang]}}</span></a>
-        </li>
-        @endif
+        
 
         <li class="return-item nav-item">
           <a href="/admin/return-item"><i class="la la-money"></i><span class="menu-title" data-i18n="nav.dash.main">Return Item</span></a>
         </li>
 
+        @if($role_get->orders == 'on')
+        <li class="orders nav-item">
+          <a href="/admin/orders"><i class="la la-money"></i><span class="menu-title" data-i18n="nav.dash.main">Sales Report</span></a>
+        </li>
+        @endif
+
         @if($role_get->settlement_report == 'on')
+        <li class="product-report nav-item">
+          <a href="/admin/product-report"><i class="la la-money"></i><span class="menu-title" data-i18n="nav.dash.main">Product Report</span></a>
+        </li>
+
+        <li class="finance-report nav-item">
+          <a href="/admin/finance-report"><i class="la la-money"></i><span class="menu-title" data-i18n="nav.dash.main">Finance Report</span></a>
+        </li>
+
         <li class="payments-out-report nav-item">
-          <a href="/admin/payments-out-report"><i class="la la-money"></i><span class="menu-title" data-i18n="nav.dash.main">{{$language[96][Auth::guard('admin')->user()->lang]}}</span></a>
+          <a href="/admin/payments-out-report"><i class="la la-money"></i><span class="menu-title" data-i18n="nav.dash.main">Payments Our Report</span></a>
         </li>
         @endif
 

@@ -86,12 +86,12 @@ class CustomerController extends Controller
 
             ->addColumn('action', function ($customer) {
                 $output='';
-                if($customer->status == 1){
+                // if($customer->status == 1){
                     $output.='<button onclick="Delete('.$customer->id.',2)"class="dropdown-item" type="button">DeActive</button>';
-                }
-                elseif($customer->status == 2){
+                // }
+                // elseif($customer->status == 2){
                     $output.='<button onclick="Delete('.$customer->id.',1)"class="dropdown-item" type="button">Active</button>';
-                }
+                // }
                 return '<td>
                 <div class="btn-group mr-1 mb-1">
                     <button type="button" class="btn btn-danger btn-block dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Action</button>

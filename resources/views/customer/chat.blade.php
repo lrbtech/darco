@@ -1,235 +1,768 @@
 @extends('website.layouts')
 @section('extra-css')
- @if(session()->get('theme') == 'light')
 <style>
-.chat-box-header {
-    background: #260a7a;
-}
-i.fa.fa-paper-plane {
-    color: #260a7a;
-}
-</style>
- @else
-<style>
-  .chat-box-header {
-    background: #41eafc;
-}
-i.fa.fa-paper-plane {
-    color: #41eafc;
-}
-</style>
- @endif
-<style>
-   #center-text {          
-  display: flex;
-  flex: 1;
-  flex-direction:column; 
-  justify-content: center;
-  align-items: center;  
-  height:100%;
-  
-}
-#chat-circle {
-  position: fixed;
-  bottom: 50px;
-  right: 50px;
-  background: #5A5EB9;
-  width: 80px;
-  height: 80px;  
-  border-radius: 50%;
-  color: white;
-  padding: 28px;
-  cursor: pointer;
-  box-shadow: 0px 3px 16px 0px rgba(0, 0, 0, 0.6), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+/* **********************************
+Reset CSS
+************************************** */
+
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
 }
 
-.btn#my-btn {
-     background: white;
-    padding-top: 13px;
-    padding-bottom: 12px;
-    border-radius: 45px;
-    padding-right: 40px;
-    padding-left: 40px;
-    color: #5865C3;
+
+/* HTML5 display-role reset for older browsers */
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+    display: block;
 }
-#chat-overlay {
-    background: rgba(255,255,255,0.1);
+
+body {
+    line-height: 1.5;
+}
+
+ol,
+ul {
+    list-style: none;
+}
+
+blockquote,
+q {
+    quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+    content: '';
+    content: none;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+
+/********************************
+ Typography Style
+******************************** */
+
+body {
+    margin: 0;
+    font-family: 'Open Sans', sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+    min-height: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+h1 {
+    font-size: 36px;
+}
+
+h2 {
+    font-size: 30px;
+}
+
+h3 {
+    font-size: 26px;
+}
+
+h4 {
+    font-size: 22px;
+}
+
+h5 {
+    font-size: 18px;
+}
+
+h6 {
+    font-size: 16px;
+}
+
+p {
+    font-size: 15px;
+}
+
+a {
+    text-decoration: none;
+    font-size: 15px;
+}
+
+* {
+  margin-bottom: 0;
+}
+
+
+/* *******************************
+message-area
+******************************** */
+
+.message-area {
+    height: 100vh;
+    overflow: hidden;
+    padding: 30px 0;
+    background: #f5f5f5;
+}
+
+.chat-area {
+    position: relative;
+    width: 100%;
+    background-color: #fff;
+    border-radius: 0.3rem;
+    height: 90vh;
+    overflow: hidden;
+    min-height: calc(100% - 1rem);
+}
+
+.chatlist {
+    outline: 0;
+    height: 100%;
+    overflow: hidden;
+    width: 300px;
+    float: left;
+    padding: 15px;
+}
+
+.chat-area .modal-content {
+    border: none;
+    border-radius: 0;
+    outline: 0;
+    height: 100%;
+}
+
+.chat-area .modal-dialog-scrollable {
+    height: 100% !important;
+}
+
+.chatbox {
+    width: auto;
+    overflow: hidden;
+    height: 100%;
+    border-left: 1px solid #ccc;
+}
+
+.chatbox .modal-dialog,
+.chatlist .modal-dialog {
+    max-width: 100%;
+    margin: 0;
+}
+
+.msg-search {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.chat-area .form-control {
+    display: block;
+    width: 80%;
+    padding: 0.375rem 0.75rem;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #222;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ccc;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0.25rem;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.chat-area .form-control:focus {
+    outline: 0;
+    box-shadow: inherit;
+}
+
+a.add img {
+    height: 36px;
+}
+
+.chat-area .nav-tabs {
+    border-bottom: 1px solid #dee2e6;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: inherit;
+}
+
+.chat-area .nav-tabs .nav-item {
+    width: 100%;
+}
+
+.chat-area .nav-tabs .nav-link {
+    width: 100%;
+    color: #180660;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.5;
+    text-transform: capitalize;
+    margin-top: 5px;
+    margin-bottom: -1px;
+    background: 0 0;
+    border: 1px solid transparent;
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+}
+
+.chat-area .nav-tabs .nav-item.show .nav-link,
+.chat-area .nav-tabs .nav-link.active {
+    color: #222;
+    background-color: #fff;
+    border-color: transparent transparent #000;
+}
+
+.chat-area .nav-tabs .nav-link:focus,
+.chat-area .nav-tabs .nav-link:hover {
+    border-color: transparent transparent #000;
+    isolation: isolate;
+}
+
+.chat-list h3 {
+    color: #222;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.5;
+    text-transform: capitalize;
+    margin-bottom: 0;
+}
+
+.chat-list p {
+    color: #343434;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+    text-transform: capitalize;
+    margin-bottom: 0;
+}
+
+.chat-list a.d-flex {
+    margin-bottom: 15px;
+    position: relative;
+    text-decoration: none;
+}
+
+.chat-list .active {
+    display: block;
+    content: '';
+    clear: both;
     position: absolute;
-    top: 0;
+    bottom: 3px;
+    left: 34px;
+    height: 12px;
+    width: 12px;
+    background: #00DB75;
+    border-radius: 50%;
+    border: 2px solid #fff;
+}
+
+.msg-head h3 {
+    color: #222;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.5;
+    margin-bottom: 0;
+}
+
+.msg-head p {
+    color: #343434;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+    text-transform: capitalize;
+    margin-bottom: 0;
+}
+
+.msg-head {
+    padding: 15px;
+    border-bottom: 1px solid #ccc;
+}
+
+.moreoption {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+
+.moreoption .navbar {
+    padding: 0;
+}
+
+.moreoption li .nav-link {
+    color: #222;
+    font-size: 16px;
+}
+
+.moreoption .dropdown-toggle::after {
+    display: none;
+}
+
+.moreoption .dropdown-menu[data-bs-popper] {
+    top: 100%;
+    left: auto;
+    right: 0;
+    margin-top: 0.125rem;
+}
+
+.msg-body ul {
+    overflow: hidden;
+}
+
+.msg-body ul li {
+    list-style: none;
+    margin: 15px 0;
+}
+
+.msg-body ul li.sender {
+    display: block;
+    width: 100%;
+    position: relative;
+}
+
+.msg-body ul li.sender:before {
+    display: block;
+    clear: both;
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: -7px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 12px 15px 12px;
+    border-color: transparent transparent #f5f5f5 transparent;
+    -webkit-transform: rotate(-37deg);
+    -ms-transform: rotate(-37deg);
+    transform: rotate(-37deg);
+}
+
+.msg-body ul li.sender p {
+    color: #000;
+    font-size: 14px;
+    line-height: 1.5;
+    font-weight: 400;
+    padding: 15px;
+    background: #f5f5f5;
+    display: inline-block;
+    border-bottom-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    margin-bottom: 0;
+}
+
+.msg-body ul li.sender p b {
+    display: block;
+    color: #180660;
+    font-size: 14px;
+    line-height: 1.5;
+    font-weight: 500;
+}
+
+.msg-body ul li.repaly {
+    display: block;
+    width: 100%;
+    text-align: right;
+    position: relative;
+}
+
+.msg-body ul li.repaly:before {
+    display: block;
+    clear: both;
+    content: '';
+    position: absolute;
+    bottom: 15px;
+    right: -7px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 12px 15px 12px;
+    border-color: transparent transparent #4b7bec transparent;
+    -webkit-transform: rotate(37deg);
+    -ms-transform: rotate(37deg);
+    transform: rotate(37deg);
+}
+
+.msg-body ul li.repaly p {
+    color: #fff;
+    font-size: 14px;
+    line-height: 1.5;
+    font-weight: 400;
+    padding: 15px;
+    background: #4b7bec;
+    display: inline-block;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    margin-bottom: 0;
+}
+
+.msg-body ul li.repaly p b {
+    display: block;
+    color: #061061;
+    font-size: 14px;
+    line-height: 1.5;
+    font-weight: 500;
+}
+
+.msg-body ul li.repaly:after {
+    display: block;
+    content: '';
+    clear: both;
+}
+
+.time {
+    display: block;
+    color: #000;
+    font-size: 12px;
+    line-height: 1.5;
+    font-weight: 400;
+}
+
+li.repaly .time {
+    margin-right: 20px;
+}
+
+.divider {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+}
+
+.msg-body h6 {
+    text-align: center;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #222;
+    background: #fff;
+    display: inline-block;
+    padding: 0 5px;
+    margin-bottom: 0;
+}
+
+.divider:after {
+    display: block;
+    content: '';
+    clear: both;
+    position: absolute;
+    top: 12px;
     left: 0;
+    border-top: 1px solid #EBEBEB;
     width: 100%;
     height: 100%;
-    border-radius: 50%;
+    z-index: -1;
+}
+
+.send-box {
+    padding: 15px;
+    border-top: 1px solid #ccc;
+}
+
+.send-box form {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.send-box .form-control {
+    display: block;
+    width: 85%;
+    padding: 0.375rem 0.75rem;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #222;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ccc;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0.25rem;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.send-box button {
+    border: none;
+    background: #3867d6;
+    padding: 0.375rem 5px;
+    color: #fff;
+    border-radius: 0.25rem;
+    font-size: 14px;
+    font-weight: 400;
+    width: 24%;
+    margin-left: 1%;
+}
+
+.send-box button i {
+    margin-right: 5px;
+}
+
+.send-btns .button-wrapper {
+    position: relative;
+    width: 125px;
+    height: auto;
+    text-align: left;
+    margin: 0 auto;
+    display: block;
+    background: #F6F7FA;
+    border-radius: 3px;
+    padding: 5px 15px;
+    float: left;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    overflow: hidden;
+}
+
+.send-btns .button-wrapper span.label {
+    position: relative;
+    z-index: 1;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    width: 100%;
+    cursor: pointer;
+    color: #343945;
+    font-weight: 400;
+    text-transform: capitalize;
+    font-size: 13px;
+}
+
+#upload {
+    display: inline-block;
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.send-btns .attach .form-control {
+    display: inline-block;
+    width: 120px;
+    height: auto;
+    padding: 5px 8px;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #343945;
+    background-color: #F6F7FA;
+    background-clip: padding-box;
+    border: 1px solid #F6F7FA;
+    border-radius: 3px;
+    margin-bottom: 5px;
+}
+
+.send-btns .button-wrapper span.label img {
+    margin-right: 5px;
+}
+
+.button-wrapper {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+button:focus {
+    outline: 0;
+}
+
+.add-apoint {
+    display: inline-block;
+    margin-left: 5px;
+}
+
+.add-apoint a {
+    text-decoration: none;
+    background: #F6F7FA;
+    border-radius: 8px;
+    padding: 8px 8px;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.2;
+    color: #343945;
+}
+
+.add-apoint a svg {
+    margin-right: 5px;
+}
+
+.chat-icon {
+    display: none;
+}
+
+.closess i {
     display: none;
 }
 
 
-.chat-box {
-  display:none;
-  background: #efefef;
-  position:fixed;
-  right:30px;
-  bottom:50px;  
-  width:350px;
-  max-width: 85vw;
-  max-height:100vh;
-  border-radius:5px;  
-/*   box-shadow: 0px 5px 35px 9px #464a92; */
-  box-shadow: 0px 5px 35px 9px #ccc;
-}
-.chat-box-toggle {
-  float:right;
-  margin-right:15px;
-  cursor:pointer;
-}
-.chat-box-header {
-  background: #5A5EB9;
-  height:70px;
-  border-top-left-radius:5px;
-  border-top-right-radius:5px; 
-  color:white;
-  text-align:center;
-  font-size:20px;
-  padding-top:17px;
-}
-.chat-box-body {
-  position: relative;  
-  height:370px;  
-  height:auto;
-  border:1px solid #ccc;  
-  overflow: hidden;
-}
-.chat-box-body:after {
-  content: "";
-  background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTAgOCkiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+PGNpcmNsZSBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMS4yNSIgY3g9IjE3NiIgY3k9IjEyIiByPSI0Ii8+PHBhdGggZD0iTTIwLjUuNWwyMyAxMW0tMjkgODRsLTMuNzkgMTAuMzc3TTI3LjAzNyAxMzEuNGw1Ljg5OCAyLjIwMy0zLjQ2IDUuOTQ3IDYuMDcyIDIuMzkyLTMuOTMzIDUuNzU4bTEyOC43MzMgMzUuMzdsLjY5My05LjMxNiAxMC4yOTIuMDUyLjQxNi05LjIyMiA5LjI3NC4zMzJNLjUgNDguNXM2LjEzMSA2LjQxMyA2Ljg0NyAxNC44MDVjLjcxNSA4LjM5My0yLjUyIDE0LjgwNi0yLjUyIDE0LjgwNk0xMjQuNTU1IDkwcy03LjQ0NCAwLTEzLjY3IDYuMTkyYy02LjIyNyA2LjE5Mi00LjgzOCAxMi4wMTItNC44MzggMTIuMDEybTIuMjQgNjguNjI2cy00LjAyNi05LjAyNS0xOC4xNDUtOS4wMjUtMTguMTQ1IDUuNy0xOC4xNDUgNS43IiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMS4yNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHBhdGggZD0iTTg1LjcxNiAzNi4xNDZsNS4yNDMtOS41MjFoMTEuMDkzbDUuNDE2IDkuNTIxLTUuNDEgOS4xODVIOTAuOTUzbC01LjIzNy05LjE4NXptNjMuOTA5IDE1LjQ3OWgxMC43NXYxMC43NWgtMTAuNzV6IiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMS4yNSIvPjxjaXJjbGUgZmlsbD0iIzAwMCIgY3g9IjcxLjUiIGN5PSI3LjUiIHI9IjEuNSIvPjxjaXJjbGUgZmlsbD0iIzAwMCIgY3g9IjE3MC41IiBjeT0iOTUuNSIgcj0iMS41Ii8+PGNpcmNsZSBmaWxsPSIjMDAwIiBjeD0iODEuNSIgY3k9IjEzNC41IiByPSIxLjUiLz48Y2lyY2xlIGZpbGw9IiMwMDAiIGN4PSIxMy41IiBjeT0iMjMuNSIgcj0iMS41Ii8+PHBhdGggZmlsbD0iIzAwMCIgZD0iTTkzIDcxaDN2M2gtM3ptMzMgODRoM3YzaC0zem0tODUgMThoM3YzaC0zeiIvPjxwYXRoIGQ9Ik0zOS4zODQgNTEuMTIybDUuNzU4LTQuNDU0IDYuNDUzIDQuMjA1LTIuMjk0IDcuMzYzaC03Ljc5bC0yLjEyNy03LjExNHpNMTMwLjE5NSA0LjAzbDEzLjgzIDUuMDYyLTEwLjA5IDcuMDQ4LTMuNzQtMTIuMTF6bS04MyA5NWwxNC44MyA1LjQyOS0xMC44MiA3LjU1Ny00LjAxLTEyLjk4N3pNNS4yMTMgMTYxLjQ5NWwxMS4zMjggMjAuODk3TDIuMjY1IDE4MGwyLjk0OC0xOC41MDV6IiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMS4yNSIvPjxwYXRoIGQ9Ik0xNDkuMDUgMTI3LjQ2OHMtLjUxIDIuMTgzLjk5NSAzLjM2NmMxLjU2IDEuMjI2IDguNjQyLTEuODk1IDMuOTY3LTcuNzg1LTIuMzY3LTIuNDc3LTYuNS0zLjIyNi05LjMzIDAtNS4yMDggNS45MzYgMCAxNy41MSAxMS42MSAxMy43MyAxMi40NTgtNi4yNTcgNS42MzMtMjEuNjU2LTUuMDczLTIyLjY1NC02LjYwMi0uNjA2LTE0LjA0MyAxLjc1Ni0xNi4xNTcgMTAuMjY4LTEuNzE4IDYuOTIgMS41ODQgMTcuMzg3IDEyLjQ1IDIwLjQ3NiAxMC44NjYgMy4wOSAxOS4zMzEtNC4zMSAxOS4zMzEtNC4zMSIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjEuMjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjwvZz48L3N2Zz4=');
-  opacity: 0.1;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  height:100%;
-  position: absolute;
-  z-index: -1;   
-}
-#chat-input {
-  background: #f4f7f9;
-  width:100%; 
-  position:relative;
-  height:47px;  
-  padding-top:10px;
-  padding-right:50px;
-  padding-bottom:10px;
-  padding-left:15px;
-  border:none;
-  resize:none;
-  outline:none;
-  border:1px solid #ccc;
-  color:#888;
-  border-top:none;
-  border-bottom-right-radius:5px;
-  border-bottom-left-radius:5px;
-  overflow:hidden;  
-}
-.chat-input > form {
-    margin-bottom: 0;
-}
-#chat-input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-  color: #ccc;
-}
-#chat-input::-moz-placeholder { /* Firefox 19+ */
-  color: #ccc;
-}
-#chat-input:-ms-input-placeholder { /* IE 10+ */
-  color: #ccc;
-}
-#chat-input:-moz-placeholder { /* Firefox 18- */
-  color: #ccc;
-}
-.chat-submit {  
-  position:absolute;
-  bottom:3px;
-  right:10px;
-  background: transparent;
-  box-shadow:none;
-  border:none;
-  border-radius:50%;
-  color:#5A5EB9;
-  width:35px;
-  height:35px;  
-}
-.chat-logs {
-  padding:15px; 
-  height:370px;
-  overflow-y:scroll;
-}
 
-.chat-logs::-webkit-scrollbar-track
-{
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-	background-color: #F5F5F5;
-}
-
-.chat-logs::-webkit-scrollbar
-{
-	width: 5px;  
-	background-color: #F5F5F5;
-}
-
-.chat-logs::-webkit-scrollbar-thumb
-{
-	background-color: #5A5EB9;
-}
-
-
-
-@media only screen and (max-width: 500px) {
-   .chat-logs {
-        height:40vh;
+@media (max-width: 767px) {
+    .chat-icon {
+        display: block;
+        margin-right: 5px;
     }
-}
-
-.chat-msg.user > .msg-avatar img {
-  width:45px;
-  height:45px;
-  border-radius:50%;
-  float:left;
-  width:15%;
-}
-.chat-msg.self > .msg-avatar img {
-  width:45px;
-  height:45px;
-  border-radius:50%;
-  float:right;
-  width:15%;
-}
-.cm-msg-text {
-  background:white;
-  padding:10px 15px 10px 15px;  
-  color:#666;
-  max-width:75%;
-  float:left;
-  margin-left:10px; 
-  position:relative;
-  margin-bottom:20px;
-  border-radius:30px;
-}
-.chat-msg {
-  clear:both;    
-}
-.chat-msg.self > .cm-msg-text {  
-  float:right;
-  margin-right:10px;
-  background: #5A5EB9;
-  color:white;
-}
-.cm-msg-button>ul>li {
-  list-style:none;
-  float:left;
-  width:50%;
-}
-.cm-msg-button {
-    clear: both;
-    margin-bottom: 70px;
+    .chatlist {
+        width: 100%;
+    }
+    .chatbox {
+        width: 100%;
+        position: absolute;
+        left: 1000px;
+        right: 0;
+        background: #fff;
+        transition: all 0.5s ease;
+        border-left: none;
+    }
+    .showbox {
+        left: 0 !important;
+        transition: all 0.5s ease;
+    }
+    .msg-head h3 {
+        font-size: 14px;
+    }
+    .msg-head p {
+        font-size: 12px;
+    }
+    .msg-head .flex-shrink-0 img {
+        height: 30px;
+    }
+    .send-box button {
+        width: 28%;
+    }
+    .send-box .form-control {
+        width: 70%;
+    }
+    .chat-list h3 {
+        font-size: 14px;
+    }
+    .chat-list p {
+        font-size: 12px;
+    }
+    .msg-body ul li.sender p {
+        font-size: 13px;
+        padding: 8px;
+        border-bottom-left-radius: 6px;
+        border-top-right-radius: 6px;
+        border-bottom-right-radius: 6px;
+    }
+    .msg-body ul li.repaly p {
+        font-size: 13px;
+        padding: 8px;
+        border-top-left-radius: 6px;
+        border-top-right-radius: 6px;
+        border-bottom-left-radius: 6px;
+    }
 }
 </style>
 @endsection
@@ -243,37 +776,216 @@ i.fa.fa-paper-plane {
             </div>
         </div>
     </div>
-	 <div class="page-content pt-150 pb-150"></div>
-        <div class="container">
-            <div class="row">
-                <div class="col-12 m-auto">
+	  <!-- <div class="page-content pt-150 pb-150"></div> -->
+    <div class="container">
+        <div class="row">
+            <div class="col-12 m-auto">
 					
-					<div id="chat-circle" class="btn btn-raised">
-						<!-- <div id="chat-overlay"></div>
-							<i class="material-icons">speaker_phone</i> -->
-					</div>
-					<div id="body"> 
-						<div class="chat-box">
-							<div class="chat-box-header">
-								ChatBot
-								<span class="chat-box-toggle"><i class="material-icons">close</i></span>
-							</div>
-							<div class="chat-box-body">
-								<div class="chat-box-overlay">   
-								</div>
-								<div class="chat-logs">
-								</div><!--chat-log -->
-							</div>
-							<div class="chat-input">      
-								<form>
-									<input type="text" id="chat-input" placeholder="Send a message..."/>
-									<button type="submit" class="chat-submit" id="chat-submit"><i class="material-icons">send</i></button>
-								</form>      
-							</div>
-						</div> 
-					</div>
-				</div>
-			</div>
+<!-- char-area -->
+<section class="message-area">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="chat-area">
+          <!-- chatlist -->
+          <div class="chatlist">
+            <div class="modal-dialog-scrollable">
+              <div class="modal-content">
+                <!-- <div class="chat-header">
+                  <div class="msg-search">
+                    <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Search" aria-label="search">
+                    <a class="add" href="#"><img class="img-fluid" src="https://mehedihtml.com/chatbox/assets/img/add.svg" alt="add"></a>
+                  </div>
+
+                  <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link active" id="Open-tab" data-bs-toggle="tab" data-bs-target="#Open" type="button" role="tab" aria-controls="Open" aria-selected="true">Open</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link" id="Closed-tab" data-bs-toggle="tab" data-bs-target="#Closed" type="button" role="tab" aria-controls="Closed" aria-selected="false">Closed</button>
+                    </li>
+                  </ul>
+                </div> -->
+
+                <div class="modal-body">
+                  <!-- chat-list -->
+                  <div class="chat-lists">
+                    <div class="tab-content" id="myTabContent">
+                      <div class="tab-pane fade show active" id="Open" role="tabpanel" aria-labelledby="Open-tab">
+                        <!-- chat-list -->
+                        <div class="chat-list">
+                          <a href="#" class="d-flex align-items-center">
+                            <div class="flex-shrink-0">
+                              <img class="img-fluid" src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png"  style="width:50px;"alt="user img">
+                              <span class="active"></span>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                              <h3>{{$vendor->first_name}} {{$vendor->last_name}}</h3>
+                              <p>{{$vendor->email}}</p>
+                            </div>
+                          </a>
+                          <!-- <a href="#" class="d-flex align-items-center">
+                            <div class="flex-shrink-0">
+                              <img class="img-fluid" src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="user img">
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                              <h3>Ryhan</h3>
+                              <p>front end developer</p>
+                            </div>
+                          </a> -->
+                          
+
+                        </div>
+                        <!-- chat-list -->
+                      </div>
+                      
+                    </div>
+
+                  </div>
+                  <!-- chat-list -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- chatlist -->
+
+          <!-- chatbox -->
+          <div class="chatbox showbox">
+            <div class="modal-dialog-scrollable">
+              <div class="modal-content">
+                <div class="msg-head">
+                  <div class="row">
+                    <div class="col-8">
+                      <div class="d-flex align-items-center">
+                        <span class="chat-icon"><img class="img-fluid" src="https://mehedihtml.com/chatbox/assets/img/arroleftt.svg" alt="image title"></span>
+                        <div class="flex-shrink-0">
+                          <img class="img-fluid" src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" style="width:50px;" alt="user img">
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                          @if($enquiry->type == 0)
+                          <h3>Professionals : {{$enquiry_info->project_name}}</h3>
+                          @else 
+                          <h3>Get Design : {{$enquiry_info->title}}</h3>
+                          @endif
+                          <p>{{$enquiry->comments}}</p>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- <div class="col-4">
+                      <ul class="moreoption">
+                        <li class="navbar nav-item dropdown">
+                          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></a>
+                          <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li>
+                              <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </div> -->
+                  </div>
+                </div>
+
+                <div class="modal-body" id="modal-body">
+                  <div class="msg-body" id="msg-body">
+                    <ul id="chat_customer" class="chat-content">
+                      <!-- <li class="sender">
+                        <p> Hey, Are you there? </p>
+                        <span class="time">10:06 am</span>
+                      </li>
+                      <li class="sender">
+                        <p> Hey, Are you there? </p>
+                        <span class="time">10:16 am</span>
+                      </li>
+                      <li class="repaly">
+                        <p>yes!</p>
+                        <span class="time">10:20 am</span>
+                      </li>
+                      <li class="sender">
+                        <p> Hey, Are you there? </p>
+                        <span class="time">10:26 am</span>
+                      </li>
+                      <li class="sender">
+                        <p> Hey, Are you there? </p>
+                        <span class="time">10:32 am</span>
+                      </li>
+                      <li class="repaly">
+                        <p>How are you?</p>
+                        <span class="time">10:35 am</span>
+                      </li>
+                      <li>
+                        <div class="divider">
+                          <h6>Today</h6>
+                        </div>
+                      </li>
+
+                      <li class="repaly">
+                        <p> yes, tell me</p>
+                        <span class="time">10:36 am</span>
+                      </li>
+                      <li class="repaly">
+                        <p>yes... on it</p>
+                        <span class="time">junt now</span>
+                      </li> -->
+
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="send-box">
+                  <form id="chat_form" action="javascript:void(0);">
+                  {{csrf_field()}}
+                    <input type="hidden" value="{{$enquiry->id}}" name="enquiry_id" id="enquiry_id">
+                    <input type="hidden" value="{{$enquiry->vendor_id}}" name="vendor_id" id="vendor_id">
+
+                    <input autocomplete="off" type="text" name="message" id="message" class="form-control" aria-label="message…" placeholder="Write message…">
+
+                    <button onclick="ChatSave()" type="button"><i class="fa fa-paper-plane" aria-hidden="true"></i> Send</button>
+                  </form>
+
+                  <!-- <div class="send-btns">
+                    <div class="attach">
+                      <div class="button-wrapper">
+                        <span class="label">
+                          <img class="img-fluid" src="https://mehedihtml.com/chatbox/assets/img/upload.svg" alt="image title"> attached file
+                        </span><input type="file" name="upload" id="upload" class="upload-box" placeholder="Upload File" aria-label="Upload File">
+                      </div>
+
+                      <select class="form-control" id="exampleFormControlSelect1">
+                        <option>Select template</option>
+                        <option>Template 1</option>
+                        <option>Template 2</option>
+                      </select>
+
+                      <div class="add-apoint">
+                        <a href="#" data-toggle="modal" data-target="#exampleModal4"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewbox="0 0 16 16" fill="none">
+                            <path d="M8 16C3.58862 16 0 12.4114 0 8C0 3.58862 3.58862 0 8 0C12.4114 0 16 3.58862 16 8C16 12.4114 12.4114 16 8 16ZM8 1C4.14001 1 1 4.14001 1 8C1 11.86 4.14001 15 8 15C11.86 15 15 11.86 15 8C15 4.14001 11.86 1 8 1Z" fill="#7D7D7D" />
+                            <path d="M11.5 8.5H4.5C4.224 8.5 4 8.276 4 8C4 7.724 4.224 7.5 4.5 7.5H11.5C11.776 7.5 12 7.724 12 8C12 8.276 11.776 8.5 11.5 8.5Z" fill="#7D7D7D" />
+                            <path d="M8 12C7.724 12 7.5 11.776 7.5 11.5V4.5C7.5 4.224 7.724 4 8 4C8.276 4 8.5 4.224 8.5 4.5V11.5C8.5 11.776 8.276 12 8 12Z" fill="#7D7D7D" />
+                          </svg> Appoinment</a>
+                      </div>
+                    </div>
+                  </div> -->
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- chatbox -->
+
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+<!-- char-area -->
+
+
+
 		</div>
 	</div>
 </div>
@@ -281,104 +993,105 @@ i.fa.fa-paper-plane {
 @endsection
 @section('extra-js')
 <script>
-$(function() {
-  var INDEX = 0; 
-  $("#chat-submit").click(function(e) {
-    e.preventDefault();
-    var msg = $("#chat-input").val(); 
-    if(msg.trim() == ''){
-      return false;
+
+var enquiry_id=<?php echo $enquiry->id; ?>;
+viewChat("<?php echo $enquiry->id; ?>");
+function viewChat(id)
+{
+  $.ajax({
+    url : '/customer/get-vendor-chat/'+id,
+    type: "GET",
+    success: function(data)
+    {
+      $('#chat_customer').html(data.html);
+      // var chatContainer=$('#chat_customer');
+
+      // chatContainer.scrollTop($(".modal-body > .msg-body").height());
+      $('.modal-body .msg-body').animate({scrollTop: $('#chat_customer').scrollHeight},"fast");
+
     }
-    generate_message(msg, 'self');
-    var buttons = [
+  });
+}
+function scrollToBottom(){
+	const messages = document.getElementById('modal-body');
+	const messagesid = document.getElementById('msg-body');  
+	messages.scrollTop = messagesid.offsetTop - 10;
+}
+
+scrollToBottom();
+
+
+setInterval(function(){
+    $.ajax({
+        url : '/customer/view-vendor-chat-count/'+enquiry_id,
+        type: "GET",
+        success: function(data)
         {
-          name: 'Existing User',
-          value: 'existing'
-        },
-        {
-          name: 'New User',
-          value: 'new'
+            if(data > 0){
+                viewchatpartial(enquiry_id);
+            }
         }
-      ];
-    setTimeout(function() {      
-      generate_message(msg, 'user');  
-    }, 1000)
-    
-  })
-  
-  function generate_message(msg, type) {
-    INDEX++;
-    var str="";
-    str += "<div id='cm-msg-"+INDEX+"' class=\"chat-msg "+type+"\">";
-    str += "          <span class=\"msg-avatar\">";
-    str += "            <img src=\"https:\/\/image.crisp.im\/avatar\/operator\/196af8cc-f6ad-4ef7-afd1-c45d5231387c\/240\/?1483361727745\">";
-    str += "          <\/span>";
-    str += "          <div class=\"cm-msg-text\">";
-    str += msg;
-    str += "          <\/div>";
-    str += "        <\/div>";
-    $(".chat-logs").append(str);
-    $("#cm-msg-"+INDEX).hide().fadeIn(300);
-    if(type == 'self'){
-     $("#chat-input").val(''); 
-    }    
-    $(".chat-logs").stop().animate({ scrollTop: $(".chat-logs")[0].scrollHeight}, 1000);    
-  }  
-  
-  function generate_button_message(msg, buttons){    
-    /* Buttons should be object array */
-      [
-        {
-          name: 'Existing User',
-          value: 'existing'
-        },
-        {
-          name: 'New User',
-          value: 'new'
-        }
-      ]
-    
-    INDEX++;
-    var btn_obj = buttons.map(function(button) {
-       return  "              <li class=\"button\"><a href=\"javascript:;\" class=\"btn btn-primary chat-btn\" chat-value=\""+button.value+"\">"+button.name+"<\/a><\/li>";
-    }).join('');
-    var str="";
-    str += "<div id='cm-msg-"+INDEX+"' class=\"chat-msg user\">";
-    str += "          <span class=\"msg-avatar\">";
-    str += "            <img src=\"https:\/\/image.crisp.im\/avatar\/operator\/196af8cc-f6ad-4ef7-afd1-c45d5231387c\/240\/?1483361727745\">";
-    str += "          <\/span>";
-    str += "          <div class=\"cm-msg-text\">";
-    str += msg;
-    str += "          <\/div>";
-    str += "          <div class=\"cm-msg-button\">";
-    str += "            <ul>";   
-    str += btn_obj;
-    str += "            <\/ul>";
-    str += "          <\/div>";
-    str += "        <\/div>";
-    $(".chat-logs").append(str);
-    $("#cm-msg-"+INDEX).hide().fadeIn(300);   
-    $(".chat-logs").stop().animate({ scrollTop: $(".chat-logs")[0].scrollHeight}, 1000);
-    $("#chat-input").attr("disabled", true);
-  }
-  
-  $(document).delegate(".chat-btn", "click", function() {
-    var value = $(this).attr("chat-value");
-    var name = $(this).html();
-    $("#chat-input").attr("disabled", false);
-    generate_message(name, 'self');
-  })
-  
-  $("#chat-circle").click(function() {    
-    $("#chat-circle").toggle('scale');
-    $(".chat-box").toggle('scale');
-  })
-  
-  $(".chat-box-toggle").click(function() {
-    $("#chat-circle").toggle('scale');
-    $(".chat-box").toggle('scale');
-  })
-  
+    });
+},1000);
+
+function viewchatpartial(id)
+{
+  $.ajax({
+    url : '/customer/get-vendor-chat/'+id,
+    type: "GET",
+    success: function(data)
+    {
+      $('#chat_customer').html(data.html);
+      chatContainer.scrollTop($(".msg-body > .chat-content").height());
+    }
+  });
+}
+
+document.onkeyup = function (e) {
+	e = e || window.event;//Get event
+
+	if (e.which == 13) {
+	  e.preventDefault();
+	  ChatSave();
+ 	} 
+};
+
+function ChatSave(){
+  var formData = new FormData($('#chat_form')[0]);
+  $.ajax({
+    url : '/customer/save-vendor-chat',
+    type: "POST",
+    data: formData,
+    contentType: false,
+    processData: false,
+    dataType: "JSON",
+    success: function(data)
+    {
+      //console.log(data);                
+      $("#chat_form")[0].reset();
+      toastr.success('Chat Send Successfully', 'Successfully Update');
+      $("#message").val('');
+      viewchatpartial(data);
+    },
+    error: function (data, errorThrown) {
+      var errorData = data.responseJSON.errors;
+      $.each(errorData, function(i, obj) {
+        toastr.error(obj[0]);
+      });
+    }
+  });
+}
+
+$(document).ready(function() {
+  $(".chat-list a").click(function() {
+      // alert("test");
+      $(".chatbox").addClass('showbox');
+      return false;
+  });
+
+  $(".chat-icon").click(function() {
+      $(".chatbox").removeClass('showbox');
+  });
 });
 </script>
 @endsection

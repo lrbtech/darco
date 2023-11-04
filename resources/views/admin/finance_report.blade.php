@@ -8,7 +8,7 @@
     <div class="content-wrapper">
       <div class="content-header row">
         <div class="content-header-left col-md-6 col-12 mb-2 breadcrumb-new">
-          <h3 class="content-header-title mb-0 d-inline-block">{{$language[88][Auth::guard('admin')->user()->lang]}}</h3>
+          <h3 class="content-header-title mb-0 d-inline-block">Finance Report</h3>
           <div class="row breadcrumbs-top d-inline-block">
             <div class="breadcrumb-wrapper col-12">
               <ol class="breadcrumb">
@@ -39,7 +39,7 @@
             <div class="col-12">
               <div class="card">
                 <div class="card-header">
-                <form id="search_form" action="/admin/excel-orders" method="post" enctype="multipart/form-data">
+                <form id="search_form" action="/admin/excel-finance-report" method="post" enctype="multipart/form-data">
                 {{ csrf_field() }}
                 <div class="row">
                   <?php
@@ -80,15 +80,13 @@
                       <thead>
                         <tr>
                           <th>#</th>
-                          <th>{{$language[90][Auth::guard('admin')->user()->lang]}}</th>
-                          <th>{{$language[91][Auth::guard('admin')->user()->lang]}}</th>
-                          <th>{{$language[92][Auth::guard('admin')->user()->lang]}}</th>
-                          <!-- <th>Product</th> -->
-                          <!-- <th>Tax</th>
-                          <th>Shipping</th> -->
-                          <th>{{$language[93][Auth::guard('admin')->user()->lang]}}</th>
-                          <th>{{$language[94][Auth::guard('admin')->user()->lang]}}</th>
-                          <th>{{$language[95][Auth::guard('admin')->user()->lang]}}</th>
+                          <th>Vendor</th>
+                          <th>Total Orders</th>
+                          <th>Sub Total</th>
+                          <th>Coupon Value</th>
+                          <th>Shipping Charge</th>
+                          <th>Service Charge</th>
+                          <th>Total</th> 
                         </tr>
                       </thead>
                       <tbody>
@@ -96,15 +94,13 @@
                       <tfoot>
                         <tr>
                           <th>#</th>
-                          <th>{{$language[90][Auth::guard('admin')->user()->lang]}}</th>
-                          <th>{{$language[91][Auth::guard('admin')->user()->lang]}}</th>
-                          <th>{{$language[92][Auth::guard('admin')->user()->lang]}}</th>
-                          <!-- <th>Product</th> -->
-                          <!-- <th>Tax</th>
-                          <th>Shipping</th> -->
-                          <th>{{$language[93][Auth::guard('admin')->user()->lang]}}</th>
-                          <th>{{$language[94][Auth::guard('admin')->user()->lang]}}</th>
-                          <th>{{$language[95][Auth::guard('admin')->user()->lang]}}</th>
+                          <th>Vendor</th>
+                          <th>Total Orders</th>
+                          <th>Sub Total</th>
+                          <th>Coupon Value</th>
+                          <th>Shipping Charge</th>
+                          <th>Service Charge</th>
+                          <th>Total</th>                          
                         </tr>
                       </tfoot>
                     </table>
@@ -126,14 +122,14 @@
 <script src="/app-assets/js/scripts/tables/datatables/datatable-basic.js" type="text/javascript"></script>
 
 <script>
-$('.orders').addClass('active');
+$('.finance-report').addClass('active');
 
 var orderPageTable = $('#datatable').DataTable({
   "processing": true,
   "serverSide": true,
   //"pageLength": 50,
   "ajax":{
-      "url": "/admin/get-orders",
+      "url": "/admin/get-finance-report",
       "dataType": "json",
       "type": "POST",
       // "data":{ _token: "{{csrf_token()}}"}
@@ -146,20 +142,18 @@ var orderPageTable = $('#datatable').DataTable({
   },
   "columns": [
     { data: 'DT_RowIndex', name: 'DT_RowIndex'},
-    { data: 'date', date: 'name'},
     { data: 'vendor', type: 'vendor'},
-    { data: 'customer', type: 'customer'},
-    // { data: 'product', name: 'product'},
-    //{ data: 'tax', name: 'tax' },
-    //{ data: 'shipping', name: 'shipping' },
+    { data: 'total_orders', type: 'total_orders'},
+    { data: 'sub_total', name: 'sub_total'},
+    { data: 'discount_value', name: 'discount_value' },
+    { data: 'shipping_charge', name: 'shipping_charge' },
+    { data: 'service_charge', name: 'service_charge' },
     { data: 'total', name: 'total' },
-    { data: 'shipping_status', name: 'shipping_status' },
-    { data: 'action', name: 'action' },
   ]
 });
 
 $('#search').click(function(){
-    var new_url = '/admin/get-orders';
+    var new_url = '/admin/get-finance-report';
     orderPageTable.ajax.url(new_url).load(null, false);
     //orderPageTable.draw();
 });
@@ -169,7 +163,7 @@ function PrintReport(){
     spinner_body.show();
     var formData = new FormData($('#search_form')[0]);
     $.ajax({
-        url : '/admin/print-orders',
+        url : '/admin/print-finance-report',
         type: "POST",
         data: formData,
         contentType: false,
@@ -201,22 +195,5 @@ function PrintReport(){
     });
 }
 
-function ChangeStatus(id,status){
-  var r = confirm("Are you sure");
-  if (r == true) {
-    $.ajax({
-      url : '/admin/change-order-status/'+id+'/'+status,
-      type: "GET",
-      dataType: "JSON",
-      success: function(data)
-      {
-        toastr.success(data, 'Successfully Update');
-        // location.reload();
-        var new_url = '/admin/get-orders';
-        orderPageTable.ajax.url(new_url).load(null, false);
-      }
-    });
-  } 
-}
 </script>
 @endsection

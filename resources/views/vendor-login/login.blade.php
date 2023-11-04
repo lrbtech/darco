@@ -58,9 +58,11 @@ data-open="click" data-menu="vertical-menu-modern" data-col="1-column" style="ba
                   <!-- <p class="card-subtitle line-on-side text-muted text-center font-small-3 mx-2">
                     <span>OR Using Account Details</span>
                   </p> -->
+                  <center><a href="/home" class="card-subtitle line-on-side text-muted text-center font-small-3 pt-2"><span>Back to Home</span></a></center>
+                  <br>
                   <div class="card-body pt-0">
                     <form class="form-horizontal" method="POST" action="{{ route('vendor.login.submit') }}">
-			        @csrf
+			              @csrf
                       <fieldset class="form-group floating-label-form-group">
                         <label for="email">Your Username or Email</label>
                         <input type="text" placeholder="Username or Email" autocomplete="off" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>

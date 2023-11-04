@@ -18,6 +18,8 @@ use DB;
 use Mail;
 use Auth;
 use Yajra\DataTables\Facades\DataTables;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\PaymentsoutExport;
 
 class ReportController extends Controller
 {
@@ -29,9 +31,33 @@ class ReportController extends Controller
         date_default_timezone_get();
     }
 
+    public static function viewvendor($id){
+        $vendor = vendor::find($id);
+        $output=$vendor->first_name . $vendor->last_name;
+        $output.='<p>Ph : '.$vendor->mobile.'</p>';
+
+        echo $output;
+    }
+
+    public static function viewcustomer($id){
+        $user = User::find($id);
+        $output=$user->first_name . $user->last_name;
+        $output.='<p>Ph : '.$user->mobile.'</p>';
+
+        echo $output;
+    }
+
+    public static function viewproduct($id){
+        $product = product::find($id);
+        $output=$product->product_name;
+
+        echo $output;
+    }
+
     public function paymentsoutreport(){
         $language = language::all();
-        return view('admin.payments_out_report',compact('language'));
+        $vendor = vendor::all();
+        return view('admin.payments_out_report',compact('language','vendor'));
     }
 
     public function changestatuspaymentsout($id,$status){
@@ -42,7 +68,21 @@ class ReportController extends Controller
     }
 
     public function getpaymentsoutreport(Request $request){
-        $orders = orders::orderBy('id','DESC')->where('payment_status',1)->get();
+        $from_date = date('Y-m-d', strtotime($request->from_date));
+        $to_date = date('Y-m-d', strtotime($request->to_date));
+
+        $i =DB::table('orders as o');
+        if ( $request->has('from_date') && !empty($request->get('from_date')) && $request->has('to_date') && !empty($request->get('to_date')) )
+        {
+            $i->whereBetween('o.date', [$from_date, $to_date]);
+        }
+        if ($request->vendor_id != '')
+        {
+            $i->where('o.vendor_id',$request->vendor_id);
+        }
+        $i->orderBy('o.id','desc');
+        //$i->select('sh.*');
+        $orders = $i->get();
         
         return Datatables::of($orders)
             ->addColumn('date', function ($orders) {
@@ -114,6 +154,36 @@ class ReportController extends Controller
         ->make(true);
 
         //return Datatables::of($orders) ->addIndexColumn()->make(true);
+    }
+
+    public function excelpaymentsout(Request $request){
+        $fdate = date('Y-m-d', strtotime($request->from_date));
+        $tdate = date('Y-m-d', strtotime($request->to_date));
+            
+        $file_name ='paymentsoutreport.xlsx';
+        return Excel::download(new PaymentsoutExport($request), $file_name);
+    }
+    public function printpaymentsout(Request $request){
+        $from_date = date('Y-m-d', strtotime($request->from_date));
+        $to_date = date('Y-m-d', strtotime($request->to_date));
+
+        $i =DB::table('orders as o');
+        if ( $request->has('from_date') && !empty($request->get('from_date')) && $request->has('to_date') && !empty($request->get('to_date')) )
+        {
+            $i->whereBetween('o.date', [$from_date, $to_date]);
+        }
+        if ($request->vendor_id != '')
+        {
+            $i->where('o.vendor_id',$request->vendor_id);
+        }
+        $i->orderBy('o.id','desc');
+        //$i->select('sh.*');
+        $orders = $i->get();
+
+
+        $view = view('print.payments_out_report',compact('orders','request'))->render();
+
+        return response()->json(['html'=>$view]);
     }
 
 

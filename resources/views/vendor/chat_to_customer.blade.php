@@ -777,7 +777,7 @@ button:focus {
               <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/vendor/dashboard">Home</a>
                 </li>
-                <li class="breadcrumb-item active">About Us</li>
+                <li class="breadcrumb-item active">Chat</li>
               </ol>
             </div>
           </div>

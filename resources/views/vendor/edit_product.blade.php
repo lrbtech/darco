@@ -385,7 +385,7 @@
                                   <img id="file-ip-1-preview" src="/product_image/{{$product->image}}">
                                   <!-- <button type="button" class="imgRemove" onclick="myImgRemove(1)"></button> -->
                                   </label>
-                                  <input type="file" name="profile_image" id="file-ip-1" accept=".png,.jpg,.jpeg" onchange="showPreview(event, 1);">
+                                  <input type="file" name="image" id="file-ip-1" accept=".png,.jpg,.jpeg" onchange="showPreview(event, 1);">
                                   <p class="primary-img">Primary Image</p>
                                 </div>
                                 @foreach($product_images as $key => $row)

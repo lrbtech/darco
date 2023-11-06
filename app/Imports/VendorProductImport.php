@@ -20,10 +20,13 @@ use Mail;
 use Hash;
 use Carbon\Carbon;
 use Image;
-use Maatwebsite\Excel\Concerns\ToModel;
-use Maatwebsite\Excel\Concerns\WithHeadingRow;   
+// use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;  
+use Illuminate\Support\Collection;
+use Maatwebsite\Excel\Concerns\ToCollection;
 
-class VendorProductImport implements ToModel, WithHeadingRow
+
+class VendorProductImport implements ToCollection, WithHeadingRow
 {
     /**
     * @param array $row
@@ -35,18 +38,17 @@ class VendorProductImport implements ToModel, WithHeadingRow
         $this->request = $request;
     }
 
-    public function model(array $row)
+    public function collection(Collection $rows)
     {
-        // return new upload_data([
-        // ]);
         $request = $this->request;  
-        
+
+      foreach ($rows as $row) 
+      {
+        //echo $row['product_name_unique'];
+
         $sku_value = mt_rand( 1000000000, 9999999999);
         if(DB::table( 'products' )->where( 'sku_value', $sku_value )->exists()){
             $this->generateSkuValue();
-        }
-        else{
-            return $sku_value;
         }
 
         $get_product_group = product_group::where('group_name',$row['product_name_unique'])->where('vendor_id',Auth::guard('vendor')->user()->id)->first();
@@ -58,7 +60,7 @@ class VendorProductImport implements ToModel, WithHeadingRow
         else{
             $product_group = new product_group;
             $product_group->vendor_id = Auth::guard('vendor')->user()->id;
-            $product_group->group_name = $request->group_name;
+            $product_group->group_name = $row['product_name_unique'];
             $product_group->save();
 
             $product_group_id = $product_group->id;
@@ -92,6 +94,7 @@ class VendorProductImport implements ToModel, WithHeadingRow
         $product->rest_assured_seller = 0;
         $product->most_trusted = 0;
         $product->save();
+      }
     }
 
 

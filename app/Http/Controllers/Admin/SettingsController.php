@@ -45,6 +45,37 @@ class SettingsController extends Controller
         //return response()->json('successfully update'); 
     }
 
+    public function termsofuse(){
+        $settings = settings::find(1);
+        $language = language::all();
+        return view('admin.terms_of_use',compact('settings','language'));
+    }
+
+    public function updatetermsofuse(Request $request){
+        $settings = settings::find($request->id);
+        $settings->terms_of_use = $request->terms_of_use;
+        $settings->save();
+
+        return back();
+        //return response()->json('successfully update'); 
+    }
+
+    public function termsofpayment(){
+        $settings = settings::find(1);
+        $language = language::all();
+        return view('admin.terms_of_payment',compact('settings','language'));
+    }
+
+    public function updatetermsofpayment(Request $request){
+        $settings = settings::find($request->id);
+        $settings->terms_of_payment = $request->terms_of_payment;
+        $settings->save();
+
+        return back();
+        //return response()->json('successfully update'); 
+    }
+
+
     public function privacypolicy(){
         $settings = settings::find(1);
         $language = language::all();

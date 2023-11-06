@@ -1,5 +1,6 @@
 @extends('vendor.layouts')
 @section('extra-css')
+
 <style>
 /* **********************************
 Reset CSS
@@ -765,6 +766,19 @@ button:focus {
     }
 }
 </style>
+@if(session()->get('theme') == 'dark')
+<style>
+.modal-content {
+  background-color: #fafafa !important;
+}
+</style>
+@else 
+<style>
+.modal-content {
+  background-color: #fff !important;
+}
+</style>
+@endif
 @endsection
 @section('content')
 <div class="app-content content">
@@ -893,7 +907,7 @@ button:focus {
                   </div>
                 </div>
 
-                <div style="overflow:scroll;" class="modal-body" id="modal-body">
+                <div style="overflow:scroll;display: flex; flex-direction: column-reverse;" class="modal-body" id="modal-body">
                   <div class="msg-body" id="msg-body">
                     <ul id="chat_customer" class="chat-content">
                       <!-- <li class="sender">
@@ -1038,7 +1052,8 @@ function viewChat(id)
     success: function(data)
     {
       $('#chat_customer').html(data.html);
-      chatContainer.scrollTop($(".chat-container > .chat-content").height());
+      $('#chat_customer').scrollTop($('#chat_customer').height()); 
+      //chatContainer.scrollTop($(".chat-container > .chat-content").height());
     }
   });
 }

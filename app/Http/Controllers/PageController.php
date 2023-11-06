@@ -725,6 +725,14 @@ class PageController extends Controller
             $title='Terms and Condition';
             $content=$page->terms_and_conditions;
         }
+        elseif($id=="terms-of-use"){
+            $title='Terms and Condition';
+            $content=$page->terms_of_use;
+        }
+        elseif($id=="terms-of-payment"){
+            $title='Terms and Condition';
+            $content=$page->terms_of_payment;
+        }
         elseif($id=="vendor-guide"){
             $title='Vendor Guide';
             $content=$page->vendor_guide;

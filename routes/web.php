@@ -292,6 +292,12 @@ Route::group(['prefix' => 'admin'],function(){
 	Route::get('/terms-and-conditions', [App\Http\Controllers\Admin\SettingsController::class, 'termsandconditions']);
     Route::POST('/update-terms-and-conditions', [App\Http\Controllers\Admin\SettingsController::class, 'updatetermsandconditions']);
 
+	Route::get('/terms-of-use', [App\Http\Controllers\Admin\SettingsController::class, 'termsofuse']);
+    Route::POST('/update-terms-of-use', [App\Http\Controllers\Admin\SettingsController::class, 'updatetermsofuse']);
+
+	Route::get('/terms-of-payment', [App\Http\Controllers\Admin\SettingsController::class, 'termsofpayment']);
+    Route::POST('/update-terms-of-payment', [App\Http\Controllers\Admin\SettingsController::class, 'updatetermsofpayment']);
+
 	Route::get('/about-us', [App\Http\Controllers\Admin\SettingsController::class, 'aboutus']);
     Route::POST('/update-about-us', [App\Http\Controllers\Admin\SettingsController::class, 'updateaboutus']);
 
@@ -414,6 +420,13 @@ Route::group(['prefix' => 'admin'],function(){
 	Route::get('/edit-idea-book/{id}', [App\Http\Controllers\Admin\IdeaBookController::class, 'editideabook']);
 	Route::get('/delete-idea-book/{id}/{status}', [App\Http\Controllers\Admin\IdeaBookController::class, 'deleteideabook']);
 	Route::get('/delete-idea-book-image/{id}', [App\Http\Controllers\Admin\IdeaBookController::class, 'deleteideabookimage']);
+
+
+	Route::get('/chat-log', [App\Http\Controllers\Admin\ChatController::class, 'chatlog']);
+	Route::get('/get-chat-log/{id}', [App\Http\Controllers\Admin\ChatController::class, 'getchatlog']);
+	Route::get('/reload-chat-log/{id}', [App\Http\Controllers\Admin\ChatController::class, 'reloadchatlog']);
+	Route::get('/new-chat-log-count/{id}', [App\Http\Controllers\Admin\ChatController::class, 'newchatlogcount']);
+
 	
 
 });

@@ -1,5 +1,6 @@
-@extends('website.layouts')
+@extends('admin.layouts')
 @section('extra-css')
+
 <style>
 /* **********************************
 Reset CSS
@@ -765,35 +766,27 @@ button:focus {
     }
 }
 </style>
-@if(session()->get('theme') == 'dark')
-<style>
-.modal-content {
-  background-color: #fafafa !important;
-}
-</style>
-@else 
-<style>
-.modal-content {
-  background-color: #fff !important;
-}
-</style>
-@endif
+
 @endsection
 @section('content')
-<main class="main pages">
-    <div class="page-header breadcrumb-wrap">
-        <div class="container">
-            <div class="breadcrumb">
-                <a href="/" rel="nofollow"><i class="fi-rs-home mr-5"></i>Home</a>
-                <span></span> Customer <span></span> Chat
+<div class="app-content content">
+    <div class="content-wrapper">
+      <div class="content-header row">
+        <div class="content-header-left col-md-6 col-12 mb-2 breadcrumb-new">
+          <h3 class="content-header-title mb-0 d-inline-block">Master</h3>
+          <div class="row breadcrumbs-top d-inline-block">
+            <div class="breadcrumb-wrapper col-12">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a>
+                </li>
+                <li class="breadcrumb-item active">Chat Log</li>
+              </ol>
             </div>
+          </div>
         </div>
-    </div>
-	  <!-- <div class="page-content pt-150 pb-150"></div> -->
-    <div class="container">
-        <div class="row">
-            <div class="col-12 m-auto">
-					
+      </div>
+      <div class="content-body">
+
 <!-- char-area -->
 <section class="message-area">
   <div class="container">
@@ -827,25 +820,8 @@ button:focus {
                       <div class="tab-pane fade show active" id="Open" role="tabpanel" aria-labelledby="Open-tab">
                         <!-- chat-list -->
                         <div class="chat-list">
-                          <a href="#" class="d-flex align-items-center">
-                            <div class="flex-shrink-0">
-                              <img class="img-fluid" src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png"  style="width:50px;"alt="user img">
-                              <span class="active"></span>
-                            </div>
-                            <div class="flex-grow-1 ms-3">
-                              <h3>{{$vendor->first_name}} {{$vendor->last_name}}</h3>
-                              <p>{{$vendor->email}}</p>
-                            </div>
-                          </a>
-                          <!-- <a href="#" class="d-flex align-items-center">
-                            <div class="flex-shrink-0">
-                              <img class="img-fluid" src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="user img">
-                            </div>
-                            <div class="flex-grow-1 ms-3">
-                              <h3>Ryhan</h3>
-                              <p>front end developer</p>
-                            </div>
-                          </a> -->
+
+                          {{ \App\Http\Controllers\Admin\ChatController::getallenquires() }} 
                           
 
                         </div>
@@ -863,129 +839,8 @@ button:focus {
           <!-- chatlist -->
 
           <!-- chatbox -->
-          <div class="chatbox showbox">
-            <div class="modal-dialog-scrollable">
-              <div class="modal-content">
-                <div class="msg-head">
-                  <div class="row">
-                    <div class="col-8">
-                      <div class="d-flex align-items-center">
-                        <span class="chat-icon"><img class="img-fluid" src="https://mehedihtml.com/chatbox/assets/img/arroleftt.svg" alt="image title"></span>
-                        <div class="flex-shrink-0">
-                          <img class="img-fluid" src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" style="width:50px;" alt="user img">
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                          @if($enquiry->type == 0)
-                          <h3>Professionals : {{$enquiry_info->project_name}}</h3>
-                          @else 
-                          <h3>Get Design : {{$enquiry_info->title}}</h3>
-                          @endif
-                          <p>{{$enquiry->comments}}</p>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- <div class="col-4">
-                      <ul class="moreoption">
-                        <li class="navbar nav-item dropdown">
-                          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></a>
-                          <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li>
-                              <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                          </ul>
-                        </li>
-                      </ul>
-                    </div> -->
-                  </div>
-                </div>
-
-                <div style="overflow:scroll;display: flex; flex-direction: column-reverse;" class="modal-body" id="modal-body">
-                  <div class="msg-body" id="msg-body">
-                    <ul id="chat_customer" class="chat-content">
-                      <!-- <li class="sender">
-                        <p> Hey, Are you there? </p>
-                        <span class="time">10:06 am</span>
-                      </li>
-                      <li class="sender">
-                        <p> Hey, Are you there? </p>
-                        <span class="time">10:16 am</span>
-                      </li>
-                      <li class="repaly">
-                        <p>yes!</p>
-                        <span class="time">10:20 am</span>
-                      </li>
-                      <li class="sender">
-                        <p> Hey, Are you there? </p>
-                        <span class="time">10:26 am</span>
-                      </li>
-                      <li class="sender">
-                        <p> Hey, Are you there? </p>
-                        <span class="time">10:32 am</span>
-                      </li>
-                      <li class="repaly">
-                        <p>How are you?</p>
-                        <span class="time">10:35 am</span>
-                      </li>
-                      <li>
-                        <div class="divider">
-                          <h6>Today</h6>
-                        </div>
-                      </li>
-
-                      <li class="repaly">
-                        <p> yes, tell me</p>
-                        <span class="time">10:36 am</span>
-                      </li>
-                      <li class="repaly">
-                        <p>yes... on it</p>
-                        <span class="time">junt now</span>
-                      </li> -->
-
-                    </ul>
-                  </div>
-                </div>
-
-                <div class="send-box">
-                  <form id="chat_form" action="javascript:void(0);">
-                  {{csrf_field()}}
-                    <input type="hidden" value="{{$enquiry->id}}" name="enquiry_id" id="enquiry_id">
-                    <input type="hidden" value="{{$enquiry->vendor_id}}" name="vendor_id" id="vendor_id">
-
-                    <input autocomplete="off" type="text" name="message" id="message" class="form-control" aria-label="message…" placeholder="Write message…">
-
-                    <button onclick="ChatSave()" type="button"><i class="fa fa-paper-plane" aria-hidden="true"></i> Send</button>
-                  </form>
-
-                  <!-- <div class="send-btns">
-                    <div class="attach">
-                      <div class="button-wrapper">
-                        <span class="label">
-                          <img class="img-fluid" src="https://mehedihtml.com/chatbox/assets/img/upload.svg" alt="image title"> attached file
-                        </span><input type="file" name="upload" id="upload" class="upload-box" placeholder="Upload File" aria-label="Upload File">
-                      </div>
-
-                      <select class="form-control" id="exampleFormControlSelect1">
-                        <option>Select template</option>
-                        <option>Template 1</option>
-                        <option>Template 2</option>
-                      </select>
-
-                      <div class="add-apoint">
-                        <a href="#" data-toggle="modal" data-target="#exampleModal4"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewbox="0 0 16 16" fill="none">
-                            <path d="M8 16C3.58862 16 0 12.4114 0 8C0 3.58862 3.58862 0 8 0C12.4114 0 16 3.58862 16 8C16 12.4114 12.4114 16 8 16ZM8 1C4.14001 1 1 4.14001 1 8C1 11.86 4.14001 15 8 15C11.86 15 15 11.86 15 8C15 4.14001 11.86 1 8 1Z" fill="#7D7D7D" />
-                            <path d="M11.5 8.5H4.5C4.224 8.5 4 8.276 4 8C4 7.724 4.224 7.5 4.5 7.5H11.5C11.776 7.5 12 7.724 12 8C12 8.276 11.776 8.5 11.5 8.5Z" fill="#7D7D7D" />
-                            <path d="M8 12C7.724 12 7.5 11.776 7.5 11.5V4.5C7.5 4.224 7.724 4 8 4C8.276 4 8.5 4.224 8.5 4.5V11.5C8.5 11.776 8.276 12 8 12Z" fill="#7D7D7D" />
-                          </svg> Appoinment</a>
-                      </div>
-                    </div>
-                  </div> -->
-
-                </div>
-              </div>
-            </div>
+          <div id="chat_view" class="chatbox showbox">
+            
           </div>
         </div>
         <!-- chatbox -->
@@ -999,63 +854,50 @@ button:focus {
 
 
 
-		</div>
-	</div>
+      </div>
+    </div>
 </div>
-
 @endsection
 @section('extra-js')
-<script>
 
-var enquiry_id=<?php echo $enquiry->id; ?>;
-viewChat("<?php echo $enquiry->id; ?>");
+<script type="text/javascript"> 
+
+var enquiry_id=0;
 function viewChat(id)
 {
   $.ajax({
-    url : '/customer/get-vendor-chat/'+id,
+    url : '/admin/get-chat-log/'+id,
     type: "GET",
     success: function(data)
     {
-      $('#chat_customer').html(data.html);
-      // var chatContainer=$('#chat_customer');
-
-      // chatContainer.scrollTop($(".modal-body > .msg-body").height());
-      $('.modal-body .msg-body').animate({scrollTop: $('#chat_customer').scrollHeight},"fast");
-
+      enquiry_id = id;
+      $('#chat_view').html(data.html);
     }
   });
 }
-function scrollToBottom(){
-	const messages = document.getElementById('modal-body');
-	const messagesid = document.getElementById('msg-body');  
-	messages.scrollTop = messagesid.offsetTop - 10;
-}
-
-scrollToBottom();
 
 
-setInterval(function(){
-    $.ajax({
-        url : '/customer/view-vendor-chat-count/'+enquiry_id,
-        type: "GET",
-        success: function(data)
-        {
-            if(data > 0){
-                viewchatpartial(enquiry_id);
-            }
-        }
-    });
-},1000);
+// setInterval(function(){
+//     $.ajax({
+//         url : '/admin/new-chat-log-count/'+enquiry_id,
+//         type: "GET",
+//         success: function(data)
+//         {
+//             if(data > 0){
+//                 viewchatpartial(enquiry_id);
+//             }
+//         }
+//     });
+// },1000);
 
 function viewchatpartial(id)
 {
   $.ajax({
-    url : '/customer/get-vendor-chat/'+id,
+    url : '/admin/reload-chat-log/'+id,
     type: "GET",
     success: function(data)
     {
       $('#chat_customer').html(data.html);
-      chatContainer.scrollTop($(".msg-body > .chat-content").height());
     }
   });
 }
@@ -1069,42 +911,6 @@ document.onkeyup = function (e) {
  	} 
 };
 
-function ChatSave(){
-  var formData = new FormData($('#chat_form')[0]);
-  $.ajax({
-    url : '/customer/save-vendor-chat',
-    type: "POST",
-    data: formData,
-    contentType: false,
-    processData: false,
-    dataType: "JSON",
-    success: function(data)
-    {
-      //console.log(data);                
-      $("#chat_form")[0].reset();
-      toastr.success('Chat Send Successfully', 'Successfully Update');
-      $("#message").val('');
-      viewchatpartial(data);
-    },
-    error: function (data, errorThrown) {
-      var errorData = data.responseJSON.errors;
-      $.each(errorData, function(i, obj) {
-        toastr.error(obj[0]);
-      });
-    }
-  });
-}
 
-$(document).ready(function() {
-  $(".chat-list a").click(function() {
-      // alert("test");
-      $(".chatbox").addClass('showbox');
-      return false;
-  });
-
-  $(".chat-icon").click(function() {
-      $(".chatbox").removeClass('showbox');
-  });
-});
 </script>
 @endsection

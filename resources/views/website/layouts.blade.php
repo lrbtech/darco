@@ -1317,7 +1317,9 @@ body {
                             <li><a href="/pages/delivery-information">{{$language[169][session()->get('lang')]}}</a></li>
                             <li><a href="/pages/privacy-policy">{{$language[170][session()->get('lang')]}}</a></li>
                             <li><a href="/pages/terms-condition">{{$language[171][session()->get('lang')]}}</a></li>
-                            <li><a href="/contact-us">{{$language[172][session()->get('lang')]}}</a></li>
+                            <li><a href="/pages/terms-of-use">Terms of Use</a></li>
+                            <li><a href="/pages/terms-of-payment">Terms of Payment</a></li>
+                            
                             <li><a href="/pages/purchase-guide">{{$language[173][session()->get('lang')]}}</a></li>
                       
                         </ul>
@@ -1341,7 +1343,8 @@ body {
                             <li><a href="/vendor/login">{{$language[176][session()->get('lang')]}}</a></li>
                             <li><a href="/pages/vendor-guide">{{$language[177][session()->get('lang')]}}</a></li>
                             <li><a href="/professional/login">{{$language[178][session()->get('lang')]}}</a></li>
-                            <li><a href="/pages/professional-guide">{{$language[179][session()->get('lang')]}}</a></li>                         
+                            <li><a href="/pages/professional-guide">{{$language[179][session()->get('lang')]}}</a></li>   
+                            <li><a href="/contact-us">{{$language[172][session()->get('lang')]}}</a></li>                      
                         </ul>
                     </div>
                     <!-- <div class="footer-link-widget col wow animate__animated animate__fadeInUp" data-wow-delay=".4s">
@@ -1403,9 +1406,10 @@ body {
      @if(session()->get('cookies') != '1')
     <div class="cookie-banner small js-cookie-banner" role="alert" id="cookies_banner">
         <div class="cookie-banner__text">
-            MyApp uses cookies to personalize your experience on our website. By continuing to use this site, you agree to our <a href="#" class="link">cookie policy</a>.
+            MyApp uses cookies to personalize your experience on our website. By continuing to use this site, you agree to our <a target="_blank" href="/pages/privacy-policy" class="link">cookie policy</a>.
         </div>
-        <button class="btns btn_secondary btn_sm cookie-banner__button js-accept-cookies" onclick="cookies()">Okay</button>
+        <button class="btns btn_secondary btn_sm cookie-banner__button js-accept-cookies" onclick="cookies()">Accept</button>
+        <button class="btns btn_secondary btn_sm cookie-banner__button js-accept-cookies" onclick="cookies()">Reject</button>
     </div>
     @endif
     <!-- Preloader Start -->
@@ -1640,15 +1644,15 @@ $.ajax({
     });
 });
 function cookies(){
-    window.location.href="https://darstore.me/pages/privacy-policy";
-    // $.ajax({
-    //   url : '/update-cookies/1',
-    //   type: "GET",
-    //   success: function(data)
-    //   {
-    //  $('#cookies_banner').remove();
-    //   }
-    // });
+    //window.location.href="https://darstore.me/pages/privacy-policy";
+    $.ajax({
+      url : '/update-cookies/1',
+      type: "GET",
+      success: function(data)
+      {
+     $('#cookies_banner').remove();
+      }
+    });
 }
 </script>
 <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" type="text/javascript"></script>

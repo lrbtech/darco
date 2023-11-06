@@ -107,6 +107,12 @@
         </li>
         @endif
 
+
+        <li class="chat-log nav-item">
+          <a href="/admin/chat-log"><i class="la la-users"></i><span class="menu-title" data-i18n="nav.dash.main">Chat Log</span></a>
+        </li>
+
+
         <li class=" navigation-header">
           <span data-i18n="nav.category.layouts">{{$language[105][Auth::guard('admin')->user()->lang]}}</span><i class="la la-ellipsis-h ft-minus" data-toggle="tooltip"
           data-placement="right" data-original-title="Layouts"></i>
@@ -158,6 +164,12 @@
         @if($role_get->terms_and_conditions == 'on')
         <li class="terms-and-conditions nav-item">
             <a href="/admin/terms-and-conditions"><i class="la la-wrench"></i><span class="menu-title" data-i18n="nav.dash.main">{{$language[114][Auth::guard('admin')->user()->lang]}}</span></a>
+        </li>
+        <li class="terms-of-use nav-item">
+            <a href="/admin/terms-of-use"><i class="la la-wrench"></i><span class="menu-title" data-i18n="nav.dash.main">Terms of Use</span></a>
+        </li>
+        <li class="terms-of-payment nav-item">
+            <a href="/admin/terms-of-payment"><i class="la la-wrench"></i><span class="menu-title" data-i18n="nav.dash.main">Terms of Payment</span></a>
         </li>
         @endif
         @if($role_get->privacy_policy == 'on')

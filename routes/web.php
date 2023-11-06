@@ -477,6 +477,10 @@ Route::group(['prefix' => 'vendor'],function(){
 	Route::get('/delete-product-image/{id}', [App\Http\Controllers\Vendor\ProductController::class, 'deleteproductimage']);
 	Route::get('/delete-product-attribute/{id}', [App\Http\Controllers\Vendor\ProductController::class, 'deleteproductattribute']);
 
+	Route::get('/upload-excel', [App\Http\Controllers\Vendor\ExcelController::class, 'uploadexcel']);
+
+	Route::post('/import-excel', [App\Http\Controllers\Vendor\ExcelController::class, 'importexcel']);
+
 
 	Route::get('/coupon', [App\Http\Controllers\Vendor\CouponController::class, 'coupon']);
 	Route::POST('/save-coupon', [App\Http\Controllers\Vendor\CouponController::class, 'savecoupon']);

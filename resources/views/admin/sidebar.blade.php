@@ -67,9 +67,9 @@
         </li>
 
         @if($role_get->city == 'on')
-        <li class="country nav-item">
+        <!-- <li class="country nav-item">
           <a href="/admin/country"><i class="la la-navicon"></i><span class="menu-title" data-i18n="nav.dash.main">Country</span></a>
-        </li>
+        </li> -->
         @endif
 
         <li class="package nav-item">

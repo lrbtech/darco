@@ -373,7 +373,8 @@ data-menu="horizontal-menu" data-col="2-columns">
             <div class="content-box centred mr-0">
                 <div class="title">
                     <h1>Waiting for Admin Approval</h1>
-                    <h4>Please Contact Darstore Admin</h4>
+                    <h4>Please Contact to darstore</h4>
+                    <!-- <a href="/contact-us">Contact Us</a> -->
                 </div>
             </div>
         </div>
@@ -386,7 +387,8 @@ data-menu="horizontal-menu" data-col="2-columns">
             <div class="content-box centred mr-0">
                 <div class="title">
                     <h1>Your Account is Deactivated</h1>
-                    <h4>Please Contact Darstore Admin</h4>
+                    <h4>Please Contact to darstore</h4>
+                    <!-- <a href="/contact-us">Contact Us</a> -->
                 </div>
             </div>
         </div>

@@ -15,6 +15,7 @@ use App\Models\attribute_fields;
 use App\Models\product_group;
 use App\Models\vendor;
 use App\Models\vendor_project;
+use App\Models\idea_book;
 use App\Models\User;
 use App\Models\orders;
 use App\Models\order_items;
@@ -691,12 +692,18 @@ class PageController extends Controller
         $vendor_enquiry->email = $request->email;
         $vendor_enquiry->save();
 
-        // $all = $request->all();
-        // $vendor = vendor::find($request->vendor_id);
-        // Mail::send('mail.vendor_enquiry',compact('all'),function($message) use($all,$vendor){
-        //      $message->to($vendor->email)->subject('Enquiry from DARSTORE');
-        //      $message->from('info@lrbtech.com',$all['name']);
-        // });
+        $all = $request->all();
+        $vendor = vendor::find($request->vendor_id);
+        if($vendor_enquiry->type == 0){
+            $enquiry_info = vendor_project::find($vendor_enquiry->project_idea_book_id);
+        }
+        else{
+            $enquiry_info = idea_book::find($vendor_enquiry->project_idea_book_id);
+        }
+        Mail::send('mail.enquiry_remind_mail',compact('all'),function($message) use($all,$vendor,$enquiry_info,$vendor_enquiry){
+             $message->to($vendor->email)->subject('Greetings From DarDesign:');
+             $message->from('mail.lrbinfotech@gmail.com',$all['name']);
+        });
         return response()->json(['message'=>'Successfully Send'],200); 
     }
     
@@ -726,11 +733,11 @@ class PageController extends Controller
             $content=$page->terms_and_conditions;
         }
         elseif($id=="terms-of-use"){
-            $title='Terms and Condition';
+            $title='Terms of Use';
             $content=$page->terms_of_use;
         }
         elseif($id=="terms-of-payment"){
-            $title='Terms and Condition';
+            $title='Terms of Payment';
             $content=$page->terms_of_payment;
         }
         elseif($id=="vendor-guide"){

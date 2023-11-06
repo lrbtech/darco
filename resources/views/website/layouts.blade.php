@@ -1314,7 +1314,7 @@ body {
                         <h4 class="widget-title">{{$language[167][session()->get('lang')]}}</h4>
                         <ul class="footer-list mb-sm-5 mb-md-0">
                             <li><a href="/about-us">{{$language[168][session()->get('lang')]}}</a></li>
-                            <li><a href="/pages/delivery-information">{{$language[169][session()->get('lang')]}}</a></li>
+                            
                             <li><a href="/pages/privacy-policy">{{$language[170][session()->get('lang')]}}</a></li>
                             <li><a href="/pages/terms-condition">{{$language[171][session()->get('lang')]}}</a></li>
                             <li><a href="/pages/terms-of-use">Terms of Use</a></li>
@@ -1344,7 +1344,8 @@ body {
                             <li><a href="/pages/vendor-guide">{{$language[177][session()->get('lang')]}}</a></li>
                             <li><a href="/professional/login">{{$language[178][session()->get('lang')]}}</a></li>
                             <li><a href="/pages/professional-guide">{{$language[179][session()->get('lang')]}}</a></li>   
-                            <li><a href="/contact-us">{{$language[172][session()->get('lang')]}}</a></li>                      
+                            <li><a href="/pages/delivery-information">{{$language[169][session()->get('lang')]}}</a></li>
+                            <!-- <li><a href="/contact-us">{{$language[172][session()->get('lang')]}}</a></li>                       -->
                         </ul>
                     </div>
                     <!-- <div class="footer-link-widget col wow animate__animated animate__fadeInUp" data-wow-delay=".4s">

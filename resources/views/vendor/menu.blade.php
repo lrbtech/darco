@@ -16,11 +16,11 @@
             <li class="dropdown"><a class="dropdown-item" href="/vendor/product">Product Varients</a></li>
           </ul>
         </li>
-        <!-- <li class="product nav-item">
-          <a class="nav-link" href="/vendor/product"><i class="la la-shopping-cart"></i>
-            <span>Products</span>
+        <li class="product nav-item">
+          <a class="nav-link" href="/vendor/upload-excel"><i class="la la-shopping-cart"></i>
+            <span>Upload Excel</span>
           </a>
-        </li> -->
+        </li>
 
         <li class="coupon nav-item">
           <a class="nav-link" href="/vendor/coupon"><i class="la la-money"></i>

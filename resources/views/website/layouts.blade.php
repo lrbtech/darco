@@ -1018,9 +1018,11 @@ body {
                                             <li>
                                                 <a href="/customer/change-password"><i class="fi fi-rs-settings-sliders mr-10"></i>{{$language[141][session()->get('lang')]}}</a>
                                             </li>
+                                            @if($settings->contract_file != '')
                                             <li>
-                                                <a download href="{{$settings->contract_file}}"><i class="fi fi-rs-heart mr-10"></i>Contract Download</a>
+                                                <a download href="/upload_files/{{$settings->contract_file}}"><i class="fi fi-rs-heart mr-10"></i>Contract Download</a>
                                             </li>
+                                            @endif
                                             <li>
                                                 <a href="{{ route('customer.logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fi fi-rs-sign-out mr-10"></i>{{$language[142][session()->get('lang')]}}</a>
                                                 <form id="logout-form" action="{{ route('customer.logout') }}" method="POST" style="display: none;">

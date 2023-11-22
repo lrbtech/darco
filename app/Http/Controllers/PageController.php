@@ -701,7 +701,7 @@ class PageController extends Controller
             $enquiry_info = idea_book::find($vendor_enquiry->project_idea_book_id);
         }
         Mail::send('mail.enquiry_remind_mail',compact('all'),function($message) use($all,$vendor,$enquiry_info,$vendor_enquiry){
-             $message->to($vendor->email)->subject('Greetings From DarDesign:');
+             $message->to($vendor->email)->subject('Greetings From DarTasmeem:');
              $message->from('mail.lrbinfotech@gmail.com',$all['name']);
         });
         return response()->json(['message'=>'Successfully Send'],200); 

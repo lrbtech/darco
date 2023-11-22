@@ -9,6 +9,7 @@ use App\Models\favourites;
 use App\Models\favourites_idea;
 use App\Models\roles;
 use App\Models\language;
+use App\Models\settings;
 use Auth;
 
 class AppServiceProvider extends ServiceProvider
@@ -47,7 +48,8 @@ class AppServiceProvider extends ServiceProvider
                 $wishlist_count = 0;
             }
             $language = language::all();
-            $view->with(compact('cart_items','wishlist_count','language'));
+            $settings = settings::first();
+            $view->with(compact('cart_items','wishlist_count','language','settings'));
         });
 
         view()->composer('vendor.layouts', function($view) {

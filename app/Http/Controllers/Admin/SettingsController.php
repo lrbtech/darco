@@ -324,6 +324,28 @@ class SettingsController extends Controller
 
     public function updatesettings(Request $request){
         $settings = settings::find($request->id);
+        if($request->contract_file!=""){
+            $old_image = "upload_files/".$settings->contract_file;
+            if (file_exists($old_image)) {
+                @unlink($old_image);
+            }
+            if($request->file('contract_file')!=""){
+                $image = $request->file('contract_file');
+                $upload_image = rand().time().'.'.$image->getClientOriginalExtension();
+                $image->move(public_path('upload_files/'), $upload_image);
+                $settings->contract_file = $upload_image;
+            }
+        }
+        $settings->footer_description = $request->footer_description;
+        $settings->address = $request->address;
+        $settings->phone = $request->phone;
+        $settings->email = $request->email;
+        $settings->facebook_url = $request->facebook_url;
+        $settings->twitter_url = $request->twitter_url;
+        $settings->instagram_url = $request->instagram_url;
+        $settings->youtube_url = $request->youtube_url;
+        $settings->appstore_url = $request->appstore_url;
+        $settings->playstore_url = $request->playstore_url;
         $settings->invoice_footer = $request->invoice_footer;
         $settings->save();
 

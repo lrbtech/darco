@@ -1019,6 +1019,9 @@ body {
                                                 <a href="/customer/change-password"><i class="fi fi-rs-settings-sliders mr-10"></i>{{$language[141][session()->get('lang')]}}</a>
                                             </li>
                                             <li>
+                                                <a download href="{{$settings->contract_file}}"><i class="fi fi-rs-heart mr-10"></i>Contract Download</a>
+                                            </li>
+                                            <li>
                                                 <a href="{{ route('customer.logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fi fi-rs-sign-out mr-10"></i>{{$language[142][session()->get('lang')]}}</a>
                                                 <form id="logout-form" action="{{ route('customer.logout') }}" method="POST" style="display: none;">
                                                 @csrf
@@ -1300,12 +1303,12 @@ body {
                                  @else
                                  <a href="index.html" class="mb-15"><img src="/website_assets/images/logo-light.png" alt="logo" /></a>
                                 @endif
-                                <p class="font-lg text-heading">{{$language[160][session()->get('lang')]}}</p>
+                                <p class="font-lg text-heading">{{$settings->footer_description}}</p>
                             </div>
                             <ul class="contact-infor">
-                                <li><img src="/frontend/assets/imgs/theme/icons/icon-location.svg" alt="" /><strong>{{$language[161][session()->get('lang')]}}: </strong> <span>{{$language[162][session()->get('lang')]}}</span></li>
-                                <li><img src="/frontend/assets/imgs/theme/icons/icon-contact.svg" alt="" /><strong>{{$language[163][session()->get('lang')]}}:</strong><span>{{$language[164][session()->get('lang')]}}</span></li>
-                                <li><img src="/frontend/assets/imgs/theme/icons/icon-email-2.svg" alt="" /><strong>{{$language[165][session()->get('lang')]}}:</strong><span><a href="mailto:{{$language[166][session()->get('lang')]}}" class="__cf_email__">{{$language[166][session()->get('lang')]}}</a></span></li>
+                                <li><img src="/frontend/assets/imgs/theme/icons/icon-location.svg" alt="" /><strong>{{$language[161][session()->get('lang')]}}: </strong> <span>{{$settings->address}}</span></li>
+                                <li><img src="/frontend/assets/imgs/theme/icons/icon-contact.svg" alt="" /><strong>{{$language[163][session()->get('lang')]}}:</strong><span>{{$settings->phone}}</span></li>
+                                <li><img src="/frontend/assets/imgs/theme/icons/icon-email-2.svg" alt="" /><strong>{{$language[165][session()->get('lang')]}}:</strong><span><a href="mailto:{{$settings->email}}" class="__cf_email__">{{$settings->email}}</a></span></li>
                                
                             </ul>
                         </div>
@@ -1364,8 +1367,8 @@ body {
                         <h4 class="widget-title">{{$language[180][session()->get('lang')]}}</h4>
                         <p class="">{{$language[181][session()->get('lang')]}}</p>
                         <div class="download-app">
-                            <a href="#" class="hover-up mb-sm-2 mb-lg-0"><img class="active" src="/frontend/assets/imgs/theme/app-store.jpg" alt="" /></a>
-                            <a href="#" class="hover-up mb-sm-2"><img src="/frontend/assets/imgs/theme/google-play.jpg" alt="" /></a>
+                            <a target="_blank" href="{{$settings->appstore_url}}" class="hover-up mb-sm-2 mb-lg-0"><img class="active" src="/frontend/assets/imgs/theme/app-store.jpg" alt="" /></a>
+                            <a target="_blank" href="{{$settings->playstore_url}}"  class="hover-up mb-sm-2"><img src="/frontend/assets/imgs/theme/google-play.jpg" alt="" /></a>
                         </div>
                         <p class="mb-20">{{$language[182][session()->get('lang')]}}</p>
                         <img class="" src="/frontend/assets/imgs/theme/payment-method.png" alt="" />
@@ -1393,11 +1396,11 @@ body {
                 <div class="col-xl-6 col-lg-6 col-md-6 text-end d-none d-md-block">
                     <div class="mobile-social-icon">
                         <h6>{{$language[184][session()->get('lang')]}}</h6>
-                        <a href="#"><img src="/frontend/assets/imgs/theme/icons/icon-facebook-white.svg" alt="" /></a>
-                        <a href="#"><img src="/frontend/assets/imgs/theme/icons/icon-twitter-white.svg" alt="" /></a>
-                        <a href="#"><img src="/frontend/assets/imgs/theme/icons/icon-instagram-white.svg" alt="" /></a>
-                        <a href="#"><img src="/frontend/assets/imgs/theme/icons/icon-pinterest-white.svg" alt="" /></a>
-                        <a href="#"><img src="/frontend/assets/imgs/theme/icons/icon-youtube-white.svg" alt="" /></a>
+                        <a target="_blank" href="{{$settings->facebook_url}}" ><img src="/frontend/assets/imgs/theme/icons/icon-facebook-white.svg" alt="" /></a>
+                        <a target="_blank" href="{{$settings->twitter_url}}" ><img src="/frontend/assets/imgs/theme/icons/icon-twitter-white.svg" alt="" /></a>
+                        <a target="_blank" href="{{$settings->instagram_url}}" ><img src="/frontend/assets/imgs/theme/icons/icon-instagram-white.svg" alt="" /></a>
+                        <!-- <a target="_blank" href="{{$settings->appstore_url}}" ><img src="/frontend/assets/imgs/theme/icons/icon-pinterest-white.svg" alt="" /></a> -->
+                        <a target="_blank" href="{{$settings->youtube_url}}" ><img src="/frontend/assets/imgs/theme/icons/icon-youtube-white.svg" alt="" /></a>
                     </div>
                    
                 </div>

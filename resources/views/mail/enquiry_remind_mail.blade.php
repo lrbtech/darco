@@ -142,7 +142,7 @@
                         This is gentle reminder email that you have received an enquiry from the customer for the services listed @if($vendor_enquiry->type == 0) {{$enquiry_info->project_name}} @else {{$enquiry_info->title}} @endif details login to our profile <a href="https://darstore.me/professional/login">https://darstore.me/professional/login</a> to check and respond. <br>
                         <br>
                         Regards,<br>
-                        DarDesign
+                        DarTasmeem
                         </td>
                     </tr> <!-- COPY -->
                     <tr>

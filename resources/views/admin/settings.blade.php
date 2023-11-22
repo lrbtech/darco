@@ -44,10 +44,60 @@
                     <form action="/admin/update-settings" class="form-horizontal" id="form" method="POST" enctype="multipart/form-data">
                     {{ csrf_field() }}
                     <input type="hidden" name="id" id="id" value="{{$settings->id}}">
-                        <div class="form-group">
-                            <textarea name="invoice_footer" id="invoice_footer" class="tinymce">
-                            <?php echo $settings->invoice_footer; ?>
-                            </textarea>
+                        <div class="row">
+                          <div class="form-group col-md-12">
+                              <label>Footer Description</label>
+                              <textarea name="footer_description" id="footer_description" class="form-control"><?php echo $settings->footer_description; ?></textarea>
+                          </div>
+                          <div class="form-group col-md-6">
+                              <label>Address</label>
+                              <textarea name="address" id="address" class="form-control"><?php echo $settings->address; ?></textarea>
+                          </div>
+                          <div class="form-group col-md-6">
+                              <label>Phone</label>
+                              <input type="text" value="{{$settings->phone}}" name="phone" id="phone" class="form-control">
+                          </div>
+                          <div class="form-group col-md-6">
+                              <label>Email</label>
+                              <input type="email" value="{{$settings->email}}" name="email" id="email" class="form-control">
+                          </div>
+                          <div class="form-group col-md-6">
+                              <label>Contract File (only pdf)</label>
+                              <input accept=".pdf" type="file" name="contract_file" id="contract_file" class="form-control">
+                              <br>
+                              @if($settings->contract_file != "")
+                              <a target="_blank" hred="/upload_files/{{$settings->contract_file}}">View</a>
+                              @endif
+                          </div>
+                          <div class="form-group col-md-6">
+                              <label>Facebook Url</label>
+                              <input type="text" value="{{$settings->facebook_url}}" name="facebook_url" id="facebook_url" class="form-control">
+                          </div>
+                          <div class="form-group col-md-6">
+                              <label>Twitter Url</label>
+                              <input type="text" value="{{$settings->twitter_url}}" name="twitter_url" id="twitter_url" class="form-control">
+                          </div>
+                          <div class="form-group col-md-6">
+                              <label>Instagram Url</label>
+                              <input type="text" value="{{$settings->instagram_url}}" name="instagram_url" id="instagram_url" class="form-control">
+                          </div>
+                          <div class="form-group col-md-6">
+                              <label>Youtube Url</label>
+                              <input type="text" value="{{$settings->youtube_url}}" name="youtube_url" id="youtube_url" class="form-control">
+                          </div>
+                          <div class="form-group col-md-6">
+                              <label>Appstore Url</label>
+                              <input type="text" value="{{$settings->appstore_url}}" name="appstore_url" id="appstore_url" class="form-control">
+                          </div>
+                          <div class="form-group col-md-6">
+                              <label>Playstore Url</label>
+                              <input type="text" value="{{$settings->playstore_url}}" name="playstore_url" id="playstore_url" class="form-control">
+                          </div>
+                          <div class="form-group col-md-12">
+                              <textarea name="invoice_footer" id="invoice_footer" class="tinymce">
+                              <?php echo $settings->invoice_footer; ?>
+                              </textarea>
+                          </div>
                         </div>
                         <div class="modal-footer">
                             <button class="btn btn-primary" type="submit">Update</button>
